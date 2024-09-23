@@ -18,8 +18,8 @@ public sealed class AdminController : ControllerBase
     [HttpPost]
     public IActionResult CreateAdmin(User user)
     {
-        var createdUser = _userLogic.CreateAdmin(user);
-        var response = new UserResponse(createdUser);
+        User createdUser = _userLogic.CreateAdmin(user);
+        UserResponse response = new UserResponse(createdUser);
         return Ok(response);
     }
 }
