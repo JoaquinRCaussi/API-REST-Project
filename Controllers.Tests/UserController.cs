@@ -10,6 +10,7 @@ using WebApi.Controllers;
 
 
 namespace Controllers.Tests;
+
 [ExcludeFromCodeCoverage]
 [TestClass]
 public class UserController
@@ -32,11 +33,11 @@ public class UserController
         logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(user.ToArgs());
         
         //Act 
-        AdminController controller = new AdminController(logic.Object);
-        IActionResult act =  controller.CreateAdmin(user);
+        var controller = new AdminController(logic.Object);
+        var act =  controller.CreateAdmin(user);
         
-        UserResponse UserResponse = new UserResponse(user.ToArgs());
-        OkObjectResult expected = new OkObjectResult(UserResponse);
+        var UserResponse = new UserResponse(user.ToArgs());
+        var expected = new OkObjectResult(UserResponse);
 
         // Assert
         act.Should().BeEquivalentTo(expected);
