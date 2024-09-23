@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
+        <ExcludeByFile>**/Program.cs</ExcludeByFile>
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 

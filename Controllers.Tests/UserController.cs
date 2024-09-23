@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain;
 using DTOS;
 using FluentAssertions;
@@ -7,8 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
 
-namespace Controllers.Tests;
 
+namespace Controllers.Tests;
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class UserController
 {
