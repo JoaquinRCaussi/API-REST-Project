@@ -1,6 +1,6 @@
-using Domain;
+﻿using Domain;
 
-namespace WebApi.DTOS;
+namespace DTOS;
 
 public class UserResponse
 {

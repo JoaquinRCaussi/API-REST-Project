@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controllers.Tests", "Contro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{B9783ADA-A211-461B-B27C-E450D46EC4B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOS", "DTOS\DTOS.csproj", "{3C8B00A4-D382-405B-9EE0-16EDB08254AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{B9783ADA-A211-461B-B27C-E450D46EC4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9783ADA-A211-461B-B27C-E450D46EC4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9783ADA-A211-461B-B27C-E450D46EC4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C8B00A4-D382-405B-9EE0-16EDB08254AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8B00A4-D382-405B-9EE0-16EDB08254AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8B00A4-D382-405B-9EE0-16EDB08254AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8B00A4-D382-405B-9EE0-16EDB08254AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{452AF43F-8F68-4BDB-A845-C82BE558A90B} = {FBBA1295-83A2-420E-BF5A-A6442393F2D1}
