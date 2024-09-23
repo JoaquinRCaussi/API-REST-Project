@@ -1,6 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
-[ExcludeFromCodeCoverage]
 
 var builder = WebApplication.CreateBuilder(args);
 
