@@ -1,7 +1,11 @@
 using Domain;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
+using WebApi.DTOS;
 
 namespace Controllers.Tests;
 
@@ -27,12 +31,13 @@ public class UserController
         
         //Act 
         var controller = new AdminController(logic.Object);
+        var act =  controller.CreateAdmin(user);
         
-        logic.VerifyAll();
-        var act = ()=> controller.CreateAdmin(user);
         var UserResponse = new UserResponse(user);
+        var expected = new OkObjectResult(UserResponse);
 
-        act.Should().BeSameAs();
+        // Assert
+        act.Should().BeEquivalentTo(expected);
     }
     #endregion
 }

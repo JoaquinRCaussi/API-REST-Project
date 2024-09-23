@@ -1,5 +1,6 @@
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.DTOS;
 
 namespace WebApi.Controllers;
 
@@ -11,13 +12,14 @@ public sealed class AdminController : ControllerBase
     
     public AdminController(IUserLogic userLogic)
     {
-        _userLogic = userLogic;
+        this._userLogic = userLogic;
     }
     
     [HttpPost]
     public IActionResult CreateAdmin(User user)
     {
         var createdUser = _userLogic.CreateAdmin(user);
-        return Ok(createdUser);
+        var response = new UserResponse(createdUser);
+        return Ok(response);
     }
 }
