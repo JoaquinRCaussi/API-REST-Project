@@ -30,11 +30,11 @@ public class UserController
         logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(user);
         
         //Act 
-        var controller = new AdminController(logic.Object);
-        var act =  controller.CreateAdmin(user);
+        AdminController controller = new AdminController(logic.Object);
+        IActionResult act =  controller.CreateAdmin(user);
         
-        var UserResponse = new UserResponse(user);
-        var expected = new OkObjectResult(UserResponse);
+        UserResponse UserResponse = new UserResponse(user);
+        OkObjectResult expected = new OkObjectResult(UserResponse);
 
         // Assert
         act.Should().BeEquivalentTo(expected);
