@@ -19,15 +19,15 @@ public class UserController
     public void CreateAdmin_WhenAllPropertiesOk()
     {
         // Arrange
-        AdminRequest admin = new AdminRequest("John", "Doe", "JohnDoe@domain.com", "123456");
-        Mock<IUserLogic> logic = new Mock<IUserLogic>(MockBehavior.Strict);
+        var admin = new AdminRequest("John", "Doe", "JohnDoe@domain.com", "123456");
+        var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(admin.ToArgs());
         
         //Act 
-        AdminController controller = new AdminController(logic.Object);
-        IActionResult act =  controller.CreateAdmin(admin);
+        var controller = new AdminController(logic.Object);
+        var act =  controller.CreateAdmin(admin);
         
-        AdminResponse adminResponse = new AdminResponse(admin.ToArgs());
+        var adminResponse = new AdminResponse(admin.ToArgs());
         var expected = new OkObjectResult(adminResponse);
 
         // Assert
