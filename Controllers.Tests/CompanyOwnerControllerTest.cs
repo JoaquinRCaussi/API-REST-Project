@@ -20,14 +20,16 @@ public class CompanyOwnerControllerTest
         {   
             User user = new User("John", "Doe", "mail@mail.com", "123456@asd");
             
+            var companyOwnerRequest = new CompanyOwnerRequest(user);
+            
             Mock<IUserLogic> companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
             companyOwnerLogic.Setup(x => x.CreateCompanyOwner(It.IsAny<User>()))
-                .Returns(user);
+                .Returns(companyOwnerRequest.ToArgs());
             
             _controller = new CompanyOwnerController(companyOwnerLogic.Object);
             
             var act = _controller.CreateCompanyOwner(user);
-            var companyOwnerResponse = new User(user.Name, user.LastName, user.Email, user.Password);
+            var companyOwnerResponse = new CompanyOwnerResponse(companyOwnerRequest.ToArgs());
             var expected = new OkObjectResult(companyOwnerResponse);
             
             act.Should().BeEquivalentTo(expected);

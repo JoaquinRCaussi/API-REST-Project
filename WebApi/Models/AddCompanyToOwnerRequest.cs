@@ -13,9 +13,4 @@ public class AddCompanyToOwnerRequest
         CompanyOwner = companyOwner;
     }
     
-    public (User, Company) ToArgs()
-    {
-        return (CompanyOwner, Company);
-    }
-    
 }
