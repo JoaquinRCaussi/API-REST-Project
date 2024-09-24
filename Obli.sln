@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOS", "DTOS\DTOS.csproj", "{3C8B00A4-D382-405B-9EE0-16EDB08254AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicInterface", "LogicInterface\LogicInterface.csproj", "{F4479560-CAA7-4780-8AE0-EB43478E5842}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{3C8B00A4-D382-405B-9EE0-16EDB08254AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C8B00A4-D382-405B-9EE0-16EDB08254AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C8B00A4-D382-405B-9EE0-16EDB08254AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4479560-CAA7-4780-8AE0-EB43478E5842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4479560-CAA7-4780-8AE0-EB43478E5842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4479560-CAA7-4780-8AE0-EB43478E5842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4479560-CAA7-4780-8AE0-EB43478E5842}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{452AF43F-8F68-4BDB-A845-C82BE558A90B} = {FBBA1295-83A2-420E-BF5A-A6442393F2D1}

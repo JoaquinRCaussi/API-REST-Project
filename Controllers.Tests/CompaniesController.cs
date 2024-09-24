@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Domain;
 using WebApi.Models;
 using FluentAssertions;
+using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
