@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
+using DTOS;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -30,4 +31,27 @@ public class CompanyOwnerControllerTest
             
             act.Should().BeEquivalentTo(expected);
         }
+
+        [TestMethod]
+        public void AddCompanyToCompanyOwner_WhenAllPropertiesOk()
+        {
+            Company company = new Company("name", "aRUT", "apath");
+            User user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+
+            var addCompanyToOwnerRequest = new AddCompanyToOwnerRequest(user, company);
+
+            Mock<IUserLogic> companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
+            companyOwnerLogic.Setup(x => x.AddCompanyToCompanyOwner(It.IsAny<User>(), It.IsAny<Company>()))
+                .Returns(user);
+
+            _controller = new CompanyOwnerController(companyOwnerLogic.Object);
+
+            var act = _controller.AddCompanyToCompanyOwner(user, company);
+            var companyOwnerResponse = new AddCompanyToOwnerResponse(user, company);
+
+            var expected = new OkObjectResult(companyOwnerResponse);
+
+            act.Should().BeEquivalentTo(expected);
+        }
+
 }
