@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
 
+[ApiController]
+[Route("api/company-owner")]
 public class CompanyOwnerController : ControllerBase
 {
     private readonly IUserLogic _userLogic;

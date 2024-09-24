@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/company")]
 public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBase
 {
     [HttpPost]
