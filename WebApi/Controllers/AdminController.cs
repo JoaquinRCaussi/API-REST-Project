@@ -16,11 +16,11 @@ public sealed class AdminController : ControllerBase
     }
     
     [HttpPost]
-    public IActionResult CreateAdmin(UserRequest user)
+    public IActionResult CreateAdmin(AdminRequest admin)
     {
-        User userToCreate = user.ToArgs();
+        User userToCreate = admin.ToArgs();
         User createdUser = _userLogic.CreateAdmin(userToCreate);
-        UserResponse response = new UserResponse(createdUser);
+        AdminResponse response = new AdminResponse(createdUser);
         return Ok(response);
     }
 }

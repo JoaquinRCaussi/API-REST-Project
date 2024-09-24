@@ -2,9 +2,9 @@ using Domain;
 
 namespace DTOS;
 
-public class UserRequest
+public class AdminRequest
 {
-    public UserRequest(string name, string lastName, string email, string password)
+    public AdminRequest(string name, string lastName, string email, string password)
     {
         Name = name;
         LastName = lastName;
