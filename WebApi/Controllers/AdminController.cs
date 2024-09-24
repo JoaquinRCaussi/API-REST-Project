@@ -12,7 +12,7 @@ public sealed class AdminController : ControllerBase
     
     public AdminController(IUserLogic userLogic)
     {
-        this._userLogic = userLogic;
+        _userLogic = userLogic;
     }
     
     [HttpPost]
@@ -20,7 +20,7 @@ public sealed class AdminController : ControllerBase
     {
         User userToCreate = admin.ToArgs();
         User createdUser = _userLogic.CreateAdmin(userToCreate);
-        AdminResponse response = new AdminResponse(createdUser);
+        var response = new AdminResponse(createdUser);
         return Ok(response);
     }
 }
