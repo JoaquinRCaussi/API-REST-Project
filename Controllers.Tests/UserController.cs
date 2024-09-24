@@ -33,4 +33,27 @@ public class UserController
         act.Should().BeEquivalentTo(expected);
     }
     #endregion
+
+    [TestMethod]
+    public void GetUsers_WhenAllPropertiesOk()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        
+        var expectedUsers = new List<User>
+        {
+            new User("John", "Doe", "df@domain.com", "123456"),
+            new User("Jane", "Smith", "asd@domain.com", "12345asdas6")
+        };
+        
+        userLogicMock.Setup(logic => logic.GetUsers()).Returns(expectedUsers);
+        
+        var controller = new UserController(userLogicMock.Object);
+        
+        var result = controller.GetUsers();
+        
+        var userResponses = expectedUsers.Select(u => new UserResponse(u)).ToList();
+        var expectedResponse = new OkObjectResult(userResponses);
+        
+        result.Should().BeEquivalentTo(expectedResponse);
+    }
 }
