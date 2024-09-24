@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Domain;
 
-using DTOS;
+using WebApi.Models;
 
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;

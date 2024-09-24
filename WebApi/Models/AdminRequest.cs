@@ -1,6 +1,6 @@
 using Domain;
 
-namespace DTOS;
+namespace WebApi.Models;
 
 public class AdminRequest
 {
