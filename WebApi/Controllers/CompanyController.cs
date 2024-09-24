@@ -10,12 +10,10 @@ namespace WebApi.Controllers;
 public sealed class CompanyController : ControllerBase
 {
     private readonly ICompanyLogic _companyLogic;
-
     public CompanyController(ICompanyLogic companyLogic)
     {
         _companyLogic = companyLogic;
     }
-
     [HttpPost]
     public IActionResult CreateCompany(CompanyRequest company)
     {
