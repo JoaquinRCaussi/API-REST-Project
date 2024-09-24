@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using WebApi.Controllers;
 
 namespace Controllers.Tests;
 
@@ -9,11 +11,11 @@ namespace Controllers.Tests;
 [TestClass]
 public class CompanyOwnerControllerTest
 {
-        private CompanyOwnerController _controller;
+        private CompanyOwnerController? _controller;
     
         [TestMethod]
         public void CreateCompanyOwner_WhenAllPropertiesOk()
-        {
+        {   
             User user = new User("John", "Doe", "mail@mail.com", "123456@asd");
             
             Mock<IUserLogic> companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
