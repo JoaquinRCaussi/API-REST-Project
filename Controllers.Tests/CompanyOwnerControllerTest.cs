@@ -25,7 +25,8 @@ public class CompanyOwnerControllerTest
             _controller = new CompanyOwnerController(companyOwnerLogic.Object);
             
             var act = _controller.CreateCompanyOwner(user);
-            var expected = new OkObjectResult(user);
+            var companyOwnerResponse = new User(user.Name, user.LastName, user.Email, user.Password);
+            var expected = new OkObjectResult(companyOwnerResponse);
             
             act.Should().BeEquivalentTo(expected);
         }
