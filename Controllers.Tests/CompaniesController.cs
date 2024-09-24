@@ -12,7 +12,7 @@ namespace Controllers.Tests;
 [TestClass]
 public class CompaniesController
 {
-    
+
     [TestMethod]
     public void CreateCompany_WhenAllPropertiesOk()
     {
@@ -24,12 +24,9 @@ public class CompaniesController
         // Act
         var controller = new CompanyController(companyLogic.Object);
         var act = controller.CreateCompany(company);
-        
         var companyResponse = new CompanyResponse(company.ToArgs());
         var expected = new OkObjectResult(companyResponse);
-        
-        // Assert
+        //Assert
         act.Should().BeEquivalentTo(expected);
     }
-
 }
