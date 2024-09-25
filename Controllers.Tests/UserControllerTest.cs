@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using FluentAssertions; 
 using Domain;
 using LogicInterface;
 using WebApi.Controllers;
 using WebApi.Models;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 namespace Controllers.Tests;
 
