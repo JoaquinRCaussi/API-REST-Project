@@ -8,7 +8,7 @@ public class HomeRequest
     public int MemberCount { get; set; }
     public string Devices { get; set; }
     public User HomeOwner { get; set; }
-    
+
     public HomeRequest(Home home)
     {
         Location = home.Location;
@@ -16,7 +16,7 @@ public class HomeRequest
         Devices = home.Devices;
         HomeOwner = home.HomeOwner;
     }
-    
+
     public Home ToArgs()
     {
         return new Home(Location, MemberCount, Devices, HomeOwner);

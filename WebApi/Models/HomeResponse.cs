@@ -8,7 +8,7 @@ public class HomeResponse
     public int MemberCount { get; set; }
     public string Devices { get; set; }
     public User HomeOwner { get; set; }
-    
+
     public HomeResponse(Home home)
     {
         Location = home.Location;

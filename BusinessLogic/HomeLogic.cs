@@ -17,15 +17,14 @@ public class HomeLogic : IHomeLogic
     {
         return _homeRepository.CreateHome(home);
     }
-    
+
     public List<Home> GetHomes()
     {
         return _homeRepository.GetHomes();
     }
-    
+
     public List<Home> GetHomesByUser(Guid userId)
     {
         return _homeRepository.GetHomesByUser(userId);
     }
-    
 }

@@ -40,9 +40,11 @@ public class HomeControllerTest
         var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
         var home = new Home("location", 5, "device", user);
 
+        var homes = new List<Home> { home };
+
         var homeRequest = new HomeRequest(home);
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomes()).Returns(new List<Home> { home });
+        homeLogic.Setup(x => x.GetHomes()).Returns(homes);
 
         var controller = new HomeController(homeLogic.Object);
 
@@ -60,10 +62,12 @@ public class HomeControllerTest
         var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
         var home = new Home("location", 5, "device", user);
 
+        var homes = new List<Home> { home };
+
         var homeRequest = new HomeRequest(home);
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomesByUser(It.IsAny<Guid>())).Returns(new List<Home> { home });
+        homeLogic.Setup(x => x.GetHomesByUser(It.IsAny<Guid>())).Returns(homes);
 
         var controller = new HomeController(homeLogic.Object);
 

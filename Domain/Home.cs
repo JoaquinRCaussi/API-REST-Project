@@ -6,7 +6,7 @@ public class Home
     public int MemberCount { get; set; }
     public string Devices { get; set; }
     public User HomeOwner { get; set; }
-    
+
     public Home(string location, int memberCount, string devices, User homeOwner)
     {
         Location = location;
