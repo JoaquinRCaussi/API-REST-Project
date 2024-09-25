@@ -38,13 +38,13 @@ public class CompanyOwnerControllerTest
         [TestMethod]
         public void AddCompanyToCompanyOwner_WhenAllPropertiesOk()
         {
-            Company company = new Company("name", "aRUT", "apath");
-            User user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+            var company = new Company("name", "aRUT", "apath");
+            var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
 
             var addCompanyToOwnerRequest = new AddCompanyToOwnerRequest(user, company);
             var expectedResponse = new AddCompanyToOwnerResponse(user, company);
             
-            Mock<IUserLogic> companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
+            var companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
             
             companyOwnerLogic.Setup(x => x.AddCompanyToCompanyOwner(It.IsAny<User>(), It.IsAny<Company>()))
                 .Returns(user);
