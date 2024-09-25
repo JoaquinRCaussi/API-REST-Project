@@ -1,5 +1,10 @@
+using Domain;
+using FluentAssertions;
+using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using WebApi.Controllers;
+using WebApi.Models;
 
 namespace Controllers.Tests;
 
@@ -13,11 +18,11 @@ public class HomeControllerTest
         
         var homeRequest = new HomeRequest(home);
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateHome(It.IsAny<Home>())).Returns(home.ToArgs());
+        homeLogic.Setup(x => x.CreateHome(It.IsAny<Home>())).Returns(homeRequest.ToArgs());
         
         var controller = new HomeController(homeLogic.Object);
         
-        var act = controller.CreateHome(home);
+        var act = controller.CreateHome(homeRequest);
         
         var homeResponse = new HomeResponse(homeRequest.ToArgs());
         var expected = new OkObjectResult(homeResponse);
