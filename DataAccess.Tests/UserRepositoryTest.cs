@@ -15,12 +15,46 @@ public class UserRepositoryTest
             .Options;
         return new HMDbContext(options);
     }
+    
+    private void SeedData(HMDbContext context)
+    {
+        var permission = new PermissionKey { Id = Guid.NewGuid(), Value = "ExamplePermission" };
+
+        context.PermissionKeys?.Add(permission);
+        
+        var adminRole = new Role
+        {
+            Id = Guid.NewGuid(),
+            Name = "Admin",
+            Permissions = new List<PermissionKey> { permission }
+        };
+
+        var homeownerRole = new Role
+        {
+            Id = Guid.NewGuid(),
+            Name = "HomeOwner",
+            Permissions = new List<PermissionKey> { permission }
+        };
+
+        var companyOwnerRole = new Role
+        {
+            Id = Guid.NewGuid(),
+            Name = "CompanyOwner",
+            Permissions = new List<PermissionKey> { permission }
+        };
+
+        context.Roles?.AddRange(adminRole, homeownerRole, companyOwnerRole);
+
+        context.SaveChanges();
+    }
 
     [TestMethod]
     public void CreateAdminTest()
     {
         using (var context = CreateInMemoryDbContext("TestAddAdmin"))
         {
+            SeedData(context); // Llamar al método para hacer el seed
+
             var repository = new UserRepository(context);
             var expected = new User
             {
@@ -31,6 +65,7 @@ public class UserRepositoryTest
                 Password = "securePassword123"
             };
 
+            // Llama al método que crea el admin y asigna el rol correspondiente
             var result = repository.CreateAdmin(expected);
             context.SaveChanges();
 
@@ -41,6 +76,9 @@ public class UserRepositoryTest
             var storedAdmin = context.Users?.FirstOrDefault(a => a.Id == expected.Id);
             Assert.IsNotNull(storedAdmin);
             Assert.AreEqual(expected.Email, storedAdmin.Email);
+
+            Assert.IsNotNull(storedAdmin.Role);
+            Assert.AreEqual("Admin",storedAdmin.Role.Name, "El usuario debe tener el rol Admin asignado.");
         }
     }
 
@@ -87,4 +125,4 @@ public class UserRepositoryTest
         }
     }
 
-}
+    }

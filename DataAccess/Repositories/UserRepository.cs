@@ -1,3 +1,4 @@
+using DataAccess.Data;
 using Domain;
 using IDataAccess;
 using Microsoft.EntityFrameworkCore;
@@ -6,17 +7,23 @@ namespace DataAccess.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly DbContext _context;
+    private readonly HMDbContext _context;
     
-    public UserRepository(DbContext context)
+    public UserRepository(HMDbContext context)
     {
         _context = context;
     }
     
     public User CreateAdmin(User user)
-    {
-        _context.Add(user);
-        _context.SaveChanges();
+    {        
+        var adminRole = _context.Roles?.FirstOrDefault(r => r.Name == "Admin");
+        if (adminRole != null)
+        {
+            user.Role = adminRole;
+        }
+        
+        _context.Users?.Add(user);
+        
         return user;
     }
     
