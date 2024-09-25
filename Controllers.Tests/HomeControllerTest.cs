@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
 using LogicInterface;
@@ -8,6 +9,7 @@ using WebApi.Models;
 
 namespace Controllers.Tests;
 
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class HomeControllerTest
 {
