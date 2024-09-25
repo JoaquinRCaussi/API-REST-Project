@@ -24,4 +24,12 @@ public class HomeController: ControllerBase
         var response = new HomeResponse(createdHome);
         return Ok(response);
     }
+    
+    [HttpGet]
+    public IActionResult GetHomes()
+    {
+        var homes = _homeLogic.GetHomes();
+        var response = homes.Select(x => new HomeResponse(x)).ToList();
+        return Ok(response);
+    }
 }

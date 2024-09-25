@@ -17,4 +17,10 @@ public class HomeLogic : IHomeLogic
     {
         return _homeRepository.CreateHome(home);
     }
+    
+    public List<Home> GetHomes()
+    {
+        return _homeRepository.GetHomes();
+    }
+    
 }
