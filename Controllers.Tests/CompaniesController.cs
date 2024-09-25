@@ -1,6 +1,6 @@
-using System.Diagnostics.CodeAnalysis;
 using Domain;
 using LogicInterface;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
