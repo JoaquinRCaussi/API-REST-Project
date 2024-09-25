@@ -1,6 +1,6 @@
 using Domain;
 
-namespace DTOS;
+namespace WebApi.Models;
 
 public class AdminRequest
 {
@@ -22,4 +22,3 @@ public class AdminRequest
         return new User(Name, LastName, Email, Password);
     }
 }
-

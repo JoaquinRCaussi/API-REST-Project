@@ -1,10 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
-using DTOS;
 using FluentAssertions;
+using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Models;
 
 namespace Controllers.Tests;
 
@@ -12,7 +13,6 @@ namespace Controllers.Tests;
 [TestClass]
 public class CompaniesController
 {
-
     [TestMethod]
     public void CreateCompany_WhenAllPropertiesOk()
     {
@@ -23,7 +23,7 @@ public class CompaniesController
 
         // Act
         var controller = new CompanyController(companyLogic.Object);
-        var act = controller.CreateCompany(company);
+        IActionResult act = controller.CreateCompany(company);
         var companyResponse = new CompanyResponse(company.ToArgs());
         var expected = new OkObjectResult(companyResponse);
         //Assert

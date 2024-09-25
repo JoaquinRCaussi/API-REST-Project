@@ -1,11 +1,12 @@
 using Domain;
-using DTOS;
+using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
 
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/companies")]
 public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBase
 {
     [HttpPost]
