@@ -15,32 +15,26 @@ public class UserRepositoryTest
             .Options;
         return new HMDbContext(options);
     }
-    
+
     private void SeedData(HMDbContext context)
     {
         var permission = new PermissionKey { Id = Guid.NewGuid(), Value = "ExamplePermission" };
 
         context.PermissionKeys?.Add(permission);
-        
+
         var adminRole = new Role
         {
-            Id = Guid.NewGuid(),
-            Name = "Admin",
-            Permissions = new List<PermissionKey> { permission }
+            Id = Guid.NewGuid(), Name = "Admin", Permissions = new List<PermissionKey> { permission }
         };
 
         var homeownerRole = new Role
         {
-            Id = Guid.NewGuid(),
-            Name = "HomeOwner",
-            Permissions = new List<PermissionKey> { permission }
+            Id = Guid.NewGuid(), Name = "HomeOwner", Permissions = new List<PermissionKey> { permission }
         };
 
         var companyOwnerRole = new Role
         {
-            Id = Guid.NewGuid(),
-            Name = "CompanyOwner",
-            Permissions = new List<PermissionKey> { permission }
+            Id = Guid.NewGuid(), Name = "CompanyOwner", Permissions = new List<PermissionKey> { permission }
         };
 
         context.Roles?.AddRange(adminRole, homeownerRole, companyOwnerRole);
@@ -78,7 +72,7 @@ public class UserRepositoryTest
             Assert.AreEqual(expected.Email, storedAdmin.Email);
 
             Assert.IsNotNull(storedAdmin.Role);
-            Assert.AreEqual("Admin",storedAdmin.Role.Name, "El usuario debe tener el rol Admin asignado.");
+            Assert.AreEqual("Admin", storedAdmin.Role.Name, "El usuario debe tener el rol Admin asignado.");
         }
     }
 
@@ -160,5 +154,36 @@ public class UserRepositoryTest
             Assert.AreEqual("CompanyOwner", result.Role?.Name, "El usuario debe tener el rol CompanyOwner asignado.");
         }
 
+    }
+
+    [TestMethod]
+    public void AddCompanyToCompanyOwnerTest()
+    {
+        using (var context = CreateInMemoryDbContext("TestAddCompanyToCompanyOwner"))
+        {
+            SeedData(context);
+
+            var companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
+
+            var repository = new UserRepository(context);
+            var expected = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Juan",
+                LastName = "Perez",
+                Email = "mail@mail.com",
+                Password = "securePassword123",
+                Role = companyOwnerRole,
+            };
+
+            var company = new Company { Id = Guid.NewGuid(), Name = "Company" };
+
+            var result = repository.AddCompanyToCompanyOwner(expected, company);
+            context.SaveChanges();
+            
+            Assert.IsNotNull(result.Company);
+            Assert.AreEqual(company.Id, result.Company?.Id);
+            Assert.AreEqual(company.Name, result.Company?.Name);
+        }
     }
 }
