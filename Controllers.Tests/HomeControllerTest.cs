@@ -55,7 +55,7 @@ public class HomeControllerTest
     }
 
     [TestMethod]
-    public void GetHomeByUser_WhenAllPropertiesOk()
+    public void GetHomesByUser_WhenAllPropertiesOk()
     {
         var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
         var home = new Home("location", 5, "device", user);
@@ -63,11 +63,11 @@ public class HomeControllerTest
         var homeRequest = new HomeRequest(home);
         
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomeByUser(It.IsAny<User>())).Returns(new List<Home> {home});
+        homeLogic.Setup(x => x.GetHomesByUser(It.IsAny<Guid>())).Returns(new List<Home> {home});
         
         var controller = new HomeController(homeLogic.Object);
         
-        var act = controller.GetHomeByUser(user);
+        var act = controller.GetHomeByUser(user.Id);
         
         var homeResponse = new HomeResponse(homeRequest.ToArgs());
         var expected = new OkObjectResult(new List<HomeResponse> {homeResponse});

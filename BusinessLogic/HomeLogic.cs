@@ -23,4 +23,9 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.GetHomes();
     }
     
+    public List<Home> GetHomesByUser(Guid userId)
+    {
+        return _homeRepository.GetHomesByUser(userId);
+    }
+    
 }

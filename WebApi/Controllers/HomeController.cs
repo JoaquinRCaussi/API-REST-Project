@@ -32,4 +32,13 @@ public class HomeController: ControllerBase
         var response = homes.Select(x => new HomeResponse(x)).ToList();
         return Ok(response);
     }
+    
+    [HttpGet]
+    [Route("homes/{userId}")]
+    public IActionResult GetHomeByUser(Guid userId)
+    {
+        var homes = _homeLogic.GetHomesByUser(userId);
+        var response = homes.Select(x => new HomeResponse(x)).ToList();
+        return Ok(response);
+    }
 }
