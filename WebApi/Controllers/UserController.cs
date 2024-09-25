@@ -1,3 +1,4 @@
+using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +9,16 @@ namespace WebApi.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
-    
+
     public UserController(IUserLogic userLogic)
     {
         _userLogic = userLogic;
     }
-    
+
     [HttpGet]
     public IActionResult GetUsers()
     {
-        var users = _userLogic.GetUsers();
+        List<User> users = _userLogic.GetUsers();
         return Ok(users);
     }
-    
 }

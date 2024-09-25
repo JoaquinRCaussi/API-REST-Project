@@ -8,7 +8,7 @@ public class CompanyOwnerRequest
     public string LastName;
     public string Email;
     public string Password;
-    
+
     public CompanyOwnerRequest(User user)
     {
         Name = user.Name;
@@ -16,7 +16,7 @@ public class CompanyOwnerRequest
         Email = user.Email;
         Password = user.Password;
     }
-    
+
     public User ToArgs()
     {
         return new User(Name, LastName, Email, Password);

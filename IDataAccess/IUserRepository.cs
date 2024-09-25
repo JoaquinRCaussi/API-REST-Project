@@ -5,12 +5,10 @@ namespace IDataAccess;
 public interface IUserRepository
 {
     public List<User> GetUsers();
-    
-    public User CreateAdmin(User user);
-    
-    public User CreateCompanyOwner(User user);
-    
-    public User AddCompanyToCompanyOwner(User user, Company company);
-    
-}
 
+    public User CreateAdmin(User user);
+
+    public User CreateCompanyOwner(User user);
+
+    public User AddCompanyToCompanyOwner(User user, Company company);
+}

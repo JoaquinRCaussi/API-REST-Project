@@ -10,10 +10,12 @@ namespace WebApi.Controllers;
 public sealed class AdminController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
+
     public AdminController(IUserLogic userLogic)
     {
         _userLogic = userLogic;
     }
+
     [HttpPost]
     public IActionResult CreateAdmin(AdminRequest admin)
     {

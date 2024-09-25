@@ -19,15 +19,15 @@ public class CompanyOwnerController : ControllerBase
     [HttpPost]
     public IActionResult CreateCompanyOwner(User user)
     {
-        var companyOwner = _userLogic.CreateCompanyOwner(user);
+        User companyOwner = _userLogic.CreateCompanyOwner(user);
         return Ok(companyOwner);
     }
-    
+
     [HttpPut]
     public IActionResult AddCompanyToCompanyOwner(AddCompanyToOwnerRequest request)
     {
-        var user = _userLogic.AddCompanyToCompanyOwner(request.CompanyOwner, request.Company);
-        
+        User user = _userLogic.AddCompanyToCompanyOwner(request.CompanyOwner, request.Company);
+
         var response = new AddCompanyToOwnerResponse(user, request.Company);
 
         return Ok(response);

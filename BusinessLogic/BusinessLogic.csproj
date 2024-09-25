@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\IDataAccess\IDataAccess.csproj" />
-      <ProjectReference Include="..\LogicInterface\LogicInterface.csproj" />
+        <ProjectReference Include="..\IDataAccess\IDataAccess.csproj"/>
+        <ProjectReference Include="..\LogicInterface\LogicInterface.csproj"/>
     </ItemGroup>
 
 </Project>

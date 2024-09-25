@@ -22,4 +22,3 @@ public class AdminRequest
         return new User(Name, LastName, Email, Password);
     }
 }
-
