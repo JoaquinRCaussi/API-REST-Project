@@ -14,7 +14,9 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateHome_WhenAllPropertiesOk()
     {
-        var home = new Home("location",5, "device", "homeowner");
+        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        
+        var home = new Home("location",5, "device", user);
         
         var homeRequest = new HomeRequest(home);
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);

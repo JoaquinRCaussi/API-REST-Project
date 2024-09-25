@@ -7,7 +7,7 @@ public class HomeRequest
     public string Location { get; set; }
     public int MemberCount { get; set; }
     public string Devices { get; set; }
-    public string HomeOwner { get; set; }
+    public User HomeOwner { get; set; }
     
     public HomeRequest(Home home)
     {
