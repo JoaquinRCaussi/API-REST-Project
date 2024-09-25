@@ -125,4 +125,40 @@ public class UserRepositoryTest
         }
     }
 
+    [TestMethod]
+    public void CreateCompanyOwnerTest()
+    {
+        using (var context = CreateInMemoryDbContext("TestAddCompanyOwner"))
+        {
+            SeedData(context);
+
+            var companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
+
+            var repository = new UserRepository(context);
+            var expected = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Juan",
+                LastName = "Perez",
+                Email = "mail@mail.com",
+                Password = "securePassword123",
+                Company = new Company { Id = Guid.NewGuid(), Name = "Company" },
+                Role = companyOwnerRole,
+            };
+
+            var result = repository.CreateCompanyOwner(expected);
+            context.SaveChanges();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected.Id, result.Id);
+            Assert.AreEqual(expected.Email, result.Email);
+            Assert.IsNotNull(result.Company);
+            Assert.AreEqual(expected.Company?.Id, result.Company?.Id);
+            Assert.AreEqual(expected.Company?.Name, result.Company?.Name);
+            Assert.IsNotNull(result.Role);
+            Assert.AreEqual(expected.Role?.Name, result.Role?.Name);
+            Assert.AreEqual("CompanyOwner", result.Role?.Name, "El usuario debe tener el rol CompanyOwner asignado.");
+        }
+
     }
+}
