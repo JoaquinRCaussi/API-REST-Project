@@ -45,7 +45,13 @@ public class CompanyOwnerControllerTest
     [TestMethod]
     public void AddCompanyToCompanyOwner_WhenAllPropertiesOk()
     {
-        var company = new Company("name", "aRUT", "apath");
+        var company = new Company
+        {
+            Id = Guid.NewGuid(),
+            Name = "Company",
+            RUT = "RUT",
+            Logo = "123456789"
+        };
         
         var user = new User
         {
