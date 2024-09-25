@@ -7,15 +7,15 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/homes")]
-public class HomeController: ControllerBase
+public class HomeController : ControllerBase
 {
     private readonly IHomeLogic _homeLogic;
-    
+
     public HomeController(IHomeLogic homeLogic)
     {
         _homeLogic = homeLogic;
     }
-    
+
     [HttpPost]
     public IActionResult CreateHome(HomeRequest home)
     {
@@ -24,20 +24,20 @@ public class HomeController: ControllerBase
         var response = new HomeResponse(createdHome);
         return Ok(response);
     }
-    
+
     [HttpGet]
     public IActionResult GetHomes()
     {
-        var homes = _homeLogic.GetHomes();
+        List<Home> homes = _homeLogic.GetHomes();
         var response = homes.Select(x => new HomeResponse(x)).ToList();
         return Ok(response);
     }
-    
+
     [HttpGet]
     [Route("homes/{userId}")]
     public IActionResult GetHomeByUser(Guid userId)
     {
-        var homes = _homeLogic.GetHomesByUser(userId);
+        List<Home> homes = _homeLogic.GetHomesByUser(userId);
         var response = homes.Select(x => new HomeResponse(x)).ToList();
         return Ok(response);
     }
