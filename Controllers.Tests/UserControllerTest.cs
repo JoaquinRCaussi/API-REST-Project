@@ -14,7 +14,7 @@ namespace Controllers.Tests;
 
 [ExcludeFromCodeCoverage]
 [TestClass]
-public class UserController
+public class UserControllerTest
 {
     #region Admin
     [TestMethod]
@@ -51,7 +51,7 @@ public class UserController
         
         var result = controller.GetUsers();
         
-        var userResponses = expectedUsers.Select(u => new UserResponse(u)).ToList();
+        var userResponses = expectedUsers.Select(u => new GetUserResponse(u)).ToList();
         var expectedResponse = new OkObjectResult(userResponses);
         
         result.Should().BeEquivalentTo(expectedResponse);

@@ -9,4 +9,6 @@ public interface IUserLogic
     public User CreateCompanyOwner(User user);
     
     public User AddCompanyToCompanyOwner(User companyOwner, Company company);
+    
+    public List<User> GetUsers();
 }
