@@ -44,4 +44,47 @@ public class UserRepositoryTest
         }
     }
 
+    [TestMethod]
+    public void GetUsersTest()
+    {
+        using (var context = CreateInMemoryDbContext("TestGetUsers"))
+        {
+            var repository = new UserRepository(context);
+
+            var expected = new List<User>
+            {
+                new User
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Juan",
+                    LastName = "Perez",
+                    Email = "mail@mail.com",
+                    Password = "securePassword123"
+                },
+                new User
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Jose",
+                    LastName = "Gervasio",
+                    Email = "mail@mail.com",
+                    Password = "securePassword123"
+                }
+            };
+
+            context.Users?.AddRange(expected);
+            context.SaveChanges();
+
+            var result = repository.GetUsers();
+
+            Assert.AreEqual(expected.Count, result.Count);
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i].Id, result[i].Id);
+                Assert.AreEqual(expected[i].Email, result[i].Email);
+            }
+
+        }
+    }
+
 }
