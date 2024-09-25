@@ -1,0 +1,13 @@
+using Domain;
+using Microsoft.EntityFrameworkCore;
+
+namespace DataAccess.Data;
+
+public class HMDbContext : DbContext
+{
+    public HMDbContext(DbContextOptions<HMDbContext> options) : base(options)
+    {
+        
+    }
+    public DbSet<User>? Users { get; set; }
+}

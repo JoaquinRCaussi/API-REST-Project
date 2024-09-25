@@ -19,6 +19,12 @@ public class AdminRequest
 
     public User ToArgs()
     {
-        return new User(Name, LastName, Email, Password);
+        return new User
+        {
+            Name = Name,
+            LastName = LastName,
+            Email = Email,
+            Password = Password
+        };
     }
 }

@@ -37,10 +37,25 @@ public class UserControllerTest
     public void GetUsers_WhenAllPropertiesOk()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
-
+        
         var expectedUsers = new List<User>
         {
-            new("John", "Doe", "df@domain.com", "123456"), new("Jane", "Smith", "asd@domain.com", "12345asdas6")
+            new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "John",
+                LastName = "Doe",
+                Email = "mail@mail.com",
+                Password = "password@123"
+            },
+            new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Jane",
+                LastName = "Doe",
+                Email = "mail@mail.com",
+                Password = "password@123"
+            }
         };
 
         userLogicMock.Setup(logic => logic.GetUsers()).Returns(expectedUsers);

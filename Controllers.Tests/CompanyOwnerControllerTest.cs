@@ -18,7 +18,14 @@ public class CompanyOwnerControllerTest
     [TestMethod]
     public void CreateCompanyOwner_WhenAllPropertiesOk()
     {
-        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
 
         var companyOwnerRequest = new CompanyOwnerRequest(user);
 
@@ -39,7 +46,15 @@ public class CompanyOwnerControllerTest
     public void AddCompanyToCompanyOwner_WhenAllPropertiesOk()
     {
         var company = new Company("name", "aRUT", "apath");
-        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
 
         var addCompanyToOwnerRequest = new AddCompanyToOwnerRequest(user, company);
         var expectedResponse = new AddCompanyToOwnerResponse(user, company);

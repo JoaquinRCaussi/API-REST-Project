@@ -16,7 +16,14 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateHome_WhenAllPropertiesOk()
     {
-        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
 
         var home = new Home("location", 5, "device", user);
 
@@ -37,7 +44,15 @@ public class HomeControllerTest
     [TestMethod]
     public void GetHomes_WhenAllPropertiesOk()
     {
-        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+        
         var home = new Home("location", 5, "device", user);
 
         var homes = new List<Home> { home };
@@ -59,7 +74,15 @@ public class HomeControllerTest
     [TestMethod]
     public void GetHomesByUser_WhenAllPropertiesOk()
     {
-        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+        
         var home = new Home("location", 5, "device", user);
 
         var homes = new List<Home> { home };
