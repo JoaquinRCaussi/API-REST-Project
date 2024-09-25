@@ -18,11 +18,11 @@ public class CompanyOwnerControllerTest
         [TestMethod]
         public void CreateCompanyOwner_WhenAllPropertiesOk()
         {   
-            User user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+            var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
             
             var companyOwnerRequest = new CompanyOwnerRequest(user);
             
-            Mock<IUserLogic> companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
+            var companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
             companyOwnerLogic.Setup(x => x.CreateCompanyOwner(It.IsAny<User>()))
                 .Returns(companyOwnerRequest.ToArgs());
             
