@@ -12,4 +12,5 @@ public interface IUserLogic
     public User AddCompanyToCompanyOwner(User companyOwner, Company company);
 
     public List<User> GetUsers();
+    public User GetUser(Guid userId);
 }
