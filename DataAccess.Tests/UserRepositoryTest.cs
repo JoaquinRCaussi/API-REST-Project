@@ -235,4 +235,16 @@ public class UserRepositoryTest
         Assert.IsNotNull(result.Company);
         Assert.AreEqual(expectedUser.Company, result.Company);
     }
+    
+    [TestMethod]
+    public void GetUser_WhenUserDoesNotExist_ReturnsNull()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetUser");
+        SeedData(context);
+        var repository = new UserRepository(context);
+
+        User? result = repository.GetUser(Guid.NewGuid());
+
+        Assert.IsNull(result);
+    }
 }
