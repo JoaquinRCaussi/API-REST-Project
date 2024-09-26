@@ -24,7 +24,7 @@ public class UserLogicTest
     [TestMethod]
     public void GetUsersTest()
     {
-        List<User> users = new List<User>
+        var users = new List<User>
         {
             new User
             {
@@ -38,7 +38,7 @@ public class UserLogicTest
         
         _userRepositoryMock.Setup(x => x.GetUsers()).Returns(users);
         
-        List<User> result = _userLogic.GetUsers();
+        var result = _userLogic.GetUsers();
         
         result.Should().BeEquivalentTo(users);
     }
@@ -46,7 +46,7 @@ public class UserLogicTest
     [TestMethod]
     public void CreateAdminTest()
     {
-        User user = new User
+        var user = new User
         {
             Id = Guid.NewGuid(),
             Name = "John",
@@ -57,7 +57,7 @@ public class UserLogicTest
 
         _userRepositoryMock.Setup(x => x.CreateAdmin(user)).Returns(user);
 
-        User result = _userLogic.CreateAdmin(user);
+        var result = _userLogic.CreateAdmin(user);
         
         result.Should().BeEquivalentTo(user);
         result.Id.Should().Be(user.Id);
@@ -67,6 +67,31 @@ public class UserLogicTest
         result.Password.Should().Be(user.Password);
         result.Role.Should().Be(user.Role);
     }
-    
-    
+
+    [TestMethod]
+    public void CreateHomeOwnerTest()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.CreateHomeOwner(user)).Returns(user);
+
+        var result = _userLogic.CreateHomeOwner(user);
+
+        result.Should().BeEquivalentTo(user);
+        
+        result.Id.Should().Be(user.Id);
+        result.Name.Should().Be(user.Name);
+        result.LastName.Should().Be(user.LastName);
+        result.Email.Should().Be(user.Email);
+        result.Password.Should().Be(user.Password);
+        result.Role.Should().Be(user.Role);
+    }
+
 }
