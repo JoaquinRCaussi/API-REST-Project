@@ -10,7 +10,7 @@ public class UserRepositoryTest
 {
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
-        var options = new DbContextOptionsBuilder<HMDbContext>()
+        DbContextOptions<HMDbContext>? options = new DbContextOptionsBuilder<HMDbContext>()
             .UseInMemoryDatabase(dbName)
             .Options;
         return new HMDbContext(options);
@@ -45,11 +45,11 @@ public class UserRepositoryTest
     [TestMethod]
     public void CreateAdminTest()
     {
-        using (var context = CreateInMemoryDbContext("TestAddAdmin"))
+        using (HMDbContext? context = CreateInMemoryDbContext("TestAddAdmin"))
         {
             SeedData(context); // Llamar al método para hacer el seed
-            
-            var adminRole = context.Roles?.FirstOrDefault(r => r.Name == "Admin");
+
+            Role? adminRole = context.Roles?.FirstOrDefault(r => r.Name == "Admin");
 
             var repository = new UserRepository(context);
             var expected = new User
@@ -62,14 +62,14 @@ public class UserRepositoryTest
             };
 
             // Llama al método que crea el admin y asigna el rol correspondiente
-            var result = repository.CreateAdmin(expected);
+            User? result = repository.CreateAdmin(expected);
             context.SaveChanges();
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expected.Id, result.Id);
             Assert.AreEqual(expected.Email, result.Email);
 
-            var storedAdmin = context.Users?.FirstOrDefault(a => a.Id == expected.Id);
+            User? storedAdmin = context.Users?.FirstOrDefault(a => a.Id == expected.Id);
             Assert.IsNotNull(storedAdmin);
             Assert.AreEqual(expected.Email, storedAdmin.Email);
 
@@ -81,13 +81,13 @@ public class UserRepositoryTest
     [TestMethod]
     public void GetUsersTest()
     {
-        using (var context = CreateInMemoryDbContext("TestGetUsers"))
+        using (HMDbContext? context = CreateInMemoryDbContext("TestGetUsers"))
         {
             var repository = new UserRepository(context);
 
             var expected = new List<User>
             {
-                new User
+                new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Juan",
@@ -95,7 +95,7 @@ public class UserRepositoryTest
                     Email = "mail@mail.com",
                     Password = "securePassword123"
                 },
-                new User
+                new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Jose",
@@ -108,7 +108,7 @@ public class UserRepositoryTest
             context.Users?.AddRange(expected);
             context.SaveChanges();
 
-            var result = repository.GetUsers();
+            List<User>? result = repository.GetUsers();
 
             Assert.AreEqual(expected.Count, result.Count);
 
@@ -117,18 +117,17 @@ public class UserRepositoryTest
                 Assert.AreEqual(expected[i].Id, result[i].Id);
                 Assert.AreEqual(expected[i].Email, result[i].Email);
             }
-
         }
     }
 
     [TestMethod]
     public void CreateCompanyOwnerTest()
     {
-        using (var context = CreateInMemoryDbContext("TestAddCompanyOwner"))
+        using (HMDbContext? context = CreateInMemoryDbContext("TestAddCompanyOwner"))
         {
             SeedData(context);
-            
-            var companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
+
+            Role? companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
 
             var repository = new UserRepository(context);
             var expected = new User
@@ -140,7 +139,7 @@ public class UserRepositoryTest
                 Password = "securePassword123"
             };
 
-            var result = repository.CreateCompanyOwner(expected);
+            User? result = repository.CreateCompanyOwner(expected);
             context.SaveChanges();
 
             Assert.IsNotNull(result);
@@ -150,18 +149,17 @@ public class UserRepositoryTest
             Assert.IsNotNull(result.Role);
             Assert.AreEqual(companyOwnerRole.Id, result.Role, "El usuario debe tener el rol CompanyOwner asignado.");
         }
-
     }
 
     [TestMethod]
     public void CreateHomeOwnerTest()
     {
-        using (var context = CreateInMemoryDbContext("TestAddCompanyOwner"))
+        using (HMDbContext? context = CreateInMemoryDbContext("TestAddCompanyOwner"))
         {
             SeedData(context);
 
-            var homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
-            
+            Role? homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
+
             var repository = new UserRepository(context);
             var expected = new User
             {
@@ -172,7 +170,7 @@ public class UserRepositoryTest
                 Password = "securePassword123"
             };
 
-            var result = repository.CreateHomeOwner(expected);
+            User? result = repository.CreateHomeOwner(expected);
             context.SaveChanges();
 
             Assert.IsNotNull(result);
@@ -187,11 +185,11 @@ public class UserRepositoryTest
     [TestMethod]
     public void AddCompanyToCompanyOwnerTest()
     {
-        using (var context = CreateInMemoryDbContext("TestAddCompanyToCompanyOwner"))
+        using (HMDbContext? context = CreateInMemoryDbContext("TestAddCompanyToCompanyOwner"))
         {
             SeedData(context);
 
-            var companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
+            Role? companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
 
             var repository = new UserRepository(context);
             var expected = new User
@@ -201,12 +199,12 @@ public class UserRepositoryTest
                 LastName = "Perez",
                 Email = "mail@mail.com",
                 Password = "securePassword123",
-                Role = companyOwnerRole.Id,
+                Role = companyOwnerRole.Id
             };
 
             var company = new Company { Id = Guid.NewGuid(), Name = "Company" };
 
-            var result = repository.AddCompanyToCompanyOwner(expected, company);
+            User? result = repository.AddCompanyToCompanyOwner(expected, company);
             context.SaveChanges();
 
             Assert.IsNotNull(result.Company);
@@ -217,18 +215,15 @@ public class UserRepositoryTest
     [TestMethod]
     public void GetUser_WhenUserExists_ReturnsUserWithRoleAndCompany()
     {
-        using (var context = CreateInMemoryDbContext("TestGetUser"))
+        using (HMDbContext? context = CreateInMemoryDbContext("TestGetUser"))
         {
             SeedData(context);
             var repository = new UserRepository(context);
-            var homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
-            
+            Role? homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
+
             var company = new Company
             {
-                Id = Guid.NewGuid(),
-                Name = "Example Company",
-                RUT = "12345678-9",
-                Logo = "example_logo.png"
+                Id = Guid.NewGuid(), Name = "Example Company", RUT = "12345678-9", Logo = "example_logo.png"
             };
 
             var expectedUser = new User
@@ -241,12 +236,12 @@ public class UserRepositoryTest
                 Role = homeOwnerRole.Id,
                 Company = company.Id
             };
-            
+
             context.Users?.Add(expectedUser);
             context.SaveChanges();
-            
-            var result = repository.GetUser(expectedUser.Id);
-            
+
+            User? result = repository.GetUser(expectedUser.Id);
+
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedUser.Id, result.Id);
             Assert.AreEqual(expectedUser.Email, result.Email);
@@ -256,5 +251,4 @@ public class UserRepositoryTest
             Assert.AreEqual(expectedUser.Company, result.Company);
         }
     }
-
 }

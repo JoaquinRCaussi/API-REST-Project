@@ -17,7 +17,7 @@ public class CompanyOwnerController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateCompanyOwner([FromBody]CompanyOwnerRequest user)
+    public IActionResult CreateCompanyOwner([FromBody] CompanyOwnerRequest user)
     {
         User companyOwner = _userLogic.CreateCompanyOwner(user.ToArgs());
         return Ok(companyOwner);

@@ -29,10 +29,7 @@ public class CompanyOwnerControllerTest
 
         var companyOwnerRequest = new CompanyOwnerRequest
         {
-            Name = user.Name,
-            LastName = user.LastName,
-            Email = user.Email,
-            Password = user.Password
+            Name = user.Name, LastName = user.LastName, Email = user.Email, Password = user.Password
         };
 
         var companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
@@ -56,14 +53,8 @@ public class CompanyOwnerControllerTest
     [TestMethod]
     public void AddCompanyToCompanyOwner_WhenAllPropertiesOk()
     {
-        var company = new Company
-        {
-            Id = Guid.NewGuid(),
-            Name = "Company",
-            RUT = "RUT",
-            Logo = "123456789"
-        };
-        
+        var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "RUT", Logo = "123456789" };
+
         var user = new User
         {
             Id = Guid.NewGuid(),

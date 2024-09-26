@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
-      <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-      <ProjectReference Include="..\Domain\Domain.csproj" />
-      <ProjectReference Include="..\LogicInterface\LogicInterface.csproj" />
+        <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj"/>
+        <ProjectReference Include="..\DataAccess\DataAccess.csproj"/>
+        <ProjectReference Include="..\Domain\Domain.csproj"/>
+        <ProjectReference Include="..\LogicInterface\LogicInterface.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-rc.1.24451.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-rc.1.24451.1"/>
     </ItemGroup>
 
 </Project>

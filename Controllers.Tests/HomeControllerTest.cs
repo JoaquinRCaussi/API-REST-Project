@@ -52,7 +52,7 @@ public class HomeControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
-        
+
         var home = new Home("location", 5, "device", user);
 
         var homes = new List<Home> { home };
@@ -82,7 +82,7 @@ public class HomeControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
-        
+
         var home = new Home("location", 5, "device", user);
 
         var homes = new List<Home> { home };

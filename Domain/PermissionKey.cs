@@ -5,7 +5,7 @@ public sealed record class PermissionKey
     public Guid Id { get; set; }
     public string Value { get; init; }
 
-    public PermissionKey() : this(string.Empty) {}
+    public PermissionKey() : this(string.Empty) { }
 
     public PermissionKey(string value)
     {

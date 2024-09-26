@@ -29,10 +29,7 @@ public class UserControllerTest
         // Arrange
         var admin = new AdminRequest
         {
-            Name = user.Name,
-            LastName = user.LastName,
-            Email = user.Email,
-            Password = user.Password
+            Name = user.Name, LastName = user.LastName, Email = user.Email, Password = user.Password
         };
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(admin.ToArgs());
@@ -51,10 +48,10 @@ public class UserControllerTest
     public void GetUsers_WhenAllPropertiesOk()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
-        
+
         var expectedUsers = new List<User>
         {
-            new User
+            new()
             {
                 Id = Guid.NewGuid(),
                 Name = "John",
@@ -62,7 +59,7 @@ public class UserControllerTest
                 Email = "mail@mail.com",
                 Password = "password@123"
             },
-            new User
+            new()
             {
                 Id = Guid.NewGuid(),
                 Name = "Jane",
@@ -80,11 +77,9 @@ public class UserControllerTest
 
         var userResponses = expectedUsers.Select(u => new GetUserResponse
         {
-            Email = u.Email,
-            Name = u.Name,
-            LastName = u.LastName,
+            Email = u.Email, Name = u.Name, LastName = u.LastName
         }).ToList();
-        
+
         var expectedResponse = new OkObjectResult(userResponses);
 
         result.Should().BeEquivalentTo(expectedResponse);
@@ -105,20 +100,18 @@ public class UserControllerTest
         };
 
         userLogicMock.Setup(logic => logic.GetUser(It.IsAny<Guid>())).Returns(expectedUser);
-        
+
         var controller = new UserController(userLogicMock.Object);
-        
+
         IActionResult result = controller.GetUser(expectedUser.Id);
-        
+
         var userResponse = new GetUserResponse
         {
-            Email = expectedUser.Email,
-            Name = expectedUser.Name,
-            LastName = expectedUser.LastName,
+            Email = expectedUser.Email, Name = expectedUser.Name, LastName = expectedUser.LastName
         };
-        
+
         var expectedResponse = new OkObjectResult(userResponse);
-        
+
         result.Should().BeEquivalentTo(expectedResponse);
     }
 }

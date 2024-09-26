@@ -14,10 +14,8 @@ public static class OurServiceFactory
     {
         services.AddDbContext<HMDbContext>(options =>
             options.UseSqlite(connectionString));
-        
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserLogic, UserLogic>();
-
     }
-    
 }

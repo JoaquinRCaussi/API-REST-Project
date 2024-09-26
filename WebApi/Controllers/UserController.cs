@@ -21,7 +21,7 @@ public class UserController : ControllerBase
         List<User> users = _userLogic.GetUsers();
         return Ok(users);
     }
-    
+
     [HttpGet]
     [Route("api/users/{userId}")]
     public IActionResult GetUser(Guid userId)

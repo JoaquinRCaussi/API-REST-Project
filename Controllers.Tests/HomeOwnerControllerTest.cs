@@ -24,17 +24,14 @@ public class HomeOwnerControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
-        
+
         var homeOwnerReq = new HomeOwnerRequest
         {
-            Name = user.Name,
-            LastName = user.LastName,
-            Email = user.Email,
-            Password = user.Password
+            Name = user.Name, LastName = user.LastName, Email = user.Email, Password = user.Password
         };
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateHomeOwner(It.IsAny<User>())).Returns(homeOwnerReq.ToUser());
-        
+
         var controller = new HomeOwnerController(logic.Object);
         IActionResult act = controller.CreateHomeOwner(homeOwnerReq);
         var homeOwnerResponse = new HomeOwnerResponse

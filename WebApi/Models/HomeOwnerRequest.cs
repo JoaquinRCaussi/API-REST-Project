@@ -8,16 +8,10 @@ public class HomeOwnerRequest
     public required string Email { get; set; }
     public required string LastName { get; set; }
     public required string Password { get; set; }
-    
+
 
     public User ToUser()
     {
-        return new User
-        {
-            Name = Name,
-            Email = Email,
-            LastName = LastName,
-            Password = Password
-        };
+        return new User { Name = Name, Email = Email, LastName = LastName, Password = Password };
     }
 }

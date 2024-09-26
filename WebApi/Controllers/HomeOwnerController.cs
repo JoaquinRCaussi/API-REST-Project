@@ -7,7 +7,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/home-owner")]
-public class HomeOwnerController: ControllerBase
+public class HomeOwnerController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
 
@@ -22,5 +22,4 @@ public class HomeOwnerController: ControllerBase
         User homeOwner = _userLogic.CreateHomeOwner(user.ToUser());
         return Ok(homeOwner);
     }
-    
 }
