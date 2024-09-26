@@ -1,10 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace DataAccess.Data;
 
+[ExcludeFromCodeCoverage]
 public class HMDbContext : DbContext
 {
     public HMDbContext(DbContextOptions<HMDbContext> options) : base(options)
@@ -26,7 +27,11 @@ public class HMDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=localdb.sqlite").ConfigureWarnings(warnings =>
-            warnings.Ignore(RelationalEventId.NonTransactionalMigrationOperationWarning));
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlite("Data Source=localdb.sqlite")
+                .ConfigureWarnings(warnings => 
+                    warnings.Ignore(RelationalEventId.NonTransactionalMigrationOperationWarning));
+        }
     }
 }

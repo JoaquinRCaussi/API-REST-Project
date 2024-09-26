@@ -1,4 +1,5 @@
-﻿using BusinessLogic;
+﻿using System.Diagnostics.CodeAnalysis;
+using BusinessLogic;
 using DataAccess.Data;
 using DataAccess.Repositories;
 using IDataAccess;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ServiceFactory;
 
+[ExcludeFromCodeCoverage]
 public static class OurServiceFactory
 {
     public static void AddServices(this IServiceCollection services, string connectionString)

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DataAccess.Data;
 using DataAccess.Repositories;
 using Domain;
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Tests;
 
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class UserRepositoryTest
 {
@@ -24,17 +26,23 @@ public class UserRepositoryTest
 
         var adminRole = new Role
         {
-            Id = Guid.NewGuid(), Name = "Admin", Permissions = new List<PermissionKey> { permission }
+            Id = Guid.NewGuid(),
+            Name = "Admin",
+            Permissions = { permission }
         };
 
         var homeownerRole = new Role
         {
-            Id = Guid.NewGuid(), Name = "HomeOwner", Permissions = new List<PermissionKey> { permission }
+            Id = Guid.NewGuid(),
+            Name = "HomeOwner",
+            Permissions = { permission }
         };
 
         var companyOwnerRole = new Role
         {
-            Id = Guid.NewGuid(), Name = "CompanyOwner", Permissions = new List<PermissionKey> { permission }
+            Id = Guid.NewGuid(),
+            Name = "CompanyOwner",
+            Permissions = { permission }
         };
 
         context.Roles?.AddRange(adminRole, homeownerRole, companyOwnerRole);
