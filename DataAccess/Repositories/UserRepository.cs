@@ -66,8 +66,8 @@ public class UserRepository : IUserRepository
 
     public User GetUser(Guid userId)
     {
-        var user = _context.Users?.FirstOrDefault(u => u.Id == userId);
-        
+        User? user = _context.Users?.FirstOrDefault(u => u.Id == userId);
+
         if (user == null)
         {
             return null;
@@ -75,5 +75,4 @@ public class UserRepository : IUserRepository
 
         return user;
     }
-    
 }

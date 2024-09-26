@@ -30,7 +30,7 @@ public class HMDbContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseSqlite("Data Source=localdb.sqlite")
-                .ConfigureWarnings(warnings => 
+                .ConfigureWarnings(warnings =>
                     warnings.Ignore(RelationalEventId.NonTransactionalMigrationOperationWarning));
         }
     }
