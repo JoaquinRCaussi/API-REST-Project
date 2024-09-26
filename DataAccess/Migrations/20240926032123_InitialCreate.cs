@@ -1,12 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DataAccess.Migrations
-{
+namespace DataAccess.Migrations;
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
@@ -89,4 +87,3 @@ namespace DataAccess.Migrations
                 name: "Roles");
         }
     }
-}

@@ -2,8 +2,8 @@
 
 #nullable disable
 
-namespace DataAccess.Migrations
-{
+namespace DataAccess.Migrations;
+
     /// <inheritdoc />
     public partial class ConfigurationMigration : Migration
     {
@@ -19,4 +19,3 @@ namespace DataAccess.Migrations
 
         }
     }
-}
