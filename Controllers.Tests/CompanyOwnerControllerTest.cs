@@ -29,7 +29,10 @@ public class CompanyOwnerControllerTest
 
         var companyOwnerRequest = new CompanyOwnerRequest
         {
-            Name = user.Name, LastName = user.LastName, Email = user.Email, Password = user.Password
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.Password
         };
 
         var companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);

@@ -27,7 +27,10 @@ public class HomeOwnerControllerTest
 
         var homeOwnerReq = new HomeOwnerRequest
         {
-            Name = user.Name, LastName = user.LastName, Email = user.Email, Password = user.Password
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.Password
         };
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateHomeOwner(It.IsAny<User>())).Returns(homeOwnerReq.ToUser());
@@ -36,7 +39,9 @@ public class HomeOwnerControllerTest
         IActionResult act = controller.CreateHomeOwner(homeOwnerReq);
         var homeOwnerResponse = new HomeOwnerResponse
         {
-            Name = user.Name, LastName = user.LastName, Email = user.Email
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email
         };
         var expected = new OkObjectResult(homeOwnerResponse);
 

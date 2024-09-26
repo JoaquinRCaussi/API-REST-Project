@@ -205,7 +205,10 @@ public class UserRepositoryTest
 
         var company = new Company
         {
-            Id = Guid.NewGuid(), Name = "Example Company", RUT = "12345678-9", Logo = "example_logo.png"
+            Id = Guid.NewGuid(),
+            Name = "Example Company",
+            RUT = "12345678-9",
+            Logo = "example_logo.png"
         };
 
         var expectedUser = new User

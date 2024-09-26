@@ -4,18 +4,18 @@
 
 namespace DataAccess.Migrations;
 
+/// <inheritdoc />
+public partial class ConfigurationMigration : Migration
+{
     /// <inheritdoc />
-    public partial class ConfigurationMigration : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-
-        }
     }
+
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+
+    }
+}

@@ -29,7 +29,10 @@ public class UserControllerTest
         // Arrange
         var admin = new AdminRequest
         {
-            Name = user.Name, LastName = user.LastName, Email = user.Email, Password = user.Password
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.Password
         };
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(admin.ToArgs());
@@ -77,7 +80,9 @@ public class UserControllerTest
 
         var userResponses = expectedUsers.Select(u => new GetUserResponse
         {
-            Email = u.Email, Name = u.Name, LastName = u.LastName
+            Email = u.Email,
+            Name = u.Name,
+            LastName = u.LastName
         }).ToList();
 
         var expectedResponse = new OkObjectResult(userResponses);
@@ -107,7 +112,9 @@ public class UserControllerTest
 
         var userResponse = new GetUserResponse
         {
-            Email = expectedUser.Email, Name = expectedUser.Name, LastName = expectedUser.LastName
+            Email = expectedUser.Email,
+            Name = expectedUser.Name,
+            LastName = expectedUser.LastName
         };
 
         var expectedResponse = new OkObjectResult(userResponse);
