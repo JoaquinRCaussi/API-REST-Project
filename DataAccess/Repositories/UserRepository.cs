@@ -23,12 +23,18 @@ public class UserRepository : IUserRepository
         }
         
         _context.Users?.Add(user);
-        
+        _context.SaveChanges();
         return user;
     }
     
     public User CreateCompanyOwner(User user)
     {
+        var companyOwnerRole = _context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
+        if (companyOwnerRole != null)
+        {
+            user.Role = companyOwnerRole;
+        }
+        
         _context.Add(user);
         _context.SaveChanges();
         return user;
@@ -52,6 +58,4 @@ public class UserRepository : IUserRepository
     {
         return _context.Set<User>().ToList();
     }
-    
-    
 }
