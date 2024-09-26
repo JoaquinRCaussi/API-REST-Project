@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
+using FluentAssertions;
 using IDataAccess;
 using LogicInterface;
 using Moq;
-using FluentAssertions;
 
 namespace BusinessLogic.Test;
 
@@ -35,11 +35,11 @@ public class UserLogicTest
                 Password = "password@123"
             }
         };
-        
+
         _userRepositoryMock.Setup(x => x.GetUsers()).Returns(users);
-        
+
         var result = _userLogic.GetUsers();
-        
+
         result.Should().BeEquivalentTo(users);
     }
 
@@ -58,7 +58,7 @@ public class UserLogicTest
         _userRepositoryMock.Setup(x => x.CreateAdmin(user)).Returns(user);
 
         var result = _userLogic.CreateAdmin(user);
-        
+
         result.Should().BeEquivalentTo(user);
         result.Id.Should().Be(user.Id);
         result.Name.Should().Be(user.Name);
@@ -85,7 +85,7 @@ public class UserLogicTest
         var result = _userLogic.CreateHomeOwner(user);
 
         result.Should().BeEquivalentTo(user);
-        
+
         result.Id.Should().Be(user.Id);
         result.Name.Should().Be(user.Name);
         result.LastName.Should().Be(user.LastName);
@@ -133,11 +133,11 @@ public class UserLogicTest
         };
 
         _userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
-        
+
         var result = _userLogic.GetUser(user.Id);
-        
+
         result.Should().BeEquivalentTo(user);
-        
+
         result.Id.Should().Be(user.Id);
         result.Name.Should().Be(user.Name);
         result.LastName.Should().Be(user.LastName);
@@ -164,11 +164,11 @@ public class UserLogicTest
             Name = "Company",
             RUT = "Address"
         };
-        
+
         _userRepositoryMock.Setup(x => x.AddCompanyToCompanyOwner(user, company)).Returns(user);
-        
+
         var result = _userLogic.AddCompanyToCompanyOwner(user, company);
-        
+
         result.Should().BeEquivalentTo(user);
 
         result.Company.Should().Be(user.Company);
