@@ -35,7 +35,7 @@ public class CompanyOwnerControllerTest
 
         _controller = new CompanyOwnerController(companyOwnerLogic.Object);
 
-        IActionResult act = _controller.CreateCompanyOwner(user);
+        IActionResult act = _controller.CreateCompanyOwner(companyOwnerRequest);
         var companyOwnerResponse = new CompanyOwnerResponse(companyOwnerRequest.ToArgs());
         var expected = new OkObjectResult(companyOwnerResponse);
 
