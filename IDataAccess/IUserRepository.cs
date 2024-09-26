@@ -9,6 +9,8 @@ public interface IUserRepository
     public User CreateAdmin(User user);
 
     public User CreateCompanyOwner(User user);
+    
+    public User CreateHomeOwner(User user);
 
     public User AddCompanyToCompanyOwner(User user, Company company);
 }

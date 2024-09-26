@@ -34,6 +34,13 @@ public class UserRepository : IUserRepository
         return user;
     }
     
+    public User CreateHomeOwner(User user)
+    {
+        _context.Add(user);
+        _context.SaveChanges();
+        return user;
+    }
+    
     public User AddCompanyToCompanyOwner(User user, Company company)
     {
         user.Company = company;
