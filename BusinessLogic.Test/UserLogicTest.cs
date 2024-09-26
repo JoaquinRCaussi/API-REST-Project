@@ -94,4 +94,57 @@ public class UserLogicTest
         result.Role.Should().Be(user.Role);
     }
 
+    [TestMethod]
+    public void CreateCompanyOwnerTest()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.CreateCompanyOwner(user)).Returns(user);
+
+        var result = _userLogic.CreateCompanyOwner(user);
+
+        result.Should().BeEquivalentTo(user);
+
+        result.Id.Should().Be(user.Id);
+        result.Name.Should().Be(user.Name);
+        result.LastName.Should().Be(user.LastName);
+        result.Email.Should().Be(user.Email);
+        result.Password.Should().Be(user.Password);
+        result.Role.Should().Be(user.Role);
+    }
+
+    [TestMethod]
+    public void GetUserTest()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
+        
+        var result = _userLogic.GetUser(user.Id);
+        
+        result.Should().BeEquivalentTo(user);
+        
+        result.Id.Should().Be(user.Id);
+        result.Name.Should().Be(user.Name);
+        result.LastName.Should().Be(user.LastName);
+        result.Email.Should().Be(user.Email);
+        result.Password.Should().Be(user.Password);
+        result.Role.Should().Be(user.Role);
+    }
+
+
 }
