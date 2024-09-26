@@ -42,6 +42,12 @@ public class UserRepository : IUserRepository
     
     public User CreateHomeOwner(User user)
     {
+        var homeOwnerRole = _context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
+        if (homeOwnerRole != null)
+        {
+            user.Role = homeOwnerRole;
+        }
+        
         _context.Add(user);
         _context.SaveChanges();
         return user;
