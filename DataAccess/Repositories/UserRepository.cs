@@ -19,7 +19,7 @@ public class UserRepository : IUserRepository
         var adminRole = _context.Roles?.FirstOrDefault(r => r.Name == "Admin");
         if (adminRole != null)
         {
-            user.Role = adminRole;
+            user.Role = adminRole.Id;
         }
         
         _context.Users?.Add(user);
@@ -32,7 +32,7 @@ public class UserRepository : IUserRepository
         var companyOwnerRole = _context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
         if (companyOwnerRole != null)
         {
-            user.Role = companyOwnerRole;
+            user.Role = companyOwnerRole.Id;
         }
         
         _context.Add(user);
@@ -45,7 +45,7 @@ public class UserRepository : IUserRepository
         var homeOwnerRole = _context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
         if (homeOwnerRole != null)
         {
-            user.Role = homeOwnerRole;
+            user.Role = homeOwnerRole.Id;
         }
         
         _context.Add(user);
@@ -55,7 +55,7 @@ public class UserRepository : IUserRepository
     
     public User AddCompanyToCompanyOwner(User user, Company company)
     {
-        user.Company = company;
+        user.Company = company.Id;
         _context.SaveChanges();
         return user;
     }

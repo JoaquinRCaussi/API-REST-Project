@@ -7,6 +7,6 @@ public class User
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public Role Role { get; set; } = null;
-    public Company? Company { get; set; } = null;
+    public Guid? Role { get; set; } = null;
+    public Guid? Company { get; set; } = null;
 }

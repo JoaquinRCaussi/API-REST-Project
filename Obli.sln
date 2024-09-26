@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Tests", "DataAccess.Tests\DataAccess.Tests.csproj", "{FE7E9FB6-3250-4FE0-BA1F-3BD60CC3DAF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFactory", "ServiceFactory\ServiceFactory.csproj", "{61033195-9322-484A-86EC-FBBAFA9EFFB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{FE7E9FB6-3250-4FE0-BA1F-3BD60CC3DAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE7E9FB6-3250-4FE0-BA1F-3BD60CC3DAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE7E9FB6-3250-4FE0-BA1F-3BD60CC3DAF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61033195-9322-484A-86EC-FBBAFA9EFFB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61033195-9322-484A-86EC-FBBAFA9EFFB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61033195-9322-484A-86EC-FBBAFA9EFFB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61033195-9322-484A-86EC-FBBAFA9EFFB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{452AF43F-8F68-4BDB-A845-C82BE558A90B} = {FBBA1295-83A2-420E-BF5A-A6442393F2D1}

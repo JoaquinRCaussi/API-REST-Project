@@ -27,7 +27,13 @@ public class CompanyOwnerControllerTest
             Password = "password@123"
         };
 
-        var companyOwnerRequest = new CompanyOwnerRequest(user);
+        var companyOwnerRequest = new CompanyOwnerRequest
+        {
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.Password
+        };
 
         var companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
         companyOwnerLogic.Setup(x => x.CreateCompanyOwner(It.IsAny<User>()))
@@ -36,7 +42,12 @@ public class CompanyOwnerControllerTest
         _controller = new CompanyOwnerController(companyOwnerLogic.Object);
 
         IActionResult act = _controller.CreateCompanyOwner(companyOwnerRequest);
-        var companyOwnerResponse = new CompanyOwnerResponse(companyOwnerRequest.ToArgs());
+        var companyOwnerResponse = new CompanyOwnerResponse
+        {
+            Name = companyOwnerRequest.Name,
+            LastName = companyOwnerRequest.LastName,
+            Email = companyOwnerRequest.Email
+        };
         var expected = new OkObjectResult(companyOwnerResponse);
 
         act.Should().BeEquivalentTo(expected);

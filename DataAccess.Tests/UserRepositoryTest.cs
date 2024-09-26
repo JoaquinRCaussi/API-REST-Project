@@ -48,6 +48,8 @@ public class UserRepositoryTest
         using (var context = CreateInMemoryDbContext("TestAddAdmin"))
         {
             SeedData(context); // Llamar al método para hacer el seed
+            
+            var adminRole = context.Roles?.FirstOrDefault(r => r.Name == "Admin");
 
             var repository = new UserRepository(context);
             var expected = new User
@@ -72,7 +74,7 @@ public class UserRepositoryTest
             Assert.AreEqual(expected.Email, storedAdmin.Email);
 
             Assert.IsNotNull(storedAdmin.Role);
-            Assert.AreEqual("Admin", storedAdmin.Role.Name, "El usuario debe tener el rol Admin asignado.");
+            Assert.AreEqual(adminRole.Id, storedAdmin.Role, "El usuario debe tener el rol Admin asignado.");
         }
     }
 
@@ -125,6 +127,8 @@ public class UserRepositoryTest
         using (var context = CreateInMemoryDbContext("TestAddCompanyOwner"))
         {
             SeedData(context);
+            
+            var companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
 
             var repository = new UserRepository(context);
             var expected = new User
@@ -144,7 +148,7 @@ public class UserRepositoryTest
             Assert.AreEqual(expected.Email, result.Email);
 
             Assert.IsNotNull(result.Role);
-            Assert.AreEqual("CompanyOwner", result.Role.Name, "El usuario debe tener el rol CompanyOwner asignado.");
+            Assert.AreEqual(companyOwnerRole.Id, result.Role, "El usuario debe tener el rol CompanyOwner asignado.");
         }
 
     }
@@ -156,6 +160,8 @@ public class UserRepositoryTest
         {
             SeedData(context);
 
+            var homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
+            
             var repository = new UserRepository(context);
             var expected = new User
             {
@@ -174,7 +180,7 @@ public class UserRepositoryTest
             Assert.AreEqual(expected.Email, result.Email);
 
             Assert.IsNotNull(result.Role);
-            Assert.AreEqual("HomeOwner", result.Role.Name, "El usuario debe tener el rol HomeOwner asignado.");
+            Assert.AreEqual(homeOwnerRole.Id, result.Role, "El usuario debe tener el rol HomeOwner asignado.");
         }
     }
 
@@ -195,7 +201,7 @@ public class UserRepositoryTest
                 LastName = "Perez",
                 Email = "mail@mail.com",
                 Password = "securePassword123",
-                Role = companyOwnerRole,
+                Role = companyOwnerRole.Id,
             };
 
             var company = new Company { Id = Guid.NewGuid(), Name = "Company" };
@@ -204,8 +210,7 @@ public class UserRepositoryTest
             context.SaveChanges();
 
             Assert.IsNotNull(result.Company);
-            Assert.AreEqual(company.Id, result.Company?.Id);
-            Assert.AreEqual(company.Name, result.Company?.Name);
+            Assert.AreEqual(company.Id, result.Company);
         }
     }
 
@@ -233,8 +238,8 @@ public class UserRepositoryTest
                 LastName = "Perez",
                 Email = "mail@mail.com",
                 Password = "securePassword123",
-                Role = homeOwnerRole,
-                Company = company
+                Role = homeOwnerRole.Id,
+                Company = company.Id
             };
             
             context.Users?.Add(expectedUser);
@@ -246,9 +251,9 @@ public class UserRepositoryTest
             Assert.AreEqual(expectedUser.Id, result.Id);
             Assert.AreEqual(expectedUser.Email, result.Email);
             Assert.IsNotNull(result.Role);
-            Assert.AreEqual(expectedUser.Role.Name, result.Role.Name);
+            Assert.AreEqual(expectedUser.Role, result.Role);
             Assert.IsNotNull(result.Company);
-            Assert.AreEqual(expectedUser.Company.Name, result.Company.Name);
+            Assert.AreEqual(expectedUser.Company, result.Company);
         }
     }
 
