@@ -1,6 +1,7 @@
 using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
 
 namespace WebApi.Controllers;
 
@@ -16,9 +17,9 @@ public class HomeOwnerController: ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateHomeOwner(User user)
+    public IActionResult CreateHomeOwner([FromBody] HomeOwnerRequest user)
     {
-        User homeOwner = _userLogic.CreateHomeOwner(user);
+        User homeOwner = _userLogic.CreateHomeOwner(user.ToUser());
         return Ok(homeOwner);
     }
     
