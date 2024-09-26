@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\LogicInterface\LogicInterface.csproj"/>
+        <ProjectReference Include="..\IBusinessLogic\IBusinessLogic.csproj" />
         <ProjectReference Include="..\ServiceFactory\ServiceFactory.csproj"/>
     </ItemGroup>
 
