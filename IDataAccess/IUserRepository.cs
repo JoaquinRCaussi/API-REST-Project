@@ -5,6 +5,8 @@ namespace IDataAccess;
 public interface IUserRepository
 {
     public List<User> GetUsers();
+    
+    public User GetUser(Guid userId);
 
     public User CreateAdmin(User user);
 

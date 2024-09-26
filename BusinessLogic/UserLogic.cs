@@ -37,4 +37,9 @@ public class UserLogic : IUserLogic
     {
         return _userRepository.AddCompanyToCompanyOwner(user, company);
     }
+    
+    public User GetUser(Guid userId)
+    {
+        return _userRepository.GetUser(userId);
+    }
 }

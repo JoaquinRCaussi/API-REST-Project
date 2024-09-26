@@ -64,4 +64,9 @@ public class UserRepository : IUserRepository
     {
         return _context.Set<User>().ToList();
     }
+    
+    public User GetUser(Guid userId)
+    {
+        return _context.Users?.FirstOrDefault(u => u.Id == userId);
+    }
 }
