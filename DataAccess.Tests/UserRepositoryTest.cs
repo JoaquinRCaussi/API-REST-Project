@@ -125,7 +125,7 @@ public class UserRepositoryTest
         using (var context = CreateInMemoryDbContext("TestAddCompanyOwner"))
         {
             SeedData(context);
-            
+
             var repository = new UserRepository(context);
             var expected = new User
             {
@@ -138,15 +138,44 @@ public class UserRepositoryTest
 
             var result = repository.CreateCompanyOwner(expected);
             context.SaveChanges();
-            
+
             Assert.IsNotNull(result);
             Assert.AreEqual(expected.Id, result.Id);
             Assert.AreEqual(expected.Email, result.Email);
-            
+
             Assert.IsNotNull(result.Role);
             Assert.AreEqual("CompanyOwner", result.Role.Name, "El usuario debe tener el rol CompanyOwner asignado.");
         }
 
+    }
+
+    [TestMethod]
+    public void CreateHomeOwnerTest()
+    {
+        using (var context = CreateInMemoryDbContext("TestAddCompanyOwner"))
+        {
+            SeedData(context);
+
+            var repository = new UserRepository(context);
+            var expected = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Juan",
+                LastName = "Perez",
+                Email = "mail@mail.com",
+                Password = "securePassword123"
+            };
+
+            var result = repository.CreateHomeOwner(expected);
+            context.SaveChanges();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected.Id, result.Id);
+            Assert.AreEqual(expected.Email, result.Email);
+
+            Assert.IsNotNull(result.Role);
+            Assert.AreEqual("HomeOwner", result.Role.Name, "El usuario debe tener el rol HomeOwner asignado.");
+        }
     }
 
     [TestMethod]
