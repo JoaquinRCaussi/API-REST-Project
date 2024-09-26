@@ -202,10 +202,54 @@ public class UserRepositoryTest
 
             var result = repository.AddCompanyToCompanyOwner(expected, company);
             context.SaveChanges();
-            
+
             Assert.IsNotNull(result.Company);
             Assert.AreEqual(company.Id, result.Company?.Id);
             Assert.AreEqual(company.Name, result.Company?.Name);
         }
     }
+
+    [TestMethod]
+    public void GetUser_WhenUserExists_ReturnsUserWithRoleAndCompany()
+    {
+        using (var context = CreateInMemoryDbContext("TestGetUser"))
+        {
+            SeedData(context);
+            var repository = new UserRepository(context);
+            var homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
+            
+            var company = new Company
+            {
+                Id = Guid.NewGuid(),
+                Name = "Example Company",
+                RUT = "12345678-9",
+                Logo = "example_logo.png"
+            };
+
+            var expectedUser = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Juan",
+                LastName = "Perez",
+                Email = "mail@mail.com",
+                Password = "securePassword123",
+                Role = homeOwnerRole,
+                Company = company
+            };
+            
+            context.Users?.Add(expectedUser);
+            context.SaveChanges();
+            
+            var result = repository.GetUser(expectedUser.Id);
+            
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedUser.Id, result.Id);
+            Assert.AreEqual(expectedUser.Email, result.Email);
+            Assert.IsNotNull(result.Role);
+            Assert.AreEqual(expectedUser.Role.Name, result.Role.Name);
+            Assert.IsNotNull(result.Company);
+            Assert.AreEqual(expectedUser.Company.Name, result.Company.Name);
+        }
+    }
+
 }

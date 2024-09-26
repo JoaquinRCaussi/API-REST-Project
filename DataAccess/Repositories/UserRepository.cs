@@ -67,6 +67,6 @@ public class UserRepository : IUserRepository
     
     public User GetUser(Guid userId)
     {
-        return _context.Users?.FirstOrDefault(u => u.Id == userId);
+        return _context.Users?.Include(u => u.Role).Include(u => u.Company).FirstOrDefault(u => u.Id == userId)!;
     }
 }
