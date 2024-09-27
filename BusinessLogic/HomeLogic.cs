@@ -27,4 +27,5 @@ public class HomeLogic : IHomeLogic
     {
         return _homeRepository.GetHomesByUser(userId);
     }
+    
 }

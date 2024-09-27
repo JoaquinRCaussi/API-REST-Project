@@ -101,4 +101,33 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
+
+    [TestMethod]
+    public void GetHome_WhenAllPropertiesOk()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home("location", 5, "device", user);
+
+        var homeRequest = new HomeRequest(home);
+        
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHome(It.IsAny<Guid>())).Returns(home);
+        
+        var controller = new HomeController(homeLogic.Object);
+        
+        IActionResult act = controller.GetHome(home.Id);
+        
+        var homeResponse = new HomeResponse(homeRequest.ToArgs());
+        var expected = new OkObjectResult(homeResponse);
+        
+        act.Should().BeEquivalentTo(expected);
+    }
 }

@@ -37,8 +37,32 @@ public class HomeController : ControllerBase
     [Route("homes/{userId}")]
     public IActionResult GetHomeByUser(Guid userId)
     {
-        List<Home> homes = _homeLogic.GetHomesByUser(userId);
+        var homes = _homeLogic.GetHomesByUser(userId);
         var response = homes.Select(x => new HomeResponse(x)).ToList();
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    [Route("homes/{homeId}")]
+    public IActionResult GetHome(Guid homeId)
+    {
+        var home = _homeLogic.GetHome(homeId);
+        var response = new HomeResponse(home);
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    [Route("homes/{homeId}/members")]
+    public IActionResult GetHomeMembers(Guid homeId)
+    {
+        var  users = _homeLogic.GetHomeMembers(homeId);
+        var response = users.Select(x => new HomeOwnerResponse
+            {
+                Email = x.Email,
+                Name = x.Name,
+                LastName = x.LastName
+            }
+            ).ToList();
         return Ok(response);
     }
 }
