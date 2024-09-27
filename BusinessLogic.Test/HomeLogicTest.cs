@@ -31,7 +31,7 @@ public class HomeLogicTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = Guid.NewGuid(),
-                Members = new List<Guid> { Guid.NewGuid() },
+                Members = [Guid.NewGuid()],
                 MemberCount = 5,
                 Devices = "asd"
             }
@@ -52,7 +52,7 @@ public class HomeLogicTest
             Id = Guid.NewGuid(),
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<Guid> { Guid.NewGuid() },
+            Members = [Guid.NewGuid()],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -87,7 +87,7 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(users);
 
     }
-    
+
     [TestMethod]
     public void AddMemberTest()
     {
@@ -98,7 +98,7 @@ public class HomeLogicTest
             Id = homeId,
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<Guid> { Guid.NewGuid() },
+            Members = [Guid.NewGuid()],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -109,7 +109,7 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(home);
     }
-    
+
     [TestMethod]
     public void GetHomeTest()
     {
@@ -119,7 +119,7 @@ public class HomeLogicTest
             Id = homeId,
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<Guid> { Guid.NewGuid() },
+            Members = [Guid.NewGuid()],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -130,7 +130,7 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(home);
     }
-    
+
     [TestMethod]
     public void GetHomesByUserTest()
     {
@@ -142,7 +142,7 @@ public class HomeLogicTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = userId,
-                Members = new List<Guid> { Guid.NewGuid() },
+                Members = [Guid.NewGuid()],
                 MemberCount = 5,
                 Devices = "asd"
             }
@@ -154,4 +154,5 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(homes);
     }
+
 }

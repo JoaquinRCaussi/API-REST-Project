@@ -18,20 +18,20 @@ public class HomeRepositoryTest
             .Options;
         return new HMDbContext(options);
     }
-    
+
     private void SeedData(HMDbContext context)
     {
-        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = "TV, Fridge, Oven"};
+        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = "TV, Fridge, Oven" };
         context.Homes?.Add(home);
         context.SaveChanges();
     }
-    
+
     [TestMethod]
     public void CreateHomeTest()
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestAddHome");
         SeedData(context);
-        
+
         var repository = new HomeRepository(context);
         var expected = new Home
         {
@@ -41,19 +41,19 @@ public class HomeRepositoryTest
             MemberCount = 5,
             Devices = "TV, Fridge, Oven"
         };
-        
+
         Home? result = repository.CreateHome(expected);
         context.SaveChanges();
-        
+
         result.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void GetHomesTest()
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestGetHomes");
         SeedData(context);
-        
+
         var repository = new HomeRepository(context);
         var expected = new Home
         {
@@ -71,26 +71,26 @@ public class HomeRepositoryTest
             MemberCount = 5,
             Devices = "TV, Fridge, Oven"
         };
-        
+
         Home? result = repository.CreateHome(expected);
         Home? anotherResult = repository.CreateHome(otherHome);
         context.SaveChanges();
-        
+
         var homes = repository.GetHomes();
         homes.Should().NotBeNullOrEmpty();
         homes.Should().HaveCount(3);
-        
+
         homes.Should().ContainEquivalentOf(expected);
         result.Should().BeEquivalentTo(expected);
         anotherResult.Should().BeEquivalentTo(otherHome);
     }
-    
+
     [TestMethod]
     public void GetHomesByUserTest()
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestGetHomesByUser");
         SeedData(context);
-        
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -98,7 +98,7 @@ public class HomeRepositoryTest
             LastName = "Doe",
             Email = "mail@mail.com"
         };
-        
+
         var repository = new HomeRepository(context);
         var expected = new Home
         {
@@ -116,15 +116,15 @@ public class HomeRepositoryTest
             MemberCount = 5,
             Devices = "TV, Fridge, Oven"
         };
-        
+
         Home? result = repository.CreateHome(expected);
         Home? anotherResult = repository.CreateHome(otherHome);
         context.SaveChanges();
-        
+
         var homes = repository.GetHomesByUser(user.Id);
         homes.Should().NotBeNullOrEmpty();
         homes.Should().HaveCount(1);
-        
+
         homes.Should().ContainEquivalentOf(expected);
         result.Should().BeEquivalentTo(expected);
         anotherResult.Should().BeEquivalentTo(otherHome);
@@ -153,9 +153,9 @@ public class HomeRepositoryTest
             Email = "anothermail@gmail.com",
             Password = "password@123"
         };
-        
+
         var repository = new HomeRepository(context);
-        
+
         var home = new Home
         {
             Id = Guid.NewGuid(),
@@ -163,17 +163,17 @@ public class HomeRepositoryTest
             Location = "Home",
             MemberCount = 5,
             Devices = "TV, Fridge, Oven",
-            Members = new List<Guid>()
+            Members = []
         };
-        
+
         Home? result = repository.CreateHome(home);
 
         var updatedHome = repository.AddMember(home.Id, member.Id);
         context.SaveChanges();
-        
+
         updatedHome.Should().NotBeNull();
         updatedHome.Members.Should().Contain(member.Id);
-        
+
         result.Should().BeEquivalentTo(home);
     }
 
@@ -182,7 +182,7 @@ public class HomeRepositoryTest
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestGetHome");
         SeedData(context);
-        
+
         var repository = new HomeRepository(context);
         var expected = new Home
         {
@@ -192,14 +192,14 @@ public class HomeRepositoryTest
             MemberCount = 5,
             Devices = "TV, Fridge, Oven"
         };
-        
+
         Home? result = repository.CreateHome(expected);
         context.SaveChanges();
-        
+
         var home = repository.GetHome(expected.Id);
         home.Should().NotBeNull();
         home.Should().BeEquivalentTo(expected);
-        
+
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -217,7 +217,7 @@ public class HomeRepositoryTest
             Email = "mail@mauil.com",
             Password = "password@123"
         };
-        
+
         context.Users?.Add(user);
 
         var repository = new HomeRepository(context);
@@ -229,21 +229,21 @@ public class HomeRepositoryTest
             Location = "Home",
             MemberCount = 5,
             Devices = "TV, Fridge, Oven",
-            Members = new List<Guid> { user.Id }
+            Members = [user.Id]
         };
 
         Home? result = repository.CreateHome(home);
         context.SaveChanges();
 
         var members = repository.GetHomeMembers(home.Id);
-        
+
         members.Should().NotBeNullOrEmpty();
         members.Should().HaveCount(1);
         members.Should().ContainEquivalentOf(user);
-        
+
         result.Should().BeEquivalentTo(home);
     }
-    
+
     [TestMethod]
     public void AddMember_ShouldReturnDefaultHome_WhenHomeDoesNotExist()
     {
@@ -252,24 +252,24 @@ public class HomeRepositoryTest
 
         var nonExistentHomeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        
+
         var result = repository.AddMember(nonExistentHomeId, userId);
-        
+
         result.Should().NotBeNull();
         result.Location.Should().BeNull();
         result.MemberCount.Should().Be(0);
         result.Devices.Should().BeNull();
         result.HomeOwner.Should().Be(default(Guid));
     }
-    
+
     [TestMethod]
     public void GetHomeMembers_ShouldReturnEmptyList_WhenHomeIsNullOrHasNoMembers()
     {
         using var context = CreateInMemoryDbContext("TestGetHomeMembersNullOrEmpty");
         var repository = new HomeRepository(context);
-        
+
         var nonExistentHomeId = Guid.NewGuid();
-        
+
         var homeIdWithNoMembers = Guid.NewGuid();
         var homeWithNoMembers = new Home
         {
@@ -279,17 +279,17 @@ public class HomeRepositoryTest
             MemberCount = 5,
             Devices = "TV, Fridge, Oven"
         };
-        
+
         context.Homes?.Add(homeWithNoMembers);
         context.SaveChanges();
-        
+
         var resultForNullHome = repository.GetHomeMembers(nonExistentHomeId);
-        
+
         var resultForEmptyMembers = repository.GetHomeMembers(homeIdWithNoMembers);
-        
+
         resultForNullHome.Should().NotBeNull();
         resultForNullHome.Should().BeEmpty();
-        
+
         resultForEmptyMembers.Should().NotBeNull();
         resultForEmptyMembers.Should().BeEmpty();
     }
