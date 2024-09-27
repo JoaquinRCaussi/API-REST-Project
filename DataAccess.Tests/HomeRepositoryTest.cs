@@ -162,7 +162,8 @@ public class HomeRepositoryTest
             HomeOwner = user.Id,
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = "TV, Fridge, Oven",
+            Members = new List<Guid>()
         };
         
         Home? result = repository.CreateHome(home);
@@ -172,5 +173,7 @@ public class HomeRepositoryTest
         
         updatedHome.Should().NotBeNull();
         updatedHome.Members.Should().Contain(member.Id);
+        
+        result.Should().BeEquivalentTo(home);
     }
 }
