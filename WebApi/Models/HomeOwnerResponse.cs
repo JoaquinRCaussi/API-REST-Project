@@ -1,6 +1,6 @@
 namespace WebApi.Models;
 
-public class GetUserResponse
+public class HomeOwnerResponse
 {
     public required string Name { get; set; }
     public required string Email { get; set; }

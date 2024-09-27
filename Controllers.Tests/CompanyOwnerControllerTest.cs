@@ -18,9 +18,22 @@ public class CompanyOwnerControllerTest
     [TestMethod]
     public void CreateCompanyOwner_WhenAllPropertiesOk()
     {
-        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
 
-        var companyOwnerRequest = new CompanyOwnerRequest(user);
+        var companyOwnerRequest = new CompanyOwnerRequest
+        {
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.Password
+        };
 
         var companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
         companyOwnerLogic.Setup(x => x.CreateCompanyOwner(It.IsAny<User>()))
@@ -28,8 +41,13 @@ public class CompanyOwnerControllerTest
 
         _controller = new CompanyOwnerController(companyOwnerLogic.Object);
 
-        IActionResult act = _controller.CreateCompanyOwner(user);
-        var companyOwnerResponse = new CompanyOwnerResponse(companyOwnerRequest.ToArgs());
+        IActionResult act = _controller.CreateCompanyOwner(companyOwnerRequest);
+        var companyOwnerResponse = new CompanyOwnerResponse
+        {
+            Name = companyOwnerRequest.Name,
+            LastName = companyOwnerRequest.LastName,
+            Email = companyOwnerRequest.Email
+        };
         var expected = new OkObjectResult(companyOwnerResponse);
 
         act.Should().BeEquivalentTo(expected);
@@ -38,8 +56,16 @@ public class CompanyOwnerControllerTest
     [TestMethod]
     public void AddCompanyToCompanyOwner_WhenAllPropertiesOk()
     {
-        var company = new Company("name", "aRUT", "apath");
-        var user = new User("John", "Doe", "mail@mail.com", "123456@asd");
+        var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "RUT", Logo = "123456789" };
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
 
         var addCompanyToOwnerRequest = new AddCompanyToOwnerRequest(user, company);
         var expectedResponse = new AddCompanyToOwnerResponse(user, company);

@@ -18,14 +18,28 @@ public class UserControllerTest
     [TestMethod]
     public void CreateAdmin_WhenAllPropertiesOk()
     {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
         // Arrange
-        var admin = new AdminRequest("John", "Doe", "JohnDoe@domain.com", "123456");
+        var admin = new AdminRequest
+        {
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.Password
+        };
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(admin.ToArgs());
         //Act 
         var controller = new AdminController(logic.Object);
         IActionResult act = controller.CreateAdmin(admin);
-        var adminResponse = new AdminResponse(admin.ToArgs());
+        var adminResponse = new AdminResponse { Name = admin.Name, LastName = admin.LastName, Email = admin.Email };
         var expected = new OkObjectResult(adminResponse);
         // Assert
         act.Should().BeEquivalentTo(expected);
@@ -40,7 +54,22 @@ public class UserControllerTest
 
         var expectedUsers = new List<User>
         {
-            new("John", "Doe", "df@domain.com", "123456"), new("Jane", "Smith", "asd@domain.com", "12345asdas6")
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Name = "John",
+                LastName = "Doe",
+                Email = "mail@mail.com",
+                Password = "password@123"
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Jane",
+                LastName = "Doe",
+                Email = "mail@mail.com",
+                Password = "password@123"
+            }
         };
 
         userLogicMock.Setup(logic => logic.GetUsers()).Returns(expectedUsers);
@@ -49,8 +78,46 @@ public class UserControllerTest
 
         IActionResult result = controller.GetUsers();
 
-        var userResponses = expectedUsers.Select(u => new GetUserResponse(u)).ToList();
+        var userResponses = expectedUsers.Select(u => new GetUserResponse
+        {
+            Email = u.Email,
+            Name = u.Name,
+            LastName = u.LastName
+        }).ToList();
+
         var expectedResponse = new OkObjectResult(userResponses);
+
+        result.Should().BeEquivalentTo(expectedResponse);
+    }
+
+    [TestMethod]
+    public void GetUser_WhenAllPropertiesOk()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+
+        var expectedUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        userLogicMock.Setup(logic => logic.GetUser(It.IsAny<Guid>())).Returns(expectedUser);
+
+        var controller = new UserController(userLogicMock.Object);
+
+        IActionResult result = controller.GetUser(expectedUser.Id);
+
+        var userResponse = new GetUserResponse
+        {
+            Email = expectedUser.Email,
+            Name = expectedUser.Name,
+            LastName = expectedUser.LastName
+        };
+
+        var expectedResponse = new OkObjectResult(userResponse);
 
         result.Should().BeEquivalentTo(expectedResponse);
     }

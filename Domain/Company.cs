@@ -2,14 +2,8 @@ namespace Domain;
 
 public class Company
 {
-    public string Name { get; set; }
-    public string RUT { get; set; }
-    public string Logo { get; set; }
-
-    public Company(string name, string rut, string logo)
-    {
-        Name = name;
-        RUT = rut;
-        Logo = logo;
-    }
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string RUT { get; set; } = string.Empty;
+    public string Logo { get; set; } = string.Empty;
 }

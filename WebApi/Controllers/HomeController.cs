@@ -17,7 +17,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateHome(HomeRequest home)
+    public IActionResult CreateHome([FromBody] HomeRequest home)
     {
         Home homeToCreate = home.ToArgs();
         Home createdHome = _homeLogic.CreateHome(homeToCreate);

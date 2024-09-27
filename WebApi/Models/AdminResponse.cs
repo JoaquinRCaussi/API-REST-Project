@@ -1,17 +1,8 @@
-﻿using Domain;
-
-namespace WebApi.Models;
+﻿namespace WebApi.Models;
 
 public class AdminResponse
 {
-    public string Name { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-
-    public AdminResponse(User user)
-    {
-        Name = user.Name;
-        LastName = user.LastName;
-        Email = user.Email;
-    }
+    public required string Name { get; set; }
+    public required string LastName { get; set; }
+    public required string Email { get; set; }
 }
