@@ -1,0 +1,53 @@
+using System.Diagnostics.CodeAnalysis;
+using DataAccess.Data;
+using DataAccess.Repositories;
+using Domain;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+
+namespace DataAccess.Tests;
+
+[ExcludeFromCodeCoverage]
+[TestClass]
+public class HomeRepositoryTest
+{
+    private HMDbContext CreateInMemoryDbContext(string dbName)
+    {
+        DbContextOptions<HMDbContext>? options = new DbContextOptionsBuilder<HMDbContext>()
+            .UseInMemoryDatabase(dbName)
+            .Options;
+        return new HMDbContext(options);
+    }
+    
+    private void SeedData(HMDbContext context)
+    {
+        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = "TV, Fridge, Oven"};
+        context.Homes?.Add(home);
+        context.SaveChanges();
+    }
+    
+    [TestMethod]
+    public void CreateHomeTest()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestAddHome");
+        SeedData(context);
+        
+        var repository = new HomeRepository(context);
+        var expected = new Home
+        {
+            Id = Guid.NewGuid(),
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            MemberCount = 5,
+            Devices = "TV, Fridge, Oven"
+        };
+        
+        Home? result = repository.CreateHome(expected);
+        context.SaveChanges();
+        
+        result.Should().BeEquivalentTo(expected);
+    }
+    
+    
+    
+}
