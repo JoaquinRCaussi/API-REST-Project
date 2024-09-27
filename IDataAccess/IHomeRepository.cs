@@ -13,4 +13,6 @@ public interface IHomeRepository
     public Home GetHome(Guid homeId);
     
     public List<User> GetHomeMembers(Guid homeId);
+    
+    public Home AddMember(Guid homeId, Guid userId);
 }

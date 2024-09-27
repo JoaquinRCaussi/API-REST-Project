@@ -13,4 +13,6 @@ public interface IHomeLogic
     Home GetHome(Guid homeId);
     
     List<User> GetHomeMembers(Guid homeId);
+    
+    Home AddMember(Guid homeId, Guid userId);
 }

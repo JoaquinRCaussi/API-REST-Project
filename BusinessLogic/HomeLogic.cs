@@ -38,4 +38,9 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.GetHomeMembers(homeId);
     }
     
+    public Home AddMember(Guid homeId, Guid userId)
+    {
+        return _homeRepository.AddMember(homeId, userId);
+    }
+    
 }

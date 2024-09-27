@@ -64,4 +64,12 @@ public class HomeController : ControllerBase
             ).ToList();
         return Ok(response);
     }
+    
+    [HttpPut]
+    [Route("homes/{homeId}")]
+    public IActionResult AddMemberToHome(Guid homeId, [FromBody] Guid userId)
+    {
+        _homeLogic.AddMember(homeId, userId);
+        return Ok();
+    }
 }

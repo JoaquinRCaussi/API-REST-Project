@@ -234,5 +234,50 @@ public class HomeControllerTest
         homeLogic.Verify(x => x.GetHomeMembers(home.Id), Times.Once);
     }
 
+    [TestMethod]
+    public void AddMemberToHome_WhenAllPropertiesOk()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "adasd@gmail.com",
+            Password = "password@123"
+        };
         
+        var member = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "newmember@gmail.com",
+            Password = "password@123"
+        };
+        
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            Location = "location",
+            MemberCount = 5,
+            Devices = "device",
+            HomeOwner = user.Id
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        
+        homeLogic.Setup(x => x.AddMember(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(home);
+        
+        var controller = new HomeController(homeLogic.Object);
+        
+        IActionResult act = controller.AddMemberToHome(home.Id, member.Id);
+        
+        var expected = new OkObjectResult(home);
+        
+        act.Should().BeEquivalentTo(expected);
+        
+        homeLogic.Verify(x => x.AddMember(home.Id, member.Id), Times.Once);
+        
+    }
+
 }
