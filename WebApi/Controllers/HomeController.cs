@@ -69,7 +69,7 @@ public class HomeController : ControllerBase
     [Route("homes/{homeId}")]
     public IActionResult AddMemberToHome(Guid homeId, [FromBody] Guid userId)
     {
-        _homeLogic.AddMember(homeId, userId);
-        return Ok();
+        var home = _homeLogic.AddMember(homeId, userId);
+        return Ok(home);
     }
 }

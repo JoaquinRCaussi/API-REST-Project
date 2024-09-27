@@ -261,9 +261,12 @@ public class HomeControllerTest
             Location = "location",
             MemberCount = 5,
             Devices = "device",
-            HomeOwner = user.Id
+            HomeOwner = user.Id,
+            Members = new List<Guid>()
         };
 
+        home.Members?.Add(member.Id);
+        
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         
         homeLogic.Setup(x => x.AddMember(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(home);
@@ -273,11 +276,11 @@ public class HomeControllerTest
         IActionResult act = controller.AddMemberToHome(home.Id, member.Id);
         
         var expected = new OkObjectResult(home);
-        
-        act.Should().BeEquivalentTo(expected);
-        
+
+        act.Should().BeOfType<OkObjectResult>()
+            .Which.Value.Should().BeEquivalentTo(expected.Value, options => options.WithStrictOrdering());
+
         homeLogic.Verify(x => x.AddMember(home.Id, member.Id), Times.Once);
-        
     }
 
 }
