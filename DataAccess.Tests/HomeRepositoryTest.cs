@@ -243,4 +243,57 @@ public class HomeRepositoryTest
         
         result.Should().BeEquivalentTo(home);
     }
+    
+    [TestMethod]
+    public void AddMember_ShouldReturnDefaultHome_WhenHomeDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("TestAddMemberHomeNull");
+        var repository = new HomeRepository(context);
+
+        var nonExistentHomeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        
+        var result = repository.AddMember(nonExistentHomeId, userId);
+        
+        result.Should().NotBeNull();
+        result.Location.Should().BeNull();
+        result.MemberCount.Should().Be(0);
+        result.Devices.Should().BeNull();
+        result.HomeOwner.Should().Be(default(Guid));
+    }
+    
+    [TestMethod]
+    public void GetHomeMembers_ShouldReturnEmptyList_WhenHomeIsNullOrHasNoMembers()
+    {
+        using var context = CreateInMemoryDbContext("TestGetHomeMembersNullOrEmpty");
+        var repository = new HomeRepository(context);
+        
+        var nonExistentHomeId = Guid.NewGuid();
+        
+        var homeIdWithNoMembers = Guid.NewGuid();
+        var homeWithNoMembers = new Home
+        {
+            Id = homeIdWithNoMembers,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            MemberCount = 5,
+            Devices = "TV, Fridge, Oven"
+        };
+        
+        context.Homes?.Add(homeWithNoMembers);
+        context.SaveChanges();
+        
+        var resultForNullHome = repository.GetHomeMembers(nonExistentHomeId);
+        
+        var resultForEmptyMembers = repository.GetHomeMembers(homeIdWithNoMembers);
+        
+        resultForNullHome.Should().NotBeNull();
+        resultForNullHome.Should().BeEmpty();
+        
+        resultForEmptyMembers.Should().NotBeNull();
+        resultForEmptyMembers.Should().BeEmpty();
+    }
+
+
+
 }
