@@ -9,4 +9,8 @@ public interface IHomeRepository
     public List<Home> GetHomes();
 
     public List<Home> GetHomesByUser(Guid userId);
+    
+    public Home GetHome(Guid homeId);
+    
+    public List<User> GetHomeMembers(Guid homeId);
 }

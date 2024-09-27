@@ -21,7 +21,7 @@ public class HomeController : ControllerBase
     {
         Home homeToCreate = home.ToArgs();
         Home createdHome = _homeLogic.CreateHome(homeToCreate);
-        var response = new HomeResponse(createdHome);
+        var response = new HomeResponse{ Location = createdHome.Location, MemberCount = createdHome.MemberCount, Devices = createdHome.Devices, HomeOwner = createdHome.HomeOwner };
         return Ok(response);
     }
 
@@ -29,7 +29,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHomes()
     {
         List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse(x)).ToList();
+        var response = homes.Select(x => new HomeResponse{ Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount}).ToList();
         return Ok(response);
     }
 
@@ -38,7 +38,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHomeByUser(Guid userId)
     {
         var homes = _homeLogic.GetHomesByUser(userId);
-        var response = homes.Select(x => new HomeResponse(x)).ToList();
+        var response = homes.Select(x => new HomeResponse{ Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount}).ToList();
         return Ok(response);
     }
     
@@ -47,7 +47,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHome(Guid homeId)
     {
         var home = _homeLogic.GetHome(homeId);
-        var response = new HomeResponse(home);
+        var response = new HomeResponse{ Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner };
         return Ok(response);
     }
     
