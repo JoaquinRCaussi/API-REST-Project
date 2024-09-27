@@ -13,14 +13,14 @@ public class HomeLogicTest
 {
     private Mock<IHomeRepository>? _homeRepositoryMock;
     private IHomeLogic? _homeLogic;
-    
+
     [TestInitialize]
     public void Initialize()
     {
         _homeRepositoryMock = new Mock<IHomeRepository>();
         _homeLogic = new HomeLogic(_homeRepositoryMock.Object);
     }
-    
+
     [TestMethod]
     public void GetHomesTest()
     {
@@ -36,14 +36,14 @@ public class HomeLogicTest
                 Devices = "asd"
             }
         };
-        
+
         _homeRepositoryMock?.Setup(x => x.GetHomes()).Returns(homes);
-        
+
         var result = _homeLogic.GetHomes();
-        
+
         result.Should().BeEquivalentTo(homes);
     }
-    
+
     [TestMethod]
     public void CreateHomeTest()
     {
@@ -56,11 +56,35 @@ public class HomeLogicTest
             MemberCount = 5,
             Devices = "asd"
         };
-        
+
         _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns(home);
-        
+
         var result = _homeLogic.CreateHome(home);
-        
+
         result.Should().BeEquivalentTo(home);
+    }
+
+    [TestMethod]
+    public void GetHomeMembersTest()
+    {
+        var homeId = Guid.NewGuid();
+        var users = new List<User>
+        {
+            new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "John",
+                LastName = "Snow",
+                Email = "mail@mail.com",
+                Password = "password@123"
+            }
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeMembers(homeId)).Returns(users);
+
+        var result = _homeLogic.GetHomeMembers(homeId);
+
+        result.Should().BeEquivalentTo(users);
+
     }
 }
