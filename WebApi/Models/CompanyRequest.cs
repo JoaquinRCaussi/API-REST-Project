@@ -17,6 +17,6 @@ public class CompanyRequest
 
     public Company ToArgs()
     {
-        return new Company(Name, RUT, logo);
+        return new Company { Name = Name, RUT = RUT, Logo = logo };
     }
 }

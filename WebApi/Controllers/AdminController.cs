@@ -21,7 +21,12 @@ public sealed class AdminController : ControllerBase
     {
         User userToCreate = admin.ToArgs();
         User createdUser = _userLogic.CreateAdmin(userToCreate);
-        var response = new AdminResponse(createdUser);
+        var response = new AdminResponse
+        {
+            Name = createdUser.Name,
+            LastName = createdUser.LastName,
+            Email = createdUser.Email
+        };
         return Ok(response);
     }
 }

@@ -10,7 +10,7 @@ namespace WebApi.Controllers;
 public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBase
 {
     [HttpPost]
-    public IActionResult CreateCompany(CompanyRequest company)
+    public IActionResult CreateCompany([FromBody] CompanyRequest company)
     {
         Company companyToCreate = company.ToArgs();
         Company createdCompany = companyLogic.CreateCompany(companyToCreate);
