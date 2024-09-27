@@ -21,7 +21,7 @@ public class HomeController : ControllerBase
     {
         Home homeToCreate = home.ToArgs();
         Home createdHome = _homeLogic.CreateHome(homeToCreate);
-        var response = new HomeResponse{ Location = createdHome.Location, MemberCount = createdHome.MemberCount, Devices = createdHome.Devices, HomeOwner = createdHome.HomeOwner };
+        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, Devices = createdHome.Devices, HomeOwner = createdHome.HomeOwner };
         return Ok(response);
     }
 
@@ -29,7 +29,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHomes()
     {
         List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse{ Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount}).ToList();
+        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount }).ToList();
         return Ok(response);
     }
 
@@ -38,33 +38,33 @@ public class HomeController : ControllerBase
     public IActionResult GetHomeByUser(Guid userId)
     {
         var homes = _homeLogic.GetHomesByUser(userId);
-        var response = homes.Select(x => new HomeResponse{ Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount}).ToList();
+        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount }).ToList();
         return Ok(response);
     }
-    
+
     [HttpGet]
     [Route("homes/{homeId}")]
     public IActionResult GetHome(Guid homeId)
     {
         var home = _homeLogic.GetHome(homeId);
-        var response = new HomeResponse{ Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner };
+        var response = new HomeResponse { Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner };
         return Ok(response);
     }
-    
+
     [HttpGet]
     [Route("homes/{homeId}/members")]
     public IActionResult GetHomeMembers(Guid homeId)
     {
-        var  users = _homeLogic.GetHomeMembers(homeId);
+        var users = _homeLogic.GetHomeMembers(homeId);
         var response = users.Select(x => new GetHomeMembersResponse
-            {
-                Email = x.Email,
-                Name = x.Name,
-            }
+        {
+            Email = x.Email,
+            Name = x.Name,
+        }
             ).ToList();
         return Ok(response);
     }
-    
+
     [HttpPut]
     [Route("homes/{homeId}")]
     public IActionResult AddMemberToHome(Guid homeId, [FromBody] Guid userId)

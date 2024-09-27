@@ -11,7 +11,8 @@ public class HomeRequest
 
     public Home ToArgs()
     {
-        return new Home{
+        return new Home
+        {
             Location = Location,
             MemberCount = MemberCount,
             Devices = Devices,

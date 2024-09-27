@@ -9,10 +9,10 @@ public interface IHomeLogic
     List<Home> GetHomes();
 
     List<Home> GetHomesByUser(Guid userId);
-    
+
     Home GetHome(Guid homeId);
-    
+
     List<User> GetHomeMembers(Guid homeId);
-    
+
     Home AddMember(Guid homeId, Guid userId);
 }

@@ -27,20 +27,20 @@ public class HomeLogic : IHomeLogic
     {
         return _homeRepository.GetHomesByUser(userId);
     }
-    
+
     public Home GetHome(Guid homeId)
     {
         return _homeRepository.GetHome(homeId);
     }
-    
+
     public List<User> GetHomeMembers(Guid homeId)
     {
         return _homeRepository.GetHomeMembers(homeId);
     }
-    
+
     public Home AddMember(Guid homeId, Guid userId)
     {
         return _homeRepository.AddMember(homeId, userId);
     }
-    
+
 }
