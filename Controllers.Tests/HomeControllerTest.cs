@@ -184,4 +184,43 @@ public class HomeControllerTest
         
         act.Should().BeEquivalentTo(expected);
     }
+
+    [TestMethod]
+    public void GetHomeMembers_WhenAllPropertiesOk()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+        
+        var users = new List<User> { user };
+        var idsUsers = new List<Guid> { user.Id };
+        
+        var home = new Home { Id = Guid.NewGuid(), Location = "location", MemberCount = 5, Devices = "device", HomeOwner = user.Id, Members = idsUsers};
+        
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        
+        homeLogic.Setup(x => x.GetHomeMembers(It.IsAny<Guid>())).Returns(users);
+        
+        var controller = new HomeController(homeLogic.Object);
+        
+        IActionResult act = controller.GetHomeMembers(home.Id);
+        
+        var expected = new OkObjectResult(new List<GetHomeMembersResponse>
+        {
+            new()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email
+            }
+        });
+        
+        act.Should().BeEquivalentTo(expected);
+    }
+        
 }

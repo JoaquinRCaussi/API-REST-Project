@@ -7,4 +7,5 @@ public class Home
     public required int MemberCount { get; set; }
     public required string Devices { get; set; }
     public required Guid HomeOwner { get; set; }
+    public List<Guid>? Members { get; set; }
 }
