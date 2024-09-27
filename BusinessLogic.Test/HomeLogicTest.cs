@@ -130,4 +130,28 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(home);
     }
+    
+    [TestMethod]
+    public void GetHomesByUserTest()
+    {
+        var userId = Guid.NewGuid();
+        var homes = new List<Home>
+        {
+            new Home
+            {
+                Id = Guid.NewGuid(),
+                Location = "Home",
+                HomeOwner = userId,
+                Members = new List<Guid> { Guid.NewGuid() },
+                MemberCount = 5,
+                Devices = "asd"
+            }
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHomesByUser(userId)).Returns(homes);
+
+        var result = _homeLogic?.GetHomesByUser(userId);
+
+        result.Should().BeEquivalentTo(homes);
+    }
 }
