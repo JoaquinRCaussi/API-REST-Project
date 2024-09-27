@@ -176,4 +176,30 @@ public class HomeRepositoryTest
         
         result.Should().BeEquivalentTo(home);
     }
+
+    [TestMethod]
+    public void GetHomeTest()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetHome");
+        SeedData(context);
+        
+        var repository = new HomeRepository(context);
+        var expected = new Home
+        {
+            Id = Guid.NewGuid(),
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            MemberCount = 5,
+            Devices = "TV, Fridge, Oven"
+        };
+        
+        Home? result = repository.CreateHome(expected);
+        context.SaveChanges();
+        
+        var home = repository.GetHome(expected.Id);
+        home.Should().NotBeNull();
+        home.Should().BeEquivalentTo(expected);
+        
+        result.Should().BeEquivalentTo(expected);
+    }
 }
