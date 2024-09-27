@@ -78,7 +78,7 @@ public class HomeRepositoryTest
         
         var homes = repository.GetHomes();
         homes.Should().NotBeNullOrEmpty();
-        homes.Should().HaveCount(2);
+        homes.Should().HaveCount(3);
         
         homes.Should().ContainEquivalentOf(expected);
         result.Should().BeEquivalentTo(expected);
