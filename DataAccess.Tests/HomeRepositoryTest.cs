@@ -85,5 +85,50 @@ public class HomeRepositoryTest
         anotherResult.Should().BeEquivalentTo(otherHome);
     }
     
+    [TestMethod]
+    public void GetHomesByUserTest()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetHomesByUser");
+        SeedData(context);
+        
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com"
+        };
+        
+        var repository = new HomeRepository(context);
+        var expected = new Home
+        {
+            Id = Guid.NewGuid(),
+            HomeOwner = user.Id,
+            Location = "Home",
+            MemberCount = 5,
+            Devices = "TV, Fridge, Oven"
+        };
+        var otherHome = new Home
+        {
+            Id = Guid.NewGuid(),
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home2",
+            MemberCount = 5,
+            Devices = "TV, Fridge, Oven"
+        };
+        
+        Home? result = repository.CreateHome(expected);
+        Home? anotherResult = repository.CreateHome(otherHome);
+        context.SaveChanges();
+        
+        var homes = repository.GetHomesByUser(user.Id);
+        homes.Should().NotBeNullOrEmpty();
+        homes.Should().HaveCount(2);
+        
+        homes.Should().ContainEquivalentOf(expected);
+        homes.Should().ContainEquivalentOf(otherHome);
+        result.Should().BeEquivalentTo(expected);
+        anotherResult.Should().BeEquivalentTo(otherHome);
+    }
     
 }
