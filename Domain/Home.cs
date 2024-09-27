@@ -2,6 +2,7 @@ namespace Domain;
 
 public class Home
 {
+    public Guid Id { get; set; }
     public string Location { get; set; }
     public int MemberCount { get; set; }
     public string Devices { get; set; }
