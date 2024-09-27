@@ -37,10 +37,30 @@ public class HomeLogicTest
             }
         };
         
-        _homeRepositoryMock.Setup(x => x.GetHomes()).Returns(homes);
+        _homeRepositoryMock?.Setup(x => x.GetHomes()).Returns(homes);
         
         var result = _homeLogic.GetHomes();
         
         result.Should().BeEquivalentTo(homes);
+    }
+    
+    [TestMethod]
+    public void CreateHomeTest()
+    {
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            Location = "Home",
+            HomeOwner = Guid.NewGuid(),
+            Members = new List<Guid> { Guid.NewGuid() },
+            MemberCount = 5,
+            Devices = "asd"
+        };
+        
+        _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns(home);
+        
+        var result = _homeLogic.CreateHome(home);
+        
+        result.Should().BeEquivalentTo(home);
     }
 }
