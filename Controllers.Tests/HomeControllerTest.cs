@@ -224,7 +224,6 @@ public class HomeControllerTest
         {
             new()
             {
-                Id = user.Id,
                 Name = user.Name,
                 Email = user.Email
             }

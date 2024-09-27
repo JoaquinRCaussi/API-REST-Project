@@ -58,7 +58,6 @@ public class HomeController : ControllerBase
         var  users = _homeLogic.GetHomeMembers(homeId);
         var response = users.Select(x => new GetHomeMembersResponse
             {
-                Id = x.Id,
                 Email = x.Email,
                 Name = x.Name,
             }
