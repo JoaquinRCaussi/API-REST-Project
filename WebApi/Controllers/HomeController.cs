@@ -56,11 +56,11 @@ public class HomeController : ControllerBase
     public IActionResult GetHomeMembers(Guid homeId)
     {
         var  users = _homeLogic.GetHomeMembers(homeId);
-        var response = users.Select(x => new HomeOwnerResponse
+        var response = users.Select(x => new GetHomeMembersResponse
             {
+                Id = x.Id,
                 Email = x.Email,
                 Name = x.Name,
-                LastName = x.LastName
             }
             ).ToList();
         return Ok(response);

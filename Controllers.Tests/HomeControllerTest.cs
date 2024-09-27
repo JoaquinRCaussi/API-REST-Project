@@ -196,21 +196,31 @@ public class HomeControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
-        
+    
         var users = new List<User> { user };
         var idsUsers = new List<Guid> { user.Id };
-        
-        var home = new Home { Id = Guid.NewGuid(), Location = "location", MemberCount = 5, Devices = "device", HomeOwner = user.Id, Members = idsUsers};
-        
+    
+        var home = new Home 
+        { 
+            Id = Guid.NewGuid(), 
+            Location = "location", 
+            MemberCount = 5, 
+            Devices = "device", 
+            HomeOwner = user.Id, 
+            Members = idsUsers 
+        };
+    
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        
         homeLogic.Setup(x => x.GetHomeMembers(It.IsAny<Guid>())).Returns(users);
-        
+    
         var controller = new HomeController(homeLogic.Object);
-        
+
         IActionResult act = controller.GetHomeMembers(home.Id);
-        
-        var expected = new OkObjectResult(new List<GetHomeMembersResponse>
+
+        var okResult = act as OkObjectResult;
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+
+        var expectedResponse = new List<GetHomeMembersResponse>
         {
             new()
             {
@@ -218,9 +228,12 @@ public class HomeControllerTest
                 Name = user.Name,
                 Email = user.Email
             }
-        });
-        
-        act.Should().BeEquivalentTo(expected);
+        };
+    
+        okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.WithStrictOrdering());
+
+        homeLogic.Verify(x => x.GetHomeMembers(home.Id), Times.Once);
     }
+
         
 }
