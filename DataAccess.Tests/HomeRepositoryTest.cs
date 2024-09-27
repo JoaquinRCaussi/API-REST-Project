@@ -129,5 +129,48 @@ public class HomeRepositoryTest
         result.Should().BeEquivalentTo(expected);
         anotherResult.Should().BeEquivalentTo(otherHome);
     }
-    
+
+    [TestMethod]
+    public void AddMemberTest()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestAddMember");
+        SeedData(context);
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var member = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Jane",
+            LastName = "Doe",
+            Email = "anothermail@gmail.com",
+            Password = "password@123"
+        };
+        
+        var repository = new HomeRepository(context);
+        
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            HomeOwner = user.Id,
+            Location = "Home",
+            MemberCount = 5,
+            Devices = "TV, Fridge, Oven"
+        };
+        
+        Home? result = repository.CreateHome(home);
+
+        var updatedHome = repository.AddMember(home.Id, member.Id);
+        context.SaveChanges();
+        
+        updatedHome.Should().NotBeNull();
+        updatedHome.Members.Should().Contain(member.Id);
+    }
 }
