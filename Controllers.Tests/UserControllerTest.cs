@@ -121,8 +121,8 @@ public class UserControllerTest
 
         result.Should().BeEquivalentTo(expectedResponse);
     }
-    
-    
+
+
     [TestMethod]
     public void DeleteAdminAccount_WhenIdIsCorrect()
     {

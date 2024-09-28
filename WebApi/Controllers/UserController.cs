@@ -24,7 +24,7 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("api/users/{userId}")]
-    public IActionResult GetUser([FromRoute]Guid userId)
+    public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
         return Ok(user);
