@@ -29,4 +29,9 @@ public class UserController : ControllerBase
         User user = _userLogic.GetUser(userId);
         return Ok(user);
     }
+
+    public IActionResult DeleteUser()
+    {
+        throw new NotImplementedException();
+    }
 }
