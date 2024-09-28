@@ -1,4 +1,4 @@
-namespace WebApi.Models;
+namespace Models;
 
 public class HomeResponse
 {

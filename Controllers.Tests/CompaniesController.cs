@@ -5,7 +5,7 @@ using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
-using WebApi.Models;
+using Models;
 
 namespace Controllers.Tests;
 
