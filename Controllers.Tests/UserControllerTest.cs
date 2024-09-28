@@ -132,7 +132,7 @@ public class UserControllerTest
         userLogicMock.Setup(logic => logic.DeleteUser(user.Id)).Returns(user);
 
         var userController = new UserController(userLogicMock.Object);
-        var result = userController.DeleteUser();
+        var result = userController.DeleteUser(user.Id);
 
         var expectedResponse = new OkObjectResult(user);
         result.Should().BeEquivalentTo(expectedResponse);
