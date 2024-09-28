@@ -42,4 +42,14 @@ public class UserLogic : IUserLogic
     {
         return _userRepository.GetUser(userId);
     }
+
+    public bool ExistUser(Guid userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public User DeleteUser(Guid userId)
+    {
+        throw new NotImplementedException();
+    }
 }
