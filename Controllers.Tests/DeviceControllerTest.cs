@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Domain;
-using FluentAssertions;
+//using FluentAssertions;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -15,14 +15,7 @@ public class DeviceControllerTest
     [TestMethod]
     public void CreateDevice_WhenAllPropertiesOK()
     {
-        var device = new Device
-        {
-            Name = "Cámara Nikon",
-            Model = "Z50",
-            Description = "Compacta ligera, portátil y ergonómica.",
-            Photo = "photo"
-        };
-
+        var device = new Device("Cámara Nikon", "Z50", "Compacta ligera, portátil y ergonómica.", "photo");
 
         // Mocking IDeviceLogic to simulate the behavior of the business logic
         var deviceLogicMock = new Mock<IDeviceLogic>();
@@ -49,13 +42,7 @@ public class DeviceControllerTest
     public void CreateDevice_WhenPropertiesMissing_ShouldReturnBadRequest()
     {
         // Arrange
-        var device2 = new Device
-        {
-            Name = "Cámara Nikon",
-            // Model is missing
-            Description = "Compacta ligera, portátil y ergonómica.",
-            Photo = "Photo" 
-        };
+        var device2 = new Device("Cámara Nikon", null, "Compacta ligera, portátil y ergonómica.", "photo");
 
         var deviceLogicMock = new Mock<IDeviceLogic>();
         var controller = new DeviceController(deviceLogicMock.Object);
@@ -64,7 +51,7 @@ public class DeviceControllerTest
         IActionResult result = controller.CreateDevice(device2);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+        Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
     }
 
 
