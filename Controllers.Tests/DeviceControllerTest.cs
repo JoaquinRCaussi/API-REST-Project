@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Domain;
-//using FluentAssertions;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
+using FluentAssertions;
 
 namespace Controllers.Tests;
 
@@ -12,48 +12,48 @@ namespace Controllers.Tests;
 [TestClass]
 public class DeviceControllerTest
 {
+    private DeviceController? _controller; 
+    private Mock<IDeviceLogic>? _deviceLogicMock;
+
+    [TestInitialize]
+    public void Setup()
+    {
+        _deviceLogicMock = new Mock<IDeviceLogic>();
+        _controller = new DeviceController(_deviceLogicMock.Object);
+    }
+
+    private Device CreateValidDevice()
+    {
+        return new Device("Cámara Nikon", "Z50", "Compacta ligera, portátil y ergonómica.", "photo");
+    }
+
+    private Device CreateInvalidDevice()
+    {
+        return new Device("Cámara Nikon", null, "Compacta ligera, portátil y ergonómica.", "photo");
+    }
+
     [TestMethod]
     public void CreateDevice_WhenAllPropertiesOK()
     {
-        var device = new Device("Cámara Nikon", "Z50", "Compacta ligera, portátil y ergonómica.", "photo");
+        var device = CreateValidDevice();
 
-        // Mocking IDeviceLogic to simulate the behavior of the business logic
-        var deviceLogicMock = new Mock<IDeviceLogic>();
-        deviceLogicMock
+        _deviceLogicMock!
             .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
-            .Returns(device);  // Simulate that the logic returns the same device
+            .Returns(device);
 
-        // Mock DeviceController passing the mocked logic
-        var controller = new DeviceController(deviceLogicMock.Object);
+        IActionResult result = _controller!.CreateDevice(device);
 
-        // Act
-        IActionResult result = controller.CreateDevice(device);
-
-        // Assert
-        Assert.IsInstanceOfType(result, typeof(OkObjectResult));  // Expecting an Ok result
-        var okResult = result as OkObjectResult;
-
-        // Check if the returned device is the same that we passed
-        Assert.IsNotNull(okResult);
-        Assert.AreEqual(device, okResult.Value);
+        result.Should().BeOfType<OkObjectResult>()
+            .Which.Value.Should().BeEquivalentTo(device); 
     }
 
     [TestMethod]
     public void CreateDevice_WhenPropertiesMissing_ShouldReturnBadRequest()
     {
-        // Arrange
-        var device2 = new Device("Cámara Nikon", null, "Compacta ligera, portátil y ergonómica.", "photo");
+        var device = CreateInvalidDevice();
 
-        var deviceLogicMock = new Mock<IDeviceLogic>();
-        var controller = new DeviceController(deviceLogicMock.Object);
+        IActionResult result = _controller!.CreateDevice(device);
 
-        // Act
-        IActionResult result = controller.CreateDevice(device2);
-
-        // Assert
-        Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+        result.Should().BeOfType<BadRequestObjectResult>();  
     }
-
-
-
 }
