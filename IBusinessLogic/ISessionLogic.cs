@@ -5,5 +5,5 @@ namespace IBusinessLogic;
 public interface ISessionLogic
 {
     User? GetCurrentUser(Guid? token);
-    Guid Authenticate(string email, string password);
+    User? Authenticate(string email, string password);
 }

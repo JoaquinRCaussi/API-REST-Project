@@ -4,17 +4,19 @@ using IDataAccess;
 
 namespace BusinessLogic;
 
-public class SessionLogic : ISessionLogic
+public class    SessionLogic : ISessionLogic
 {
-    private readonly ISessionRepository _repository;
+    private readonly IUserRepository _repository;
+    //Aca tambien servicio de sesion. Uso los dos. El de usuario para encontarar usarios
+    //y el de sesion para agregar la sesion
     private User? _currentUser;
 
-    public SessionLogic(ISessionRepository repository)
+    public SessionLogic(IUserRepository repository)
     {
         _repository = repository;
     }
 
-    public Guid Authenticate(string mail, string password)
+    public User Authenticate(string mail, string password)
     {
         var user = _repository.FindByMail(mail);
 
@@ -32,7 +34,7 @@ public class SessionLogic : ISessionLogic
 
         _repository.AddSession(session);
 
-        return session.Token;
+        return session.User;
     }
 
     public User GetCurrentUser(Guid? token = null)
