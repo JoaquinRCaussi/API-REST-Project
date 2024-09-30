@@ -14,6 +14,7 @@ public class HMDbContext : DbContext
 
     public DbSet<User>? Users { get; set; }
     public DbSet<Role>? Roles { get; set; }
+    public DbSet<Home>? Homes { get; set; }
     public DbSet<PermissionKey>? PermissionKeys { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
