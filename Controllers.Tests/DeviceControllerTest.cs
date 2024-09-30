@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Domain;
+using FluentAssertions;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
-using FluentAssertions;
 
 namespace Controllers.Tests;
 
@@ -12,7 +12,7 @@ namespace Controllers.Tests;
 [TestClass]
 public class DeviceControllerTest
 {
-    private DeviceController? _controller; 
+    private DeviceController? _controller;
     private Mock<IDeviceLogic>? _deviceLogicMock;
 
     [TestInitialize]
@@ -44,7 +44,7 @@ public class DeviceControllerTest
         IActionResult result = _controller!.CreateDevice(device);
 
         result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(device); 
+            .Which.Value.Should().BeEquivalentTo(device);
     }
 
     [TestMethod]
@@ -54,6 +54,6 @@ public class DeviceControllerTest
 
         IActionResult result = _controller!.CreateDevice(device);
 
-        result.Should().BeOfType<BadRequestObjectResult>();  
+        result.Should().BeOfType<BadRequestObjectResult>();
     }
 }

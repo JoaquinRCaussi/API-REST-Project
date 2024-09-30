@@ -19,7 +19,7 @@ public class DeviceLogic : IDeviceLogic
         return _deviceRepository.CreateDevice(device);
     }
 
-    public List<Device> GetDevices()  
+    public List<Device> GetDevices()
     {
         return _deviceRepository.GetDevices();
     }
