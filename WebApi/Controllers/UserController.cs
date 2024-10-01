@@ -24,9 +24,17 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("api/users/{userId}")]
-    public IActionResult GetUser(Guid userId)
+    public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
+        return Ok(user);
+    }
+
+    [HttpDelete]
+    [Route("api/users/{userId}")]
+    public IActionResult DeleteUser([FromRoute] Guid userId)
+    {
+        User user = _userLogic.DeleteUser(userId);
         return Ok(user);
     }
 }
