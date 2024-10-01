@@ -30,6 +30,10 @@ public class UserLogic : IUserLogic
 
     public User CreateCompanyOwner(User user)
     {
+        if (!IsCorrectUserFormat(user))
+        {
+            throw new NotValidDataException("User data is not valid");
+        }
         return _userRepository.CreateCompanyOwner(user);
     }
 
