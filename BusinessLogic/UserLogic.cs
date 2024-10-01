@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using System.Text.RegularExpressions;
+using Domain;
 using IDataAccess;
 using LogicInterface;
 
@@ -20,6 +21,10 @@ public class UserLogic : IUserLogic
 
     public User CreateAdmin(User user)
     {
+        if (!IsCorrectEmail(user.Email))
+        {
+            throw new NotValidDataException("Email is not valid");
+        }
         return _userRepository.CreateAdmin(user);
     }
 
@@ -65,5 +70,11 @@ public class UserLogic : IUserLogic
     public bool IsTheCorrectUser(Guid userToken)
     {
         return _userRepository.ExistUserByToken(userToken);
+    }
+    
+    private bool IsCorrectEmail(string email)
+    {
+        var correctPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        return Regex.IsMatch(email, correctPattern);
     }
 }
