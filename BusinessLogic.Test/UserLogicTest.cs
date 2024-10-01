@@ -255,4 +255,20 @@ public class UserLogicTest
         _userRepositoryMock.VerifyAll();
     }
 
+    [TestMethod]
+    public void CreateUser_WhenUserHasNoEmailValid()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail,com",
+            Password = "password@123"
+        };
+        
+        var act = () => _userLogic.CreateAdmin(user);
+        
+        act.Should().Throw<NotValidDataException>().WithMessage("Email is not valid");
+    }    
 }
