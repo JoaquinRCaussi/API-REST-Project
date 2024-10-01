@@ -55,6 +55,10 @@ public class UserLogic : IUserLogic
 
     public User DeleteUser(Guid userId)
     {
+        if (!_userRepository.ExistUser(userId))
+        {
+            throw new NotValidDataException("User does not exist");
+        }
         return _userRepository.DeleteUser(userId);
     }
 

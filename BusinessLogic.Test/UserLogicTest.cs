@@ -3,6 +3,7 @@ using Domain;
 using FluentAssertions;
 using IDataAccess;
 using LogicInterface;
+using Microsoft.IdentityModel.Tokens;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -221,13 +222,35 @@ public class UserLogicTest
             LastName = "Snow",
             Email = "mail@mail.com",
             Password = "password@123"
-        };
-
+        };  
+        _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(true);
         _userRepositoryMock.Setup(x => x.DeleteUser(user.Id)).Returns(user);
 
         var act = _userLogic.DeleteUser(user.Id);
 
         act.Should().BeEquivalentTo(user);
+
+        _userRepositoryMock.VerifyAll();
+    }
+    
+    [TestMethod]
+    public void DeleteNotExistUserTest_WhenUserNotExist()
+    {
+            
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(false);
+        
+        var act = () =>_userLogic.DeleteUser(user.Id);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("User does not exist");
 
         _userRepositoryMock.VerifyAll();
     }
