@@ -297,4 +297,20 @@ public class UserLogicTest
         
         act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
     }
+
+    [TestMethod]
+    public void CreateHomeOwner_WhenUserHasNoNameOrPasword()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "",
+            Password = "",
+            LastName = "Snow",
+            Email = "mail@mail.com"
+        };
+        var act = () => _userLogic.CreateHomeOwner(user);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
+    }
 }
