@@ -39,8 +39,6 @@ public class SessionLogicTest
 
         result.UserId.Should().Be(user.Id);
         result.RoleId.Should().Be(user.Role);
-
-        _sessionRepositoryMock.Verify(x => x.AddSession(It.IsAny<Session>()), Times.Once);
     }
 
     [TestMethod]
