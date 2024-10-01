@@ -5,6 +5,7 @@ using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Models;
 
 namespace Controllers.Tests;
 
@@ -33,27 +34,36 @@ public class DeviceControllerTest
     }
 
     [TestMethod]
-    public void CreateDevice_WhenAllPropertiesOK()
+    public void CreateDevice_WhenAllPropertiesOK_ShouldReturnOk()
     {
+        // Arrange
         var device = CreateValidDevice();
+        var deviceRequest = new DeviceRequest(device);  // Create DeviceRequest from Device
+        var expectedResponse = new DeviceResponse(device);  // Expected response
 
         _deviceLogicMock!
             .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
             .Returns(device);
 
-        IActionResult result = _controller!.CreateDevice(device);
+        // Act
+        IActionResult result = _controller!.CreateDevice(deviceRequest);
 
+        // Assert
         result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(device);
+            .Which.Value.Should().BeEquivalentTo(expectedResponse);
     }
 
     [TestMethod]
     public void CreateDevice_WhenPropertiesMissing_ShouldReturnBadRequest()
     {
-        var device = CreateInvalidDevice();
+        // Arrange
+        var invalidDevice = CreateInvalidDevice();
+        var invalidDeviceRequest = new DeviceRequest(invalidDevice);  // Invalid DeviceRequest
 
-        IActionResult result = _controller!.CreateDevice(device);
+        // Act
+        IActionResult result = _controller!.CreateDevice(invalidDeviceRequest);
 
+        // Assert
         result.Should().BeOfType<BadRequestObjectResult>();
     }
 }

@@ -1,13 +1,12 @@
-﻿//using WebApi.Models;
+﻿using WebApi.Models;
 using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("api/device")]
+[Route("api/devices")]
 public class DeviceController : ControllerBase
 {
     private readonly IDeviceLogic _deviceLogic;
@@ -17,16 +16,12 @@ public class DeviceController : ControllerBase
         _deviceLogic = deviceLogic;
     }
 
-    // Endpoint para crear un dispositivo
     [HttpPost]
-    public IActionResult CreateDevice(Device device)
+    public IActionResult CreateDevice([FromBody] DeviceRequest device)
     {
-        if (string.IsNullOrEmpty(device.Name) || string.IsNullOrEmpty(device.Model))
-        {
-            return BadRequest("Faltan propiedades.");
-        }
-
-        var newDevice = _deviceLogic.CreateDevice(device);
-        return Ok(newDevice);
+        Device deviceToCreate = device.ToArgs();
+        Device createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
+        var response = new DeviceResponse(createdDevice);
+        return Ok(response);
     }
 }
