@@ -81,7 +81,7 @@ public class HMDbContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseSqlServer(
-                "Server=localhost,1433;Database=obligatorio;User Id=sa;Password=Passw1rd;"
+                "Server=localhost,1433;Database=API;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
                 );
         }
     }

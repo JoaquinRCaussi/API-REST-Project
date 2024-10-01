@@ -198,7 +198,21 @@ public class UserLogicTest
     }
 
     [TestMethod]
-    public void AuthenticateUserTest()
+    public void ExistUserTest_WhenUserExist()
+    {
+        var userId = Guid.NewGuid();
+
+        _userRepositoryMock.Setup(x => x.ExistUser(userId)).Returns(true);
+
+        var result = _userLogic.ExistUser(userId);
+
+        result.Should().BeTrue();
+
+        _userRepositoryMock.VerifyAll();
+    }
+
+    [TestMethod]
+    public void DeleteUserTest_WhenUserExist()
     {
         var user = new User
         {
@@ -241,7 +255,41 @@ public class UserLogicTest
     [TestMethod]
     public void DeleteUserTest()
     {
-        // Arrange
+        _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(true);
+        _userRepositoryMock.Setup(x => x.DeleteUser(user.Id)).Returns(user);
+
+        var act = _userLogic.DeleteUser(user.Id);
+
+        act.Should().BeEquivalentTo(user);
+
+        _userRepositoryMock.VerifyAll();
+    }
+
+    [TestMethod]
+    public void DeleteNotExistUserTest_WhenUserNotExist()
+    {
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(false);
+
+        var act = () => _userLogic.DeleteUser(user.Id);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("User does not exist");
+
+        _userRepositoryMock.VerifyAll();
+    }
+
+    [TestMethod]
+    public void CreateUser_WhenUserHasNoEmailValid()
+    {
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -268,4 +316,45 @@ public class UserLogicTest
     }
 
 
+    [TestMethod]
+    public void CreateUser_WhenUserHasNoNameOrPasword()
+    {
+        var user = new User { Id = Guid.NewGuid(), Name = "", Password = "", LastName = "Snow", Email = "mail@mail.com" };
+
+        var act = () => _userLogic.CreateAdmin(user);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
+    }
+
+    [TestMethod]
+    public void CreateCompanyOwner_WhenUserHasNoNameOrPasword()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "",
+            Password = "",
+            LastName = "Snow",
+            Email = "mail@mail.com"
+        };
+        var act = () => _userLogic.CreateCompanyOwner(user);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
+    }
+
+    [TestMethod]
+    public void CreateHomeOwner_WhenUserHasNoNameOrPasword()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "",
+            Password = "",
+            LastName = "Snow",
+            Email = "mail@mail.com"
+        };
+        var act = () => _userLogic.CreateHomeOwner(user);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
+    }
 }

@@ -12,5 +12,4 @@ public class User
     public Role Role { get; set; } = null;
     public Guid? CompanyID { get; set; } = null;
     public Company Company { get; set; } = null;
-
 }

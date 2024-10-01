@@ -24,4 +24,7 @@ public interface IUserRepository
 
     public User DeleteUser(Guid userId);
 
+    public bool ExistUser(Guid userId);
+
+    public User DeleteUser(Guid userId);
 }

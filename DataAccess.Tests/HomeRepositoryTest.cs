@@ -300,7 +300,4 @@ public class HomeRepositoryTest
         resultForEmptyMembers.Should().NotBeNull();
         resultForEmptyMembers.Should().BeEmpty();
     }
-
-
-
 }
