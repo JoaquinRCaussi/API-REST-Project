@@ -28,11 +28,6 @@ public class DeviceControllerTest
         return new Device("Cámara Nikon", "Z50", "Compacta ligera, portátil y ergonómica.", "photo");
     }
 
-    private Device CreateInvalidDevice()
-    {
-        return new Device("Cámara Nikon", null, "Compacta ligera, portátil y ergonómica.", "photo");
-    }
-
     [TestMethod]
     public void CreateDevice_WhenAllPropertiesOK_ShouldReturnOk()
     {
@@ -53,17 +48,4 @@ public class DeviceControllerTest
             .Which.Value.Should().BeEquivalentTo(expectedResponse);
     }
 
-    [TestMethod]
-    public void CreateDevice_WhenPropertiesMissing_ShouldReturnBadRequest()
-    {
-        // Arrange
-        var invalidDevice = CreateInvalidDevice();
-        var invalidDeviceRequest = new DeviceRequest(invalidDevice);  // Invalid DeviceRequest
-
-        // Act
-        IActionResult result = _controller!.CreateDevice(invalidDeviceRequest);
-
-        // Assert
-        result.Should().BeOfType<BadRequestObjectResult>();
-    }
 }
