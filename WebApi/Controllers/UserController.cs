@@ -10,6 +10,8 @@ public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
 
+    //PASAR RESPONSES
+
     public UserController(IUserLogic userLogic)
     {
         _userLogic = userLogic;

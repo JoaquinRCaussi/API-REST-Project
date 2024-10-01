@@ -197,4 +197,75 @@ public class UserLogicTest
         _userRepositoryMock.Verify(x => x.FindByMail(user.Email), Times.Once);
     }
 
+    [TestMethod]
+    public void AuthenticateUserTest()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.AuthenticateUser(user.Email, user.Password)).Returns(user);
+
+        var result = _userLogic.AuthenticateUser(user.Email, user.Password);
+
+        result.Should().BeEquivalentTo(user);
+
+        result.Id.Should().Be(user.Id);
+        result.Email.Should().Be(user.Email);
+
+        _userRepositoryMock.Verify(x => x.AuthenticateUser(user.Email, user.Password), Times.Once);
+    }
+
+    [TestMethod]
+    public void ExistUserTest()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+
+        _userRepositoryMock.Setup(x => x.ExistUser(userId)).Returns(true);
+
+        // Act
+        var result = _userLogic.ExistUser(userId);
+
+        // Assert
+        result.Should().BeTrue();
+
+        _userRepositoryMock.Verify(x => x.ExistUser(userId), Times.Once);
+    }
+
+    [TestMethod]
+    public void DeleteUserTest()
+    {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.DeleteUser(user.Id)).Returns(user);
+
+        // Act
+        var result = _userLogic.DeleteUser(user.Id);
+
+        // Assert
+        result.Should().BeEquivalentTo(user);
+        result.Id.Should().Be(user.Id);
+        result.Name.Should().Be(user.Name);
+        result.LastName.Should().Be(user.LastName);
+        result.Email.Should().Be(user.Email);
+        result.Password.Should().Be(user.Password);
+
+        _userRepositoryMock.Verify(x => x.DeleteUser(user.Id), Times.Once);
+    }
+
+
 }

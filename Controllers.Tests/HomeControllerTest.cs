@@ -198,7 +198,6 @@ public class HomeControllerTest
         };
 
         var users = new List<User> { user };
-        var idsUsers = new List<Guid> { user.Id };
 
         var home = new Home
         {
@@ -207,7 +206,7 @@ public class HomeControllerTest
             MemberCount = 5,
             Devices = "device",
             HomeOwner = user.Id,
-            Members = idsUsers
+            Members = users
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -265,7 +264,7 @@ public class HomeControllerTest
             Members = []
         };
 
-        home.Members?.Add(member.Id);
+        home.Members?.Add(member);
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
 

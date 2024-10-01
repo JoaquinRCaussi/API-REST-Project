@@ -155,6 +155,11 @@ public class HomeRepositoryTest
         };
 
         var repository = new HomeRepository(context);
+        var userRepository = new UserRepository(context);
+
+        userRepository.CreateHomeOwner(member);
+        userRepository.CreateHomeOwner(user);
+        context.SaveChanges();
 
         var home = new Home
         {
@@ -172,7 +177,9 @@ public class HomeRepositoryTest
         context.SaveChanges();
 
         updatedHome.Should().NotBeNull();
-        updatedHome.Members.Should().Contain(member.Id);
+        updatedHome.Members.Should().NotBeNullOrEmpty();
+        updatedHome.Members.Should().HaveCount(1);
+        updatedHome.Members.Should().ContainEquivalentOf(member);
 
         result.Should().BeEquivalentTo(home);
     }
@@ -229,7 +236,7 @@ public class HomeRepositoryTest
             Location = "Home",
             MemberCount = 5,
             Devices = "TV, Fridge, Oven",
-            Members = [user.Id]
+            Members = [user]
         };
 
         Home? result = repository.CreateHome(home);

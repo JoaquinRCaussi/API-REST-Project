@@ -50,16 +50,16 @@ public class UserLogic : IUserLogic
 
     public bool ExistUser(Guid userId)
     {
-        throw new NotImplementedException();
+        return _userRepository.ExistUser(userId);
     }
 
     public User DeleteUser(Guid userId)
     {
-        throw new NotImplementedException();
+        return _userRepository.DeleteUser(userId);
     }
 
-    public bool IsTheCorrectUser(Guid userToken)
+    public User AuthenticateUser(string mail, string password)
     {
-        return _userRepository.ExistUserByToken(userToken);
+        return _userRepository.AuthenticateUser(mail, password);
     }
 }
