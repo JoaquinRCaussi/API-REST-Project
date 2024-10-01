@@ -46,7 +46,8 @@ public class UserLogic : IUserLogic
     public User FindByMail(string mail)
     {
         return _userRepository.FindByMail(mail);
-        
+    }
+
     public bool ExistUser(Guid userId)
     {
         throw new NotImplementedException();
