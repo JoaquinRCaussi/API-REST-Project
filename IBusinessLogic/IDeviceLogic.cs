@@ -1,6 +1,5 @@
 ﻿using Domain;
 
-
 namespace LogicInterface;
 
 public interface IDeviceLogic

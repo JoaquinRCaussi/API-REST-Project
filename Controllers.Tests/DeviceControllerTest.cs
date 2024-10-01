@@ -25,25 +25,25 @@ public class DeviceControllerTest
 
     private Device CreateValidDevice()
     {
-        return new Device("Cámara Nikon", "Z50", "Compacta ligera, portátil y ergonómica.", "photo");
+        return new Device("Cámara Nikon", "Z50", DeviceType.Camera,"Compacta ligera, portátil y ergonómica.", "photo");
     }
 
     [TestMethod]
     public void CreateDevice_WhenAllPropertiesOK_ShouldReturnOk()
     {
-        // Arrange
+      
         var device = CreateValidDevice();
-        var deviceRequest = new DeviceRequest(device);  // Create DeviceRequest from Device
-        var expectedResponse = new DeviceResponse(device);  // Expected response
+        var deviceRequest = new DeviceRequest(device);  
+        var expectedResponse = new DeviceResponse(device);  
 
         _deviceLogicMock!
             .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
             .Returns(device);
 
-        // Act
+
         IActionResult result = _controller!.CreateDevice(deviceRequest);
 
-        // Assert
+      
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(expectedResponse);
     }
