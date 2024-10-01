@@ -281,4 +281,20 @@ public class UserLogicTest
         
         act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
     }
+
+    [TestMethod]
+    public void CreateCompanyOwner_WhenUserHasNoNameOrPasword()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "",
+            Password = "",
+            LastName = "Snow",
+            Email = "mail@mail.com"
+        };
+        var act = () => _userLogic.CreateCompanyOwner(user);
+        
+        act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
+    }
 }
