@@ -17,4 +17,10 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
         var response = new CompanyResponse(createdCompany);
         return Ok(response);
     }
+
+    [HttpGet]
+    public IActionResult GetCompanies()
+    {
+        throw new NotImplementedException();
+    }
 }

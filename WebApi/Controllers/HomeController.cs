@@ -26,31 +26,6 @@ public class HomeController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetHomes()
-    {
-        List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount }).ToList();
-        return Ok(response);
-    }
-
-    [HttpGet]
-    public IActionResult GetHomeByUser([FromBody] Guid userId)
-    {
-        var homes = _homeLogic.GetHomesByUser(userId);
-        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount }).ToList();
-        return Ok(response);
-    }
-
-    [HttpGet]
-    [Route("{homeId}")]
-    public IActionResult GetHome(Guid homeId)
-    {
-        var home = _homeLogic.GetHome(homeId);
-        var response = new HomeResponse { Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner };
-        return Ok(response);
-    }
-
-    [HttpGet]
     [Route("{homeId}/members")]
     public IActionResult GetHomeMembers(Guid homeId)
     {
