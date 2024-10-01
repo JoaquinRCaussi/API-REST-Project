@@ -210,5 +210,26 @@ public class UserLogicTest
 
         _userRepositoryMock.VerifyAll();
     }
+    
+    [TestMethod]
+    public void DeleteUserTest_WhenUserExist()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.DeleteUser(user.Id)).Returns(user);
+
+        var act = _userLogic.DeleteUser(user.Id);
+
+        act.Should().BeEquivalentTo(user);
+
+        _userRepositoryMock.VerifyAll();
+    }
 
 }

@@ -104,4 +104,9 @@ public class UserRepository : IUserRepository
     {
         throw new NotImplementedException();
     }
+
+    public User DeleteUser(Guid userId)
+    {
+        throw new NotImplementedException();
+    }
 }

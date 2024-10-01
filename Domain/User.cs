@@ -2,11 +2,16 @@
 
 public class User
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
     public string Name { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public Guid? Role { get; set; } = null;
     public Guid? Company { get; set; } = null;
+    
+    public User()
+    {
+        Id = Guid.NewGuid();
+    }
 }
