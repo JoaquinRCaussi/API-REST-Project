@@ -74,8 +74,11 @@ public class UserLogic : IUserLogic
     
     private bool IsCorrectUserFormat(User user)
     {
-        
-        return user.Name.Length > 0 && user.LastName.Length > 0 && user.Email.Length > 0 && user.Password.Length > 0 && IsCorrectEmail(user.Email);
+        if (!IsCorrectEmail(user.Email)) 
+        {
+            throw new NotValidDataException("Email is not valid");
+        }
+        return user.Name.Length > 0 && user.LastName.Length > 0 && user.Email.Length > 0 && user.Password.Length > 0;
     }
     
     private bool IsCorrectEmail(string email)
