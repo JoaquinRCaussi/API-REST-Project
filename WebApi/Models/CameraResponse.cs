@@ -9,7 +9,7 @@ public class CameraResponse : DeviceResponse
     public bool SupportMovementDetection { get; set; }
     public bool SupportPersonDetection { get; set; }
 
-    public CameraResponse(Camera camera) : base(camera) 
+    public CameraResponse(Camera camera) : base(camera)
     {
         Outdoors = camera.Outdoors;
         Indoors = camera.Indoors;
