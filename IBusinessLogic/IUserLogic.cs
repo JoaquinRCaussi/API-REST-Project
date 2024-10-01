@@ -13,4 +13,5 @@ public interface IUserLogic
 
     public List<User> GetUsers();
     public User GetUser(Guid userId);
+    public User FindByMail(string mail);
 }

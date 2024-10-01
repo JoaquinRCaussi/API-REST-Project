@@ -19,7 +19,8 @@ public class LoginController : ControllerBase
     public IActionResult Login([FromBody] LoginRequest loginRequest)
     {
         var authResult = _sessionLogic.Authenticate(loginRequest.Email, loginRequest.Password);
-        return Ok(new LoginResponse(authResult.Id.ToString(), authResult.Role.ToString() ?? throw new InvalidOperationException()));
+        
+        return Ok(new LoginResponse(authResult.UserId.ToString(), authResult.RoleId.ToString() ?? throw new InvalidOperationException()));
     }
     
 }

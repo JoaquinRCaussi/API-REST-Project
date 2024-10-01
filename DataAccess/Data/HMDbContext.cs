@@ -41,9 +41,9 @@ public class HMDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=localdb.sqlite")
-                .ConfigureWarnings(warnings =>
-                    warnings.Ignore(RelationalEventId.NonTransactionalMigrationOperationWarning));
+            optionsBuilder.UseSqlServer(
+                "Server=localhost,1433;Database=obligatorio;User Id=sa;Password=Passw1rd;"
+                );
         }
     }
 }

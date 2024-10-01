@@ -16,10 +16,11 @@ public static class OurServiceFactory
     public static void AddServices(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<HMDbContext>(options =>
-            options.UseSqlite(connectionString));
+            options.UseSqlServer(connectionString));
 
         services.AddScoped<ISessionLogic, SessionLogic>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ISessionRepository, SessionRepository>();
         services.AddScoped<IUserLogic, UserLogic>();
         
     }

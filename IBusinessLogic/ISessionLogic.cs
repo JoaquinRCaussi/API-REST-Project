@@ -1,9 +1,10 @@
 using Domain;
+using Models;
 
 namespace IBusinessLogic;
 
 public interface ISessionLogic
 {
     User? GetCurrentUser(Guid? token);
-    User? Authenticate(string email, string password);
+    AuthenticationResult Authenticate(string email, string password);
 }

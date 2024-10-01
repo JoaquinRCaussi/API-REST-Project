@@ -24,11 +24,11 @@ public class UserRepositoryTest
 
         context.PermissionKeys?.Add(permission);
 
-        var adminRole = new Role { Id = Guid.NewGuid(), Name = "Admin", Permissions = { permission } };
+        var adminRole = new Role { Id = Guid.NewGuid(), Name = "Admin" };
 
-        var homeownerRole = new Role { Id = Guid.NewGuid(), Name = "HomeOwner", Permissions = { permission } };
+        var homeownerRole = new Role { Id = Guid.NewGuid(), Name = "HomeOwner" };
 
-        var companyOwnerRole = new Role { Id = Guid.NewGuid(), Name = "CompanyOwner", Permissions = { permission } };
+        var companyOwnerRole = new Role { Id = Guid.NewGuid(), Name = "CompanyOwner"};
 
         context.Roles?.AddRange(adminRole, homeownerRole, companyOwnerRole);
 

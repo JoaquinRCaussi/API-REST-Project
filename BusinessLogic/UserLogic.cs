@@ -42,4 +42,9 @@ public class UserLogic : IUserLogic
     {
         return _userRepository.GetUser(userId);
     }
+    
+    public User FindByMail(string mail)
+    {
+        return _userRepository.FindByMail(mail);
+    }
 }

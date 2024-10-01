@@ -1,22 +1,23 @@
 using Domain;
 using IBusinessLogic;
 using IDataAccess;
+using Models;
 
 namespace BusinessLogic;
 
 public class    SessionLogic : ISessionLogic
 {
     private readonly IUserRepository _repository;
-    //Aca tambien servicio de sesion. Uso los dos. El de usuario para encontarar usarios
-    //y el de sesion para agregar la sesion
+    private readonly ISessionRepository _sessionRepository;
     private User? _currentUser;
 
-    public SessionLogic(IUserRepository repository)
+    public SessionLogic(IUserRepository repository, ISessionRepository sessionRepository)
     {
         _repository = repository;
+        _sessionRepository = sessionRepository;
     }
 
-    public User Authenticate(string mail, string password)
+    public AuthenticationResult Authenticate(string mail, string password)
     {
         var user = _repository.FindByMail(mail);
 
@@ -27,14 +28,19 @@ public class    SessionLogic : ISessionLogic
 
         var session = new Session
         {
-            User = user,
             UserID = user.Id,
             RoleID = user.Role,
         };
 
-        _repository.AddSession(session);
+        _sessionRepository.AddSession(session);
 
-        return session.User;
+        var result = new AuthenticationResult
+        {
+            UserId = user.Id,
+            RoleId = user.Role,
+        };
+        
+        return result;
     }
 
     public User GetCurrentUser(Guid? token = null)
@@ -43,8 +49,16 @@ public class    SessionLogic : ISessionLogic
         {
             return _currentUser;
         }
+
+        var session = _sessionRepository.FindByToken(token.Value);
+
+        if (session == null)
+        {
+            throw new Exception("Invalid token.");
+        }
         
-        _currentUser = _repository.FindByToken(token.Value);
+        _currentUser = _repository.GetUser(session.UserID);
+        
         return _currentUser;
     }
 }

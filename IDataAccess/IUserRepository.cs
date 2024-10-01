@@ -16,4 +16,6 @@ public interface IUserRepository
 
     public User AddCompanyToCompanyOwner(User user, Company company);
     
+    public User FindByMail(string mail);
+    
 }
