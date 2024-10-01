@@ -57,7 +57,7 @@ public class UserLogic : IUserLogic
     {
         throw new NotImplementedException();
     }
-    
+
     public bool IsTheCorrectUser(Guid userToken)
     {
         return _userRepository.ExistUserByToken(userToken);

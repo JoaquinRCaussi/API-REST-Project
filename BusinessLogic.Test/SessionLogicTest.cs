@@ -42,7 +42,7 @@ public class SessionLogicTest
 
         _sessionRepositoryMock.Verify(x => x.AddSession(It.IsAny<Session>()), Times.Once);
     }
-    
+
     [TestMethod]
     public void AuthenticateTest_InvalidEmail()
     {

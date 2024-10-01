@@ -1,4 +1,3 @@
-using Domain;
 using FluentAssertions;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +20,7 @@ public class LoginControllerTest
         _sessionLogicMock = new Mock<ISessionLogic>();
         _loginController = new LoginController(_sessionLogicMock.Object);
     }
-    
+
     [TestMethod]
     public void Login_ValidCredentials_ReturnsOkResultWithToken()
     {
@@ -39,17 +38,17 @@ public class LoginControllerTest
             UserId = userId,
             RoleId = userRoleId
         };
-        
+
         _sessionLogicMock
             .Setup(x => x.Authenticate(loginRequest.Email, loginRequest.Password))
             .Returns(authResult);
-        
+
         var httpContext = new DefaultHttpContext();
         _loginController.ControllerContext = new ControllerContext
         {
             HttpContext = httpContext
         };
-        
+
         var actionResult = _loginController.Login(loginRequest);
         actionResult.Should().BeOfType<OkObjectResult>();
         var result = actionResult as OkObjectResult;
