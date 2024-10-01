@@ -50,7 +50,7 @@ public class UserLogic : IUserLogic
 
     public bool ExistUser(Guid userId)
     {
-        throw new Exception();
+        return _userRepository.ExistUser(userId);
     }
 
     public User DeleteUser(Guid userId)
