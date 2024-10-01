@@ -268,7 +268,17 @@ public class UserLogicTest
         };
         
         var act = () => _userLogic.CreateAdmin(user);
-        
+
         act.Should().Throw<NotValidDataException>().WithMessage("Email is not valid");
-    }    
+    }
+
+    [TestMethod]
+    public void CreateUser_WhenUserHasNoNameOrPasword()
+    {
+        var user = new User { Id = Guid.NewGuid(), Name = "",Password = "", LastName = "Snow", Email = "mail@mail.com" };
+        
+        var act = () => _userLogic.CreateAdmin(user);
+        
+        act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
+    }
 }
