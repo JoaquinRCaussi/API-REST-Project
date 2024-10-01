@@ -99,4 +99,14 @@ public class UserRepository : IUserRepository
 
         return true;
     }
+
+    public bool ExistUser(Guid userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public User DeleteUser(Guid userId)
+    {
+        throw new NotImplementedException();
+    }
 }

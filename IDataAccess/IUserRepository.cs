@@ -20,4 +20,7 @@ public interface IUserRepository
 
     public bool ExistUserByToken(Guid userToken);
 
+    public bool ExistUser(Guid userId);
+
+    public User DeleteUser(Guid userId);
 }

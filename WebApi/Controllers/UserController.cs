@@ -23,7 +23,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Route("api/users/{userId}")]
+    [Route("{userId}")]
     public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
@@ -31,7 +31,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("api/users/{userId}")]
+    [Route("{userId}")]
     public IActionResult DeleteUser([FromRoute] Guid userId)
     {
         User user = _userLogic.DeleteUser(userId);
