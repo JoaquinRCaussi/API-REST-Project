@@ -50,7 +50,7 @@ public class UserLogic : IUserLogic
 
     public bool ExistUser(Guid userId)
     {
-        throw new NotImplementedException();
+        throw new Exception();
     }
 
     public User DeleteUser(Guid userId)

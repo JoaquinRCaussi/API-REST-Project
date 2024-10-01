@@ -99,4 +99,9 @@ public class UserRepository : IUserRepository
 
         return true;
     }
+
+    public bool ExistUser(Guid userId)
+    {
+        throw new NotImplementedException();
+    }
 }

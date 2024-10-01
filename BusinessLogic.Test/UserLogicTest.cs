@@ -196,5 +196,19 @@ public class UserLogicTest
 
         _userRepositoryMock.Verify(x => x.FindByMail(user.Email), Times.Once);
     }
+    
+    [TestMethod]
+    public void ExistUserTest_WhenUserExist()
+    {
+        var userId = Guid.NewGuid();
+
+        _userRepositoryMock.Setup(x => x.ExistUser(userId)).Returns(true);
+
+        var result = _userLogic.ExistUser(userId);
+
+        result.Should().BeTrue();
+
+        _userRepositoryMock.VerifyAll();
+    }
 
 }

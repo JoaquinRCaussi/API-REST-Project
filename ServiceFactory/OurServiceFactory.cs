@@ -21,6 +21,5 @@ public static class OurServiceFactory
         services.AddScoped<ISessionLogic, SessionLogic>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserLogic, UserLogic>();
-
     }
 }
