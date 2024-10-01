@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
 using IDataAccess;
@@ -5,6 +6,7 @@ using Moq;
 
 namespace BusinessLogic.Test;
 
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class SessionServiceTests
 {
