@@ -55,7 +55,7 @@ public class UserLogic : IUserLogic
 
     public User DeleteUser(Guid userId)
     {
-        throw new NotImplementedException();
+        return _userRepository.DeleteUser(userId);
     }
 
     public bool IsTheCorrectUser(Guid userToken)
