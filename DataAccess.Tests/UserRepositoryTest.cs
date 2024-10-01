@@ -28,7 +28,7 @@ public class UserRepositoryTest
 
         var homeownerRole = new Role { Id = Guid.NewGuid(), Name = "HomeOwner" };
 
-        var companyOwnerRole = new Role { Id = Guid.NewGuid(), Name = "CompanyOwner"};
+        var companyOwnerRole = new Role { Id = Guid.NewGuid(), Name = "CompanyOwner" };
 
         context.Roles?.AddRange(adminRole, homeownerRole, companyOwnerRole);
 

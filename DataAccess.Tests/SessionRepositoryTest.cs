@@ -11,13 +11,13 @@ namespace DataAccess.Tests;
 public class SessionRepositoryTest
 {
     private Mock<ISessionRepository>? _sessionRepositoryMock;
-    
+
     [TestInitialize]
     public void Initialize()
     {
         _sessionRepositoryMock = new Mock<ISessionRepository>();
     }
-    
+
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
         DbContextOptions<HMDbContext>? options = new DbContextOptionsBuilder<HMDbContext>()
@@ -25,7 +25,7 @@ public class SessionRepositoryTest
             .Options;
         return new HMDbContext(options);
     }
-    
+
     private void SeedData(HMDbContext context)
     {
         var session = new Session { RoleID = Guid.NewGuid(), Token = Guid.NewGuid(), UserID = Guid.NewGuid() };
@@ -37,7 +37,7 @@ public class SessionRepositoryTest
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestFindByToken");
         SeedData(context);
-        
+
         var expected = new Session
         {
             RoleID = Guid.NewGuid(),
@@ -46,14 +46,14 @@ public class SessionRepositoryTest
         };
 
         var repository = new SessionRepository(context);
-        
+
         repository.AddSession(expected);
-        
+
         var result = repository.FindByToken(expected.Token);
         Assert.IsNotNull(result);
         Assert.AreEqual(expected.Token, result.Token);
     }
-    
+
     [TestMethod]
     public void FindByTokenTest()
     {

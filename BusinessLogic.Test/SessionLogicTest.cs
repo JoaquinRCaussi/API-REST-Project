@@ -1,7 +1,7 @@
 using Domain;
+using FluentAssertions;
 using IBusinessLogic;
 using IDataAccess;
-using FluentAssertions;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -18,7 +18,7 @@ public class SessionLogicTest
     {
         _sessionRepositoryMock = new Mock<ISessionRepository>();
         _userRepositoryMock = new Mock<IUserRepository>();
-        _sessionLogic = new SessionLogic(_userRepositoryMock.Object,_sessionRepositoryMock.Object);
+        _sessionLogic = new SessionLogic(_userRepositoryMock.Object, _sessionRepositoryMock.Object);
     }
 
     [TestMethod]
@@ -34,12 +34,12 @@ public class SessionLogicTest
         };
 
         _userRepositoryMock.Setup(x => x.FindByMail(user.Email)).Returns(user);
-        
+
         var result = _sessionLogic.Authenticate(user.Email, user.Password);
-        
+
         result.UserId.Should().Be(user.Id);
         result.RoleId.Should().Be(user.Role);
-        
+
         _sessionRepositoryMock.Verify(x => x.AddSession(It.IsAny<Session>()), Times.Once);
     }
 
@@ -60,15 +60,15 @@ public class SessionLogicTest
             UserID = user.Id,
             RoleID = user.Role
         };
-        
+
         _sessionRepositoryMock.Setup(x => x.FindByToken(It.IsAny<Guid>())).Returns(session);
-        
+
         _userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
-        
+
         var result = _sessionLogic.GetCurrentUser(Guid.NewGuid());
-        
+
         result.Should().BeEquivalentTo(user);
-        
+
         _sessionRepositoryMock.Verify(x => x.FindByToken(It.IsAny<Guid>()), Times.Once);
     }
 
@@ -85,21 +85,21 @@ public class SessionLogicTest
         };
 
         _sessionLogic.GetCurrentUser(null).Should().BeNull();
-        
+
         _sessionRepositoryMock.Verify(x => x.FindByToken(It.IsAny<Guid>()), Times.Never);
-        
+
         _userRepositoryMock.Verify(x => x.GetUser(It.IsAny<Guid>()), Times.Never);
-        
+
         _sessionLogic.GetCurrentUser(null).Should().BeNull();
     }
-    
+
     [TestMethod]
     public void GetCurrentUserTest_InvalidToken()
     {
         _sessionRepositoryMock.Setup(x => x.FindByToken(It.IsAny<Guid>())).Returns((Session?)null);
-        
+
         Assert.ThrowsException<Exception>(() => _sessionLogic.GetCurrentUser(Guid.NewGuid()));
-        
+
         _userRepositoryMock.Verify(x => x.GetUser(It.IsAny<Guid>()), Times.Never);
     }
 
@@ -111,7 +111,7 @@ public class SessionLogicTest
         Assert.ThrowsException<Exception>(() => _sessionLogic.Authenticate("adasdjasdj@masdjasjjasd.com", "password"));
 
         _sessionRepositoryMock.Verify(x => x.AddSession(It.IsAny<Session>()), Times.Never);
-        
+
         _userRepositoryMock.Verify(x => x.FindByMail(It.IsAny<string>()), Times.Once);
     }
 

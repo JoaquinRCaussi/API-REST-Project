@@ -7,7 +7,7 @@ using WebApi.Filters;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("api/admins" )]
+[Route("api/admins")]
 [AuthenticationFilter]
 public sealed class AdminController : ControllerBase
 {

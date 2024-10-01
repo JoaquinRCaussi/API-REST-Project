@@ -75,7 +75,7 @@ public class UserRepository : IUserRepository
 
         return user;
     }
-    
+
     public User FindByMail(string mail)
     {
         User? user = _context.Users?.FirstOrDefault(u => u.Email == mail);

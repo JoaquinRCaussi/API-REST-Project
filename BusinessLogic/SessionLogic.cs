@@ -5,7 +5,7 @@ using Models;
 
 namespace BusinessLogic;
 
-public class    SessionLogic : ISessionLogic
+public class SessionLogic : ISessionLogic
 {
     private readonly IUserRepository _repository;
     private readonly ISessionRepository _sessionRepository;
@@ -39,7 +39,7 @@ public class    SessionLogic : ISessionLogic
             UserId = user.Id,
             RoleId = user.Role,
         };
-        
+
         return result;
     }
 
@@ -56,9 +56,9 @@ public class    SessionLogic : ISessionLogic
         {
             throw new Exception("Invalid token.");
         }
-        
+
         _currentUser = _repository.GetUser(session.UserID);
-        
+
         return _currentUser;
     }
 }

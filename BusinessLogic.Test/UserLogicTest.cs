@@ -189,11 +189,11 @@ public class UserLogicTest
         _userRepositoryMock.Setup(x => x.FindByMail(user.Email)).Returns(user);
 
         var result = _userLogic.FindByMail(user.Email);
-        
+
         result.Should().BeEquivalentTo(user);
-        
+
         result.Id.Should().Be(user.Id);
-        
+
         _userRepositoryMock.Verify(x => x.FindByMail(user.Email), Times.Once);
     }
 

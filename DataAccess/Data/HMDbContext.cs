@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DataAccess.Data;
 
