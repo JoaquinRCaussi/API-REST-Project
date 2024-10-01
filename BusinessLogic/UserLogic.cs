@@ -74,21 +74,21 @@ public class UserLogic : IUserLogic
         }
         return _userRepository.DeleteUser(userId);
     }
-    
+
     public bool IsTheCorrectUser(Guid userToken)
     {
         return _userRepository.ExistUserByToken(userToken);
     }
-    
+
     private bool IsCorrectUserFormat(User user)
     {
-        if (!IsCorrectEmail(user.Email)) 
+        if (!IsCorrectEmail(user.Email))
         {
             throw new NotValidDataException("Email is not valid");
         }
         return user.Name.Length > 0 && user.LastName.Length > 0 && user.Email.Length > 0 && user.Password.Length > 0;
     }
-    
+
     private bool IsCorrectEmail(string email)
     {
         var correctPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";

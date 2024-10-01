@@ -9,7 +9,7 @@ public class User
     public string Password { get; set; } = string.Empty;
     public Guid? Role { get; set; } = null;
     public Guid? Company { get; set; } = null;
-    
+
     public User()
     {
         Id = Guid.NewGuid();

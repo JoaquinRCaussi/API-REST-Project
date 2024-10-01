@@ -3,7 +3,6 @@ using Domain;
 using FluentAssertions;
 using IDataAccess;
 using LogicInterface;
-using Microsoft.IdentityModel.Tokens;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -197,7 +196,7 @@ public class UserLogicTest
 
         _userRepositoryMock.Verify(x => x.FindByMail(user.Email), Times.Once);
     }
-    
+
     [TestMethod]
     public void ExistUserTest_WhenUserExist()
     {
@@ -211,7 +210,7 @@ public class UserLogicTest
 
         _userRepositoryMock.VerifyAll();
     }
-    
+
     [TestMethod]
     public void DeleteUserTest_WhenUserExist()
     {
@@ -222,7 +221,7 @@ public class UserLogicTest
             LastName = "Snow",
             Email = "mail@mail.com",
             Password = "password@123"
-        };  
+        };
         _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(true);
         _userRepositoryMock.Setup(x => x.DeleteUser(user.Id)).Returns(user);
 
@@ -232,11 +231,11 @@ public class UserLogicTest
 
         _userRepositoryMock.VerifyAll();
     }
-    
+
     [TestMethod]
     public void DeleteNotExistUserTest_WhenUserNotExist()
     {
-            
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -247,8 +246,8 @@ public class UserLogicTest
         };
 
         _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(false);
-        
-        var act = () =>_userLogic.DeleteUser(user.Id);
+
+        var act = () => _userLogic.DeleteUser(user.Id);
 
         act.Should().Throw<NotValidDataException>().WithMessage("User does not exist");
 
@@ -266,7 +265,7 @@ public class UserLogicTest
             Email = "mail,com",
             Password = "password@123"
         };
-        
+
         var act = () => _userLogic.CreateAdmin(user);
 
         act.Should().Throw<NotValidDataException>().WithMessage("Email is not valid");
@@ -275,10 +274,10 @@ public class UserLogicTest
     [TestMethod]
     public void CreateUser_WhenUserHasNoNameOrPasword()
     {
-        var user = new User { Id = Guid.NewGuid(), Name = "",Password = "", LastName = "Snow", Email = "mail@mail.com" };
-        
+        var user = new User { Id = Guid.NewGuid(), Name = "", Password = "", LastName = "Snow", Email = "mail@mail.com" };
+
         var act = () => _userLogic.CreateAdmin(user);
-        
+
         act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
     }
 
@@ -294,7 +293,7 @@ public class UserLogicTest
             Email = "mail@mail.com"
         };
         var act = () => _userLogic.CreateCompanyOwner(user);
-        
+
         act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
     }
 
