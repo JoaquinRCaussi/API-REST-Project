@@ -43,7 +43,7 @@ public sealed class AuthenticationFilterAttribute
             return;
         }
 
-        var isAuthorizationExpired = IsAuthorizationExpired(authorizationHeader!);
+        var isAuthorizationExpired = IsAuthorizationExpired(); //No tenemos que hacer esto, pero en un futuro podria ser
         if (isAuthorizationExpired)
         {
             context.Result = new ObjectResult(
@@ -81,10 +81,10 @@ public sealed class AuthenticationFilterAttribute
 
     private bool IsAuthorizationFormatValid(string authorization)
     {
-        return true;
+        return authorization.StartsWith("Bearer ");
     }
 
-    private bool IsAuthorizationExpired(string authorization)
+    private bool IsAuthorizationExpired()
     {
         return false;
     }
