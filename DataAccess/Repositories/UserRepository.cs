@@ -87,4 +87,16 @@ public class UserRepository : IUserRepository
 
         return user;
     }
+    
+    public bool ExistUserByToken(Guid userToken)
+    {
+        User? user = _context.Users?.FirstOrDefault(u => u.Id == userToken);
+
+        if (user == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

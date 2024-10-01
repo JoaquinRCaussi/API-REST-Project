@@ -16,4 +16,5 @@ public interface IUserLogic
     public User FindByMail(string mail);
     public bool ExistUser(Guid userId);
     public User DeleteUser(Guid userId);
+    public bool IsTheCorrectUser(Guid userToken);
 }

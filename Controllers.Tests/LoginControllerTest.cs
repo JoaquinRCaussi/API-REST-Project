@@ -1,6 +1,7 @@
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Moq;
@@ -20,41 +21,52 @@ public class LoginControllerTest
         _sessionLogicMock = new Mock<ISessionLogic>();
         _loginController = new LoginController(_sessionLogicMock.Object);
     }
-
+    
     [TestMethod]
-    public void Authenticate_ValidUser_ReturnsToken()
+    public void Login_ValidCredentials_ReturnsOkResultWithToken()
     {
-        var email = "mail@mail.com";
-        var password = "password@123";
-        var token = Guid.NewGuid();
-
-        var role = new Role
-        {
-            Id = Guid.NewGuid(),
-            Name = "Admin"
-        };
+        var userId = Guid.NewGuid();
+        var userRoleId = Guid.NewGuid();
 
         var loginRequest = new LoginRequest
         {
-            Email = email,
-            Password = password
+            Email = "test@example.com",
+            Password = "password123"
         };
 
         var authResult = new AuthenticationResult
         {
-            UserId = token,
-            RoleId = role.Id
+            UserId = userId,
+            RoleId = userRoleId
         };
+        
+        _sessionLogicMock
+            .Setup(x => x.Authenticate(loginRequest.Email, loginRequest.Password))
+            .Returns(authResult);
+        
+        var httpContext = new DefaultHttpContext();
+        _loginController.ControllerContext = new ControllerContext
+        {
+            HttpContext = httpContext
+        };
+        
+        var actionResult = _loginController.Login(loginRequest);
+        actionResult.Should().BeOfType<OkObjectResult>();
+        var result = actionResult as OkObjectResult;
 
-        _sessionLogicMock.Setup(x => x.Authenticate(email, password)).Returns(authResult);
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be(200);
 
-        var result = _loginController.Login(loginRequest);
+        var response = result.Value as LoginResponse;
+        response.Should().NotBeNull();
+        response.Token.Should().Be(userId.ToString());
 
-        result.Should().BeOfType<OkObjectResult>();
-
-        var okResult = result as OkObjectResult;
-
-        okResult?.Value.Should().BeOfType<LoginResponse>();
+        // Verifica que la cabecera Authorization contiene el token esperado
+        _loginController.Response.Headers.Should().ContainKey("Authorization");
+        _loginController.Response.Headers["Authorization"].ToString().Should().Be(userId.ToString());
     }
+
+
+
 
 }

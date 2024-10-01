@@ -1,64 +1,38 @@
+using DataAccess.Repositories;
 using Domain;
 using IBusinessLogic;
 using IDataAccess;
 using Models;
 
-namespace BusinessLogic;
-
-public class SessionLogic : ISessionLogic
-{
-    private readonly IUserRepository _repository;
-    private readonly ISessionRepository _sessionRepository;
-    private User? _currentUser;
-
-    public SessionLogic(IUserRepository repository, ISessionRepository sessionRepository)
+namespace BusinessLogic; 
+    public class SessionLogic : ISessionLogic
     {
-        _repository = repository;
-        _sessionRepository = sessionRepository;
-    }
+        private readonly IUserRepository _repository;
 
-    public AuthenticationResult Authenticate(string mail, string password)
-    {
-        var user = _repository.FindByMail(mail);
-
-        if (user == null || user.Password != password)
+        public SessionLogic(IUserRepository repository)
         {
-            throw new Exception("Invalid email or password.");
+            _repository = repository;
         }
 
-        var session = new Session
+        public AuthenticationResult Authenticate(string mail, string password)
         {
-            UserID = user.Id,
-            RoleID = user.Role,
-        };
+            var user = _repository.FindByMail(mail);
 
-        _sessionRepository.AddSession(session);
+            if (user == null || user.Password != password)
+            {
+                throw new Exception("Invalid email or password.");
+            }
+            
+            var userId = user.Id;
+            var roleId = user.Role;
 
-        var result = new AuthenticationResult
-        {
-            UserId = user.Id,
-            RoleId = user.Role,
-        };
+            var result = new AuthenticationResult
+            {
+                UserId = userId,
+                RoleId = roleId,
+            };
 
-        return result;
-    }
-
-    public User GetCurrentUser(Guid? token = null)
-    {
-        if (token == null)
-        {
-            return _currentUser;
+            return result;
         }
-
-        var session = _sessionRepository.FindByToken(token.Value);
-
-        if (session == null)
-        {
-            throw new Exception("Invalid token.");
-        }
-
-        _currentUser = _repository.GetUser(session.UserID);
-
-        return _currentUser;
+        
     }
-}
