@@ -19,7 +19,7 @@ public class DeviceRequest
         Photo = device.Photo;
     }
 
-    public Device ToArgs()
+    public virtual Device ToArgs()
     {
         return new Device(Name, Model, DeviceType, Description, Photo);
     }

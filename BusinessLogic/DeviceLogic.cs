@@ -18,5 +18,9 @@ public class DeviceLogic : IDeviceLogic
     {
         return _deviceRepository.CreateDevice(device);
     }
+    public Camera CreateCamera(Camera camera)
+    {
+        return (Camera)_deviceRepository.CreateDevice(camera);
+    }
 
 }
