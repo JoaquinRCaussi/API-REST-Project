@@ -26,7 +26,7 @@ public class SessionRepositoryTest
         return new HMDbContext(options);
     }
 
-    private void SeedData(HMDbContext context)
+    private void SeedData()
     {
         var session = new Session { RoleID = Guid.NewGuid(), Token = Guid.NewGuid(), UserID = Guid.NewGuid() };
         _sessionRepositoryMock.Setup(x => x.AddSession(session));
@@ -36,7 +36,7 @@ public class SessionRepositoryTest
     public void AddSessionTest()
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestFindByToken");
-        SeedData(context);
+        SeedData();
 
         var expected = new Session
         {
@@ -58,7 +58,7 @@ public class SessionRepositoryTest
     public void FindByTokenTest()
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestFindByToken");
-        SeedData(context);
+        SeedData();
 
         var repository = new SessionRepository(context);
         var expected = new Session
