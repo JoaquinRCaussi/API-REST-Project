@@ -39,6 +39,10 @@ public class UserLogic : IUserLogic
 
     public User CreateHomeOwner(User user)
     {
+        if (!IsCorrectUserFormat(user))
+        {
+            throw new NotValidDataException("User data is not valid");
+        }
         return _userRepository.CreateHomeOwner(user);
     }
 
