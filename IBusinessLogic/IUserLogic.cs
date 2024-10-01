@@ -13,6 +13,8 @@ public interface IUserLogic
 
     public List<User> GetUsers();
     public User GetUser(Guid userId);
+    public User FindByMail(string mail);
     public bool ExistUser(Guid userId);
     public User DeleteUser(Guid userId);
+    public bool IsTheCorrectUser(Guid userToken);
 }

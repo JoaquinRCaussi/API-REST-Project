@@ -43,6 +43,11 @@ public class UserLogic : IUserLogic
         return _userRepository.GetUser(userId);
     }
 
+    public User FindByMail(string mail)
+    {
+        return _userRepository.FindByMail(mail);
+    }
+
     public bool ExistUser(Guid userId)
     {
         throw new NotImplementedException();
@@ -51,5 +56,10 @@ public class UserLogic : IUserLogic
     public User DeleteUser(Guid userId)
     {
         throw new NotImplementedException();
+    }
+
+    public bool IsTheCorrectUser(Guid userToken)
+    {
+        return _userRepository.ExistUserByToken(userToken);
     }
 }

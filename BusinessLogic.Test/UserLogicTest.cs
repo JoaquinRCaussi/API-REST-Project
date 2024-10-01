@@ -174,4 +174,27 @@ public class UserLogicTest
         result.Company.Should().Be(user.Company);
     }
 
+    [TestMethod]
+    public void FindByMailTest()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.FindByMail(user.Email)).Returns(user);
+
+        var result = _userLogic.FindByMail(user.Email);
+
+        result.Should().BeEquivalentTo(user);
+
+        result.Id.Should().Be(user.Id);
+
+        _userRepositoryMock.Verify(x => x.FindByMail(user.Email), Times.Once);
+    }
+
 }
