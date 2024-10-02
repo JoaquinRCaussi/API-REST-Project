@@ -7,12 +7,12 @@ namespace BusinessLogic;
 public class CompanyLogic : ICompanyLogic
 {
     private readonly ICompanyRepository _companyRepository;
-    
+
     public CompanyLogic(ICompanyRepository companyRepository)
     {
         _companyRepository = companyRepository;
     }
-    
+
     public Company CreateCompany(Company companyToCreate)
     {
         if (companyToCreate.Owner.CompanyID != Guid.Empty)

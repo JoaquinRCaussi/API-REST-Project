@@ -14,7 +14,7 @@ public class CompanyLogicTest
     [TestMethod]
     public void CreateCompanyTest_WhenAllPropertiesOk()
     {
-        
+
         // Arrange
         var user = new User
         {
@@ -33,10 +33,10 @@ public class CompanyLogicTest
             Logo = "Logo",
             Owner = user
         };
-        
+
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
-        
+
         // Act
         var companyLogic = new CompanyLogic(mock.Object);
         var result = companyLogic.CreateCompany(company);
@@ -59,14 +59,14 @@ public class CompanyLogicTest
         };
 
         var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
-        
+
         user.Company = company;
         user.CompanyID = company.Id;
-        
+
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
         var companyLogic = new CompanyLogic(mock.Object);
-        
+
         // Act
         Action act = () => companyLogic.CreateCompany(company);
 
@@ -87,11 +87,11 @@ public class CompanyLogicTest
         };
         var companies = new List<Company> { company };
         mock.Setup(x => x.GetCompanies("", "")).Returns(companies);
-        
+
         // Act
         var companyLogic = new CompanyLogic(mock.Object);
         var result = companyLogic.GetCompanies(null, null);
-        
+
         // Assert
         result.Should().BeEquivalentTo(companies);
     }
@@ -115,16 +115,16 @@ public class CompanyLogicTest
             RUT = "",
             Owner = user
         };
-        
+
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
         var companyLogic = new CompanyLogic(mock.Object);
-        
+
         // Act
         Action act = () => companyLogic.CreateCompany(company);
-        
+
         // Assert
-        
+
         act.Should().Throw<NotValidDataException>().WithMessage("The name and RUT are required");
     }
 

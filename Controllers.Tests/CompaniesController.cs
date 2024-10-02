@@ -19,7 +19,8 @@ public class CompaniesController
     public void CreateCompany_WhenAllPropertiesOk()
     {
         // Arrange
-        var owner = new User(){
+        var owner = new User()
+        {
             Id = Guid.NewGuid(),
             Name = "John",
             LastName = "Doe",
@@ -77,7 +78,7 @@ public class CompaniesController
         var expected = new OkObjectResult(companies.Select(x => new CompanyResponse(x)).ToList());
         act.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void GetCompanies_AllowFilterByCompanyName()
     {
@@ -126,13 +127,13 @@ public class CompaniesController
                 Password = "password@123"
             }
         };
-        
+
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
         var companies = new List<Company>
         {
         };
         companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
 
-        
+
     }
 }

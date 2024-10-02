@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
-using IDataAccess;
 using IBusinessLogic;
+using IDataAccess;
 using Moq;
 
 namespace BusinessLogic.Test;

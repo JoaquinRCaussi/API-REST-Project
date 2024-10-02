@@ -66,7 +66,7 @@ public class CompanyOwnerControllerTest
         };
         var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "RUT", Logo = "123456789", Owner = user };
 
-        
+
 
         var addCompanyToOwnerRequest = new AddCompanyToOwnerRequest(user, company);
         var expectedResponse = new AddCompanyToOwnerResponse(user, company);

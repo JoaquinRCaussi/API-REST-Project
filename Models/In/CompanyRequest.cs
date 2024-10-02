@@ -19,7 +19,10 @@ public class CompanyRequest
     {
         return new Company
         {
-            Name = Name, RUT = RUT, Logo = logo, Owner = user
+            Name = Name,
+            RUT = RUT,
+            Logo = logo,
+            Owner = user
         };
     }
 }

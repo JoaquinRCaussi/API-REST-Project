@@ -167,7 +167,7 @@ public class UserRepositoryTest
         Assert.IsNotNull(result.Role);
         Assert.AreEqual(homeOwnerRole.Id, result.RoleID, "El usuario debe tener el rol HomeOwner asignado.");
     }
-    
+
     [TestMethod]
     public void GetUser_WhenUserExists_ReturnsUserWithRoleAndCompany()
     {
@@ -184,7 +184,7 @@ public class UserRepositoryTest
             Email = "mail@mail.com",
             Password = "securePassword123",
         };
-        
+
         var company = new Company
         {
             Id = Guid.NewGuid(),
@@ -193,7 +193,7 @@ public class UserRepositoryTest
             Logo = "example_logo.png",
             Owner = expectedUser
         };
-        
+
         expectedUser.Company = company;
         expectedUser.CompanyID = company.Id;
 
@@ -234,7 +234,7 @@ public class UserRepositoryTest
             Email = "mail@mail.com",
             Password = "securePassword123",
         };
-        
+
         var company = new Company
         {
             Id = Guid.NewGuid(),

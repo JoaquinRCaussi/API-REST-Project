@@ -23,8 +23,8 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
     }
 
     [HttpGet]
-    
-    public IActionResult GetCompanies([FromQuery]string name, [FromQuery] string ownerName)
+
+    public IActionResult GetCompanies([FromQuery] string name, [FromQuery] string ownerName)
     {
         var companies = companyLogic.GetCompanies(name, ownerName).Select(c => new CompanyResponse(c)).ToList();
         return Ok(companies);
