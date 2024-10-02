@@ -1,7 +1,6 @@
 using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 
 namespace WebApi.Controllers;
 
