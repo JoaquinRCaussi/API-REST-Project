@@ -21,6 +21,7 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
     [HttpGet]
     public IActionResult GetCompanies()
     {
-        throw new NotImplementedException();
+        var companies = companyLogic.GetCompanies().Select(c => new CompanyResponse(c)).ToList();
+        return Ok(companies);
     }
 }
