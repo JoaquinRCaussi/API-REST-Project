@@ -20,7 +20,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public IActionResult GetUsers()
     {
-        List<User> users = _userLogic.GetUsers();
+        List<User> users = _userLogic.GetUsers(); //Select(u => new UserResponse(u)).ToList();
         return Ok(users);
     }
 

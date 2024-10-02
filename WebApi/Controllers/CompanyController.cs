@@ -17,4 +17,11 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
         var response = new CompanyResponse(createdCompany);
         return Ok(response);
     }
+
+    [HttpGet]
+    public IActionResult GetCompanies()
+    {
+        var companies = companyLogic.GetCompanies().Select(c => new CompanyResponse(c)).ToList();
+        return Ok(companies);
+    }
 }

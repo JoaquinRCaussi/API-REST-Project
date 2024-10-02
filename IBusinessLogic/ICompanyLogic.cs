@@ -4,5 +4,6 @@ namespace LogicInterface;
 
 public interface ICompanyLogic
 {
-    Company CreateCompany(Company companyToCreate);
+    public Company CreateCompany(Company companyToCreate);
+    public List<Company> GetCompanies();
 }
