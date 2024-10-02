@@ -95,4 +95,35 @@ public class CompanyLogicTest
         result.Should().BeEquivalentTo(companies);
     }
 
+    [TestMethod]
+    public void CreateCompany_WhenPropertiesAreWrong()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var company = new Company
+        {
+            Id = Guid.NewGuid(),
+            Name = "",
+            RUT = "",
+            Owner = user
+        };
+        
+        var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        mock.Setup(x => x.CreateCompany(company)).Returns(company);
+        var companyLogic = new CompanyLogic(mock.Object);
+        
+        // Act
+        Action act = () => companyLogic.CreateCompany(company);
+        
+        // Assert
+        act.Should().Throw<NotValidDataException>().WithMessage("The name and RUT are required");
+    }
+
 }
