@@ -1,12 +1,14 @@
 using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
+using Models;
+using WebApi.Filters;
 
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/admins")]
+[AuthenticationFilter]
 public sealed class AdminController : ControllerBase
 {
     private readonly IUserLogic _userLogic;

@@ -3,9 +3,9 @@ using Domain;
 using FluentAssertions;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Moq;
 using WebApi.Controllers;
-using WebApi.Models;
 
 namespace Controllers.Tests;
 
@@ -119,6 +119,22 @@ public class UserControllerTest
 
         var expectedResponse = new OkObjectResult(userResponse);
 
+        result.Should().BeEquivalentTo(expectedResponse);
+    }
+
+
+    [TestMethod]
+    public void DeleteAdminAccount_WhenIdIsCorrect()
+    {
+        var user = new User { Id = Guid.NewGuid(), Name = "John", LastName = "Doe", Email = "mail@gmail.com" };
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        userLogicMock.Setup(logic => logic.ExistUser(user.Id)).Returns(true);
+        userLogicMock.Setup(logic => logic.DeleteUser(user.Id)).Returns(user);
+
+        var userController = new UserController(userLogicMock.Object);
+        var result = userController.DeleteUser(user.Id);
+
+        var expectedResponse = new OkObjectResult(user);
         result.Should().BeEquivalentTo(expectedResponse);
     }
 }

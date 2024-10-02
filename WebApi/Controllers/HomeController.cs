@@ -1,7 +1,7 @@
 using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
+using Models;
 
 namespace WebApi.Controllers;
 
@@ -34,8 +34,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpGet]
-    [Route("homes/{userId}")]
-    public IActionResult GetHomeByUser(Guid userId)
+    public IActionResult GetHomeByUser([FromBody] Guid userId)
     {
         var homes = _homeLogic.GetHomesByUser(userId);
         var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount }).ToList();
@@ -43,7 +42,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpGet]
-    [Route("homes/{homeId}")]
+    [Route("{homeId}")]
     public IActionResult GetHome(Guid homeId)
     {
         var home = _homeLogic.GetHome(homeId);
@@ -52,7 +51,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpGet]
-    [Route("homes/{homeId}/members")]
+    [Route("{homeId}/members")]
     public IActionResult GetHomeMembers(Guid homeId)
     {
         var users = _homeLogic.GetHomeMembers(homeId);
@@ -66,7 +65,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpPut]
-    [Route("homes/{homeId}")]
+    [Route("{homeId}")]
     public IActionResult AddMemberToHome(Guid homeId, [FromBody] Guid userId)
     {
         var home = _homeLogic.AddMember(homeId, userId);
