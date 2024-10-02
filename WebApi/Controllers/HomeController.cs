@@ -85,7 +85,6 @@ public class HomeController : ControllerBase
     //Members porque cuando haga {homeid}/members traigo los usuarios, selecciono uno de ahi y le cambio los permisos en {homeid}/members/{userid}
     [HttpPut]
     [Route("{homeId}/members/{userId}")]
-    [AuthorizationFilter]
     public IActionResult UpdatePermissions(Guid homeId, Guid userId, [FromBody] PermissionRequest permissions)
     {
         var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
