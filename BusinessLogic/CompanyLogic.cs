@@ -20,7 +20,7 @@ public class CompanyLogic : ICompanyLogic
             throw new ConflictException("The owner already has a company");
         }
 
-        if (IsFormatCorrect(companyToCreate))
+        if (IsFormatNotCorrect(companyToCreate))
         {
             throw new NotValidDataException("The name and RUT are required");
         }
@@ -41,7 +41,7 @@ public class CompanyLogic : ICompanyLogic
         return _companyRepository.GetCompanies(name, ownerName);
     }
 
-    private bool IsFormatCorrect(Company company)
+    private bool IsFormatNotCorrect(Company company)
     {
         return company.Name == "" || company.RUT == "" || company.Logo == "";
     }
