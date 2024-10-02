@@ -2,6 +2,7 @@ using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using WebApi.Filters;
 
 namespace WebApi.Controllers;
 
@@ -10,10 +11,12 @@ namespace WebApi.Controllers;
 public class HomeController : ControllerBase
 {
     private readonly IHomeLogic _homeLogic;
+    private readonly IMemberSettingLogic _memberSettingLogic;
 
-    public HomeController(IHomeLogic homeLogic)
+    public HomeController(IHomeLogic homeLogic, IMemberSettingLogic memberSettingLogic)
     {
         _homeLogic = homeLogic;
+        _memberSettingLogic = memberSettingLogic;
     }
 
     [HttpPost]
@@ -34,7 +37,8 @@ public class HomeController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetHomeByUser([FromBody] Guid userId)
+    [Route("{userId}")]
+    public IActionResult GetHomeByUser(Guid userId)
     {
         var homes = _homeLogic.GetHomesByUser(userId);
         var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount }).ToList();
@@ -66,9 +70,26 @@ public class HomeController : ControllerBase
 
     [HttpPut]
     [Route("{homeId}")]
-    public IActionResult AddMemberToHome(Guid homeId, [FromBody] Guid userId)
+    public IActionResult AddMemberToHome(Guid homeId, [FromBody] AddMemberRequest addMemberRequest)
     {
+        var userId = Guid.Parse(addMemberRequest.UserId!);
+        
         var home = _homeLogic.AddMember(homeId, userId);
+        var memberSetting = _memberSettingLogic.CreateMemberSetting(homeId, userId);
+
+        var response = new AddMemberResponse { Home = home, MemberSetting = memberSetting };
+        
+        return Ok(response);
+    }
+    
+    //Members porque cuando haga {homeid}/members traigo los usuarios, selecciono uno de ahi y le cambio los permisos en {homeid}/members/{userid}
+    [HttpPut]
+    [Route("{homeId}/members/{userId}")]
+    [AuthorizationFilter]
+    public IActionResult UpdatePermissions(Guid homeId, Guid userId, [FromBody] PermissionRequest permissions)
+    {
+        var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
         return Ok(home);
     }
+    
 }
