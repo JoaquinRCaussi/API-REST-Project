@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Domain;
 using FluentAssertions;
-using LogicInterface;
+using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

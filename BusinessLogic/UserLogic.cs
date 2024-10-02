@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Domain;
 using IDataAccess;
-using LogicInterface;
+using IBusinessLogic;
 
 namespace BusinessLogic;
 

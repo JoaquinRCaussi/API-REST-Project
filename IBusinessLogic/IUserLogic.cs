@@ -1,6 +1,6 @@
 using Domain;
 
-namespace LogicInterface;
+namespace IBusinessLogic;
 
 public interface IUserLogic
 {

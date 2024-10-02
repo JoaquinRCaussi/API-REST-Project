@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
-using LogicInterface;
+using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;

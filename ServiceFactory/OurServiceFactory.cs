@@ -3,7 +3,7 @@ using BusinessLogic;
 using DataAccess.Data;
 using DataAccess.Repositories;
 using IDataAccess;
-using LogicInterface;
+using IBusinessLogic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

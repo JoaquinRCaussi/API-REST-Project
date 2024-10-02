@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
 using IDataAccess;
-using LogicInterface;
+using IBusinessLogic;
 using Moq;
 
 namespace BusinessLogic.Test;
