@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Domain;
 using LogicInterface;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WebApi.Filters;
 
-[ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public sealed class AuthenticationFilterAttribute
     : Attribute,
