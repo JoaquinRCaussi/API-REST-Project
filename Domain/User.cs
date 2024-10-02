@@ -10,6 +10,6 @@ public class User
     public string ImagePath { get; set; } = string.Empty;
     public Guid? RoleID { get; set; } = null;
     public Role Role { get; set; } = null;
-    public Guid? CompanyID { get; set; } = Guid.Empty;
+    public Guid? CompanyID { get; set; } = null;
     public Company Company { get; set; } = null;
 }

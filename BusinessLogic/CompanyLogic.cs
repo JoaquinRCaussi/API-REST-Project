@@ -15,7 +15,7 @@ public class CompanyLogic : ICompanyLogic
 
     public Company CreateCompany(Company companyToCreate)
     {
-        if (companyToCreate.Owner.CompanyID != Guid.Empty)
+        if (companyToCreate.Owner.CompanyID != null)
         {
             throw new ConflictException("The owner already has a company");
         }
