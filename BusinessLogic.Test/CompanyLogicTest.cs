@@ -69,6 +69,6 @@ public class CompanyLogicTest
         // Act
         Action act = () => companyLogic.CreateCompany(company);
 
-        act.Should().Throw<ConflictException>();
+        act.Should().Throw<ConflictException>().WithMessage("The owner already has a company");
     }
 }
