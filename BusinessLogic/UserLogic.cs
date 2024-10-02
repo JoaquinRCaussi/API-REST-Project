@@ -75,9 +75,9 @@ public class UserLogic : IUserLogic
         return _userRepository.DeleteUser(userId);
     }
 
-    public bool IsTheCorrectUser(Guid userToken)
+    public User AuthenticateUser(string mail, string password)
     {
-        return _userRepository.ExistUserByToken(userToken);
+        return _userRepository.AuthenticateUser(mail, password);
     }
 
     private bool IsCorrectUserFormat(User user)

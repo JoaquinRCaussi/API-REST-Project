@@ -18,7 +18,7 @@ public interface IUserRepository
 
     public User FindByMail(string mail);
 
-    public bool ExistUserByToken(Guid userToken);
+    public User AuthenticateUser(string mail, string password);
 
     public bool ExistUser(Guid userId);
 

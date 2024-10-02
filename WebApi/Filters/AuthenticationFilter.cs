@@ -1,39 +1,106 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WebApi.Filters;
-public class AuthenticationFilter : Attribute, IAuthorizationFilter
+
+[ExcludeFromCodeCoverage]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public sealed class AuthenticationFilterAttribute
+    : Attribute,
+    IAuthorizationFilter
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var token = context.HttpContext.Request.Headers["Authorization"];
-        if (String.IsNullOrEmpty(token))
-        {
-            context.Result = new ObjectResult("Authorization header is needed") { StatusCode = 401 };
-        }
+        var authorizationHeader = context.HttpContext.Request.Headers["Authorization"].ToString();
 
-        var bearerToken = token.ToString().Split(" ")[1];
-        if (!Guid.TryParse(bearerToken, out Guid parsedToken))
+        if (string.IsNullOrEmpty(authorizationHeader))
         {
-            context.Result = new ObjectResult("Invalid token format") { StatusCode = 400 };
-        }
-
-        else
-        {
-            var sessionService = GetUserLogic(context);
-            var correctUser = sessionService.IsTheCorrectUser(parsedToken);
-            if (!correctUser)
+            context.Result = new ObjectResult(new
             {
-                context.Result = new ObjectResult("The token does not correspond to a existing user") { StatusCode = 401 };
-            }
+                InnerCode = "Unauthenticated",
+                Message = "You are not authenticated"
+            })
+            {
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+            return;
+        }
+
+        var isAuthorizationFormatNotValid = !IsAuthorizationFormatValid(authorizationHeader!);
+        if (isAuthorizationFormatNotValid)
+        {
+            context.Result = new ObjectResult(
+                new
+                {
+                    InnerCode = "InvalidAuthorization",
+                    Message = "The provided authorization header format is invalid"
+                })
+            {
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+            return;
+        }
+
+        var isAuthorizationExpired = IsAuthorizationExpired(); //No tenemos que hacer esto, pero en un futuro podria ser
+        if (isAuthorizationExpired)
+        {
+            context.Result = new ObjectResult(
+                new
+                {
+                    InnerCode = "ExpiredAuthorization",
+                    Message = "The provided authorization header is expired"
+                })
+            {
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+            return;
+        }
+
+        var token = authorizationHeader!.Split(" ")[1];
+
+        try
+        {
+            var userOfAuthorization = GetUserOfAuthorization(token, context);
+
+            context.HttpContext.Items[0] = userOfAuthorization;
+        }
+        catch (Exception)
+        {
+            context.Result = new ObjectResult(new
+            {
+                InnerCode = "InternalError",
+                Message = "An error ocurred while processing the request"
+            })
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError
+            };
         }
     }
-    private IUserLogic GetUserLogic(AuthorizationFilterContext context)
-    {
-        var sessionManagerObject = context.HttpContext.RequestServices.GetService(typeof(IUserLogic));
-        var sessionService = sessionManagerObject as IUserLogic;
 
-        return sessionService;
+    private bool IsAuthorizationFormatValid(string authorization)
+    {
+        return authorization.StartsWith("Bearer ");
+    }
+
+    private bool IsAuthorizationExpired()
+    {
+        return false;
+    }
+
+    private User GetUserOfAuthorization(
+        string authorization,
+        AuthorizationFilterContext context)
+    {
+        var sessionService = context.HttpContext.RequestServices.GetRequiredService<ISessionService>();
+
+        var user = sessionService.GetUserByToken(authorization);
+
+        return user;
     }
 }
+
+

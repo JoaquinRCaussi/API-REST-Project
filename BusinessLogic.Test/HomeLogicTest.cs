@@ -24,6 +24,15 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesTest()
     {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+
         var homes = new List<Home>
         {
             new Home
@@ -31,7 +40,7 @@ public class HomeLogicTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = Guid.NewGuid(),
-                Members = [Guid.NewGuid()],
+                Members = [user],
                 MemberCount = 5,
                 Devices = "asd"
             }
@@ -47,12 +56,21 @@ public class HomeLogicTest
     [TestMethod]
     public void CreateHomeTest()
     {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+
         var home = new Home
         {
             Id = Guid.NewGuid(),
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = [Guid.NewGuid()],
+            Members = [user],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -91,6 +109,15 @@ public class HomeLogicTest
     [TestMethod]
     public void AddMemberTest()
     {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
         var home = new Home
@@ -98,7 +125,7 @@ public class HomeLogicTest
             Id = homeId,
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = [Guid.NewGuid()],
+            Members = [user],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -114,15 +141,25 @@ public class HomeLogicTest
     public void GetHomeTest()
     {
         var homeId = Guid.NewGuid();
-        var home = new Home
+        var user = new User
         {
-            Id = homeId,
-            Location = "Home",
-            HomeOwner = Guid.NewGuid(),
-            Members = [Guid.NewGuid()],
-            MemberCount = 5,
-            Devices = "asd"
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
         };
+
+        var home =
+            new Home
+            {
+                Id = homeId,
+                Location = "Home",
+                HomeOwner = user.Id,
+                Members = [user],
+                MemberCount = 5,
+                Devices = "asd"
+            };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
 
@@ -134,23 +171,31 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesByUserTest()
     {
-        var userId = Guid.NewGuid();
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+
         var homes = new List<Home>
         {
             new Home
             {
                 Id = Guid.NewGuid(),
                 Location = "Home",
-                HomeOwner = userId,
-                Members = [Guid.NewGuid()],
+                HomeOwner = user.Id,
+                Members = [user],
                 MemberCount = 5,
                 Devices = "asd"
             }
         };
 
-        _homeRepositoryMock?.Setup(x => x.GetHomesByUser(userId)).Returns(homes);
+        _homeRepositoryMock?.Setup(x => x.GetHomesByUser(user.Id)).Returns(homes);
 
-        var result = _homeLogic?.GetHomesByUser(userId);
+        var result = _homeLogic?.GetHomesByUser(user.Id);
 
         result.Should().BeEquivalentTo(homes);
     }

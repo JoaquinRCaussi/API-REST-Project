@@ -21,5 +21,5 @@ public interface IUserLogic
 
     public User DeleteUser(Guid userId);
 
-    public bool IsTheCorrectUser(Guid userToken);
+    public User AuthenticateUser(string mail, string password);
 }

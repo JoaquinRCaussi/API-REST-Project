@@ -222,6 +222,48 @@ public class UserLogicTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
+
+        _userRepositoryMock.Setup(x => x.AuthenticateUser(user.Email, user.Password)).Returns(user);
+
+        var result = _userLogic.AuthenticateUser(user.Email, user.Password);
+
+        result.Should().BeEquivalentTo(user);
+
+        result.Id.Should().Be(user.Id);
+        result.Email.Should().Be(user.Email);
+
+        _userRepositoryMock.Verify(x => x.AuthenticateUser(user.Email, user.Password), Times.Once);
+    }
+
+    [TestMethod]
+    public void ExistUserTest()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+
+        _userRepositoryMock.Setup(x => x.ExistUser(userId)).Returns(true);
+
+        // Act
+        var result = _userLogic.ExistUser(userId);
+
+        // Assert
+        result.Should().BeTrue();
+
+        _userRepositoryMock.Verify(x => x.ExistUser(userId), Times.Once);
+    }
+
+    [TestMethod]
+    public void DeleteUserTest()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@gmail.com",
+            Password = "password@123"
+        };
+
         _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(true);
         _userRepositoryMock.Setup(x => x.DeleteUser(user.Id)).Returns(user);
 
@@ -262,7 +304,7 @@ public class UserLogicTest
             Id = Guid.NewGuid(),
             Name = "John",
             LastName = "Snow",
-            Email = "mail,com",
+            Email = "mail@.com",
             Password = "password@123"
         };
 
@@ -270,6 +312,7 @@ public class UserLogicTest
 
         act.Should().Throw<NotValidDataException>().WithMessage("Email is not valid");
     }
+
 
     [TestMethod]
     public void CreateUser_WhenUserHasNoNameOrPasword()

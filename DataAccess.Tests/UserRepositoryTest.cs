@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using DataAccess.Data;
 using DataAccess.Repositories;
 using Domain;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Tests;
@@ -66,7 +67,7 @@ public class UserRepositoryTest
         Assert.AreEqual(expected.Email, storedAdmin.Email);
 
         Assert.IsNotNull(storedAdmin.Role);
-        Assert.AreEqual(adminRole.Id, storedAdmin.Role, "El usuario debe tener el rol Admin asignado.");
+        Assert.AreEqual(adminRole.Id, storedAdmin.RoleID, "El usuario debe tener el rol Admin asignado.");
     }
 
     [TestMethod]
@@ -135,7 +136,7 @@ public class UserRepositoryTest
         Assert.AreEqual(expected.Email, result.Email);
 
         Assert.IsNotNull(result.Role);
-        Assert.AreEqual(companyOwnerRole.Id, result.Role, "El usuario debe tener el rol CompanyOwner asignado.");
+        Assert.AreEqual(companyOwnerRole.Id, result.RoleID, "El usuario debe tener el rol CompanyOwner asignado.");
     }
 
     [TestMethod]
@@ -164,7 +165,7 @@ public class UserRepositoryTest
         Assert.AreEqual(expected.Email, result.Email);
 
         Assert.IsNotNull(result.Role);
-        Assert.AreEqual(homeOwnerRole.Id, result.Role, "El usuario debe tener el rol HomeOwner asignado.");
+        Assert.AreEqual(homeOwnerRole.Id, result.RoleID, "El usuario debe tener el rol HomeOwner asignado.");
     }
 
     [TestMethod]
@@ -173,26 +174,40 @@ public class UserRepositoryTest
         using HMDbContext? context = CreateInMemoryDbContext("TestAddCompanyToCompanyOwner");
         SeedData(context);
 
+        var userId = Guid.NewGuid();
+
         Role? companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
 
         var repository = new UserRepository(context);
-        var expected = new User
+        var user = new User
         {
-            Id = Guid.NewGuid(),
+            Id = userId,
             Name = "Juan",
             LastName = "Perez",
             Email = "mail@mail.com",
             Password = "securePassword123",
-            Role = companyOwnerRole.Id
+            RoleID = companyOwnerRole.Id
         };
 
         var company = new Company { Id = Guid.NewGuid(), Name = "Company" };
 
-        User? result = repository.AddCompanyToCompanyOwner(expected, company);
+        var expected = new User
+        {
+            Id = userId,
+            Name = "Juan",
+            LastName = "Perez",
+            Email = "mail@mail.com",
+            Password = "securePassword123",
+            RoleID = companyOwnerRole.Id,
+            CompanyID = company.Id
+        };
+
+
+        User? result = repository.AddCompanyToCompanyOwner(user, company);
         context.SaveChanges();
 
-        Assert.IsNotNull(result.Company);
-        Assert.AreEqual(company.Id, result.Company);
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
@@ -218,8 +233,8 @@ public class UserRepositoryTest
             LastName = "Perez",
             Email = "mail@mail.com",
             Password = "securePassword123",
-            Role = homeOwnerRole.Id,
-            Company = company.Id
+            RoleID = homeOwnerRole.Id,
+            CompanyID = company.Id
         };
 
         context.Users?.Add(expectedUser);
@@ -227,13 +242,8 @@ public class UserRepositoryTest
 
         User? result = repository.GetUser(expectedUser.Id);
 
-        Assert.IsNotNull(result);
-        Assert.AreEqual(expectedUser.Id, result.Id);
-        Assert.AreEqual(expectedUser.Email, result.Email);
-        Assert.IsNotNull(result.Role);
-        Assert.AreEqual(expectedUser.Role, result.Role);
-        Assert.IsNotNull(result.Company);
-        Assert.AreEqual(expectedUser.Company, result.Company);
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(expectedUser);
     }
 
     [TestMethod]
@@ -246,5 +256,200 @@ public class UserRepositoryTest
         User? result = repository.GetUser(Guid.NewGuid());
 
         Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void GetUserByEmail_WhenUserExists_ReturnsUserWithRoleAndCompany()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetUserByEmail");
+        SeedData(context);
+        var repository = new UserRepository(context);
+        Role? homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
+
+        var company = new Company
+        {
+            Id = Guid.NewGuid(),
+            Name = "Example Company",
+            RUT = "12345678-9",
+            Logo = "example_logo.png"
+        };
+
+        var expectedUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Juan",
+            LastName = "Perez",
+            Email = "mail@mail.com",
+            Password = "securePassword123",
+            RoleID = homeOwnerRole.Id,
+            CompanyID = company.Id
+        };
+
+        context.Users?.Add(expectedUser);
+
+        context.SaveChanges();
+
+        User? result = repository.FindByMail(expectedUser.Email);
+
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(expectedUser);
+    }
+
+    [TestMethod]
+    public void AuthenticateUser_WhenCredentialsAreCorrect_ReturnsUser()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestAuthenticateUser");
+        SeedData(context);
+
+        var expectedUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Juan",
+            LastName = "Perez",
+            Email = "user@example.com",
+            Password = "securePassword123"
+        };
+
+        context.Users?.Add(expectedUser);
+        context.SaveChanges();
+
+        var repository = new UserRepository(context);
+
+        User? result = repository.AuthenticateUser("user@example.com", "securePassword123");
+
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(expectedUser);
+    }
+
+    [TestMethod]
+    public void AuthenticateUser_WhenEmailIsIncorrect_ReturnsNull()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestAuthenticateUserInvalidEmail");
+        SeedData(context);
+
+        var expectedUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Juan",
+            LastName = "Perez",
+            Email = "user@example.com",
+            Password = "securePassword123"
+        };
+
+        context.Users?.Add(expectedUser);
+        context.SaveChanges();
+
+        var repository = new UserRepository(context);
+
+        User? result = repository.AuthenticateUser("wronguser@example.com", "securePassword123");
+
+        result.Should().BeNull();
+    }
+
+    [TestMethod]
+    public void AuthenticateUser_WhenPasswordIsIncorrect_ReturnsNull()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestAuthenticateUserInvalidPassword");
+        SeedData(context);
+
+        var expectedUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Juan",
+            LastName = "Perez",
+            Email = "user@example.com",
+            Password = "securePassword123"
+        };
+
+        context.Users?.Add(expectedUser);
+        context.SaveChanges();
+
+        var repository = new UserRepository(context);
+
+        User? result = repository.AuthenticateUser("user@example.com", "wrongPassword");
+
+        result.Should().BeNull();
+    }
+
+    [TestMethod]
+    public void ExistUser_WhenUserExists_ReturnsTrue()
+    {
+        // Arrange
+        using HMDbContext? context = CreateInMemoryDbContext("TestExistUser");
+        var repository = new UserRepository(context);
+
+        var existingUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "john.doe@example.com",
+            Password = "password"
+        };
+
+        context.Users?.Add(existingUser);
+        context.SaveChanges();
+
+        // Act
+        var result = repository.ExistUser(existingUser.Id);
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [TestMethod]
+    public void ExistUser_WhenUserDoesNotExist_ReturnsFalse()
+    {
+        // Arrange
+        using HMDbContext? context = CreateInMemoryDbContext("TestExistUser_NotFound");
+        var repository = new UserRepository(context);
+
+        // Act
+        var result = repository.ExistUser(Guid.NewGuid());
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [TestMethod]
+    public void DeleteUser_WhenUserExists_DeletesAndReturnsUser()
+    {
+        // Arrange
+        using HMDbContext? context = CreateInMemoryDbContext("TestDeleteUser");
+        var repository = new UserRepository(context);
+
+        var userToDelete = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Jane",
+            LastName = "Doe",
+            Email = "jane.doe@example.com",
+            Password = "password"
+        };
+
+        context.Users?.Add(userToDelete);
+        context.SaveChanges();
+
+        // Act
+        var result = repository.DeleteUser(userToDelete.Id);
+        var userInDb = context.Users?.FirstOrDefault(u => u.Id == userToDelete.Id);
+
+        // Assert
+        result.Should().BeEquivalentTo(userToDelete);
+        userInDb.Should().BeNull(); // Verifies that the user was deleted
+    }
+
+    [TestMethod]
+    public void DeleteUser_WhenUserDoesNotExist_ReturnsNull()
+    {
+        // Arrange
+        using HMDbContext? context = CreateInMemoryDbContext("TestDeleteUser_NotFound");
+        var repository = new UserRepository(context);
+
+        // Act
+        var result = repository.DeleteUser(Guid.NewGuid());
+
+        // Assert
+        result.Should().BeNull();
     }
 }
