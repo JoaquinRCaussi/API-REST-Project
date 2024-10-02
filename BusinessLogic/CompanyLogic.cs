@@ -19,6 +19,11 @@ public class CompanyLogic : ICompanyLogic
         {
             throw new ConflictException("The owner already has a company");
         }
+
+        if (companyToCreate.Name == "" || companyToCreate.RUT == "")
+        {
+            throw new NotValidDataException("The name and RUT are required");
+        }
         return _companyRepository.CreateCompany(companyToCreate);
     }
 

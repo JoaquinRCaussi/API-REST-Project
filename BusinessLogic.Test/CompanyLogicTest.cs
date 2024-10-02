@@ -123,6 +123,7 @@ public class CompanyLogicTest
         Action act = () => companyLogic.CreateCompany(company);
         
         // Assert
+        
         act.Should().Throw<NotValidDataException>().WithMessage("The name and RUT are required");
     }
 
