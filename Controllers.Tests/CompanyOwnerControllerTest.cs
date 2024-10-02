@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
-using LogicInterface;
+using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Moq;
@@ -56,8 +56,6 @@ public class CompanyOwnerControllerTest
     [TestMethod]
     public void AddCompanyToCompanyOwner_WhenAllPropertiesOk()
     {
-        var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "RUT", Logo = "123456789" };
-
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -66,6 +64,9 @@ public class CompanyOwnerControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
+        var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "RUT", Logo = "123456789", Owner = user };
+
+
 
         var addCompanyToOwnerRequest = new AddCompanyToOwnerRequest(user, company);
         var expectedResponse = new AddCompanyToOwnerResponse(user, company);

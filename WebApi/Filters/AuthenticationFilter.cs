@@ -1,6 +1,6 @@
 using System.Net;
 using Domain;
-using LogicInterface;
+using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

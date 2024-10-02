@@ -1,5 +1,5 @@
 using Domain;
-using LogicInterface;
+using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 

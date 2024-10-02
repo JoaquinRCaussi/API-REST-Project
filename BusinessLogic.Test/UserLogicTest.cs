@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
+using IBusinessLogic;
 using IDataAccess;
-using LogicInterface;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -162,7 +162,8 @@ public class UserLogicTest
         {
             Id = Guid.NewGuid(),
             Name = "Company",
-            RUT = "Address"
+            RUT = "Address",
+            Owner = user
         };
 
         _userRepositoryMock.Setup(x => x.AddCompanyToCompanyOwner(user, company)).Returns(user);

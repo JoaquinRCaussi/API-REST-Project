@@ -1,0 +1,9 @@
+using Domain;
+
+namespace IDataAccess;
+
+public interface ICompanyRepository
+{
+    public Company CreateCompany(Company company);
+    public List<Company> GetCompanies(string name, string ownerName);
+}
