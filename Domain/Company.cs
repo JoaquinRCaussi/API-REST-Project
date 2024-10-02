@@ -6,4 +6,5 @@ public class Company
     public string Name { get; set; } = string.Empty;
     public string RUT { get; set; } = string.Empty;
     public string Logo { get; set; } = string.Empty;
+    public required User Owner { get; set; } 
 }

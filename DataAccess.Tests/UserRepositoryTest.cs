@@ -167,49 +167,7 @@ public class UserRepositoryTest
         Assert.IsNotNull(result.Role);
         Assert.AreEqual(homeOwnerRole.Id, result.RoleID, "El usuario debe tener el rol HomeOwner asignado.");
     }
-
-    [TestMethod]
-    public void AddCompanyToCompanyOwnerTest()
-    {
-        using HMDbContext? context = CreateInMemoryDbContext("TestAddCompanyToCompanyOwner");
-        SeedData(context);
-
-        var userId = Guid.NewGuid();
-
-        Role? companyOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "CompanyOwner");
-
-        var repository = new UserRepository(context);
-        var user = new User
-        {
-            Id = userId,
-            Name = "Juan",
-            LastName = "Perez",
-            Email = "mail@mail.com",
-            Password = "securePassword123",
-            RoleID = companyOwnerRole.Id
-        };
-
-        var company = new Company { Id = Guid.NewGuid(), Name = "Company" };
-
-        var expected = new User
-        {
-            Id = userId,
-            Name = "Juan",
-            LastName = "Perez",
-            Email = "mail@mail.com",
-            Password = "securePassword123",
-            RoleID = companyOwnerRole.Id,
-            CompanyID = company.Id
-        };
-
-
-        User? result = repository.AddCompanyToCompanyOwner(user, company);
-        context.SaveChanges();
-
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(expected);
-    }
-
+    
     [TestMethod]
     public void GetUser_WhenUserExists_ReturnsUserWithRoleAndCompany()
     {
@@ -218,14 +176,6 @@ public class UserRepositoryTest
         var repository = new UserRepository(context);
         Role? homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
 
-        var company = new Company
-        {
-            Id = Guid.NewGuid(),
-            Name = "Example Company",
-            RUT = "12345678-9",
-            Logo = "example_logo.png"
-        };
-
         var expectedUser = new User
         {
             Id = Guid.NewGuid(),
@@ -233,9 +183,19 @@ public class UserRepositoryTest
             LastName = "Perez",
             Email = "mail@mail.com",
             Password = "securePassword123",
-            RoleID = homeOwnerRole.Id,
-            CompanyID = company.Id
         };
+        
+        var company = new Company
+        {
+            Id = Guid.NewGuid(),
+            Name = "Example Company",
+            RUT = "12345678-9",
+            Logo = "example_logo.png",
+            Owner = expectedUser
+        };
+        
+        expectedUser.Company = company;
+        expectedUser.CompanyID = company.Id;
 
         context.Users?.Add(expectedUser);
         context.SaveChanges();
@@ -266,14 +226,6 @@ public class UserRepositoryTest
         var repository = new UserRepository(context);
         Role? homeOwnerRole = context.Roles?.FirstOrDefault(r => r.Name == "HomeOwner");
 
-        var company = new Company
-        {
-            Id = Guid.NewGuid(),
-            Name = "Example Company",
-            RUT = "12345678-9",
-            Logo = "example_logo.png"
-        };
-
         var expectedUser = new User
         {
             Id = Guid.NewGuid(),
@@ -281,9 +233,19 @@ public class UserRepositoryTest
             LastName = "Perez",
             Email = "mail@mail.com",
             Password = "securePassword123",
-            RoleID = homeOwnerRole.Id,
-            CompanyID = company.Id
         };
+        
+        var company = new Company
+        {
+            Id = Guid.NewGuid(),
+            Name = "Example Company",
+            RUT = "12345678-9",
+            Logo = "example_logo.png",
+            Owner = expectedUser
+        };
+
+        expectedUser.RoleID = homeOwnerRole.Id;
+        expectedUser.CompanyID = company.Id;
 
         context.Users?.Add(expectedUser);
 

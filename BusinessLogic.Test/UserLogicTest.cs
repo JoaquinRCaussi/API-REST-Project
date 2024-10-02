@@ -162,7 +162,8 @@ public class UserLogicTest
         {
             Id = Guid.NewGuid(),
             Name = "Company",
-            RUT = "Address"
+            RUT = "Address",
+            Owner = user
         };
 
         _userRepositoryMock.Setup(x => x.AddCompanyToCompanyOwner(user, company)).Returns(user);

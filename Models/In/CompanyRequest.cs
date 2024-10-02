@@ -15,8 +15,11 @@ public class CompanyRequest
     public string RUT { get; set; }
     public string logo { get; set; }
 
-    public Company ToArgs()
+    public Company ToArgs(User? user)
     {
-        return new Company { Name = Name, RUT = RUT, Logo = logo };
+        return new Company
+        {
+            Name = Name, RUT = RUT, Logo = logo, Owner = user
+        };
     }
 }
