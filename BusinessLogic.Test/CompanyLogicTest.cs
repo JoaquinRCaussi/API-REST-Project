@@ -71,4 +71,28 @@ public class CompanyLogicTest
 
         act.Should().Throw<ConflictException>().WithMessage("The owner already has a company");
     }
+
+    [TestMethod]
+    public void GetCompaniesTest_WhenAllPropertiesOk()
+    {
+        // Arrange
+        var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        var company = new Company
+        {
+            Id = Guid.NewGuid(),
+            Name = "Company",
+            RUT = "ARut",
+            Owner = new User { Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "Asa@gmail.com" }
+        };
+        var companies = new List<Company> { company };
+        mock.Setup(x => x.GetCompanies(null, null)).Returns(companies);
+        
+        // Act
+        var companyLogic = new CompanyLogic(mock.Object);
+        var result = companyLogic.GetCompanies(null, null);
+        
+        // Assert
+        result.Should().BeEquivalentTo(companies);
+    }
+
 }
