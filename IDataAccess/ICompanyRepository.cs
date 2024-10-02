@@ -5,5 +5,5 @@ namespace IDataAccess;
 public interface ICompanyRepository
 {
     public Company CreateCompany(Company company);
-    public List<Company> GetCompanies(object o, object o1);
+    public List<Company> GetCompanies(string name, string ownerName);   
 }

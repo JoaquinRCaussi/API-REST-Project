@@ -85,7 +85,7 @@ public class CompanyLogicTest
             Owner = new User { Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "Asa@gmail.com" }
         };
         var companies = new List<Company> { company };
-        mock.Setup(x => x.GetCompanies(null, null)).Returns(companies);
+        mock.Setup(x => x.GetCompanies("", "")).Returns(companies);
         
         // Act
         var companyLogic = new CompanyLogic(mock.Object);

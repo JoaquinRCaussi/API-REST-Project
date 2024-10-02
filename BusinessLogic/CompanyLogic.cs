@@ -19,12 +19,20 @@ public class CompanyLogic : ICompanyLogic
         {
             throw new ConflictException("The owner already has a company");
         }
-        
         return _companyRepository.CreateCompany(companyToCreate);
     }
 
     public List<Company> GetCompanies(string? name, string? ownerName)
     {
-        throw new NotImplementedException();
+        if (name == null)
+        {
+            name = "";
+        }
+
+        if (ownerName == null)
+        {
+            ownerName = "";
+        }
+        return _companyRepository.GetCompanies(name, ownerName);
     }
 }
