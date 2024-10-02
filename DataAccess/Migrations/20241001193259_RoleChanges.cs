@@ -5,7 +5,7 @@
 namespace DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class ConfigurationMigration : Migration
+public partial class RoleChanges : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)

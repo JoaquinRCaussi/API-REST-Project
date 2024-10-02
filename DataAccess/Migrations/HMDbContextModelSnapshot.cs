@@ -3,6 +3,7 @@ using System;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -15,37 +16,105 @@ namespace DataAccess.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Domain.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Logo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RUT")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Company");
+                });
+
+            modelBuilder.Entity("Domain.Home", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Devices")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("HomeOwner")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MemberCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Homes");
+                });
 
             modelBuilder.Entity("Domain.PermissionKey", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("PermissionKeys");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
+                            Value = "CanCreateAdmin"
+                        },
+                        new
+                        {
+                            Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
+                            Value = "CanCreateCompanyOwner"
+                        },
+                        new
+                        {
+                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
+                            Value = "CanCreateHomeOwner"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -73,45 +142,151 @@ namespace DataAccess.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("Company")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid?>("CompanyID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("HomeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("Role")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid?>("RoleID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyID");
+
+                    b.HasIndex("HomeId");
+
+                    b.HasIndex("RoleID");
+
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
+                            Email = "admin@admin.com",
+                            LastName = "Admin",
+                            Name = "Admin",
+                            Password = "admin",
+                            RoleID = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                        },
+                        new
+                        {
+                            Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
+                            Email = "homeowner1@gmail.com",
+                            LastName = "HomeOwner",
+                            Name = "HomeOwner",
+                            Password = "homeowner@1",
+                            RoleID = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf")
+                        },
+                        new
+                        {
+                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
+                            Email = "companyowner1@gmail.com",
+                            LastName = "CompanyOwner",
+                            Name = "CompanyOwner",
+                            Password = "companyowner@1",
+                            RoleID = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                        });
                 });
 
-            modelBuilder.Entity("Domain.PermissionKey", b =>
+            modelBuilder.Entity("PermissionKeyRole", b =>
                 {
+                    b.Property<Guid>("PermissionKeysId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PermissionKeysId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("PermissionKeyRole");
+
+                    b.HasData(
+                        new
+                        {
+                            PermissionKeysId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
+                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
+                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
+                            RolesId = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf")
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Home", b =>
+                {
+                    b.HasOne("Domain.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Domain.User", b =>
+                {
+                    b.HasOne("Domain.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyID");
+
+                    b.HasOne("Domain.Home", null)
+                        .WithMany("Members")
+                        .HasForeignKey("HomeId");
+
+                    b.HasOne("Domain.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleID");
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PermissionKeyRole", b =>
+                {
+                    b.HasOne("Domain.PermissionKey", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionKeysId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Role", null)
-                        .WithMany("Permissions")
-                        .HasForeignKey("RoleId");
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Role", b =>
+            modelBuilder.Entity("Domain.Home", b =>
                 {
-                    b.Navigation("Permissions");
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

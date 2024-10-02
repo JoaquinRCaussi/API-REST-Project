@@ -1,8 +1,8 @@
-namespace WebApi.Models;
+namespace Models;
 
-public class GetUserResponse
+public class CompanyOwnerResponse
 {
     public required string Name { get; set; }
-    public required string Email { get; set; }
     public required string LastName { get; set; }
+    public required string Email { get; set; }
 }
