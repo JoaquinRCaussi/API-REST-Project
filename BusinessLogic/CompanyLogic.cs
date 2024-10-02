@@ -20,7 +20,7 @@ public class CompanyLogic : ICompanyLogic
             throw new ConflictException("The owner already has a company");
         }
 
-        if (!IsFormatCorrect(companyToCreate))
+        if (IsFormatCorrect(companyToCreate))
         {
             throw new NotValidDataException("The name and RUT are required");
         }
