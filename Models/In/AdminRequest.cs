@@ -1,6 +1,6 @@
 using Domain;
 
-namespace WebApi.Models;
+namespace Models;
 
 public class AdminRequest
 {

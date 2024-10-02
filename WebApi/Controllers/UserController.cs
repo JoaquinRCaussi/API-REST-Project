@@ -10,6 +10,8 @@ public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
 
+    //PASAR RESPONSES
+
     public UserController(IUserLogic userLogic)
     {
         _userLogic = userLogic;
@@ -23,10 +25,18 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Route("api/users/{userId}")]
-    public IActionResult GetUser(Guid userId)
+    [Route("{userId}")]
+    public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
+        return Ok(user);
+    }
+
+    [HttpDelete]
+    [Route("{userId}")]
+    public IActionResult DeleteUser([FromRoute] Guid userId)
+    {
+        User user = _userLogic.DeleteUser(userId);
         return Ok(user);
     }
 }
