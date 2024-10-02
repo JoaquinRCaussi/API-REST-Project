@@ -48,7 +48,7 @@ public class HomeRepository : IHomeRepository
         }
 
         var users = _dbContext.Users?
-            .Where(x => members.Contains(x.Id))
+            .Where(x => members.Contains(x))
             .ToList();
 
         return users ?? [];
@@ -57,7 +57,9 @@ public class HomeRepository : IHomeRepository
     public Home AddMember(Guid homeId, Guid userId)
     {
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
-        if (home == null)
+        var user = _dbContext.Users?.FirstOrDefault(x => x.Id == userId);
+
+        if (home == null || user == null)
         {
             return new()
             {
@@ -68,7 +70,7 @@ public class HomeRepository : IHomeRepository
             };
         }
 
-        home.Members?.Add(userId);
+        home.Members?.Add(user);
         _dbContext.SaveChanges();
         return home;
     }

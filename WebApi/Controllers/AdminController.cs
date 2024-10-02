@@ -8,7 +8,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/admins")]
-[ServiceFilter(typeof(AuthenticationFilter))]
+[AuthenticationFilter]
 public sealed class AdminController : ControllerBase
 {
     private readonly IUserLogic _userLogic;

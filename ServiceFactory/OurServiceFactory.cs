@@ -2,7 +2,6 @@
 using BusinessLogic;
 using DataAccess.Data;
 using DataAccess.Repositories;
-using IBusinessLogic;
 using IDataAccess;
 using LogicInterface;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ public static class OurServiceFactory
         services.AddDbContext<HMDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-        services.AddScoped<ISessionLogic, SessionLogic>();
+        services.AddScoped<ISessionService, SessionService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserLogic, UserLogic>();
     }

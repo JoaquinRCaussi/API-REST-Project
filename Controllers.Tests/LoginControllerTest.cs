@@ -1,5 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
+using Domain;
 using FluentAssertions;
-using IBusinessLogic;
+using LogicInterface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -8,16 +10,17 @@ using WebApi.Controllers;
 
 namespace Controllers.Tests;
 
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class LoginControllerTest
 {
-    private Mock<ISessionLogic> _sessionLogicMock = null!;
+    private Mock<ISessionService> _sessionLogicMock = null!;
     private LoginController _loginController = null!;
 
     [TestInitialize]
     public void TestInitialize()
     {
-        _sessionLogicMock = new Mock<ISessionLogic>();
+        _sessionLogicMock = new Mock<ISessionService>();
         _loginController = new LoginController(_sessionLogicMock.Object);
     }
 
@@ -33,15 +36,14 @@ public class LoginControllerTest
             Password = "password123"
         };
 
-        var authResult = new AuthenticationResult
+        var authResult = new Session
         {
-            UserId = userId,
-            RoleId = userRoleId
+            Token = userId.ToString(),
+            RoleID = userRoleId,
+            UserID = userId
         };
 
-        _sessionLogicMock
-            .Setup(x => x.Authenticate(loginRequest.Email, loginRequest.Password))
-            .Returns(authResult);
+        _sessionLogicMock.Setup(x => x.Authenticate(loginRequest.Email, loginRequest.Password)).Returns(authResult);
 
         var httpContext = new DefaultHttpContext();
         _loginController.ControllerContext = new ControllerContext

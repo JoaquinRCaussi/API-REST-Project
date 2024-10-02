@@ -2,11 +2,13 @@ using Domain;
 using LogicInterface;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using WebApi.Filters;
 
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/company-owner")]
+[AuthenticationFilter]
 public class CompanyOwnerController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
@@ -17,6 +19,7 @@ public class CompanyOwnerController : ControllerBase
     }
 
     [HttpPost]
+    [AuthorizationFilter("CanCreateCompanyOwner")]
     public IActionResult CreateCompanyOwner([FromBody] CompanyOwnerRequest user)
     {
         User companyOwner = _userLogic.CreateCompanyOwner(user.ToArgs());
