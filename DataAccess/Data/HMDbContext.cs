@@ -22,8 +22,10 @@ public class HMDbContext : DbContext
         modelBuilder.Entity<PermissionKey>().HasData(
             new PermissionKey { Id = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), Value = "CanCreateAdmin" },
             new PermissionKey { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), Value = "CanCreateCompanyOwner" },
-            new PermissionKey { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), Value = "CanCreateHomeOwner" }
+            new PermissionKey { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), Value = "CanCreateHomeOwner" },
+            new PermissionKey {Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"), Value = "CanCreateCompany" }
         );
+        
 
         modelBuilder.Entity<Role>().HasData(
             new Role { Id = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), Name = "Admin" },
@@ -38,8 +40,14 @@ public class HMDbContext : DbContext
             .UsingEntity(j => j.HasData(
                 new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") }, // Admin -> CanCreateAdmin
                 new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") }, // Admin -> CanCreateCompanyOwner
-                new { RolesId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") }  // HomeOwner -> CanCreateHomeOwner
-            ));
+                new { RolesId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },  // HomeOwner -> CanCreateHomeOwner
+                new { RolesId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62") } // CompanyOwner -> CanCreateCompany
+                ));
+        
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
+            .WithMany()
+            .HasForeignKey(u => u.RoleID);
 
         modelBuilder.Entity<User>().HasData(
             new User
