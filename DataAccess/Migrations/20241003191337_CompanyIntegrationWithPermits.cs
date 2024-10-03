@@ -19,7 +19,11 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "PermissionKeyRole",
                 columns: new[] { "PermissionKeysId", "RolesId" },
-                values: new object[] { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"), new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") });
+                values: new object[]
+                {
+                    new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                    new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                });
         }
 
         /// <inheritdoc />
@@ -28,7 +32,11 @@ namespace DataAccess.Migrations
             migrationBuilder.DeleteData(
                 table: "PermissionKeyRole",
                 keyColumns: new[] { "PermissionKeysId", "RolesId" },
-                keyValues: new object[] { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"), new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") });
+                keyValues: new object[]
+                {
+                    new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                    new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                });
 
             migrationBuilder.DeleteData(
                 table: "PermissionKeys",

@@ -24,5 +24,7 @@ public static class OurServiceFactory
         services.AddScoped<IMemberSettingLogic, MemberSettingLogic>();
         services.AddScoped<IHomeLogic, HomeLogic>();
         services.AddScoped<IUserLogic, UserLogic>();
+        services.AddScoped<ICompanyLogic, CompanyLogic>();
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
     }
 }

@@ -162,7 +162,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+=======
+                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+>>>>>>> Feature/CompaniesRepository
                             Value = "CanCreateCompany"
                         });
                 });
@@ -326,7 +330,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
+<<<<<<< HEAD
                             PermissionKeysId = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+=======
+                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+>>>>>>> Feature/CompaniesRepository
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         });
                 });
