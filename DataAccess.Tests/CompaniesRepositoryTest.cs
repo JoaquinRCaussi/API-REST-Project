@@ -30,6 +30,7 @@ public class CompaniesRepositoryTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
+        context.Users?.Add(user);
         var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
         context.Companies?.Add(company);
         context.SaveChanges();
@@ -51,6 +52,10 @@ public class CompaniesRepositoryTest
 
         using HMDbContext? context = CreateInMemoryDbContext("TestAddCompany");
         SeedData(context);
+
+        var userRepository = new UserRepository(context);
+        userRepository.CreateCompanyOwner(user);
+
         var repository = new CompanyRepository(context);
 
         var result = repository.CreateCompany(company);
@@ -104,6 +109,8 @@ public class CompaniesRepositoryTest
         using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
         SeedData(context);
         var repository = new CompanyRepository(context);
+        var userRepositoy = new UserRepository(context);
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -119,6 +126,7 @@ public class CompaniesRepositoryTest
             RUT = "2312311",
             Owner = user
         };
+        userRepositoy.CreateCompanyOwner(user);
         repository.CreateCompany(anotherCompany);
         context.SaveChanges();
 

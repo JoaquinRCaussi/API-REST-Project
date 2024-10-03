@@ -37,6 +37,7 @@ public class CompanyLogicTest
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
+        userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
 
         // Act
@@ -67,6 +68,8 @@ public class CompanyLogicTest
 
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
+
+        userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
@@ -125,6 +128,7 @@ public class CompanyLogicTest
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
+        userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
