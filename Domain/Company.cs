@@ -8,4 +8,5 @@ public class Company
     public string Logo { get; set; } = string.Empty;
     public required User Owner { get; set; }
 
+    
 }

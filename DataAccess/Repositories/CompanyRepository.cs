@@ -21,6 +21,6 @@ public class CompanyRepository : ICompanyRepository
 
     public List<Company> GetCompanies(string name, string ownerName)
     {
-        return _dbContext.Companies?.ToList()!;
+        return _dbContext.Companies?.Where(x => x.Name.Contains(name)).ToList()!;
     }
 }
