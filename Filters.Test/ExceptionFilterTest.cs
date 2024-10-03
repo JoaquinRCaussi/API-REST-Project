@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using BusinessLogic;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,16 @@ public class ExceptionFilterTest
             new List<IFilterMetadata>());
     }
     
+    private string GetInnerCode(object? value)
+    {
+        return value.GetType().GetProperty("InnerCode")?.GetValue(value)?.ToString() ?? string.Empty;
+    }
+    
+    private string GetInnerMessage(object? value)
+    {
+        return value.GetType().GetProperty("Message")?.GetValue(value)?.ToString() ?? string.Empty;
+    }
+    
     [TestMethod]
     public void OnException_WhenExceptionIsThrown_ShouldReturnInternalServerError()
     {
@@ -52,15 +63,25 @@ public class ExceptionFilterTest
         GetInnerCode(objectResult.Value).Should().Be("InternalError");
         GetInnerMessage(objectResult.Value).Should().Be("There was an error when processing the request");
     }
-
-    private string GetInnerCode(object? value)
-    {
-        return value.GetType().GetProperty("InnerCode")?.GetValue(value)?.ToString() ?? string.Empty;
-    }
     
-    private string GetInnerMessage(object? value)
+    [TestMethod]
+    public void OnConflictException_WhenExceptionIsThrown_ShouldReturnConflict()
     {
-        return value.GetType().GetProperty("Message")?.GetValue(value)?.ToString() ?? string.Empty;
+        // Arrange
+        var exception = new ConflictException("Test exception");
+        _context.Exception = exception;
+        
+        // Act
+        _attribute.OnException(_context);
+
+        var response = _context.Result;
+
+        response.Should().NotBeNull();
+        var objectResult = response as ObjectResult;
+        objectResult.Should().NotBeNull();
+        objectResult.StatusCode.Should().Be((int)StatusCodes.Status409Conflict);
+        GetInnerCode(objectResult.Value).Should().Be("Conflict");
+        GetInnerMessage(objectResult.Value).Should().Be("Test exception");
     }
     
 }
