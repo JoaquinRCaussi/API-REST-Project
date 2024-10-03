@@ -50,7 +50,7 @@ public class ExceptionFilterTest
         objectResult.Should().NotBeNull();
         objectResult.StatusCode.Should().Be((int)StatusCodes.Status500InternalServerError);
         GetInnerCode(objectResult.Value).Should().Be("InternalError");
-        GetInnerMessage(objectResult.Value).Should().Be(exception.Message);
+        GetInnerMessage(objectResult.Value).Should().Be("There was an error when processing the request");
     }
 
     private string GetInnerCode(object? value)
