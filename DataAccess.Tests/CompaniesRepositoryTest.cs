@@ -55,4 +55,17 @@ public class CompaniesRepositoryTest
         context.SaveChanges();
         result.Should().BeEquivalentTo(company);
     }
+    
+    [TestMethod]
+    public void GetCompaniesTest()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
+        SeedData(context);
+        var repository = new CompanyRepository(context);
+        
+        var result = repository.GetCompanies("Company", "John");
+        
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+    }
 }
