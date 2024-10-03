@@ -82,4 +82,17 @@ public class CompaniesRepositoryTest
         result.Should().BeEquivalentTo(expected);
     }
     
+    [TestMethod]
+    public void GetCompanies_WhenFilterByOwnerName()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
+        SeedData(context);
+        var repository = new CompanyRepository(context);
+        var expected = new List<Company>();
+        
+        var result = repository.GetCompanies("", "AnotherOwner");
+        result.Should().HaveCount(0);
+        result.Should().BeEquivalentTo(expected);
+    }
+    
 }
