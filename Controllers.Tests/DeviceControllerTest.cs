@@ -5,7 +5,7 @@ using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
-using WebApi.Models;
+using Models;
 
 namespace Controllers.Tests;
 
@@ -25,22 +25,30 @@ public class DeviceControllerTest
 
     private Device CreateValidDevice()
     {
-        return new Device("Dispositivo General", "Model X", DeviceType.Camera, "Descripción genérica", "image.jpg");
+        return new Device
+        {
+            Name = "Dispositivo genérico",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.Camera,
+            Model = "Model X",
+            Photo = "photo1.jpg"
+        };
     }
 
     private Camera CreateValidCamera()
     {
-        return new Camera(
-            "Cámara Nikon",
-            "Z50",
-            "Cámara compacta y ligera.",
-            "photo1.jpg",
-            DeviceType.Camera,
-            outdoors: true,
-            indoors: false,
-            supportMovementDetection: true,
-            supportPersonDetection: true
-        );
+        return new Camera
+        {
+            Name = "Cámara genérica",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.Camera,
+            Model = "Model X",
+            Photo = "photo1.jpg",
+            Outdoors = true,
+            Indoors = false,
+            SupportMovementDetection = true,
+            SupportPersonDetection = false
+        };
     }
 
     [TestMethod]

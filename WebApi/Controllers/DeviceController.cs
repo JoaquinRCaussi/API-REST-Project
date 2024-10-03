@@ -1,7 +1,7 @@
 ﻿using Domain;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
+using Models;
 
 namespace WebApi.Controllers;
 

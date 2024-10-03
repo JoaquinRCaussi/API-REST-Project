@@ -27,6 +27,8 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesTest()
     {
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -45,7 +47,7 @@ public class HomeLogicTest
                 HomeOwner = Guid.NewGuid(),
                 Members = [user],
                 MemberCount = 5,
-                Devices = "asd"
+                Devices = devices
             }
         };
 
@@ -59,6 +61,8 @@ public class HomeLogicTest
     [TestMethod]
     public void CreateHomeTest()
     {
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -75,7 +79,7 @@ public class HomeLogicTest
             HomeOwner = Guid.NewGuid(),
             Members = [user],
             MemberCount = 5,
-            Devices = "asd"
+            Devices = devices
         };
 
         _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns(home);
@@ -122,6 +126,9 @@ public class HomeLogicTest
 
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
+        
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var home = new Home
         {
             Id = homeId,
@@ -129,7 +136,7 @@ public class HomeLogicTest
             HomeOwner = Guid.NewGuid(),
             Members = [user],
             MemberCount = 5,
-            Devices = "asd"
+            Devices = devices
         };
 
         _homeRepositoryMock?.Setup(x => x.AddMember(homeId, userId)).Returns(home);
@@ -142,6 +149,8 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomeTest()
     {
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var homeId = Guid.NewGuid();
         var user = new User
         {
@@ -159,7 +168,7 @@ public class HomeLogicTest
             HomeOwner = user.Id,
             Members = [user],
             MemberCount = 5,
-            Devices = "asd"
+            Devices = devices
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
@@ -172,6 +181,8 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesByUserTest()
     {
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -190,7 +201,7 @@ public class HomeLogicTest
                 HomeOwner = user.Id,
                 Members = [user],
                 MemberCount = 5,
-                Devices = "asd"
+                Devices = devices
             }
         };
 

@@ -74,4 +74,32 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return home;
     }
+    
+    public Home AddDevice(Guid homeId, Guid deviceId)
+    {
+        
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+        var device = _dbContext.Devices?.FirstOrDefault(x => x.Id == deviceId);
+
+        if (home == null || device == null)
+        {
+            return new()
+            {
+                Location = null,
+                MemberCount = 0,
+                Devices = null,
+                HomeOwner = default
+            };
+        }
+        var homeDevice = new HomeDevice
+        {
+            DeviceId = deviceId,
+            Device = device
+        };
+        
+        _dbContext.HomeDevices?.Add(homeDevice);
+        home.Devices?.Add(device);
+        _dbContext.SaveChanges();
+        return home;
+    }
 }

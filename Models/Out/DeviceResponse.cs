@@ -1,14 +1,14 @@
 ﻿using Domain;
 
-namespace WebApi.Models;
+namespace Models;
 
 public class DeviceResponse
 {
-    public string Name { get; set; }
-    public string Model { get; set; }
+    public string? Name { get; set; }
+    public string? Model { get; set; }
     public DeviceType DeviceType { get; set; }
-    public string Description { get; set; }
-    public string Photo { get; set; }
+    public string? Description { get; set; }
+    public string? Photo { get; set; }
 
     public DeviceResponse(Device device)
     {

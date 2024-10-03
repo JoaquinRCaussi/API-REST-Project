@@ -21,13 +21,15 @@ public class MemberSettingRepositoryTest
 
     private void SeedData(HMDbContext context)
     {
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var home = new Home
         {
             Id = Guid.NewGuid(),
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             MemberCount = 3,
-            Devices = "TV, Fridge, Oven"
+            Devices = devices
         };
 
         var user = new User

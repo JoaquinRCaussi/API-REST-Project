@@ -13,9 +13,12 @@ namespace Controllers.Tests;
 [TestClass]
 public class HomeControllerTest
 {
+    
     [TestMethod]
     public void CreateHome_WhenAllPropertiesOk()
     {
+        var  devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -30,7 +33,7 @@ public class HomeControllerTest
             Id = Guid.NewGuid(),
             Location = "location",
             MemberCount = 5,
-            Devices = "device",
+            Devices = devices,
             HomeOwner = user.Id
         };
 
@@ -67,6 +70,8 @@ public class HomeControllerTest
     [TestMethod]
     public void GetHomes_WhenAllPropertiesOk()
     {
+        var  devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -76,7 +81,7 @@ public class HomeControllerTest
             Password = "password@123"
         };
 
-        var home = new Home { Id = Guid.NewGuid(), Location = "location", MemberCount = 5, Devices = "device", HomeOwner = user.Id };
+        var home = new Home { Id = Guid.NewGuid(), Location = "location", MemberCount = 5, Devices = devices, HomeOwner = user.Id };
 
         var homes = new List<Home> { home };
 
@@ -112,6 +117,8 @@ public class HomeControllerTest
     [TestMethod]
     public void GetHome_WhenAllPropertiesOk()
     {
+        var  devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -121,7 +128,7 @@ public class HomeControllerTest
             Password = "password@123"
         };
 
-        var home = new Home { Id = Guid.NewGuid(), Location = "location", MemberCount = 5, Devices = "device", HomeOwner = user.Id };
+        var home = new Home { Id = Guid.NewGuid(), Location = "location", MemberCount = 5, Devices = devices, HomeOwner = user.Id };
 
         var homeRequest = new HomeRequest
         {
@@ -157,6 +164,8 @@ public class HomeControllerTest
     [TestMethod]
     public void GetHomeMembers_WhenAllPropertiesOk()
     {
+        var  devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -173,7 +182,7 @@ public class HomeControllerTest
             Id = Guid.NewGuid(),
             Location = "location",
             MemberCount = 5,
-            Devices = "device",
+            Devices = devices,
             HomeOwner = user.Id,
             Members = users
         };
@@ -207,7 +216,8 @@ public class HomeControllerTest
     [TestMethod]
     public void AddMemberToHome_WhenAllPropertiesOk()
     {
-        // Arrange
+        var  devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
 
@@ -221,7 +231,7 @@ public class HomeControllerTest
             Id = homeId,
             Location = "TestLocation",
             MemberCount = 1,
-            Devices = "device",
+            Devices = devices,
             HomeOwner = Guid.NewGuid(),
             Members = []
         };

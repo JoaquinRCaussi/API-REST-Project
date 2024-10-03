@@ -83,5 +83,13 @@ public class HomeController : ControllerBase
         var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
         return Ok(home);
     }
-
+    
+    [HttpPost]
+    [Route("{homeId}/devices")]
+    public IActionResult AddDeviceToHome(Guid homeId, [FromBody] HomeDeviceRequest deviceRequest)
+    {
+        var deviceId = deviceRequest.DeviceId.Value;
+        var home = _homeLogic.AddDevice(homeId, deviceId);
+        return Ok(home);
+    }
 }
