@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    partial class HMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241002034204_MemberPermissionMigration")]
+    partial class MemberPermissionMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +45,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -91,6 +94,8 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("HomeId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("MemberSettings");
                 });
 
@@ -112,22 +117,22 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
-                            Value = "CanAsociateDevices"
+                            Value = "puedeAsociarDispositivos"
                         },
                         new
                         {
                             Id = new Guid("4d99af50-c4b9-4bc7-8c63-6e4f6f24a73a"),
-                            Value = "CanListDevices"
+                            Value = "puedeListarDispositivos"
                         },
                         new
                         {
                             Id = new Guid("c0f0d7a7-3e77-4128-87d3-30113b19936d"),
-                            Value = "CanGetNotifications"
+                            Value = "puedeRecibirNotificaciones"
                         },
                         new
                         {
                             Id = new Guid("b2ff8154-fdb0-4a87-a7b5-ded13fb66f57"),
-                            Value = "CanAddMembers"
+                            Value = "puedeAgregarMiembros"
                         });
                 });
 
@@ -231,9 +236,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyID")
-                        .IsUnique()
-                        .HasFilter("[CompanyID] IS NOT NULL");
+                    b.HasIndex("CompanyID");
 
                     b.HasIndex("HomeId");
 
@@ -332,18 +335,28 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.MemberSetting", b =>
                 {
-                    b.HasOne("Domain.Home", null)
+                    b.HasOne("Domain.Home", "Home")
                         .WithMany("MemberSettings")
                         .HasForeignKey("HomeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Home");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
                 {
                     b.HasOne("Domain.Company", "Company")
-                        .WithOne("Owner")
-                        .HasForeignKey("Domain.User", "CompanyID");
+                        .WithMany()
+                        .HasForeignKey("CompanyID");
 
                     b.HasOne("Domain.Home", null)
                         .WithMany("Members")
@@ -385,12 +398,6 @@ namespace DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Company", b =>
-                {
-                    b.Navigation("Owner")
                         .IsRequired();
                 });
 

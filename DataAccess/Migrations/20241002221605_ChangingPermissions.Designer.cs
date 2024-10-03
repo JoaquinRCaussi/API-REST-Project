@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    partial class HMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241002221605_ChangingPermissions")]
+    partial class ChangingPermissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +45,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -231,9 +234,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyID")
-                        .IsUnique()
-                        .HasFilter("[CompanyID] IS NOT NULL");
+                    b.HasIndex("CompanyID");
 
                     b.HasIndex("HomeId");
 
@@ -342,8 +343,8 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Domain.User", b =>
                 {
                     b.HasOne("Domain.Company", "Company")
-                        .WithOne("Owner")
-                        .HasForeignKey("Domain.User", "CompanyID");
+                        .WithMany()
+                        .HasForeignKey("CompanyID");
 
                     b.HasOne("Domain.Home", null)
                         .WithMany("Members")
@@ -385,12 +386,6 @@ namespace DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Company", b =>
-                {
-                    b.Navigation("Owner")
                         .IsRequired();
                 });
 

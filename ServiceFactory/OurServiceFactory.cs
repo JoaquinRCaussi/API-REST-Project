@@ -19,6 +19,10 @@ public static class OurServiceFactory
 
         services.AddScoped<ISessionService, SessionService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IHomeRepository, HomeRepository>();
+        services.AddScoped<IMemberSettingRepository, MemberSettingRepository>();
+        services.AddScoped<IMemberSettingLogic, MemberSettingLogic>();
+        services.AddScoped<IHomeLogic, HomeLogic>();
         services.AddScoped<IUserLogic, UserLogic>();
     }
 }
