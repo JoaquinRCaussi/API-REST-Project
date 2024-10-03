@@ -1,6 +1,7 @@
 using DataAccess.Data;
 using Domain;
 using IDataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -19,33 +20,32 @@ public class MemberSettingRepository : IMemberSettingRepository
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
         var permission = _dbContext.Permissions?.FirstOrDefault(x => x.Value == "CanGetNotifications");
 
-        if (permission != null)
+        // Verificar si ya existe un MemberSetting para el homeId y userId
+        var memberSetting = _dbContext.MemberSettings?
+            .Include(ms => ms.Permissions) // Incluye las relaciones de permisos
+            .FirstOrDefault(ms => ms.HomeId == homeId && ms.UserId == userId);
+
+        // Si no existe, crear uno nuevo
+        if (memberSetting == null)
         {
-            var memberSetting = new MemberSetting
+            memberSetting = new MemberSetting
             {
                 HomeId = homeId,
                 UserId = userId,
             };
-            
             _dbContext.MemberSettings?.Add(memberSetting);
+        }
+
+        // Solo agregar el permiso si no existe en la lista de permisos del MemberSetting
+        if (permission != null && memberSetting.Permissions.All(p => p.Id != permission.Id))
+        {
             memberSetting.Permissions.Add(permission);
-            _dbContext.SaveChanges();
-            return memberSetting;
         }
-        else
-        {
-            var memberSetting = new MemberSetting
-            {
-                HomeId = homeId,
-                UserId = userId,
-            };
-            
-            _dbContext.MemberSettings?.Add(memberSetting);
-            _dbContext.SaveChanges();
-            return memberSetting;
-        }
-        
+
+        _dbContext.SaveChanges();
+        return memberSetting;
     }
+
 
     public List<MemberSetting> GetMemberSettings()
     {
@@ -79,23 +79,32 @@ public class MemberSettingRepository : IMemberSettingRepository
     
     public MemberSetting AddPermission(Guid homeId, Guid userId, string permission)
     {
-        var memberSetting = _dbContext.MemberSettings?.FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId);
+        var memberSetting = _dbContext.MemberSettings?
+            .Include(ms => ms.Permissions) 
+            .FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId);
+
         if (memberSetting == null)
         {
             return null;
         }
         
         var permit = _dbContext.Permissions?.FirstOrDefault(x => x.Value == permission);
-        
-        if(permit == null)
+
+        if (permit == null)
         {
             return null;
         }
-        
-        memberSetting.Permissions.Add(permit);
-        _dbContext.SaveChanges();
+
+        // Verifica si el permiso ya está asociado al MemberSetting
+        if (!memberSetting.Permissions.Any(p => p.Id == permit.Id))
+        {
+            memberSetting.Permissions.Add(permit);
+            _dbContext.SaveChanges();
+        }
+
         return memberSetting;
     }
+
     
     public MemberSetting RemovePermission(Guid homeId, Guid userId, string permission)
     {

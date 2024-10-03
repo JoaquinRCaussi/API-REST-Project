@@ -12,13 +12,15 @@ namespace BusinessLogic.Test;
 public class HomeLogicTest
 {
     private Mock<IHomeRepository>? _homeRepositoryMock;
+    private Mock<IMemberSettingRepository>? _memberSettingRepositoryMock;
     private IHomeLogic? _homeLogic;
 
     [TestInitialize]
     public void Initialize()
     {
         _homeRepositoryMock = new Mock<IHomeRepository>();
-        _homeLogic = new HomeLogic(_homeRepositoryMock.Object);
+        _memberSettingRepositoryMock = new Mock<IMemberSettingRepository>();
+        _homeLogic = new HomeLogic(_homeRepositoryMock.Object, _memberSettingRepositoryMock.Object);
     }
 
     [TestMethod]
@@ -40,7 +42,7 @@ public class HomeLogicTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = Guid.NewGuid(),
-                Members = [user],
+                Members = new List<User> { user },
                 MemberCount = 5,
                 Devices = "asd"
             }
@@ -48,7 +50,7 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Setup(x => x.GetHomes()).Returns(homes);
 
-        var result = _homeLogic.GetHomes();
+        var result = _homeLogic?.GetHomes();
 
         result.Should().BeEquivalentTo(homes);
     }
@@ -70,14 +72,14 @@ public class HomeLogicTest
             Id = Guid.NewGuid(),
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = [user],
+            Members = new List<User> { user },
             MemberCount = 5,
             Devices = "asd"
         };
 
         _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns(home);
 
-        var result = _homeLogic.CreateHome(home);
+        var result = _homeLogic?.CreateHome(home);
 
         result.Should().BeEquivalentTo(home);
     }
@@ -100,10 +102,9 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Setup(x => x.GetHomeMembers(homeId)).Returns(users);
 
-        var result = _homeLogic.GetHomeMembers(homeId);
+        var result = _homeLogic?.GetHomeMembers(homeId);
 
         result.Should().BeEquivalentTo(users);
-
     }
 
     [TestMethod]
@@ -125,7 +126,7 @@ public class HomeLogicTest
             Id = homeId,
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = [user],
+            Members = new List<User> { user },
             MemberCount = 5,
             Devices = "asd"
         };
@@ -150,16 +151,15 @@ public class HomeLogicTest
             Password = "password@123"
         };
 
-        var home =
-            new Home
-            {
-                Id = homeId,
-                Location = "Home",
-                HomeOwner = user.Id,
-                Members = [user],
-                MemberCount = 5,
-                Devices = "asd"
-            };
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            HomeOwner = user.Id,
+            Members = new List<User> { user },
+            MemberCount = 5,
+            Devices = "asd"
+        };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
 
@@ -187,7 +187,7 @@ public class HomeLogicTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = user.Id,
-                Members = [user],
+                Members = new List<User> { user },
                 MemberCount = 5,
                 Devices = "asd"
             }
@@ -199,5 +199,4 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(homes);
     }
-
 }

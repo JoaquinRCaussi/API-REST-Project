@@ -47,7 +47,7 @@ namespace WebApi.Filters;
                 if (homeRepository != null)
                 {
                     var homeId = Guid.Parse(context.RouteData.Values["homeId"].ToString() ?? throw new InvalidOperationException());
-                    home = homeRepository.GetHome(homeId); // Obtiene el hogar correspondiente
+                    home = homeRepository.GetHome(homeId);
                 }
 
                 hasNotPermission = home == null || !MemberHasPermission(home, userLoggedMapped, permission);

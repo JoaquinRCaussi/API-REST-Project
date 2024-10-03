@@ -8,6 +8,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/homes")]
+[AuthenticationFilter]
 public class HomeController : ControllerBase
 {
     private readonly IHomeLogic _homeLogic;
@@ -70,6 +71,7 @@ public class HomeController : ControllerBase
 
     [HttpPut]
     [Route("{homeId}")]
+    [AuthorizationFilter("CanAddMembers")]
     public IActionResult AddMemberToHome(Guid homeId, [FromBody] AddMemberRequest addMemberRequest)
     {
         var userId = Guid.Parse(addMemberRequest.UserId!);
