@@ -81,7 +81,7 @@ public class ExceptionFilterTest
         objectResult.Should().NotBeNull();
         objectResult.StatusCode.Should().Be((int)StatusCodes.Status409Conflict);
         GetInnerCode(objectResult.Value).Should().Be("Conflict");
-        GetInnerMessage(objectResult.Value).Should().Be("Test exception");
+        GetInnerMessage(objectResult.Value).Should().Be("The resource already exists");
     }
     
 }

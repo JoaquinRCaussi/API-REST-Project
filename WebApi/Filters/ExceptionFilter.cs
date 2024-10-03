@@ -1,5 +1,6 @@
 using System.Net;
 using Azure;
+using BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -7,11 +8,29 @@ namespace WebApi.Filters;
 
 public class ExceptionFilter : IExceptionFilter
 {
+    private readonly Dictionary<Type, IActionResult> _errors = new Dictionary<Type, IActionResult>
+    {
+        {
+            typeof(ConflictException),
+            new ObjectResult(new { InnerCode = "Conflict", Message = "The resource already exists" })
+            {
+                StatusCode = (int)HttpStatusCode.Conflict
+            } 
+        }
+    };
+    
     public void OnException(ExceptionContext? context)
     {
-        context.Result = new ObjectResult(new
+        var response = _errors.GetValueOrDefault(context.Exception.GetType());
+        
+        if (response == null)
         {
-            InnerCode = "InternalError", Message = "There was an error when processing the request"
-        }) { StatusCode = (int)HttpStatusCode.InternalServerError };
+            context.Result = new ObjectResult(new
+            {
+                InnerCode = "InternalError", Message = "There was an error when processing the request"
+            }) { StatusCode = (int)HttpStatusCode.InternalServerError };
+            return;
+        }
+        context.Result = response;
     }
 }
