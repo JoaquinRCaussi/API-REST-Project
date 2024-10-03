@@ -9,6 +9,6 @@ public class Home
     public required Guid HomeOwner { get; set; }
     public User? Owner { get; set; }
     public List<User>? Members { get; set; }
-    
+
     public virtual List<MemberSetting> MemberSettings { get; set; } = [];
 }

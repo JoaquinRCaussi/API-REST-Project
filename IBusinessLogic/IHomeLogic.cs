@@ -16,6 +16,6 @@ public interface IHomeLogic
     List<User> GetHomeMembers(Guid homeId);
 
     Home AddMember(Guid homeId, Guid userId);
-    
+
     Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions);
 }

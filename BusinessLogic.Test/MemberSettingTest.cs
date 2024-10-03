@@ -79,7 +79,7 @@ public class MemberSettingLogicTest
         {
             HomeId = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
-            Permissions = new List<Permission>()
+            Permissions = []
         };
 
         _memberSettingRepositoryMock?.Setup(x => x.UpdateMemberSetting(memberSetting)).Returns(memberSetting);
@@ -117,7 +117,7 @@ public class MemberSettingLogicTest
         {
             HomeId = homeId,
             UserId = userId,
-            Permissions = new List<Permission> { new Permission { Value = permission } }
+            Permissions = [new Permission { Value = permission }]
         };
 
         _memberSettingRepositoryMock?.Setup(x => x.AddPermission(homeId, userId, permission)).Returns(memberSetting);
@@ -137,7 +137,7 @@ public class MemberSettingLogicTest
         {
             HomeId = homeId,
             UserId = userId,
-            Permissions = new List<Permission>()
+            Permissions = []
         };
 
         _memberSettingRepositoryMock?.Setup(x => x.RemovePermission(homeId, userId, permission)).Returns(memberSetting);

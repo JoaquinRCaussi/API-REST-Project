@@ -45,7 +45,7 @@ public class HomeLogic : IHomeLogic
     {
         return _homeRepository.AddMember(homeId, userId);
     }
-    
+
     public Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions)
     {
         var permissionMappings = new Dictionary<Func<PermissionRequest, bool>, string>

@@ -48,7 +48,7 @@ public class MemberSettingRepositoryTest
         {
             HomeId = home.Id,
             UserId = user.Id,
-            Permissions = new List<Permission> { permission }
+            Permissions = [permission]
         };
 
         context.Homes?.Add(home);
@@ -134,7 +134,7 @@ public class MemberSettingRepositoryTest
         var repository = new MemberSettingRepository(context);
         var home = context.Homes?.First();
         var user = context.Users?.First();
-        
+
         var createdSetting = repository.CreateMemberSetting(home.Id, user.Id);
         var result = repository.DeleteMemberSetting(createdSetting.Id);
 
@@ -153,7 +153,7 @@ public class MemberSettingRepositoryTest
         var user = context.Users?.First();
 
         var result = repository.AddPermission(home.Id, user.Id, "CanGetNotifications");
-        
+
         Console.WriteLine(result.Permissions.Count);
 
         result.Permissions.Should().Contain(p => p.Value == "CanGetNotifications");

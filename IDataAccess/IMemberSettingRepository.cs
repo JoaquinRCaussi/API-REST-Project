@@ -13,10 +13,10 @@ public interface IMemberSettingRepository
     public MemberSetting UpdateMemberSetting(MemberSetting memberSetting);
 
     public MemberSetting DeleteMemberSetting(Guid memberSettingId);
-    
+
     public MemberSetting AddPermission(Guid homeId, Guid userId, string permission);
-    
+
     public MemberSetting RemovePermission(Guid homeId, Guid userId, string permission);
-    
+
     public bool HasPermission(Guid homeId, Guid userId, string permission);
 }

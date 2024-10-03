@@ -43,7 +43,7 @@ public class HomeControllerTest
         };
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-        
+
         homeLogic.Setup(x => x.CreateHome(It.IsAny<Home>())).Returns(homeRequest.ToArgs());
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
@@ -89,7 +89,7 @@ public class HomeControllerTest
         };
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-        
+
         homeLogic.Setup(x => x.GetHomes()).Returns(homes);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
@@ -178,7 +178,7 @@ public class HomeControllerTest
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-        
+
         homeLogic.Setup(x => x.GetHome(It.IsAny<Guid>())).Returns(home);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
@@ -225,7 +225,7 @@ public class HomeControllerTest
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-        
+
         homeLogic.Setup(x => x.GetHomeMembers(It.IsAny<Guid>())).Returns(users);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
@@ -268,19 +268,19 @@ public class HomeControllerTest
             MemberCount = 1,
             Devices = "device",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User>()
+            Members = []
         };
 
         var memberSetting = new MemberSetting
         {
             HomeId = homeId,
             UserId = userId,
-            Permissions = new List<Permission>()
+            Permissions = []
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-        
+
         homeLogic.Setup(x => x.AddMember(homeId, userId)).Returns(home);
         memberSettingLogic.Setup(x => x.CreateMemberSetting(homeId, userId)).Returns(memberSetting);
 

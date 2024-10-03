@@ -28,7 +28,7 @@ public class HMDbContext : DbContext
             new Permission { Id = Guid.Parse("c0f0d7a7-3e77-4128-87d3-30113b19936d"), Value = "CanGetNotifications" },
             new Permission { Id = Guid.Parse("b2ff8154-fdb0-4a87-a7b5-ded13fb66f57"), Value = "CanAddMembers" }
         );
-        
+
         modelBuilder.Entity<PermissionKey>().HasData(
             new PermissionKey { Id = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), Value = "CanCreateAdmin" },
             new PermissionKey { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), Value = "CanCreateCompanyOwner" },
@@ -40,14 +40,14 @@ public class HMDbContext : DbContext
             new Role { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), Name = "HomeOwner" },
             new Role { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), Name = "CompanyOwner" }
         );
-        
+
         // Configuraciones de relación muchos a muchos sin entidad intermedia
         modelBuilder.Entity<MemberSetting>()
             .HasMany(ms => ms.Permissions)
             .WithMany(p => p.MemberSettings)
             .UsingEntity(j => j.ToTable("MemberSettingPermissions"));
-        
-        
+
+
 
         // Agregar datos en la tabla de relación (RolePermissions)
         modelBuilder.Entity<Role>()

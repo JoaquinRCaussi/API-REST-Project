@@ -13,7 +13,7 @@ public class MemberSettingRepository : IMemberSettingRepository
     {
         _dbContext = dbContext;
     }
-    
+
     public MemberSetting CreateMemberSetting(Guid homeId, Guid userId)
     {
         var user = _dbContext.Users?.FirstOrDefault(x => x.Id == userId);
@@ -51,7 +51,7 @@ public class MemberSettingRepository : IMemberSettingRepository
     {
         return _dbContext.MemberSettings?.ToList()!;
     }
-    
+
     public MemberSetting GetMemberSetting(Guid homeId, Guid userId)
     {
         return _dbContext.MemberSettings?.FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId) ?? throw new InvalidOperationException();
@@ -76,18 +76,18 @@ public class MemberSettingRepository : IMemberSettingRepository
         _dbContext.SaveChanges();
         return memberSetting;
     }
-    
+
     public MemberSetting AddPermission(Guid homeId, Guid userId, string permission)
     {
         var memberSetting = _dbContext.MemberSettings?
-            .Include(ms => ms.Permissions) 
+            .Include(ms => ms.Permissions)
             .FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId);
 
         if (memberSetting == null)
         {
             return null;
         }
-        
+
         var permit = _dbContext.Permissions?.FirstOrDefault(x => x.Value == permission);
 
         if (permit == null)
@@ -105,7 +105,7 @@ public class MemberSettingRepository : IMemberSettingRepository
         return memberSetting;
     }
 
-    
+
     public MemberSetting RemovePermission(Guid homeId, Guid userId, string permission)
     {
         var memberSetting = _dbContext.MemberSettings?.FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId);
@@ -113,19 +113,19 @@ public class MemberSettingRepository : IMemberSettingRepository
         {
             return null;
         }
-        
+
         var permit = _dbContext.Permissions?.FirstOrDefault(x => x.Value == permission);
-        
-        if(permit == null)
+
+        if (permit == null)
         {
             return null;
         }
-        
+
         memberSetting.Permissions.Remove(permit);
         _dbContext.SaveChanges();
         return memberSetting;
     }
-    
+
     public bool HasPermission(Guid homeId, Guid userId, string permission)
     {
         var memberSetting = _dbContext.MemberSettings?.FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId);
@@ -133,14 +133,14 @@ public class MemberSettingRepository : IMemberSettingRepository
         {
             return false;
         }
-        
+
         var permit = _dbContext.Permissions?.FirstOrDefault(x => x.Value == permission);
-        
-        if(permit == null)
+
+        if (permit == null)
         {
             return false;
         }
-        
+
         return memberSetting.Permissions.Contains(permit);
     }
 }

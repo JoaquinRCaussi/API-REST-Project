@@ -43,7 +43,7 @@ public class HomeLogicTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = Guid.NewGuid(),
-                Members = new List<User> { user },
+                Members = [user],
                 MemberCount = 5,
                 Devices = "asd"
             }
@@ -73,7 +73,7 @@ public class HomeLogicTest
             Id = Guid.NewGuid(),
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User> { user },
+            Members = [user],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -127,7 +127,7 @@ public class HomeLogicTest
             Id = homeId,
             Location = "Home",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User> { user },
+            Members = [user],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -157,7 +157,7 @@ public class HomeLogicTest
             Id = homeId,
             Location = "Home",
             HomeOwner = user.Id,
-            Members = new List<User> { user },
+            Members = [user],
             MemberCount = 5,
             Devices = "asd"
         };
@@ -188,7 +188,7 @@ public class HomeLogicTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = user.Id,
-                Members = new List<User> { user },
+                Members = [user],
                 MemberCount = 5,
                 Devices = "asd"
             }
@@ -200,7 +200,7 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(homes);
     }
-    
+
     [TestMethod]
     public void UpdatePermissions_ShouldAddPermissions_WhenPermissionsAreTrue()
     {

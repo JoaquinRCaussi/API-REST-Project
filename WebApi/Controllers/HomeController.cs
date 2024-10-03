@@ -75,15 +75,15 @@ public class HomeController : ControllerBase
     public IActionResult AddMemberToHome(Guid homeId, [FromBody] AddMemberRequest addMemberRequest)
     {
         var userId = Guid.Parse(addMemberRequest.UserId!);
-        
+
         var home = _homeLogic.AddMember(homeId, userId);
         var memberSetting = _memberSettingLogic.CreateMemberSetting(homeId, userId);
 
         var response = new AddMemberResponse { Home = home, MemberSetting = memberSetting };
-        
+
         return Ok(response);
     }
-    
+
     //Members porque cuando haga {homeid}/members traigo los usuarios, selecciono uno de ahi y le cambio los permisos en {homeid}/members/{userid}
     [HttpPut]
     [Route("{homeId}/members/{userId}")]
@@ -92,5 +92,5 @@ public class HomeController : ControllerBase
         var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
         return Ok(home);
     }
-    
+
 }
