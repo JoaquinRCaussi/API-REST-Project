@@ -1,8 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
-using LogicInterface;
-using Microsoft.AspNetCore.Http;
+using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Moq;
@@ -26,7 +25,14 @@ public class HomeControllerTest
             Password = "password@123"
         };
 
-        var home = new Home { Id = Guid.NewGuid(), Location = "location", MemberCount = 5, Devices = "device", HomeOwner = user.Id };
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            Location = "location",
+            MemberCount = 5,
+            Devices = "device",
+            HomeOwner = user.Id
+        };
 
         var homeRequest = new HomeRequest
         {

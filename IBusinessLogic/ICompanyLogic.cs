@@ -1,8 +1,9 @@
 using Domain;
 
-namespace LogicInterface;
+namespace IBusinessLogic;
 
 public interface ICompanyLogic
 {
-    Company CreateCompany(Company companyToCreate);
+    public Company CreateCompany(Company companyToCreate);
+    public List<Company> GetCompanies(string? name, string? ownerName);
 }

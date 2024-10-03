@@ -1,6 +1,6 @@
 using Domain;
+using IBusinessLogic;
 using IDataAccess;
-using LogicInterface;
 using Models;
 
 namespace BusinessLogic;

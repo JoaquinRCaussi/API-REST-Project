@@ -1,7 +1,7 @@
 using Domain;
 using Models;
 
-namespace LogicInterface;
+namespace IBusinessLogic;
 
 public interface IHomeLogic
 {

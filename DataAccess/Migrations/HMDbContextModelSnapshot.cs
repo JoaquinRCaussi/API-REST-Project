@@ -42,7 +42,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Company");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -231,7 +231,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyID");
+                    b.HasIndex("CompanyID")
+                        .IsUnique()
+                        .HasFilter("[CompanyID] IS NOT NULL");
 
                     b.HasIndex("HomeId");
 
@@ -340,8 +342,8 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Domain.User", b =>
                 {
                     b.HasOne("Domain.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyID");
+                        .WithOne("Owner")
+                        .HasForeignKey("Domain.User", "CompanyID");
 
                     b.HasOne("Domain.Home", null)
                         .WithMany("Members")
@@ -383,6 +385,12 @@ namespace DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Company", b =>
+                {
+                    b.Navigation("Owner")
                         .IsRequired();
                 });
 
