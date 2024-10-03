@@ -95,4 +95,33 @@ public class CompaniesRepositoryTest
         result.Should().BeEquivalentTo(expected);
     }
     
+    [TestMethod]
+    public void GetCompanies_WhenNoFilter()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
+        SeedData(context);
+        var repository = new CompanyRepository(context);
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Matias",
+            LastName = "Cabrera",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+        var anotherCompany = new Company() {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+         };
+        repository.CreateCompany(anotherCompany);
+        context.SaveChanges();
+        
+        
+        var result = repository.GetCompanies("", "");
+        result.Should().HaveCount(2);
+        result.Should().Contain(anotherCompany);
+    }
+    
 }
