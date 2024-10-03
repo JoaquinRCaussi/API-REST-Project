@@ -21,6 +21,6 @@ public class CompanyRepository : ICompanyRepository
 
     public List<Company> GetCompanies(string name, string ownerName)
     {
-        throw new NotImplementedException();
+        return _dbContext.Companies?.ToList()!;
     }
 }
