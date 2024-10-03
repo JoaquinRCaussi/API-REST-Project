@@ -11,7 +11,7 @@ namespace DataAccess.Tests;
 [TestClass]
 public class CompaniesRepositoryTest
 {
-    
+
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
         DbContextOptions<HMDbContext>? options = new DbContextOptionsBuilder<HMDbContext>()
@@ -19,14 +19,17 @@ public class CompaniesRepositoryTest
             .Options;
         return new HMDbContext(options);
     }
-    
+
     private void SeedData(HMDbContext context)
     {
-        var user = new User() { Id = Guid.NewGuid(),
+        var user = new User()
+        {
+            Id = Guid.NewGuid(),
             Name = "John",
             LastName = "Snow",
             Email = "mail@mail.com",
-            Password = "password@123"};
+            Password = "password@123"
+        };
         var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
         context.Companies?.Add(company);
         context.SaveChanges();
@@ -45,26 +48,26 @@ public class CompaniesRepositoryTest
         };
 
         var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
-        
+
         using HMDbContext? context = CreateInMemoryDbContext("TestAddCompany");
         SeedData(context);
         var repository = new CompanyRepository(context);
-        
+
         var result = repository.CreateCompany(company);
-        
+
         context.SaveChanges();
         result.Should().BeEquivalentTo(company);
     }
-    
+
     [TestMethod]
     public void GetCompaniesTest()
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
         SeedData(context);
         var repository = new CompanyRepository(context);
-        
+
         var result = repository.GetCompanies("Company", "John");
-        
+
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
@@ -76,12 +79,12 @@ public class CompaniesRepositoryTest
         SeedData(context);
         var repository = new CompanyRepository(context);
         var expected = new List<Company>();
-        
+
         var result = repository.GetCompanies("AnotherCompany", "");
         result.Should().HaveCount(0);
         result.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void GetCompanies_WhenFilterByOwnerName()
     {
@@ -89,12 +92,12 @@ public class CompaniesRepositoryTest
         SeedData(context);
         var repository = new CompanyRepository(context);
         var expected = new List<Company>();
-        
+
         var result = repository.GetCompanies("Company", "AnotherOwner");
         result.Should().HaveCount(0);
         result.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void GetCompanies_WhenNoFilter()
     {
@@ -109,19 +112,20 @@ public class CompaniesRepositoryTest
             Email = "mail@.asdas.com",
             Password = "password@123"
         };
-        var anotherCompany = new Company() {
+        var anotherCompany = new Company()
+        {
             Id = Guid.NewGuid(),
             Name = "anotherCompany",
             RUT = "2312311",
             Owner = user
-         };
+        };
         repository.CreateCompany(anotherCompany);
         context.SaveChanges();
-        
-        
+
+
         var result = repository.GetCompanies("", "");
         result.Should().HaveCount(2);
         result.Should().Contain(anotherCompany);
     }
-    
+
 }

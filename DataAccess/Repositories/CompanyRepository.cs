@@ -11,7 +11,7 @@ public class CompanyRepository : ICompanyRepository
     {
         _dbContext = context;
     }
-    
+
     public Company CreateCompany(Company company)
     {
         _dbContext.Companies?.Add(company);
