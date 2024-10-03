@@ -14,7 +14,9 @@ public class CompanyRepository : ICompanyRepository
     
     public Company CreateCompany(Company company)
     {
-        throw new NotImplementedException();
+        _dbContext.Companies?.Add(company);
+        _dbContext.SaveChanges();
+        return company;
     }
 
     public List<Company> GetCompanies(string name, string ownerName)
