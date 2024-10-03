@@ -63,12 +63,10 @@ public class HomeLogic : IHomeLogic
 
             if (hasPermission)
             {
-                // Si el permiso es true, agregarlo
                 _memberSettingRepository.AddPermission(homeId, userId, permissionName);
             }
             else
             {
-                // Si el permiso es false, verificar si ya existe y eliminarlo
                 if (_memberSettingRepository.HasPermission(homeId, userId, permissionName))
                 {
                     _memberSettingRepository.RemovePermission(homeId, userId, permissionName);

@@ -3,6 +3,7 @@ using Domain;
 using FluentAssertions;
 using IDataAccess;
 using LogicInterface;
+using Models;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -198,5 +199,111 @@ public class HomeLogicTest
         var result = _homeLogic?.GetHomesByUser(user.Id);
 
         result.Should().BeEquivalentTo(homes);
+    }
+    
+    [TestMethod]
+    public void UpdatePermissions_ShouldAddPermissions_WhenPermissionsAreTrue()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var permissionRequest = new PermissionRequest
+        {
+            CanAddMembers = true,
+            CanAsociateDevices = true,
+            CanGetNotifications = false,
+            CanListDevices = true
+        };
+
+        // Act
+        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
+
+        // Assert
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAddMembers"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAsociateDevices"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanListDevices"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanGetNotifications"), Times.Never);
+    }
+
+    [TestMethod]
+    public void UpdatePermissions_ShouldRemovePermissions_WhenPermissionsAreFalseAndExist()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var permissionRequest = new PermissionRequest
+        {
+            CanAddMembers = false,
+            CanAsociateDevices = false,
+            CanGetNotifications = false,
+            CanListDevices = false
+        };
+
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAddMembers")).Returns(true);
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAsociateDevices")).Returns(true);
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanGetNotifications")).Returns(false);
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanListDevices")).Returns(true);
+
+        // Act
+        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
+
+        // Assert
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanAddMembers"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanAsociateDevices"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanListDevices"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanGetNotifications"), Times.Never);
+    }
+
+    [TestMethod]
+    public void UpdatePermissions_ShouldAddAllPermissions_WhenAllPermissionsAreTrue()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var permissionRequest = new PermissionRequest
+        {
+            CanAddMembers = true,
+            CanAsociateDevices = true,
+            CanGetNotifications = true,
+            CanListDevices = true
+        };
+
+        // Act
+        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
+
+        // Assert
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAddMembers"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAsociateDevices"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanGetNotifications"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanListDevices"), Times.Once);
+    }
+
+    [TestMethod]
+    public void UpdatePermissions_ShouldRemoveAllPermissions_WhenAllPermissionsAreFalse()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var permissionRequest = new PermissionRequest
+        {
+            CanAddMembers = false,
+            CanAsociateDevices = false,
+            CanGetNotifications = false,
+            CanListDevices = false
+        };
+
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAddMembers")).Returns(true);
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAsociateDevices")).Returns(true);
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanGetNotifications")).Returns(true);
+        _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanListDevices")).Returns(true);
+
+        // Act
+        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
+
+        // Assert
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanAddMembers"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanAsociateDevices"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanGetNotifications"), Times.Once);
+        _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanListDevices"), Times.Once);
     }
 }
