@@ -16,6 +16,13 @@ public class ExceptionFilter : IExceptionFilter
             {
                 StatusCode = (int)HttpStatusCode.Conflict
             } 
+        },
+        {
+            typeof(NotValidDataException),
+            new ObjectResult(new { InnerCode = "Bad Request", Message = "The request is not valid" })
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            } 
         }
     };
     

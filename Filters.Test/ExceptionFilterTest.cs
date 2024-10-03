@@ -100,7 +100,7 @@ public class ExceptionFilterTest
         var objectResult = response as ObjectResult;
         objectResult.Should().NotBeNull();
         objectResult.StatusCode.Should().Be((int)StatusCodes.Status400BadRequest);
-        GetInnerCode(objectResult.Value).Should().Be("NotValid");
+        GetInnerCode(objectResult.Value).Should().Be("Bad Request");
         GetInnerMessage(objectResult.Value).Should().Be("The request is not valid");
     }
     
