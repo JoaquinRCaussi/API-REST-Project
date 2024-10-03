@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    partial class HMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241003200403_CompanyIntegrationWithPermits2")]
+    partial class CompanyIntegrationWithPermits2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,62 +78,6 @@ namespace DataAccess.Migrations
                     b.ToTable("Homes");
                 });
 
-            modelBuilder.Entity("Domain.MemberSetting", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HomeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HomeId");
-
-                    b.ToTable("MemberSettings");
-                });
-
-            modelBuilder.Entity("Domain.Permission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Permissions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
-                            Value = "CanAsociateDevices"
-                        },
-                        new
-                        {
-                            Id = new Guid("4d99af50-c4b9-4bc7-8c63-6e4f6f24a73a"),
-                            Value = "CanListDevices"
-                        },
-                        new
-                        {
-                            Id = new Guid("c0f0d7a7-3e77-4128-87d3-30113b19936d"),
-                            Value = "CanGetNotifications"
-                        },
-                        new
-                        {
-                            Id = new Guid("b2ff8154-fdb0-4a87-a7b5-ded13fb66f57"),
-                            Value = "CanAddMembers"
-                        });
-                });
-
             modelBuilder.Entity("Domain.PermissionKey", b =>
                 {
                     b.Property<Guid>("Id")
@@ -162,7 +109,7 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
                             Value = "CanCreateCompany"
                         });
                 });
@@ -279,21 +226,6 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MemberSettingPermission", b =>
-                {
-                    b.Property<Guid>("MemberSettingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PermissionsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("MemberSettingsId", "PermissionsId");
-
-                    b.HasIndex("PermissionsId");
-
-                    b.ToTable("MemberSettingPermissions", (string)null);
-                });
-
             modelBuilder.Entity("PermissionKeyRole", b =>
                 {
                     b.Property<Guid>("PermissionKeysId")
@@ -326,7 +258,7 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         });
                 });
@@ -338,15 +270,6 @@ namespace DataAccess.Migrations
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("Domain.MemberSetting", b =>
-                {
-                    b.HasOne("Domain.Home", null)
-                        .WithMany("MemberSettings")
-                        .HasForeignKey("HomeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.User", b =>
@@ -366,21 +289,6 @@ namespace DataAccess.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("MemberSettingPermission", b =>
-                {
-                    b.HasOne("Domain.MemberSetting", null)
-                        .WithMany()
-                        .HasForeignKey("MemberSettingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Permission", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PermissionKeyRole", b =>
@@ -406,8 +314,6 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.Home", b =>
                 {
-                    b.Navigation("MemberSettings");
-
                     b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
