@@ -2,21 +2,20 @@
 
 #nullable disable
 
-namespace DataAccess.Migrations
+namespace DataAccess.Migrations;
+
+/// <inheritdoc />
+public partial class CompanyIntegrationWithPermits2 : Migration
 {
     /// <inheritdoc />
-    public partial class CompanyIntegrationWithPermits2 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-        }
     }
 }

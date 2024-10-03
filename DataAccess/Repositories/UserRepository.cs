@@ -94,7 +94,7 @@ public class UserRepository : IUserRepository
 
         return user;
     }
-    
+
     public User AuthenticateUser(string mail, string password)
     {
         User? user = _context.Users?.FirstOrDefault(u => u.Email == mail && u.Password == password);

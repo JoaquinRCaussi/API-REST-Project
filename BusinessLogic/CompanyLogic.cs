@@ -18,7 +18,7 @@ public class CompanyLogic : ICompanyLogic
     public Company CreateCompany(Company companyToCreate)
     {
         var owner = _userRepository.GetUser(companyToCreate.Owner.Id);
-        
+
         if (owner.CompanyID != null)
         {
             throw new ConflictException("The owner already has a company");

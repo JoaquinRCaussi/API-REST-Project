@@ -15,7 +15,7 @@ public class CompanyRepository : ICompanyRepository
     public Company CreateCompany(Company company)
     {
         var owner = _dbContext.Users?.FirstOrDefault(u => u.Id == company.Owner.Id);
-    
+
         if (owner == null)
         {
             throw new Exception("Owner not found");

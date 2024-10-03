@@ -36,7 +36,7 @@ public class CompanyLogicTest
 
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
-        
+
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
 
         // Act
@@ -82,7 +82,7 @@ public class CompanyLogicTest
         // Arrange
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
-        
+
         var company = new Company
         {
             Id = Guid.NewGuid(),
@@ -92,8 +92,8 @@ public class CompanyLogicTest
         };
         var companies = new List<Company> { company };
         mock.Setup(x => x.GetCompanies("", "")).Returns(companies);
-        
-        
+
+
         // Act
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
         var result = companyLogic.GetCompanies(null, null);
@@ -124,7 +124,7 @@ public class CompanyLogicTest
 
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
-        
+
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
