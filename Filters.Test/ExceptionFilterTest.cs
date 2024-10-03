@@ -84,4 +84,24 @@ public class ExceptionFilterTest
         GetInnerMessage(objectResult.Value).Should().Be("The resource already exists");
     }
     
+    [TestMethod]
+    public void OnNotValidDataException_WhenExceptionIsThrown_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var exception = new NotValidDataException("Test exception");
+        _context.Exception = exception;
+        
+        // Act
+        _attribute.OnException(_context);
+
+        var response = _context.Result;
+
+        response.Should().NotBeNull();
+        var objectResult = response as ObjectResult;
+        objectResult.Should().NotBeNull();
+        objectResult.StatusCode.Should().Be((int)StatusCodes.Status400BadRequest);
+        GetInnerCode(objectResult.Value).Should().Be("NotValid");
+        GetInnerMessage(objectResult.Value).Should().Be("The request is not valid");
+    }
+    
 }
