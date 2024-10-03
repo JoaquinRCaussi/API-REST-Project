@@ -35,10 +35,12 @@ public class CompanyLogicTest
         };
 
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
+        
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
 
         // Act
-        var companyLogic = new CompanyLogic(mock.Object);
+        var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
         var result = companyLogic.CreateCompany(company);
 
         result.Should().BeEquivalentTo(company);
@@ -64,8 +66,9 @@ public class CompanyLogicTest
         user.CompanyID = company.Id;
 
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
-        var companyLogic = new CompanyLogic(mock.Object);
+        var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
         // Act
         Action act = () => companyLogic.CreateCompany(company);
@@ -78,6 +81,8 @@ public class CompanyLogicTest
     {
         // Arrange
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
+        
         var company = new Company
         {
             Id = Guid.NewGuid(),
@@ -87,9 +92,10 @@ public class CompanyLogicTest
         };
         var companies = new List<Company> { company };
         mock.Setup(x => x.GetCompanies("", "")).Returns(companies);
-
+        
+        
         // Act
-        var companyLogic = new CompanyLogic(mock.Object);
+        var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
         var result = companyLogic.GetCompanies(null, null);
 
         // Assert
@@ -117,8 +123,10 @@ public class CompanyLogicTest
         };
 
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
+        
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
-        var companyLogic = new CompanyLogic(mock.Object);
+        var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
         // Act
         Action act = () => companyLogic.CreateCompany(company);

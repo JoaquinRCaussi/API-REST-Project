@@ -7,15 +7,19 @@ namespace BusinessLogic;
 public class CompanyLogic : ICompanyLogic
 {
     private readonly ICompanyRepository _companyRepository;
+    private readonly IUserRepository _userRepository;
 
-    public CompanyLogic(ICompanyRepository companyRepository)
+    public CompanyLogic(ICompanyRepository companyRepository, IUserRepository userRepository)
     {
         _companyRepository = companyRepository;
+        _userRepository = userRepository;
     }
 
     public Company CreateCompany(Company companyToCreate)
     {
-        if (companyToCreate.Owner.CompanyID != null)
+        var owner = _userRepository.GetUser(companyToCreate.Owner.Id);
+        
+        if (owner.CompanyID != null)
         {
             throw new ConflictException("The owner already has a company");
         }
