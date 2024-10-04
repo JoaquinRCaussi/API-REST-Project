@@ -23,7 +23,7 @@ public class HomeRepositoryTest
     {
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
-        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = homeDevices};
+        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = homeDevices };
         context.Homes?.Add(home);
         context.SaveChanges();
     }
@@ -99,7 +99,7 @@ public class HomeRepositoryTest
 
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
-        
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -147,7 +147,7 @@ public class HomeRepositoryTest
 
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
-        
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -204,7 +204,7 @@ public class HomeRepositoryTest
 
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
-        
+
         var repository = new HomeRepository(context);
         var expected = new Home
         {
@@ -294,7 +294,7 @@ public class HomeRepositoryTest
 
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
-        
+
         var nonExistentHomeId = Guid.NewGuid();
 
         var homeIdWithNoMembers = Guid.NewGuid();

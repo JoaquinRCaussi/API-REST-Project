@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    [Migration("20241003223037_HomDevicesMigration")]
-    partial class HomDevicesMigration
+    [Migration("20241004033719_seedDataMigration")]
+    partial class seedDataMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,9 +60,6 @@ namespace DataAccess.Migrations
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("HomeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
 
@@ -74,9 +71,27 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HomeId");
-
                     b.ToTable("Devices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5d95af52-c4b9-4bc7-8c63-6e4f6f24a73a"),
+                            Description = "Lampara de techo",
+                            DeviceType = 1,
+                            Model = "Modelo 1",
+                            Name = "Lampara",
+                            Photo = "https://www.google.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("6d95af53-c4b9-4bc7-8c63-6e4f6f24a73a"),
+                            Description = "Lampara de avion",
+                            DeviceType = 1,
+                            Model = "Modelo 2",
+                            Name = "Lampara de avion",
+                            Photo = "https://www.avion.com"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -114,12 +129,17 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("HomeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("state")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DeviceId");
+
+                    b.HasIndex("HomeId");
 
                     b.ToTable("HomeDevices");
                 });
@@ -380,13 +400,6 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Device", b =>
-                {
-                    b.HasOne("Domain.Home", null)
-                        .WithMany("Devices")
-                        .HasForeignKey("HomeId");
-                });
-
             modelBuilder.Entity("Domain.Home", b =>
                 {
                     b.HasOne("Domain.User", "Owner")
@@ -403,6 +416,10 @@ namespace DataAccess.Migrations
                         .HasForeignKey("DeviceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Home", null)
+                        .WithMany("Devices")
+                        .HasForeignKey("HomeId");
 
                     b.Navigation("Device");
                 });

@@ -23,9 +23,11 @@ public class HomeController : ControllerBase
     [HttpPost]
     public IActionResult CreateHome([FromBody] HomeRequest home)
     {
+        var user = (User)HttpContext.Items[0];
         Home homeToCreate = home.ToArgs();
+        homeToCreate.HomeOwner = user.Id;
         Home createdHome = _homeLogic.CreateHome(homeToCreate);
-        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, Devices = createdHome.Devices, HomeOwner = createdHome.HomeOwner };
+        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner };
         return Ok(response);
     }
 
@@ -83,7 +85,7 @@ public class HomeController : ControllerBase
         var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
         return Ok(home);
     }
-    
+
     [HttpPost]
     [AuthorizationFilter("CanAsociateDevices")]
     [Route("{homeId}/devices")]
@@ -93,7 +95,7 @@ public class HomeController : ControllerBase
         var home = _homeLogic.AddDevice(homeId, deviceId);
         return Ok(home);
     }
-    
+
     [HttpGet]
     [Route("{homeId}/devices")]
     public IActionResult GetHomeDevices(Guid homeId)

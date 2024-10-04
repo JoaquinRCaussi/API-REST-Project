@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Moq;
@@ -13,10 +14,12 @@ namespace Controllers.Tests;
 [TestClass]
 public class HomeControllerTest
 {
-    
+
     [TestMethod]
     public void CreateHome_WhenAllPropertiesOk()
     {
+        var httpContext = new DefaultHttpContext();
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -25,6 +28,8 @@ public class HomeControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
+
+        httpContext.Items[0] = user;
 
         var home = new Home
         {
@@ -46,7 +51,13 @@ public class HomeControllerTest
 
         homeLogic.Setup(x => x.CreateHome(It.IsAny<Home>())).Returns(homeRequest.ToArgs());
 
-        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object)
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = httpContext
+            }
+        };
 
         IActionResult act = controller.CreateHome(homeRequest);
 
@@ -62,7 +73,7 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void GetHomes_WhenAllPropertiesOk()
     {
@@ -102,6 +113,8 @@ public class HomeControllerTest
         IActionResult act = controller.GetHomes();
 
         var homeRequestObject = homeRequest.ToArgs();
+        homeRequestObject.HomeOwner = user.Id;
+
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
@@ -152,6 +165,8 @@ public class HomeControllerTest
         IActionResult act = controller.GetHome(home.Id);
 
         var homeRequestObject = homeRequest.ToArgs();
+        homeRequestObject.HomeOwner = user.Id;
+
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
@@ -184,7 +199,7 @@ public class HomeControllerTest
             Id = Guid.NewGuid(),
             Location = "location",
             MemberCount = 5,
-            Devices = new List<HomeDevice>(),
+            Devices = [],
             HomeOwner = user.Id,
             Members = users
         };
@@ -231,16 +246,16 @@ public class HomeControllerTest
             Id = homeId,
             Location = "TestLocation",
             MemberCount = 1,
-            Devices = new List<HomeDevice>(),
+            Devices = [],
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User>()
+            Members = []
         };
 
         var memberSetting = new MemberSetting
         {
             HomeId = homeId,
             UserId = userId,
-            Permissions = new List<Permission>()
+            Permissions = []
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -250,9 +265,9 @@ public class HomeControllerTest
         memberSettingLogic.Setup(x => x.CreateMemberSetting(homeId, userId)).Returns(memberSetting);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-        
+
         IActionResult act = controller.AddMemberToHome(homeId, addMemberRequest);
-        
+
         var okResult = act as OkObjectResult;
         Assert.IsNotNull(okResult, "Expected OkObjectResult");
 
@@ -263,7 +278,7 @@ public class HomeControllerTest
         };
 
         okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.WithStrictOrdering());
-        
+
         homeLogic.Verify(x => x.AddMember(homeId, userId), Times.Once);
         memberSettingLogic.Verify(x => x.CreateMemberSetting(homeId, userId), Times.Once);
     }
@@ -343,7 +358,7 @@ public class HomeControllerTest
             new HomeDevice { DeviceId = device1.Id, Device = device1 },
             new HomeDevice { DeviceId = device2.Id, Device = device2 }
         };
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -359,9 +374,9 @@ public class HomeControllerTest
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-        
+
         IActionResult act = controller.GetHomeDevices(homeId);
-        
+
         var okResult = act as OkObjectResult;
         Assert.IsNotNull(okResult, "Expected OkObjectResult");
 

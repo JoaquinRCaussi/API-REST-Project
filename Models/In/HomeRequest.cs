@@ -14,7 +14,6 @@ public class HomeRequest
         {
             Location = Location,
             MemberCount = MemberCount,
-            HomeOwner = HomeOwner
         };
     }
 }

@@ -3,9 +3,9 @@ using Domain;
 using FluentAssertions;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Moq;
 using WebApi.Controllers;
-using Models;
 
 namespace Controllers.Tests;
 
