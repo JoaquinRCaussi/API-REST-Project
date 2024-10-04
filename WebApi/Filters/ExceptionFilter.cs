@@ -1,5 +1,4 @@
 using System.Net;
-using Azure;
 using BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -8,36 +7,37 @@ namespace WebApi.Filters;
 
 public class ExceptionFilter : IExceptionFilter
 {
-    private readonly Dictionary<Type, IActionResult> _errors = new Dictionary<Type, IActionResult>
+    private readonly Dictionary<Type, HttpStatusCode> _errorStatusCodes = new Dictionary<Type, HttpStatusCode>
     {
-        {
-            typeof(ConflictException),
-            new ObjectResult(new { InnerCode = "Conflict", Message = "The resource already exists" })
-            {
-                StatusCode = (int)HttpStatusCode.Conflict
-            } 
-        },
-        {
-            typeof(NotValidDataException),
-            new ObjectResult(new { InnerCode = "Bad Request", Message = "The request is not valid" })
-            {
-                StatusCode = (int)HttpStatusCode.BadRequest
-            } 
-        }
+        { typeof(ConflictException), HttpStatusCode.Conflict },
+        { typeof(NotValidDataException), HttpStatusCode.BadRequest }
     };
-    
     public void OnException(ExceptionContext? context)
     {
-        var response = _errors.GetValueOrDefault(context.Exception.GetType());
-        
-        if (response == null)
+        var exceptionType = context.Exception.GetType();
+
+        if (_errorStatusCodes.TryGetValue(exceptionType, out var statusCode))
         {
             context.Result = new ObjectResult(new
             {
-                InnerCode = "InternalError", Message = "There was an error when processing the request"
-            }) { StatusCode = (int)HttpStatusCode.InternalServerError };
-            return;
+                InnerCode = statusCode.ToString(),
+                Message = context.Exception.Message
+            })
+            {
+                StatusCode = (int)statusCode
+            };
         }
-        context.Result = response;
+        else
+        {
+            context.Result = new ObjectResult(new
+            {
+                InnerCode = "InternalError",
+                Message = context.Exception.Message
+            })
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError
+            };
+        }
     }
 }
+
