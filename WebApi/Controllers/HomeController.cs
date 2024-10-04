@@ -92,4 +92,12 @@ public class HomeController : ControllerBase
         var home = _homeLogic.AddDevice(homeId, deviceId);
         return Ok(home);
     }
+    
+    [HttpGet]
+    [Route("{homeId}/devices")]
+    public IActionResult GetHomeDevices(Guid homeId)
+    {
+        var devices = _homeLogic.GetHomeDevices(homeId);
+        return Ok(devices);
+    }
 }

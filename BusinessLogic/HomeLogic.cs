@@ -81,5 +81,10 @@ public class HomeLogic : IHomeLogic
     {
         return _homeRepository.AddDevice(homeId, deviceId);
     }
+    
+    public Home GetHomeDevices(Guid homeId)
+    {
+        return _homeRepository.GetHomeDevices(homeId);
+    }
 
 }

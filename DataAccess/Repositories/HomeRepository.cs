@@ -102,4 +102,12 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return home;
     }
+    
+    public Home GetHomeDevices(Guid homeId)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+        var devices = _dbContext.HomeDevices?.Where(x => x.HomeId == homeId).Select(x => x.Device).ToList();
+        home.Devices = devices;
+        return home;
+    }
 }

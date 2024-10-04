@@ -307,6 +307,34 @@ public class HomeControllerTest
 
         homeLogic.Verify(x => x.AddDevice(homeId, deviceId), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetHomeDevices_WhenHomeHasDevices()
+    {
+        var homeId = Guid.NewGuid();
+        var devices = new List<Device>
+        {
+            new Device { Id = Guid.NewGuid(), Name = "Camera", Model = "XYZ", DeviceType = DeviceType.Camera, Description = "Outdoor camera", Photo = "photo1.jpg" },
+            new Device { Id = Guid.NewGuid(), Name = "Thermostat", Model = "ABC", DeviceType = DeviceType.Sensor, Description = "Smart thermostat", Photo = "photo2.jpg" }
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId)).Returns(devices);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        
+        IActionResult act = controller.GetHomeDevices(homeId);
+        
+        var okResult = act as OkObjectResult;
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+
+        okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
+
+        homeLogic.Verify(x => x.GetHomeDevices(homeId), Times.Once);
+    }
+
 
 
 }

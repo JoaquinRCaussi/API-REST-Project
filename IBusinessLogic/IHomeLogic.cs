@@ -20,4 +20,6 @@ public interface IHomeLogic
     Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions);
     
     Home AddDevice(Guid homeId, Guid deviceId);
+    
+    Home GetHomeDevices(Guid homeId);
 }
