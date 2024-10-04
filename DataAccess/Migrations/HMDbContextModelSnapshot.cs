@@ -45,15 +45,42 @@ namespace DataAccess.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("Domain.Home", b =>
+            modelBuilder.Entity("Domain.Device", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Devices")
-                        .IsRequired()
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DeviceType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("HomeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeId");
+
+                    b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("Domain.Home", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("HomeOwner")
                         .HasColumnType("uniqueidentifier");
@@ -73,6 +100,25 @@ namespace DataAccess.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Homes");
+                });
+
+            modelBuilder.Entity("Domain.HomeDevice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DeviceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("state")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId");
+
+                    b.ToTable("HomeDevices");
                 });
 
             modelBuilder.Entity("Domain.MemberSetting", b =>
@@ -162,7 +208,7 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
                             Value = "CanCreateCompany"
                         });
                 });
@@ -326,9 +372,16 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         });
+                });
+
+            modelBuilder.Entity("Domain.Device", b =>
+                {
+                    b.HasOne("Domain.Home", null)
+                        .WithMany("Devices")
+                        .HasForeignKey("HomeId");
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -338,6 +391,17 @@ namespace DataAccess.Migrations
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Domain.HomeDevice", b =>
+                {
+                    b.HasOne("Domain.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Device");
                 });
 
             modelBuilder.Entity("Domain.MemberSetting", b =>
@@ -406,6 +470,8 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.Home", b =>
                 {
+                    b.Navigation("Devices");
+
                     b.Navigation("MemberSettings");
 
                     b.Navigation("Members");

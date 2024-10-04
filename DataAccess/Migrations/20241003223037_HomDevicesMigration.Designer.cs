@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    [Migration("20241003200044_CompanyIntegrationWithPermit")]
-    partial class CompanyIntegrationWithPermit
+    [Migration("20241003223037_HomDevicesMigration")]
+    partial class HomDevicesMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,15 +48,42 @@ namespace DataAccess.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("Domain.Home", b =>
+            modelBuilder.Entity("Domain.Device", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Devices")
-                        .IsRequired()
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DeviceType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("HomeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeId");
+
+                    b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("Domain.Home", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("HomeOwner")
                         .HasColumnType("uniqueidentifier");
@@ -76,6 +103,81 @@ namespace DataAccess.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Homes");
+                });
+
+            modelBuilder.Entity("Domain.HomeDevice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DeviceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("state")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId");
+
+                    b.ToTable("HomeDevices");
+                });
+
+            modelBuilder.Entity("Domain.MemberSetting", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HomeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeId");
+
+                    b.ToTable("MemberSettings");
+                });
+
+            modelBuilder.Entity("Domain.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+                            Value = "CanAsociateDevices"
+                        },
+                        new
+                        {
+                            Id = new Guid("4d99af50-c4b9-4bc7-8c63-6e4f6f24a73a"),
+                            Value = "CanListDevices"
+                        },
+                        new
+                        {
+                            Id = new Guid("c0f0d7a7-3e77-4128-87d3-30113b19936d"),
+                            Value = "CanGetNotifications"
+                        },
+                        new
+                        {
+                            Id = new Guid("b2ff8154-fdb0-4a87-a7b5-ded13fb66f57"),
+                            Value = "CanAddMembers"
+                        });
                 });
 
             modelBuilder.Entity("Domain.PermissionKey", b =>
@@ -226,6 +328,21 @@ namespace DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MemberSettingPermission", b =>
+                {
+                    b.Property<Guid>("MemberSettingsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MemberSettingsId", "PermissionsId");
+
+                    b.HasIndex("PermissionsId");
+
+                    b.ToTable("MemberSettingPermissions", (string)null);
+                });
+
             modelBuilder.Entity("PermissionKeyRole", b =>
                 {
                     b.Property<Guid>("PermissionKeysId")
@@ -263,6 +380,13 @@ namespace DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Device", b =>
+                {
+                    b.HasOne("Domain.Home", null)
+                        .WithMany("Devices")
+                        .HasForeignKey("HomeId");
+                });
+
             modelBuilder.Entity("Domain.Home", b =>
                 {
                     b.HasOne("Domain.User", "Owner")
@@ -270,6 +394,26 @@ namespace DataAccess.Migrations
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Domain.HomeDevice", b =>
+                {
+                    b.HasOne("Domain.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Device");
+                });
+
+            modelBuilder.Entity("Domain.MemberSetting", b =>
+                {
+                    b.HasOne("Domain.Home", null)
+                        .WithMany("MemberSettings")
+                        .HasForeignKey("HomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.User", b =>
@@ -289,6 +433,21 @@ namespace DataAccess.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MemberSettingPermission", b =>
+                {
+                    b.HasOne("Domain.MemberSetting", null)
+                        .WithMany()
+                        .HasForeignKey("MemberSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PermissionKeyRole", b =>
@@ -314,6 +473,10 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.Home", b =>
                 {
+                    b.Navigation("Devices");
+
+                    b.Navigation("MemberSettings");
+
                     b.Navigation("Members");
                 });
 #pragma warning restore 612, 618

@@ -250,11 +250,9 @@ public class HomeControllerTest
         memberSettingLogic.Setup(x => x.CreateMemberSetting(homeId, userId)).Returns(memberSetting);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-
-        // Act
+        
         IActionResult act = controller.AddMemberToHome(homeId, addMemberRequest);
-
-        // Assert
+        
         var okResult = act as OkObjectResult;
         Assert.IsNotNull(okResult, "Expected OkObjectResult");
 
@@ -265,10 +263,49 @@ public class HomeControllerTest
         };
 
         okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.WithStrictOrdering());
-
-        // Verifica que los métodos en los mocks se hayan llamado exactamente una vez con los parámetros correctos
+        
         homeLogic.Verify(x => x.AddMember(homeId, userId), Times.Once);
         memberSettingLogic.Verify(x => x.CreateMemberSetting(homeId, userId), Times.Once);
+    }
+    
+    [TestMethod]
+    public void AddDeviceToHome_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var deviceId = Guid.NewGuid();
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            MemberCount = 1,
+            Devices = new List<Device>
+            {
+                new Device { Id = deviceId, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" }
+            },
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var homeDeviceRequest = new HomeDeviceRequest
+        {
+            DeviceId = deviceId
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.AddDevice(homeId, deviceId)).Returns(home);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        
+        IActionResult act = controller.AddDeviceToHome(homeId, homeDeviceRequest);
+        
+        var okResult = act as OkObjectResult;
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+
+        okResult.Value.Should().BeEquivalentTo(home, options => options.WithStrictOrdering());
+
+        homeLogic.Verify(x => x.AddDevice(homeId, deviceId), Times.Once);
     }
 
 
