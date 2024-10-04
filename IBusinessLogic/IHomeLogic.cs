@@ -1,4 +1,5 @@
 using Domain;
+using Models;
 
 namespace IBusinessLogic;
 
@@ -15,4 +16,6 @@ public interface IHomeLogic
     List<User> GetHomeMembers(Guid homeId);
 
     Home AddMember(Guid homeId, Guid userId);
+
+    Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions);
 }

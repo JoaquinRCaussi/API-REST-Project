@@ -1,16 +1,19 @@
 using Domain;
 using IBusinessLogic;
 using IDataAccess;
+using Models;
 
 namespace BusinessLogic;
 
 public class HomeLogic : IHomeLogic
 {
     private readonly IHomeRepository _homeRepository;
+    private readonly IMemberSettingRepository _memberSettingRepository;
 
-    public HomeLogic(IHomeRepository homeRepository)
+    public HomeLogic(IHomeRepository homeRepository, IMemberSettingRepository memberSettingRepository)
     {
         _homeRepository = homeRepository;
+        _memberSettingRepository = memberSettingRepository;
     }
 
     public Home CreateHome(Home home)
@@ -41,6 +44,37 @@ public class HomeLogic : IHomeLogic
     public Home AddMember(Guid homeId, Guid userId)
     {
         return _homeRepository.AddMember(homeId, userId);
+    }
+
+    public Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions)
+    {
+        var permissionMappings = new Dictionary<Func<PermissionRequest, bool>, string>
+        {
+            { p => p.CanAddMembers, "CanAddMembers" },
+            { p => p.CanAsociateDevices, "CanAsociateDevices" },
+            { p => p.CanGetNotifications, "CanGetNotifications" },
+            { p => p.CanListDevices, "CanListDevices" }
+        };
+
+        foreach (var mapping in permissionMappings)
+        {
+            var permissionName = mapping.Value;
+            var hasPermission = mapping.Key(permissions);
+
+            if (hasPermission)
+            {
+                _memberSettingRepository.AddPermission(homeId, userId, permissionName);
+            }
+            else
+            {
+                if (_memberSettingRepository.HasPermission(homeId, userId, permissionName))
+                {
+                    _memberSettingRepository.RemovePermission(homeId, userId, permissionName);
+                }
+            }
+        }
+
+        return _homeRepository.GetHome(homeId);
     }
 
 }
