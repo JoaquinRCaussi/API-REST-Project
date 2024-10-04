@@ -61,7 +61,7 @@ public class ExceptionFilterTest
         objectResult.Should().NotBeNull();
         objectResult.StatusCode.Should().Be((int)StatusCodes.Status500InternalServerError);
         GetInnerCode(objectResult.Value).Should().Be("InternalError");
-        GetInnerMessage(objectResult.Value).Should().Be("There was an error when processing the request");
+        GetInnerMessage(objectResult.Value).Should().Be(exception.Message);
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class ExceptionFilterTest
         objectResult.Should().NotBeNull();
         objectResult.StatusCode.Should().Be((int)StatusCodes.Status409Conflict);
         GetInnerCode(objectResult.Value).Should().Be("Conflict");
-        GetInnerMessage(objectResult.Value).Should().Be("The resource already exists");
+        GetInnerMessage(objectResult.Value).Should().Be(exception.Message);
     }
 
     [TestMethod]
@@ -100,8 +100,8 @@ public class ExceptionFilterTest
         var objectResult = response as ObjectResult;
         objectResult.Should().NotBeNull();
         objectResult.StatusCode.Should().Be((int)StatusCodes.Status400BadRequest);
-        GetInnerCode(objectResult.Value).Should().Be("Bad Request");
-        GetInnerMessage(objectResult.Value).Should().Be("The request is not valid");
+        GetInnerCode(objectResult.Value).Should().Be("BadRequest");
+        GetInnerMessage(objectResult.Value).Should().Be(exception.Message);
     }
 
 }
