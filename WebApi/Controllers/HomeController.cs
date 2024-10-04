@@ -85,6 +85,7 @@ public class HomeController : ControllerBase
     }
     
     [HttpPost]
+    [AuthorizationFilter("CanAsociateDevices")]
     [Route("{homeId}/devices")]
     public IActionResult AddDeviceToHome(Guid homeId, [FromBody] HomeDeviceRequest deviceRequest)
     {
