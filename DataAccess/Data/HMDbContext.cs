@@ -51,6 +51,13 @@ public class HMDbContext : DbContext
             new Role { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), Name = "HomeOwner" },
             new Role { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), Name = "CompanyOwner" }
         );
+        
+        //Seed de MemberSettings
+        modelBuilder.Entity<MemberSetting>().HasData(
+            new MemberSetting { Id = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), HomeId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), UserId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
+            new MemberSetting { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), HomeId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), UserId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") },
+            new MemberSetting { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), HomeId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), UserId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") }
+        );
 
         // Configuraciones de relación muchos a muchos sin entidad intermedia
         modelBuilder.Entity<MemberSetting>()
