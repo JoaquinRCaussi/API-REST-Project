@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    partial class HMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241003192426_TestingCompanyMigration")]
+    partial class TestingCompanyMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +165,7 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                            Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
                             Value = "CanCreateCompany"
                         });
                 });
@@ -326,7 +329,7 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                            PermissionKeysId = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         });
                 });

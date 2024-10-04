@@ -1,6 +1,7 @@
 using DataAccess.Data;
 using Domain;
 using IDataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -81,7 +82,10 @@ public class UserRepository : IUserRepository
 
     public User FindByMail(string mail)
     {
-        User? user = _context.Users?.FirstOrDefault(u => u.Email == mail);
+        User? user = _context.Users?
+            .Include(u => u.Role)
+            .ThenInclude(r => r.PermissionKeys)
+            .FirstOrDefault(u => u.Email == mail);
 
         if (user == null)
         {
