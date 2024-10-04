@@ -22,6 +22,7 @@ public class MemberSettingRepositoryTest
     private void SeedData(HMDbContext context)
     {
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
         
         var home = new Home
         {
@@ -29,7 +30,7 @@ public class MemberSettingRepositoryTest
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             MemberCount = 3,
-            Devices = devices
+            Devices = homeDevices
         };
 
         var user = new User

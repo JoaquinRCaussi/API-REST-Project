@@ -18,5 +18,5 @@ public interface IHomeRepository
     
     public Home AddDevice(Guid homeId, Guid deviceId);
     
-    public Home GetHomeDevices(Guid homeId);
+    public List<HomeDevice> GetHomeDevices(Guid homeId);
 }

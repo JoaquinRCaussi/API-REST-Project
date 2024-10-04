@@ -6,7 +6,6 @@ public class HomeRequest
 {
     public required string Location { get; set; }
     public required int MemberCount { get; set; }
-    public List<Device>? Devices { get; set; }
     public Guid HomeOwner { get; set; }
 
     public Home ToArgs()
@@ -15,7 +14,6 @@ public class HomeRequest
         {
             Location = Location,
             MemberCount = MemberCount,
-            Devices = Devices,
             HomeOwner = HomeOwner
         };
     }

@@ -1,6 +1,7 @@
 using DataAccess.Data;
 using Domain;
 using IDataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -98,16 +99,17 @@ public class HomeRepository : IHomeRepository
         };
         
         _dbContext.HomeDevices?.Add(homeDevice);
-        home.Devices?.Add(device);
+        home.Devices?.Add(homeDevice);
         _dbContext.SaveChanges();
         return home;
     }
     
-    public Home GetHomeDevices(Guid homeId)
+    public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
-        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
-        var devices = _dbContext.HomeDevices?.Where(x => x.HomeId == homeId).Select(x => x.Device).ToList();
-        home.Devices = devices;
-        return home;
+        var home = _dbContext.Homes?
+            .Include(h => h.Devices) // Carga los dispositivos asociados a la Home
+            .FirstOrDefault(x => x.Id == homeId);
+
+        return home.Devices;
     }
 }

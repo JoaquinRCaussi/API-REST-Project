@@ -21,5 +21,5 @@ public interface IHomeLogic
     
     Home AddDevice(Guid homeId, Guid deviceId);
     
-    Home GetHomeDevices(Guid homeId);
+    List<HomeDevice> GetHomeDevices(Guid homeId);
 }

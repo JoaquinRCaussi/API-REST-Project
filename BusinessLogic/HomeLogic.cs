@@ -82,7 +82,7 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.AddDevice(homeId, deviceId);
     }
     
-    public Home GetHomeDevices(Guid homeId)
+    public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
         return _homeRepository.GetHomeDevices(homeId);
     }
