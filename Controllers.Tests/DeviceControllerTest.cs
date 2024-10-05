@@ -159,4 +159,20 @@ public class DeviceControllerTest
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(ListOfDevicesResponse);
     }
+
+    [TestMethod]
+    public void GetDevicesTypesOk()
+    {
+        List<string> deviceTypes = new List<string>
+        {
+            "Camera",
+            "Sensor"
+        };
+        _deviceLogicMock.Setup(x => x.GetDevicesTypes()).Returns(deviceTypes);
+        
+        IActionResult result = _controller!.GetDevicesTypes();
+        
+        result.Should().BeOfType<OkObjectResult>()
+            .Which.Value.Should().BeEquivalentTo(deviceTypes);
+    }
 }

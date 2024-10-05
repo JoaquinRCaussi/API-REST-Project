@@ -51,4 +51,9 @@ public class DeviceController : ControllerBase
         var devices = _deviceLogic.GetDevices(name, CompanyName, DeviceType).Select(d => new DeviceResponse(d)).ToList();
         return Ok(devices);
     }
+
+    public IActionResult GetDevicesTypes()
+    {
+        throw new NotImplementedException();
+    }
 }

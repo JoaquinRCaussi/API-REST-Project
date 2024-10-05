@@ -4,7 +4,8 @@ namespace IBusinessLogic;
 
 public interface IDeviceLogic
 {
-    Device CreateDevice(Device device);
-    Camera CreateCamera(Camera camera);
-    List<Device> GetDevices(string? name, string? companyName, string? deviceType);
+    public Device CreateDevice(Device device);
+    public Camera CreateCamera(Camera camera);
+    public List<Device> GetDevices(string? name, string? companyName, string? deviceType); 
+    public List<string> GetDevicesTypes();
 }

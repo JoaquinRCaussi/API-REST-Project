@@ -27,4 +27,9 @@ public class DeviceLogic : IDeviceLogic
     {
         throw new NotImplementedException();
     }
+
+    public List<string> GetDevicesTypes()
+    {
+        throw new NotImplementedException();
+    }
 }
