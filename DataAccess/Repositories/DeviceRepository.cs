@@ -23,7 +23,9 @@ public class DeviceRepository : IDeviceRepository
 
     public Camera CreateCamera(Camera camera)
     {
-        throw new NotImplementedException();
+        _dbContext.Devices?.Add(camera);
+        _dbContext.SaveChanges();
+        return camera;
     }
     
 
@@ -42,7 +44,6 @@ public class DeviceRepository : IDeviceRepository
 
     public List<Device> GetDevicesNoType(string name, string model, string companyName)
     {
-
         return _dbContext.Devices?
             .Include(x => x.Company)
             .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName))
