@@ -12,7 +12,7 @@ namespace DataAccess.Tests;
 public class HomeRepositoryTest
 {
     private Company? _company;
-    
+
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
         DbContextOptions<HMDbContext>? options = new DbContextOptionsBuilder<HMDbContext>()
@@ -31,7 +31,7 @@ public class HomeRepositoryTest
             Email = "mail@.asdas.com",
             Password = "password@123"
         };
-         var _company = new Company()
+        var _company = new Company()
         {
             Id = Guid.NewGuid(),
             Name = "anotherCompany",
@@ -44,7 +44,7 @@ public class HomeRepositoryTest
         context.Homes?.Add(home);
         context.SaveChanges();
     }
-    
+
     [TestInitialize]
     public void Setup()
     {
@@ -72,7 +72,7 @@ public class HomeRepositoryTest
         SeedData(context);
 
         var repository = new HomeRepository(context);
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company,Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
         var expected = new Home
         {

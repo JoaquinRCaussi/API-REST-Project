@@ -15,7 +15,7 @@ namespace Controllers.Tests;
 public class HomeControllerTest
 {
     private Company? _company;
-    
+
     [TestInitialize]
     public void Setup()
     {
@@ -312,7 +312,7 @@ public class HomeControllerTest
 
         var device = new Device
         {
-            
+
             Id = deviceId,
             Company = _company,
             Name = "Camera",

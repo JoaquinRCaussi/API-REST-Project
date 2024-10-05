@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Moq;
-using SQLitePCL;
 using WebApi.Controllers;
 
 namespace Controllers.Tests;
@@ -23,7 +22,7 @@ public class DeviceControllerTest
     [TestInitialize]
     public void Setup()
     {
-        
+
         _deviceLogicMock = new Mock<IDeviceLogic>(MockBehavior.Strict);
         _controller = new DevicesController(_deviceLogicMock.Object);
         _user = new User
@@ -153,9 +152,9 @@ public class DeviceControllerTest
         _deviceLogicMock!
             .Setup(logic => logic.GetDevices("", "", ""))
             .Returns(ListOfDevices);
-        
+
         IActionResult result = _controller!.GetDevices("", "", "");
-        
+
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(ListOfDevicesResponse);
     }
@@ -163,15 +162,15 @@ public class DeviceControllerTest
     [TestMethod]
     public void GetDevicesTypesOk()
     {
-        List<string> deviceTypes = new List<string>
-        {
+        List<string> deviceTypes =
+        [
             "Camera",
             "Sensor"
-        };
+        ];
         _deviceLogicMock.Setup(x => x.GetDevicesTypes()).Returns(deviceTypes);
-        
+
         IActionResult result = _controller!.GetDevicesTypes();
-        
+
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(deviceTypes);
     }

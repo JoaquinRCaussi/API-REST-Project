@@ -6,13 +6,13 @@ using Moq;
 namespace BusinessLogic.Test;
 
 [TestClass]
-public class DevicesLogicTest 
+public class DevicesLogicTest
 {
     private Mock<IDeviceRepository>? _deviceRepository;
     private User? _user;
     private Company? _company;
     private Device? _device;
-    
+
     [TestInitialize]
     public void Setup()
     {
@@ -33,9 +33,9 @@ public class DevicesLogicTest
             RUT = "Address",
             Logo = "Logo",
             Owner = _user
-        }; 
+        };
     }
-    
+
     [TestMethod]
     public void CreateDeviceTest_WhenAllPropertiesAreOk()
     {
@@ -80,14 +80,14 @@ public class DevicesLogicTest
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
-        
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
-        
+
         var result = deviceLogic.CreateCamera(camera);
-        
+
         result.Should().BeEquivalentTo(camera);
     }
-    
+
     [TestMethod]
     public void GetDevicesTest_WhenFilterByName()
     {
@@ -107,11 +107,11 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _deviceRepository.Setup(x => x.GetDevices("Device", "", "")).Returns(devices);
-        
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
-        
+
         var result = deviceLogic.GetDevices("Device", "", "");
-        
+
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
@@ -132,14 +132,14 @@ public class DevicesLogicTest
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
-        
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
-        
+
         Action act = () => deviceLogic.CreateDevice(_device);
-        
+
         act.Should().Throw<ConflictException>().WithMessage("The Device already exists");
     }
-    
+
     [TestMethod]
     public void CreateCamera_WhenCompanyHasTheSameAlreadyCreatedShouldThrowException()
     {
@@ -160,14 +160,14 @@ public class DevicesLogicTest
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
-        
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
-        
+
         Action act = () => deviceLogic.CreateCamera(camera);
-        
+
         act.Should().Throw<ConflictException>().WithMessage("The Device already exists");
     }
-    
+
     [TestMethod]
     public void GetDevicesTest_WhenFilterByCompanyName()
     {
@@ -187,15 +187,15 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _deviceRepository.Setup(x => x.GetDevices("", "Company", "")).Returns(devices);
-        
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
-        
+
         var result = deviceLogic.GetDevices("", "Company", "");
-        
+
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
-    
+
     [TestMethod]
     public void GetDevicesTest_WhenFilterByDeviceType()
     {
@@ -215,11 +215,11 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _deviceRepository.Setup(x => x.GetDevices("", "", "Camera")).Returns(devices);
-        
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
-        
+
         var result = deviceLogic.GetDevices("", "", "Camera");
-        
+
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
@@ -234,9 +234,9 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
-        
+
         var result = deviceLogic.GetDevicesTypes();
-        
+
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo(deviceTypes);

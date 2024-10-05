@@ -18,7 +18,7 @@ public class DevicesController : ControllerBase
         _deviceLogic = deviceLogic;
     }
 
-    
+
     [HttpPost]
     [AuthorizationFilter("CanCreateDevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
@@ -29,7 +29,7 @@ public class DevicesController : ControllerBase
         var response = new DeviceResponse(createdDevice);
         return Ok(response);
     }
-    
+
     [HttpPost]
     [Route("cameras")]
     [AuthorizationFilter("CanCreateDevice")]
@@ -41,19 +41,19 @@ public class DevicesController : ControllerBase
         var response = new CameraResponse(createdCamera);
         return Ok(response);
     }
-    
+
     [HttpGet]
     public IActionResult GetDevices([FromQuery] string name, [FromQuery] string CompanyName, [FromQuery] string DeviceType)
     {
         var devices = _deviceLogic.GetDevices(name, CompanyName, DeviceType).Select(d => new DeviceResponse(d)).ToList();
         return Ok(devices);
     }
-    
+
     [HttpGet]
     [Route("types")]
     public IActionResult GetDevicesTypes()
     {
         var deviceTypes = _deviceLogic.GetDevicesTypes();
-        return Ok(deviceTypes); 
+        return Ok(deviceTypes);
     }
 }

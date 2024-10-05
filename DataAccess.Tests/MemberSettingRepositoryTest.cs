@@ -28,7 +28,7 @@ public class MemberSettingRepositoryTest
             LastName = "Doe",
             Email = "john@mail.com"
         };
-         var _company = new Company()
+        var _company = new Company()
         {
             Id = Guid.NewGuid(),
             Name = "anotherCompany",

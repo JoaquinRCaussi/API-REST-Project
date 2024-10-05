@@ -43,7 +43,7 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesTest()
     {
-        
+
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
 
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
@@ -206,7 +206,7 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesByUserTest()
     {
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(),Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
 
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 
