@@ -167,5 +167,32 @@ public class DevicesLogicTest
         
         act.Should().Throw<ConflictException>().WithMessage("The Device already exists");
     }
-
+    
+    [TestMethod]
+    public void GetDevicesTest_WhenFilterByCompanyName()
+    {
+        var device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo",
+            Company = _company
+        };
+        var devices = new List<Device>
+        {
+            device
+        };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.GetDevices("", "Company", "")).Returns(devices);
+        
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+        
+        var result = deviceLogic.GetDevices("", "Company", "");
+        
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+    }
 }
