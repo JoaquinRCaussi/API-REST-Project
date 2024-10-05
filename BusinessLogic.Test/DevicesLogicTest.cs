@@ -223,4 +223,22 @@ public class DevicesLogicTest
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
+
+    [TestMethod]
+    public void GetDevicesTypesOk()
+    {
+        var deviceTypes = new List<string>
+        {
+            "Camera",
+            "Sensor"
+        };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+        
+        var result = deviceLogic.GetDevicesTypes();
+        
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().BeEquivalentTo(deviceTypes);
+    }
 }
