@@ -11,6 +11,8 @@ namespace DataAccess.Tests;
 [TestClass]
 public class HomeRepositoryTest
 {
+    private Company? _company;
+
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
         DbContextOptions<HMDbContext>? options = new DbContextOptionsBuilder<HMDbContext>()
@@ -21,9 +23,46 @@ public class HomeRepositoryTest
 
     private void SeedData(HMDbContext context)
     {
-        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = "TV, Fridge, Oven" };
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Matias",
+            LastName = "Cabrera",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+        var _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
+        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = homeDevices };
         context.Homes?.Add(home);
         context.SaveChanges();
+    }
+
+    [TestInitialize]
+    public void Setup()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Matias",
+            LastName = "Cabrera",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+        _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
     }
 
     [TestMethod]
@@ -33,13 +72,15 @@ public class HomeRepositoryTest
         SeedData(context);
 
         var repository = new HomeRepository(context);
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
         var expected = new Home
         {
             Id = Guid.NewGuid(),
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = homeDevices
         };
 
         Home? result = repository.CreateHome(expected);
@@ -54,6 +95,8 @@ public class HomeRepositoryTest
         using HMDbContext? context = CreateInMemoryDbContext("TestGetHomes");
         SeedData(context);
 
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Company = _company, Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
         var repository = new HomeRepository(context);
         var expected = new Home
         {
@@ -61,7 +104,7 @@ public class HomeRepositoryTest
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = homeDevices
         };
         var otherHome = new Home
         {
@@ -69,7 +112,7 @@ public class HomeRepositoryTest
             HomeOwner = Guid.NewGuid(),
             Location = "Home2",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = homeDevices
         };
 
         Home? result = repository.CreateHome(expected);
@@ -91,6 +134,9 @@ public class HomeRepositoryTest
         using HMDbContext? context = CreateInMemoryDbContext("TestGetHomesByUser");
         SeedData(context);
 
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -106,7 +152,7 @@ public class HomeRepositoryTest
             HomeOwner = user.Id,
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = homeDevices
         };
         var otherHome = new Home
         {
@@ -114,7 +160,7 @@ public class HomeRepositoryTest
             HomeOwner = Guid.NewGuid(),
             Location = "Home2",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = homeDevices
         };
 
         Home? result = repository.CreateHome(expected);
@@ -135,6 +181,9 @@ public class HomeRepositoryTest
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestAddMember");
         SeedData(context);
+
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 
         var user = new User
         {
@@ -167,7 +216,7 @@ public class HomeRepositoryTest
             HomeOwner = user.Id,
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven",
+            Devices = homeDevices,
             Members = []
         };
 
@@ -190,6 +239,9 @@ public class HomeRepositoryTest
         using HMDbContext? context = CreateInMemoryDbContext("TestGetHome");
         SeedData(context);
 
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Company = _company, Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
+
         var repository = new HomeRepository(context);
         var expected = new Home
         {
@@ -197,7 +249,7 @@ public class HomeRepositoryTest
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = homeDevices
         };
 
         Home? result = repository.CreateHome(expected);
@@ -216,6 +268,8 @@ public class HomeRepositoryTest
         using HMDbContext? context = CreateInMemoryDbContext("TestGetHomeMembers");
         SeedData(context);
 
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -235,7 +289,7 @@ public class HomeRepositoryTest
             HomeOwner = user.Id,
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven",
+            Devices = homeDevices,
             Members = [user]
         };
 
@@ -275,6 +329,9 @@ public class HomeRepositoryTest
         using var context = CreateInMemoryDbContext("TestGetHomeMembersNullOrEmpty");
         var repository = new HomeRepository(context);
 
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
+
         var nonExistentHomeId = Guid.NewGuid();
 
         var homeIdWithNoMembers = Guid.NewGuid();
@@ -284,7 +341,7 @@ public class HomeRepositoryTest
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             MemberCount = 5,
-            Devices = "TV, Fridge, Oven"
+            Devices = homeDevices
         };
 
         context.Homes?.Add(homeWithNoMembers);
