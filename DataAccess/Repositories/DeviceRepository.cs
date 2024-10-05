@@ -42,6 +42,10 @@ public class DeviceRepository : IDeviceRepository
 
     public List<Device> GetDevicesNoType(string name, string model, string companyName)
     {
-        throw new NotImplementedException();
+
+        return _dbContext.Devices?
+            .Include(x => x.Company)
+            .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName))
+            .ToList()!;
     }
 }

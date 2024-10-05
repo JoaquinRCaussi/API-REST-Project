@@ -204,7 +204,7 @@ public class DevicesRepositoryTest
         var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "21424",CompanyId = _companyId, Company = _company,DeviceType = DeviceType.Sensor };
         var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", Model = "123123",CompanyId = _companyId, Company = _anotherCompany,DeviceType = DeviceType.Camera };
         
-        using HMDbContext? context = CreateInMemoryDbContext("GetDevicesTest");
+        using HMDbContext? context = CreateInMemoryDbContext("GetDevicesNoType");
         SeedData(context);
         
         var repository = new DeviceRepository(context);
