@@ -20,12 +20,24 @@ public class DeviceLogic : IDeviceLogic
     }
     public Camera CreateCamera(Camera camera)
     {
-        return (Camera)_deviceRepository.CreateDevice(camera);
+        return (Camera)_deviceRepository.CreateCamera(camera);
     }
 
     public List<Device> GetDevices(string? name, string? companyName, string? deviceType)
     {
-        throw new NotImplementedException();
+        if (name == null)
+        {
+            name = "";
+        }
+        if (companyName == null)
+        {
+            companyName = "";
+        }
+        if (deviceType == null)
+        {
+            deviceType = "";
+        }
+        return _deviceRepository.GetDevices(name, companyName, deviceType);
     }
 
     public List<string> GetDevicesTypes()
