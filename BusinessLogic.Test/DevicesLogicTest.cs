@@ -8,10 +8,16 @@ namespace BusinessLogic.Test;
 [TestClass]
 public class DevicesLogicTest 
 {
-    [TestMethod]
-    public void CreateDeviceTest_WhenAllPropertiesAreOk()
+    private Mock<IDeviceRepository>? _deviceRepository;
+    private User? _user;
+    private Company? _company;
+    private Device? _device;
+    
+    [TestInitialize]
+    public void Setup()
     {
-        var user = new User
+        _deviceRepository = new Mock<IDeviceRepository>();
+        _user = new User
         {
             Id = Guid.NewGuid(),
             Name = "John",
@@ -20,14 +26,69 @@ public class DevicesLogicTest
             Password = "password@123"
         };
 
-        var company = new Company
+        _company = new Company
         {
             Id = Guid.NewGuid(),
             Name = "Company",
             RUT = "Address",
             Logo = "Logo",
-            Owner = user
+            Owner = _user
+        }; 
+    }
+    
+    [TestMethod]
+    public void CreateDeviceTest_WhenAllPropertiesAreOk()
+    {
+        _device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo",
+            Company = _company
         };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+
+        var result = deviceLogic.CreateDevice(_device);
+
+        result.Should().BeEquivalentTo(_device);
+    }
+
+    [TestMethod]
+    public void CreateCameraTest_WhenAllPropertiesAreOk()
+    {
+        var camera = new Camera
+        {
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo",
+            Company = _company,
+            Outdoors = true,
+            Indoors = false,
+            SupportMovementDetection = true,
+            SupportPersonDetection = false
+        };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
+        
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+        
+        var result = deviceLogic.CreateCamera(camera);
+        
+        result.Should().BeEquivalentTo(camera);
+    }
+    
+    [TestMethod]
+    public void GetDevicesTest_WhenFilterByName()
+    {
         var device = new Device
         {
             Id = Guid.NewGuid(),
@@ -36,17 +97,21 @@ public class DevicesLogicTest
             DeviceType = DeviceType.Camera,
             Description = "Description",
             Photo = "Photo",
-            Company = company
+            Company = _company
         };
-
-        var deviceRepository = new Mock<IDeviceRepository>();
-        deviceRepository.Setup(x => x.CreateDevice(device)).Returns(device);
-
-        var deviceLogic = new DeviceLogic(deviceRepository.Object);
-
-        var result = deviceLogic.CreateDevice(device);
-
-        result.Should().BeEquivalentTo(device);
+        var devices = new List<Device>
+        {
+            device
+        };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.GetDevices("Device", "", "")).Returns(devices);
+        
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+        
+        var result = deviceLogic.GetDevices("Device", "", "");
+        
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
     }
-    
+
 }
