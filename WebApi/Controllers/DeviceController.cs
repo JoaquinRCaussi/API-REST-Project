@@ -45,8 +45,10 @@ public class DeviceController : ControllerBase
     
     [HttpGet]
     [Route("devices")]
+    
     public IActionResult GetDevices()
     {
-        throw new Exception();
+        var devices = _deviceLogic.GetDevices().Select(d => new DeviceResponse(d)).ToList();
+        return Ok(devices);
     }
 }
