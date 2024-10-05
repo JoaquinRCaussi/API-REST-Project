@@ -1,9 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
 using ServiceFactory;
+using WebApi.Filters;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(
+    options =>
+    {
+        options.Filters.Add<ExceptionFilter>();
+    });
 builder.Services.AddServices(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
 WebApplication? app = builder.Build();

@@ -80,7 +80,7 @@ public class CompaniesRepositoryTest
     [TestMethod]
     public void GetCompanies_WhenFilterByName()
     {
-        using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
+        using HMDbContext? context = CreateInMemoryDbContext("GetCompanies_WhenFilterByName");
         SeedData(context);
         var repository = new CompanyRepository(context);
         var expected = new List<Company>();
@@ -93,7 +93,7 @@ public class CompaniesRepositoryTest
     [TestMethod]
     public void GetCompanies_WhenFilterByOwnerName()
     {
-        using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
+        using HMDbContext? context = CreateInMemoryDbContext("GetCompanies_WhenFilterByOwnerName");
         SeedData(context);
         var repository = new CompanyRepository(context);
         var expected = new List<Company>();
@@ -106,7 +106,7 @@ public class CompaniesRepositoryTest
     [TestMethod]
     public void GetCompanies_WhenNoFilter()
     {
-        using HMDbContext? context = CreateInMemoryDbContext("TestGetAllCompanies");
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetCompanies");
         SeedData(context);
         var repository = new CompanyRepository(context);
         var userRepositoy = new UserRepository(context);
@@ -129,6 +129,7 @@ public class CompaniesRepositoryTest
         userRepositoy.CreateCompanyOwner(user);
         repository.CreateCompany(anotherCompany);
         context.SaveChanges();
+
 
         var result = repository.GetCompanies("", "");
         result.Should().HaveCount(2);
