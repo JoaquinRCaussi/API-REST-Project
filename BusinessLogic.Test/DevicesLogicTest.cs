@@ -78,6 +78,7 @@ public class DevicesLogicTest
             SupportPersonDetection = false
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
         
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
@@ -135,6 +136,34 @@ public class DevicesLogicTest
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
         
         Action act = () => deviceLogic.CreateDevice(_device);
+        
+        act.Should().Throw<ConflictException>().WithMessage("The Device already exists");
+    }
+    
+    [TestMethod]
+    public void CreateCamera_WhenCompanyHasTheSameAlreadyCreatedShouldThrowException()
+    {
+        var camera = new Camera
+        {
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo",
+            Company = _company,
+            Outdoors = true,
+            Indoors = false,
+            SupportMovementDetection = true,
+            SupportPersonDetection = false
+        };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(true);
+        _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
+        
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+        
+        Action act = () => deviceLogic.CreateCamera(camera);
         
         act.Should().Throw<ConflictException>().WithMessage("The Device already exists");
     }
