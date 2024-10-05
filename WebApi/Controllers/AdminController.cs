@@ -32,7 +32,7 @@ public sealed class AdminController : ControllerBase
         };
         return Ok(response);
     }
-    
+
     [HttpDelete]
     [Route("{userId}")]
     public IActionResult DeleteUser([FromRoute] Guid userId)

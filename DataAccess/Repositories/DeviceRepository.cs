@@ -27,11 +27,11 @@ public class DeviceRepository : IDeviceRepository
         _dbContext.SaveChanges();
         return camera;
     }
-    
+
 
     public List<Device> GetDevices(string name, string model, string companyName, DeviceType deviceType)
     {
-        
+
         return _dbContext.Devices?
             .Include(x => x.Company)
             .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName) && x.DeviceType == deviceType).ToList()!;

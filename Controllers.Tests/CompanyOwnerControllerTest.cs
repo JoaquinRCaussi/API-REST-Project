@@ -52,5 +52,5 @@ public class CompanyOwnerControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
-    
+
 }

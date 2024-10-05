@@ -121,7 +121,10 @@ public class CompaniesRepositoryTest
         };
         var anotherCompany = new Company()
         {
-            Id = Guid.NewGuid(), Name = "anotherCompany", RUT = "2312311", Owner = user
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
         };
         userRepositoy.CreateCompanyOwner(user);
         repository.CreateCompany(anotherCompany);
