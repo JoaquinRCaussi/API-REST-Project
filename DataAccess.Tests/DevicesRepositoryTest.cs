@@ -136,5 +136,24 @@ public class DevicesRepositoryTest
         result.Should().BeFalse();
     }
     
+    [TestMethod]
+    public void GetDevicesTest()
+    {
+        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
+        var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", CompanyId = _companyId, DeviceType = DeviceType.Camera };
+        
+        using HMDbContext? context = CreateInMemoryDbContext("GetDevicesTest");
+        SeedData(context);
+        
+        var repository = new DeviceRepository(context);
+        repository.CreateDevice(device);
+        repository.CreateDevice(device2);
+        
+        
+        var result = repository.GetDevices(device.Name, "Company", "Sensor");
+        
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+    }
 
 }
