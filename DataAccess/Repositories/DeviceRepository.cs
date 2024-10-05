@@ -15,7 +15,9 @@ public class DeviceRepository : IDeviceRepository
 
     public Device CreateDevice(Device device)
     {
-        throw new NotImplementedException();
+        _dbContext.Devices?.Add(device);
+        _dbContext.SaveChanges();
+        return device;
     }
 
     public Camera CreateCamera(Camera camera)

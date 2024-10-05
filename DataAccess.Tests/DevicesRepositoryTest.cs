@@ -52,18 +52,10 @@ public class DevicesRepositoryTest
             
         };
         var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
-        var device = new Device { Id = Guid.NewGuid(), Name = "Device", Company = company, CompanyId = company.Id, DeviceType = DeviceType.Sensor };
-        user.CompanyID = company.Id;
-        user.Company = company;
+        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", Company = company, CompanyId = company.Id, DeviceType = DeviceType.Sensor };
         
         using HMDbContext? context = CreateInMemoryDbContext("TestAddDevice");
         SeedData(context);
-        
-        var userRepository = new UserRepository(context);
-        userRepository.CreateCompanyOwner(user);
-        
-        var companyRepository = new CompanyRepository(context);
-        companyRepository.CreateCompany(company);
         
         var repository = new DeviceRepository(context);
         
