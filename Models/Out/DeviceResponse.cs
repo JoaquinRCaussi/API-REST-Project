@@ -9,6 +9,8 @@ public class DeviceResponse
     public DeviceType DeviceType { get; set; }
     public string? Description { get; set; }
     public string? Photo { get; set; }
+    
+    public string CompanyName { get; set; }
 
     public DeviceResponse(Device device)
     {
@@ -17,5 +19,6 @@ public class DeviceResponse
         DeviceType = device.DeviceType;
         Description = device.Description;
         Photo = device.Photo;
+        CompanyName = device.Company.Name;
     }
 }

@@ -151,10 +151,10 @@ public class DeviceControllerTest
         };
         var ListOfDevicesResponse = ListOfDevices.Select(d => new DeviceResponse(d)).ToList();
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices())
+            .Setup(logic => logic.GetDevices("", "", ""))
             .Returns(ListOfDevices);
         
-        IActionResult result = _controller!.GetDevices();
+        IActionResult result = _controller!.GetDevices("", "", "");
         
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(ListOfDevicesResponse);

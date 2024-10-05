@@ -46,9 +46,9 @@ public class DeviceController : ControllerBase
     [HttpGet]
     [Route("devices")]
     
-    public IActionResult GetDevices()
+    public IActionResult GetDevices([FromQuery] string name, [FromQuery] string CompanyName, [FromQuery] string DeviceType)
     {
-        var devices = _deviceLogic.GetDevices().Select(d => new DeviceResponse(d)).ToList();
+        var devices = _deviceLogic.GetDevices(name, CompanyName, DeviceType).Select(d => new DeviceResponse(d)).ToList();
         return Ok(devices);
     }
 }

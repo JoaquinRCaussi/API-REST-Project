@@ -23,7 +23,7 @@ public class DeviceLogic : IDeviceLogic
         return (Camera)_deviceRepository.CreateDevice(camera);
     }
 
-    public List<Device> GetDevices()
+    public List<Device> GetDevices(string? name, string? companyName, string? deviceType)
     {
         throw new NotImplementedException();
     }
