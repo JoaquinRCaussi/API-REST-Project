@@ -195,4 +195,32 @@ public class DevicesLogicTest
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
+    
+    [TestMethod]
+    public void GetDevicesTest_WhenFilterByDeviceType()
+    {
+        var device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo",
+            Company = _company
+        };
+        var devices = new List<Device>
+        {
+            device
+        };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "Camera")).Returns(devices);
+        
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+        
+        var result = deviceLogic.GetDevices("", "", "Camera");
+        
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+    }
 }
