@@ -111,7 +111,7 @@ public class DevicesRepositoryTest
     {
         var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
         
-        using HMDbContext? context = CreateInMemoryDbContext("ExistsDevice_ReturnsFalse_WhenDeviceNameIsNull");
+        using HMDbContext? context = CreateInMemoryDbContext("ExistsDevice_ReturnsFalse_WhenDeviceNameIsTheSameButFromAnotherCompany");
         SeedData(context);
         
         var repository = new DeviceRepository(context);
@@ -120,5 +120,21 @@ public class DevicesRepositoryTest
         var result = repository.ExistsDevice(device.Name, _anotherCompanyId);
         result.Should().BeFalse();
     }
+    
+    [TestMethod]
+    public void ExistsDevice_ReturnsFalse_WhenDeviceNameIsDifferentButFromTheSameCompany()
+    {
+        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
+        
+        using HMDbContext? context = CreateInMemoryDbContext("ExistsDevice_ReturnsFalse_WhenDeviceNameIsDifferentButFromTheSameCompany");
+        SeedData(context);
+        
+        var repository = new DeviceRepository(context);
+        repository.CreateDevice(device);
+        
+        var result = repository.ExistsDevice("anotherDevice", _companyId);
+        result.Should().BeFalse();
+    }
+    
 
 }
