@@ -12,7 +12,7 @@ namespace Controllers.Tests;
 
 [ExcludeFromCodeCoverage]
 [TestClass]
-public class CompaniesController
+public class CompaniesControllerTest
 {
 
     [TestMethod]

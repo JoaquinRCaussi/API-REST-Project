@@ -21,7 +21,21 @@ public class MemberSettingRepositoryTest
 
     private void SeedData(HMDbContext context)
     {
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "john@mail.com"
+        };
+         var _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 
         var home = new Home
@@ -31,14 +45,6 @@ public class MemberSettingRepositoryTest
             Location = "Home",
             MemberCount = 3,
             Devices = homeDevices
-        };
-
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            Name = "John",
-            LastName = "Doe",
-            Email = "john@mail.com"
         };
 
         var permission = new Permission

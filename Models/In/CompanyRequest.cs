@@ -22,7 +22,8 @@ public class CompanyRequest
             Name = Name,
             RUT = RUT,
             Logo = logo,
-            Owner = user
+            Owner = user,
+            OwnerId = user?.Id ?? Guid.Empty
         };
     }
 }

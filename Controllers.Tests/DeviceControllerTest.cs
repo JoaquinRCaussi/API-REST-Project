@@ -2,9 +2,11 @@
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Moq;
+using SQLitePCL;
 using WebApi.Controllers;
 
 namespace Controllers.Tests;
@@ -15,12 +17,33 @@ public class DeviceControllerTest
 {
     private DeviceController? _controller;
     private Mock<IDeviceLogic>? _deviceLogicMock;
+    private Company? _company;
+    private User? _user;
 
     [TestInitialize]
     public void Setup()
     {
-        _deviceLogicMock = new Mock<IDeviceLogic>();
+        
+        _deviceLogicMock = new Mock<IDeviceLogic>(MockBehavior.Strict);
         _controller = new DeviceController(_deviceLogicMock.Object);
+        _user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Matias",
+            LastName = "Cabrera",
+            Email = "mail@.asdas.com",
+            Password = "password@123",
+            Company = _company
+        };
+        _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Logo = "logo.jpg",
+            Owner = _user,
+            OwnerId = _user.Id
+        };
     }
 
     private Device CreateValidDevice()
@@ -28,6 +51,7 @@ public class DeviceControllerTest
         return new Device
         {
             Name = "Dispositivo genérico",
+            Company = _company,
             Description = "Descripción genérica",
             DeviceType = DeviceType.Camera,
             Model = "Model X",
@@ -40,6 +64,7 @@ public class DeviceControllerTest
         return new Camera
         {
             Name = "Cámara genérica",
+            Company = _company,
             Description = "Descripción genérica",
             DeviceType = DeviceType.Camera,
             Model = "Model X",
@@ -55,6 +80,27 @@ public class DeviceControllerTest
     public void CreateDevice_WhenAllPropertiesOK_ShouldReturnOk()
     {
         // Arrange
+        _user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Matias",
+            LastName = "Cabrera",
+            Email = "mail@.asdas.com",
+            Password = "password@123",
+            Company = _company
+        };
+        _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Logo = "logo.jpg",
+            Owner = _user,
+            OwnerId = _user.Id
+        };
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = _user;
+        _controller!.ControllerContext.HttpContext = httpContext;
         var device = CreateValidDevice();
         var deviceRequest = new DeviceRequest(device);
         var expectedResponse = new DeviceResponse(device);
@@ -74,7 +120,10 @@ public class DeviceControllerTest
     [TestMethod]
     public void CreateCamera_WhenAllPropertiesOK_ShouldReturnOk()
     {
-        // Arrange
+        _user.Company = _company;
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = _user;
+        _controller!.ControllerContext.HttpContext = httpContext;
         var camera = CreateValidCamera();
         var cameraRequest = new CameraRequest(camera);
         var expectedResponse = new CameraResponse(camera);

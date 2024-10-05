@@ -14,6 +14,27 @@ namespace Controllers.Tests;
 [TestClass]
 public class HomeControllerTest
 {
+    private Company? _company;
+    
+    [TestInitialize]
+    public void Setup()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Matias",
+            LastName = "Cabrera",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+        _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
+    }
 
     [TestMethod]
     public void CreateHome_WhenAllPropertiesOk()
@@ -291,7 +312,9 @@ public class HomeControllerTest
 
         var device = new Device
         {
+            
             Id = deviceId,
+            Company = _company,
             Name = "Camera",
             Model = "XYZ",
             DeviceType = DeviceType.Camera,
@@ -337,6 +360,7 @@ public class HomeControllerTest
         var homeId = Guid.NewGuid();
         var device1 = new Device
         {
+            Company = _company,
             Id = Guid.NewGuid(),
             Name = "Camera",
             Model = "XYZ",
@@ -346,6 +370,7 @@ public class HomeControllerTest
         };
         var device2 = new Device
         {
+            Company = _company,
             Id = Guid.NewGuid(),
             Name = "Thermostat",
             Model = "ABC",

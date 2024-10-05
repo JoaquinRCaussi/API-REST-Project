@@ -2,11 +2,13 @@
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using WebApi.Filters;
 
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[AuthenticationFilter]
 public class DeviceController : ControllerBase
 {
     private readonly IDeviceLogic _deviceLogic;
@@ -16,23 +18,26 @@ public class DeviceController : ControllerBase
         _deviceLogic = deviceLogic;
     }
 
-    // Ruta para dispositivos generales
+    
     [HttpPost]
     [Route("devices")]
+    [AuthorizationFilter("CanCreateDevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
     {
-        Device deviceToCreate = device.ToArgs();
+        var user = HttpContext.Items[0] as User;
+        Device deviceToCreate = device.ToArgs(user.Company);
         Device createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
         var response = new DeviceResponse(createdDevice);
         return Ok(response);
     }
-
-    // Ruta específica para cámaras (api/cameras)
+    
     [HttpPost]
     [Route("cameras")]
+    [AuthorizationFilter("CanCreateDevice")]
     public IActionResult CreateCamera([FromBody] CameraRequest camera)
     {
-        var cameraToCreate = (Camera)camera.ToArgs();
+        var user = HttpContext.Items[0] as User;
+        var cameraToCreate = (Camera)camera.ToArgs(user.Company);
         Camera createdCamera = _deviceLogic.CreateCamera(cameraToCreate);
         var response = new CameraResponse(createdCamera);
         return Ok(response);

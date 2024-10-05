@@ -15,10 +15,26 @@ public class HomeLogicTest
     private Mock<IHomeRepository>? _homeRepositoryMock;
     private Mock<IMemberSettingRepository>? _memberSettingRepositoryMock;
     private IHomeLogic? _homeLogic;
+    private Company? _company;
 
     [TestInitialize]
     public void Initialize()
     {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Matias",
+            LastName = "Cabrera",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+        _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
         _homeRepositoryMock = new Mock<IHomeRepository>();
         _memberSettingRepositoryMock = new Mock<IMemberSettingRepository>();
         _homeLogic = new HomeLogic(_homeRepositoryMock.Object, _memberSettingRepositoryMock.Object);
@@ -27,7 +43,8 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesTest()
     {
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
 
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 
@@ -63,7 +80,7 @@ public class HomeLogicTest
     [TestMethod]
     public void CreateHomeTest()
     {
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
 
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 
@@ -131,7 +148,7 @@ public class HomeLogicTest
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
 
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
 
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 
@@ -155,7 +172,7 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomeTest()
     {
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
 
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 
@@ -189,7 +206,7 @@ public class HomeLogicTest
     [TestMethod]
     public void GetHomesByUserTest()
     {
-        var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
+        var devices = new List<Device> { new Device { Id = Guid.NewGuid(),Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
 
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
 

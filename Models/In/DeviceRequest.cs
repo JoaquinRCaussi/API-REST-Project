@@ -19,10 +19,11 @@ public class DeviceRequest
         Photo = device.Photo;
     }
 
-    public virtual Device ToArgs()
+    public virtual Device ToArgs(Company company)
     {
         return new Device
         {
+            Company = company,
             Name = Name,
             Model = Model,
             DeviceType = DeviceType,

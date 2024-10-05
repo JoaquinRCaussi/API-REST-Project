@@ -17,10 +17,11 @@ public class CameraRequest : DeviceRequest
         SupportPersonDetection = camera.SupportPersonDetection;
     }
 
-    public override Device ToArgs()
+    public override Device ToArgs(Company company)
     {
         return new Camera
         {
+            Company = company,
             Name = Name,
             Model = Model,
             DeviceType = DeviceType,
