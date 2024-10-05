@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    [Migration("20241004033719_seedDataMigration")]
-    partial class seedDataMigration
+    [Migration("20241004033719_SeedDataMigration")]
+    partial class SeedDataMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
