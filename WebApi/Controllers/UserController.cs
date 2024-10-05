@@ -1,16 +1,16 @@
 using Domain;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/users")]
+//Authorization Filter
 public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
-
-    //PASAR RESPONSES
 
     public UserController(IUserLogic userLogic)
     {
@@ -29,14 +29,6 @@ public class UserController : ControllerBase
     public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
-        return Ok(user);
-    }
-
-    [HttpDelete]
-    [Route("{userId}")]
-    public IActionResult DeleteUser([FromRoute] Guid userId)
-    {
-        User user = _userLogic.DeleteUser(userId);
         return Ok(user);
     }
 }

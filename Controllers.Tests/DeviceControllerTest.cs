@@ -150,10 +150,10 @@ public class DeviceControllerTest
         };
         var ListOfDevicesResponse = ListOfDevices.Select(d => new DeviceResponse(d)).ToList();
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", ""))
+            .Setup(logic => logic.GetDevices("", "", DeviceType.Sensor))
             .Returns(ListOfDevices);
 
-        IActionResult result = _controller!.GetDevices("", "", "");
+        IActionResult result = _controller!.GetDevices("", "", DeviceType.Sensor);
 
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(ListOfDevicesResponse);
@@ -162,11 +162,11 @@ public class DeviceControllerTest
     [TestMethod]
     public void GetDevicesTypesOk()
     {
-        List<string> deviceTypes =
-        [
+        List<string> deviceTypes = new List<string>()
+        {
             "Camera",
             "Sensor"
-        ];
+        };
         _deviceLogicMock.Setup(x => x.GetDevicesTypes()).Returns(deviceTypes);
 
         IActionResult result = _controller!.GetDevicesTypes();

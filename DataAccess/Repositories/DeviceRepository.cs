@@ -1,6 +1,7 @@
 using DataAccess.Data;
 using Domain;
 using IDataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -24,14 +25,23 @@ public class DeviceRepository : IDeviceRepository
     {
         throw new NotImplementedException();
     }
+    
 
-    public List<Device> GetDevices(string name, string companyName, string deviceType)
+    public List<Device> GetDevices(string name, string companyName, DeviceType deviceType)
     {
-        throw new NotImplementedException();
+        
+        return _dbContext.Devices?
+            .Include(x => x.Company)
+            .Where(x => x.Name.Contains(name) && x.Company.Name.Contains(companyName) && x.DeviceType == deviceType).ToList()!;
     }
 
     public bool ExistsDevice(string? name, Guid companyId)
     {
         return _dbContext.Devices?.Any(x => x.Name == name && x.CompanyId == companyId) ?? false;
+    }
+
+    public List<Device> GetDevicesNoType(string name, string companyName)
+    {
+        throw new NotImplementedException();
     }
 }

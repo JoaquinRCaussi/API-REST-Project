@@ -15,6 +15,8 @@ public class DevicesRepositoryTest
     private Guid _companyId;
     private Guid _userId;
     private Guid _anotherCompanyId;
+    private Company? _company;
+    private Company? _anotherCompany;
     
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
@@ -44,19 +46,20 @@ public class DevicesRepositoryTest
             Password = "password@123",
             
         };
-        var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
-        var anotherCompany = new Company { Id = Guid.NewGuid(), Name = "anotherCompany", RUT = "Address", Owner = anoterUser };
-        user.CompanyID = company.Id;
-        user.Company = company;
+        _company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
+        _anotherCompany = new Company { Id = Guid.NewGuid(), Name = "anotherCompany", RUT = "Address", Owner = anoterUser };
+        user.CompanyID =_company.Id;
+        user.Company =_company;
         context.Users?.Add(user);
         context.Users?.Add(anoterUser);
-        context.Companies?.Add(company);
-        context.Companies?.Add(anotherCompany);
+        context.Companies?.Add(_company);
+        context.Companies?.Add(_anotherCompany);
         _userId = user.Id;
-        _companyId = company.Id;
-        _anotherCompanyId = anotherCompany.Id;
+        _companyId =_company.Id;
+        _anotherCompanyId = _anotherCompany.Id;
         context.SaveChanges();
     }
+    
 
     [TestMethod]
     public void CreateDeviceTestOk()
@@ -137,10 +140,30 @@ public class DevicesRepositoryTest
     }
     
     [TestMethod]
-    public void GetDevicesTest()
+    public void GetDevicesTestOk()
     {
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
-        var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", CompanyId = _companyId, DeviceType = DeviceType.Camera };
+        var user = new User()
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123",
+            
+        };
+        var anoterUser = new User()
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123",
+            
+        };
+        _company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
+        _anotherCompany = new Company { Id = Guid.NewGuid(), Name = "anotherCompany", RUT = "Address", Owner = anoterUser };
+        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, Company = _company,DeviceType = DeviceType.Sensor };
+        var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", CompanyId = _companyId, Company = _anotherCompany,DeviceType = DeviceType.Camera };
         
         using HMDbContext? context = CreateInMemoryDbContext("GetDevicesTest");
         SeedData(context);
@@ -149,11 +172,12 @@ public class DevicesRepositoryTest
         repository.CreateDevice(device);
         repository.CreateDevice(device2);
         
-        
-        var result = repository.GetDevices(device.Name, "Company", "Sensor");
+        var result = repository.GetDevices(device.Name, device.Company.Name, DeviceType.Sensor);
         
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
+    
+    
 
 }
