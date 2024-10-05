@@ -7,5 +7,5 @@ public interface IDeviceRepository
     public Device CreateDevice(Device device);
     public Camera CreateCamera(Camera camera);
     public List<Device> GetDevices(string name, string companyName, string deviceType);
-    public bool ExistsDevice(string name, Guid companyId);
+    public bool ExistsDevice(string? name, Guid companyId);
 }

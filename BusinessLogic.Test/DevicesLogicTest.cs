@@ -50,6 +50,7 @@ public class DevicesLogicTest
             Company = _company
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object);
