@@ -27,12 +27,12 @@ public class DeviceRepository : IDeviceRepository
     }
     
 
-    public List<Device> GetDevices(string name, string companyName, DeviceType deviceType)
+    public List<Device> GetDevices(string name, string model, string companyName, DeviceType deviceType)
     {
         
         return _dbContext.Devices?
             .Include(x => x.Company)
-            .Where(x => x.Name.Contains(name) && x.Company.Name.Contains(companyName) && x.DeviceType == deviceType).ToList()!;
+            .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName) && x.DeviceType == deviceType).ToList()!;
     }
 
     public bool ExistsDevice(string? name, Guid companyId)
@@ -40,7 +40,7 @@ public class DeviceRepository : IDeviceRepository
         return _dbContext.Devices?.Any(x => x.Name == name && x.CompanyId == companyId) ?? false;
     }
 
-    public List<Device> GetDevicesNoType(string name, string companyName)
+    public List<Device> GetDevicesNoType(string name, string model, string companyName)
     {
         throw new NotImplementedException();
     }

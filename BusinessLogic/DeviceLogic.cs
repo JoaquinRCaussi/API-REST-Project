@@ -32,7 +32,7 @@ public class DeviceLogic : IDeviceLogic
     }
     
 
-    public List<Device> GetDevices(string? name, string? companyName, DeviceType? deviceType)
+    public List<Device> GetDevices(string? name, string? model, string? companyName, DeviceType? deviceType)
     {
         List<Device> result = new List<Device>();
         if (name == null)
@@ -44,13 +44,17 @@ public class DeviceLogic : IDeviceLogic
             companyName = "";
         }
 
+        if (model == null)
+        {
+            model = "";
+        }
         if (deviceType == null)
         {
-            result = _deviceRepository.GetDevicesNoType(name, companyName);
+            result = _deviceRepository.GetDevicesNoType(name, model, companyName);
         }
         else
         {
-            result = _deviceRepository.GetDevices(name, companyName, (DeviceType)deviceType);
+            result = _deviceRepository.GetDevices(name,model, companyName, (DeviceType)deviceType);
         }
         return result;
     }
