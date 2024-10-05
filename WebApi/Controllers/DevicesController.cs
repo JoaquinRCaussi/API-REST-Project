@@ -9,18 +9,17 @@ namespace WebApi.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [AuthenticationFilter]
-public class DeviceController : ControllerBase
+public class DevicesController : ControllerBase
 {
     private readonly IDeviceLogic _deviceLogic;
 
-    public DeviceController(IDeviceLogic deviceLogic)
+    public DevicesController(IDeviceLogic deviceLogic)
     {
         _deviceLogic = deviceLogic;
     }
 
     
     [HttpPost]
-    [Route("devices")]
     [AuthorizationFilter("CanCreateDevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
     {
@@ -44,8 +43,6 @@ public class DeviceController : ControllerBase
     }
     
     [HttpGet]
-    [Route("devices")]
-    
     public IActionResult GetDevices([FromQuery] string name, [FromQuery] string CompanyName, [FromQuery] string DeviceType)
     {
         var devices = _deviceLogic.GetDevices(name, CompanyName, DeviceType).Select(d => new DeviceResponse(d)).ToList();
@@ -53,7 +50,7 @@ public class DeviceController : ControllerBase
     }
     
     [HttpGet]
-    [Route("devices-types")]
+    [Route("types")]
     public IActionResult GetDevicesTypes()
     {
         var deviceTypes = _deviceLogic.GetDevicesTypes();

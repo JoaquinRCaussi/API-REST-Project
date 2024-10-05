@@ -15,7 +15,7 @@ namespace Controllers.Tests;
 [TestClass]
 public class DeviceControllerTest
 {
-    private DeviceController? _controller;
+    private DevicesController? _controller;
     private Mock<IDeviceLogic>? _deviceLogicMock;
     private Company? _company;
     private User? _user;
@@ -25,7 +25,7 @@ public class DeviceControllerTest
     {
         
         _deviceLogicMock = new Mock<IDeviceLogic>(MockBehavior.Strict);
-        _controller = new DeviceController(_deviceLogicMock.Object);
+        _controller = new DevicesController(_deviceLogicMock.Object);
         _user = new User
         {
             Id = Guid.NewGuid(),
