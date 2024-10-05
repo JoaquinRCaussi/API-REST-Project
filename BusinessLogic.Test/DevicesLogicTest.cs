@@ -114,4 +114,28 @@ public class DevicesLogicTest
         result.Should().HaveCount(1);
     }
 
+    [TestMethod]
+    public void CreateDevice_WhenCompanyHasTheSameAlreadyCreatedShouldThrowException()
+    {
+        _device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo",
+            Company = _company
+        };
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(true);
+        _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
+        
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+        
+        Action act = () => deviceLogic.CreateDevice(_device);
+        
+        act.Should().Throw<ConflictException>().WithMessage("The Device already exists");
+    }
+
 }
