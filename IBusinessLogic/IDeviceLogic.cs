@@ -6,5 +6,5 @@ public interface IDeviceLogic
 {
     Device CreateDevice(Device device);
     Camera CreateCamera(Camera camera);
-
+    List<Device> GetDevices();
 }

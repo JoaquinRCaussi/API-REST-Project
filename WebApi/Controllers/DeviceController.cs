@@ -42,4 +42,11 @@ public class DeviceController : ControllerBase
         var response = new CameraResponse(createdCamera);
         return Ok(response);
     }
+    
+    [HttpGet]
+    [Route("devices")]
+    public IActionResult GetDevices()
+    {
+        throw new Exception();
+    }
 }
