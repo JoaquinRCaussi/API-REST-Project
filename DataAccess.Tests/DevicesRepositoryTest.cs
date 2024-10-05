@@ -216,5 +216,24 @@ public class DevicesRepositoryTest
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
+    
+    [TestMethod]
+    public void CreateCameraTest()
+    {
+        var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", OwnerId = _userId};
+        var camera = new Camera { Id = Guid.NewGuid(), Name = "aCamera",Model = "q4ewqewq", Indoors = true, SupportMovementDetection = true, Photo = "24124/123412",CompanyId = _companyId, DeviceType = DeviceType.Camera };
+        
+        using HMDbContext? context = CreateInMemoryDbContext("CreateCameraTest");
+        SeedData(context);
+        
+        var repository = new DeviceRepository(context);
+        
+        var result = repository.CreateCamera(camera);
+
+        context.SaveChanges();
+        
+        repository.GetDevices("aCamera", "", "Company", DeviceType.Camera).Should().NotBeNull();
+        result.Should().BeEquivalentTo(camera);
+    }
 
 }
