@@ -50,6 +50,6 @@ public class DeviceLogic : IDeviceLogic
 
     public List<string> GetDevicesTypes()
     {
-        throw new NotImplementedException();
+        return Enum.GetValues(typeof(DeviceType)).Cast<DeviceType>().Select(x => x.ToString()).ToList();
     }
 }
