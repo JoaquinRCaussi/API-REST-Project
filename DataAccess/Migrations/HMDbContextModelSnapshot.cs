@@ -36,19 +36,38 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("RUT")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OwnerId")
+                        .IsUnique();
+
                     b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
+                            Logo = "sadas/dasdasdas/asdasd",
+                            Name = "Samsung",
+                            OwnerId = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
+                            RUT = "2141412"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Device", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -68,12 +87,15 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyId");
+
                     b.ToTable("Devices");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("5d95af52-c4b9-4bc7-8c63-6e4f6f24a73a"),
+                            CompanyId = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
                             Description = "Lampara de techo",
                             DeviceType = 1,
                             Model = "Modelo 1",
@@ -83,6 +105,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("6d95af53-c4b9-4bc7-8c63-6e4f6f24a73a"),
+                            CompanyId = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
                             Description = "Lampara de avion",
                             DeviceType = 1,
                             Model = "Modelo 2",
@@ -230,6 +253,11 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
                             Value = "CanCreateCompany"
+                        },
+                        new
+                        {
+                            Id = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
+                            Value = "CanCreateADevice"
                         });
                 });
 
@@ -302,10 +330,6 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyID")
-                        .IsUnique()
-                        .HasFilter("[CompanyID] IS NOT NULL");
-
                     b.HasIndex("HomeId");
 
                     b.HasIndex("RoleID");
@@ -313,6 +337,17 @@ namespace DataAccess.Migrations
                     b.ToTable("Users");
 
                     b.HasData(
+                        new
+                        {
+                            Id = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
+                            CompanyID = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
+                            Email = "anothercompanyowner1@gmail.com",
+                            ImagePath = "",
+                            LastName = "anotherCompanyOwner",
+                            Name = "anotherCompanyOwner",
+                            Password = "companyowner@1",
+                            RoleID = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                        },
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
@@ -394,7 +429,34 @@ namespace DataAccess.Migrations
                         {
                             PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
+                            RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         });
+                });
+
+            modelBuilder.Entity("Domain.Company", b =>
+                {
+                    b.HasOne("Domain.User", "Owner")
+                        .WithOne("Company")
+                        .HasForeignKey("Domain.Company", "OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Domain.Device", b =>
+                {
+                    b.HasOne("Domain.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -432,10 +494,6 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.User", b =>
                 {
-                    b.HasOne("Domain.Company", "Company")
-                        .WithOne("Owner")
-                        .HasForeignKey("Domain.User", "CompanyID");
-
                     b.HasOne("Domain.Home", null)
                         .WithMany("Members")
                         .HasForeignKey("HomeId");
@@ -443,8 +501,6 @@ namespace DataAccess.Migrations
                     b.HasOne("Domain.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleID");
-
-                    b.Navigation("Company");
 
                     b.Navigation("Role");
                 });
@@ -479,12 +535,6 @@ namespace DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Company", b =>
-                {
-                    b.Navigation("Owner")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Home", b =>
                 {
                     b.Navigation("Devices");
@@ -492,6 +542,12 @@ namespace DataAccess.Migrations
                     b.Navigation("MemberSettings");
 
                     b.Navigation("Members");
+                });
+
+            modelBuilder.Entity("Domain.User", b =>
+                {
+                    b.Navigation("Company")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

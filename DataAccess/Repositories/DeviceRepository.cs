@@ -32,6 +32,6 @@ public class DeviceRepository : IDeviceRepository
 
     public bool ExistsDevice(string? name, Guid companyId)
     {
-        throw new NotImplementedException();
+        return _dbContext.Devices?.Any(x => x.Name == name && x.CompanyId == companyId) ?? false;
     }
 }
