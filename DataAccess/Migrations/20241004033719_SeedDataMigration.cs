@@ -7,7 +7,7 @@
 namespace DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class seedDataMigration : Migration
+public partial class SeedDataMigration : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
