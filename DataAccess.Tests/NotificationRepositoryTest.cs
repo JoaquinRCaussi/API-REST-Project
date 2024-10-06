@@ -169,8 +169,34 @@ public class NotificationRepositoryTest
 
         var notificationsInDb = context.Notifications?.ToList();
         notificationsInDb.Should().NotBeNull();
-        notificationsInDb.Should().HaveCount(1); // Solo 1 miembro tiene el permiso
+        notificationsInDb.Should().HaveCount(1);
     }
 
+    [TestMethod]
+    public void CreateNotificationCameraPersonDetected_ShouldCreateNotificationsOnlyForMembersWithPermission()
+    {
+        using var context = CreateInMemoryDbContext("CreateNotificationCameraPersonDetectedTest");
+        SeedData(context);
+
+        var repository = new NotificationRepository(context);
+        var home = context.Homes?.First();
+        var homeDevice = context.HomeDevices?.First();
+
+        var sensorRequest = new SensorRequest
+        {
+            Event = "personDetected"
+        };
+        
+        var notifications = repository.CreateNotificationCamera(home.Id, homeDevice.HardwareId, sensorRequest);
+        
+        var notificationsInDb = context.Notifications?.ToList();
+
+        notifications.Should().NotBeNull();
+        notifications.Should().HaveCount(1);
+        notificationsInDb.Should().ContainSingle(n => home.Members != null && n.UserId == home.Members.First().Id);
+        notificationsInDb.Should().OnlyContain(n => n.Event == "personDetected");
+        notificationsInDb.Should().OnlyContain(n => n.HardwareId == homeDevice.HardwareId);
+        notificationsInDb.Should().OnlyContain(n => !n.IsRead);
+    }
     
 }

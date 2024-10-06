@@ -462,7 +462,7 @@ public class HomeControllerTest
         var notification = new Notification
         {
             Id = Guid.NewGuid(),
-            Event = "Person detected",
+            Event = "person-detected",
             CreatedAt = DateTime.UtcNow,
             IsRead = false,
             HardwareId = hardwareId,
@@ -485,5 +485,4 @@ public class HomeControllerTest
         var expected = new OkObjectResult(notifications);
         act.Should().BeEquivalentTo(expected);
     }
-
 }
