@@ -431,10 +431,12 @@ public class HomeControllerTest
             UserId = Guid.NewGuid()
             
         };
+        
+        var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
-            .Returns(notification);
+            .Returns(notifications);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
@@ -444,7 +446,7 @@ public class HomeControllerTest
         IActionResult act = controller.CreateNotificationOpenSensor(homeId, hardwareId);
 
         // Assert
-        var expected = new OkObjectResult(notification);
+        var expected = new OkObjectResult(notifications);
         act.Should().BeEquivalentTo(expected);
     }
 

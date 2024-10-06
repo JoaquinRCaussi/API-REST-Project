@@ -88,7 +88,7 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.GetHomeDevices(homeId);
     }
     
-    public Notification CreateNotificationSensor(Guid homeId, Guid hardwareId,SensorRequest sensor)
+    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId,SensorRequest sensor)
     {
         return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, sensor);
     }

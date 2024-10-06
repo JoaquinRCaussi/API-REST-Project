@@ -17,7 +17,7 @@ public class NotificationRepository : INotificationRepository
         _context = context;
     }
     
-    public Notification CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
     {
         var listOfNotifications = new List<Notification>();
         var home = _context.Homes?
@@ -51,7 +51,7 @@ public class NotificationRepository : INotificationRepository
             _context.Notifications?.Add(notification);
         }
         _context.SaveChanges();
-        return (listOfNotifications.IsNullOrEmpty() ? null : listOfNotifications.FirstOrDefault()) ?? throw new InvalidOperationException();
+        return (listOfNotifications.IsNullOrEmpty() ? null : listOfNotifications) ?? throw new InvalidOperationException();
     }
     
 }

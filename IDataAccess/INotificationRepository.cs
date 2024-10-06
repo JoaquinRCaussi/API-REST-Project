@@ -5,5 +5,5 @@ namespace IDataAccess;
 
 public interface INotificationRepository
 {
-    Notification CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor);
+    List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor);
 }
