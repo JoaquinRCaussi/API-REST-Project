@@ -114,4 +114,15 @@ public class HomeController : ControllerBase
         var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
         return Ok(notification);
     }
+    
+    [HttpPost]
+    [Route("{homeId}/camera/{hardwareId}/person-detected")]
+    public IActionResult CreateNotificationPersonDetectedCamera(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "person-detected";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
+    }
 }

@@ -93,4 +93,8 @@ public class HomeLogic : IHomeLogic
         return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, sensor);
     }
 
+    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    {
+        return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
+    }
 }
