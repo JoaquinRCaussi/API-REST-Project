@@ -25,8 +25,8 @@ public class UserController : ControllerBase
     public IActionResult GetUsers()
     {
         List<User> users = _userLogic.GetUsers();
-        
-        List<GetUserResponse> response = users.Select(x => new GetUserResponse
+
+        var response = users.Select(x => new GetUserResponse
         {
             Name = x.Name,
             LastName = x.LastName,
@@ -34,7 +34,7 @@ public class UserController : ControllerBase
             Email = x.Email,
             Role = x.Role
         }).ToList();
-        
+
         return Ok(response);
     }
 
@@ -43,7 +43,7 @@ public class UserController : ControllerBase
     public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
-        GetUserResponse response = new GetUserResponse
+        var response = new GetUserResponse
         {
             Name = user.Name,
             LastName = user.LastName,
@@ -59,8 +59,8 @@ public class UserController : ControllerBase
     public IActionResult DeleteUser([FromRoute] Guid userId)
     {
         User user = _userLogic.DeleteUser(userId);
-        
-        GetUserResponse response = new GetUserResponse
+
+        var response = new GetUserResponse
         {
             Name = user.Name,
             LastName = user.LastName,
@@ -68,7 +68,7 @@ public class UserController : ControllerBase
             Email = user.Email,
             Role = user.Role
         };
-        
+
         return Ok(response);
     }
 

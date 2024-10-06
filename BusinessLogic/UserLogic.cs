@@ -26,7 +26,7 @@ public class UserLogic : IUserLogic
         {
             throw new NotValidDataException("User data is not valid");
         }
-        if(_userRepository.FindByMail(user.Email) != null)
+        if (_userRepository.FindByMail(user.Email) != null)
         {
             throw new ConflictException("User with this email already exists");
         }
@@ -40,7 +40,7 @@ public class UserLogic : IUserLogic
         {
             throw new NotValidDataException("User data is not valid");
         }
-        if(_userRepository.FindByMail(user.Email) != null)
+        if (_userRepository.FindByMail(user.Email) != null)
         {
             throw new ConflictException("User with this email already exists");
         }
@@ -54,7 +54,7 @@ public class UserLogic : IUserLogic
         {
             throw new NotValidDataException("User data is not valid");
         }
-        if(_userRepository.FindByMail(user.Email) != null)
+        if (_userRepository.FindByMail(user.Email) != null)
         {
             throw new ConflictException("User with this email already exists");
         }
