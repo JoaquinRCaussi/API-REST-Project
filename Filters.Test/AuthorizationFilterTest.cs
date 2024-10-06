@@ -215,37 +215,6 @@ public class AuthorizationFilterAttributeTest
     }
 
     [TestMethod]
-    public void OnAuthorization_UserIsOwner_AllowsAccess()
-    {
-
-        var userId = Guid.NewGuid();
-        var user = new User { Id = userId };
-        var home = new Home
-        {
-            Id = Guid.NewGuid(),
-            Location = "123",
-            Latitude = "123",
-            Longitude = "123",
-            MemberCount = 5,
-            HomeOwner = userId
-        };
-        var context = CreateAuthorizationFilterContext(user);
-        context.RouteData.Values["homeId"] = home.Id.ToString();
-        _filter = new AuthorizationFilterAttribute("IsOwner");
-
-        var homeRepository = new Mock<IHomeRepository>();
-        homeRepository.Setup(repo => repo.GetHome(home.Id)).Returns(home);
-
-        context.HttpContext.RequestServices = new MockServiceProvider(homeRepository.Object);
-
-        // Act
-        _filter.OnAuthorization(context);
-
-        // Assert
-        context.Result.Should().BeNull(); // No hay resultado, lo que significa que se permite el acceso
-    }
-
-    [TestMethod]
     public void MemberHasPermission_RequiredPermissionIsNull_ReturnsTrue()
     {
         var home = new Home

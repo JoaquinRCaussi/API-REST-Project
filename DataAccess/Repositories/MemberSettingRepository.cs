@@ -106,13 +106,15 @@ public class MemberSettingRepository : IMemberSettingRepository
 
     public MemberSetting RemovePermission(Guid homeId, Guid userId, string permission)
     {
-        var memberSetting = _dbContext.MemberSettings?.FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId);
+        var memberSetting = _dbContext.MemberSettings?
+            .Include(m => m.Permissions)
+            .FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId);
         if (memberSetting == null)
         {
             return null;
         }
 
-        var permit = _dbContext.Permissions?.FirstOrDefault(x => x.Value == permission);
+        var permit = memberSetting.Permissions?.FirstOrDefault(p => p.Value == permission);
 
         if (permit == null)
         {

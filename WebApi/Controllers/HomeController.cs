@@ -79,11 +79,27 @@ public class HomeController : ControllerBase
 
     [HttpPut]
     [Route("{homeId}/members/{userId}")]
-    [AuthorizationFilter("IsOwner")]
     public IActionResult UpdatePermissions(Guid homeId, Guid userId, [FromBody] PermissionRequest permissions)
     {
-        var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
-        return Ok(home);
+        var context = HttpContext;
+        var user = (User)context.Items[0];
+        var value = permissions.Value;
+        if (value == "CanGetNotifications" && user.Id == userId)
+        {
+            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
+            return Ok(home);
+        }
+        
+        var homeData = _homeLogic.GetHome(homeId);
+        if(homeData.HomeOwner == user.Id)
+        {
+            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
+            return Ok(home);
+        }
+        else
+        {
+            return BadRequest(new { Message = "You are not the owner of this home" });
+        }
     }
 
     [HttpPost]
