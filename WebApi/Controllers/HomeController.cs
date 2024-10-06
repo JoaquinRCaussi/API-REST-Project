@@ -76,7 +76,7 @@ public class HomeController : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpPut]
     [Route("{homeId}/members/{userId}")]
     public IActionResult UpdatePermissions(Guid homeId, Guid userId, [FromBody] PermissionRequest permissions)
@@ -92,9 +92,9 @@ public class HomeController : ControllerBase
     {
         var deviceId = deviceRequest.DeviceId.Value; ;
         var homeDevice = _homeLogic.AddDevice(homeId, deviceId);
-        
+
         var response = new HomeDeviceResponse { HardwareId = homeDevice.HardwareId, Device = homeDevice.Device };
-        
+
         return Ok(response);
     }
 
@@ -105,7 +105,7 @@ public class HomeController : ControllerBase
         var devices = _homeLogic.GetHomeDevices(homeId);
         return Ok(devices);
     }
-    
+
     //Justificacion en documentacion de por que esta en home controller
     [HttpPost]
     [Route("{homeId}/sensor/{hardwareId}/open")]
@@ -118,7 +118,7 @@ public class HomeController : ControllerBase
         var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
         return Ok(notification);
     }
-    
+
     [HttpPost]
     [Route("{homeId}/sensor/{hardwareId}/close")]
     [AuthorizationFilter]
@@ -130,7 +130,7 @@ public class HomeController : ControllerBase
         var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
         return Ok(notification);
     }
-    
+
     [HttpPost]
     [Route("{homeId}/camera/{hardwareId}/person-detected")]
     [AuthorizationFilter]
@@ -142,7 +142,7 @@ public class HomeController : ControllerBase
         var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
         return Ok(notification);
     }
-    
+
     [HttpPost]
     [Route("{homeId}/camera/{hardwareId}/movement-detected")]
     [AuthorizationFilter]

@@ -52,14 +52,14 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
             }
 
             hasNotPermission = home == null || !MemberHasPermission(home, userLoggedMapped, permission);
-            
+
             //Checkeo para notificaciones de dispositivos
             if (context.RouteData.Values.ContainsKey("hardwareId"))
             {
-                var homeDevices = homeRepository.GetHomeDevices(home.Id);
+                _ = homeRepository.GetHomeDevices(home.Id);
                 var hardwareId = context.RouteData.Values["hardwareId"].ToString();
                 var hardwareGuid = Guid.Empty;
-                
+
                 if (homeRepository != null)
                 {
                     var homeId = Guid.Parse(context.RouteData.Values["homeId"].ToString() ?? throw new InvalidOperationException());
@@ -69,7 +69,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
                 {
                     hardwareGuid = Guid.Parse(hardwareId);
                 }
-                
+
                 var routeSegment = context.HttpContext.Request.Path.Value;
                 if (routeSegment != null && home != null)
                 {
@@ -85,7 +85,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
             }
         }
 
-        if (hasNotPermission )
+        if (hasNotPermission)
         {
             context.Result = new ObjectResult(new
             {
@@ -111,7 +111,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
 
     private bool UserHasPermission(User? user, string? requiredPermission)
     {
-        if(requiredPermission == null)
+        if (requiredPermission == null)
         {
             return true;
         }
@@ -125,7 +125,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
 
     private bool MemberHasPermission(Home home, User user, string? requiredPermission)
     {
-        if(requiredPermission == null)
+        if (requiredPermission == null)
         {
             return true;
         }

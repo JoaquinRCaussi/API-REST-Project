@@ -336,7 +336,7 @@ public class HomeControllerTest
         };
 
         var homeDeviceRequest = new HomeDeviceRequest { DeviceId = deviceId };
-        
+
         var homeDeviceResponse = new HomeDeviceResponse
         {
             HardwareId = homeDevice.HardwareId,
@@ -351,9 +351,9 @@ public class HomeControllerTest
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
         IActionResult act = controller.AddDeviceToHome(homeId, homeDeviceRequest);
-        
+
         var expected = new OkObjectResult(homeDeviceResponse);
-        
+
         act.Should().BeEquivalentTo(expected);
     }
 
@@ -412,7 +412,7 @@ public class HomeControllerTest
 
         homeLogic.Verify(x => x.GetHomeDevices(homeId), Times.Once);
     }
-    
+
     [TestMethod]
     public void CreateNotificationOpenSensor_WhenAllPropertiesOk()
     {
@@ -423,7 +423,7 @@ public class HomeControllerTest
         {
             Event = "open"
         };
-    
+
         var notification = new Notification
         {
             Id = Guid.NewGuid(),
@@ -432,9 +432,9 @@ public class HomeControllerTest
             IsRead = false,
             HardwareId = hardwareId,
             UserId = Guid.NewGuid()
-            
+
         };
-        
+
         var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -446,11 +446,11 @@ public class HomeControllerTest
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
         IActionResult act = controller.CreateNotificationOpenSensor(homeId, hardwareId);
-        
+
         var expected = new OkObjectResult(notifications);
         act.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void CreateNotificationCamera_WhenAllPropertiesOk()
     {
@@ -461,7 +461,7 @@ public class HomeControllerTest
         {
             Event = "person-detected"
         };
-    
+
         var notification = new Notification
         {
             Id = Guid.NewGuid(),
@@ -470,9 +470,9 @@ public class HomeControllerTest
             IsRead = false,
             HardwareId = hardwareId,
             UserId = Guid.NewGuid()
-            
+
         };
-        
+
         var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -484,7 +484,7 @@ public class HomeControllerTest
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
         IActionResult act = controller.CreateNotificationPersonDetectedCamera(homeId, hardwareId);
-        
+
         var expected = new OkObjectResult(notifications);
         act.Should().BeEquivalentTo(expected);
     }

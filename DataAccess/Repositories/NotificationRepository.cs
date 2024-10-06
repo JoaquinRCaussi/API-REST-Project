@@ -11,12 +11,12 @@ namespace DataAccess;
 public class NotificationRepository : INotificationRepository
 {
     private readonly HMDbContext _context;
-    
+
     public NotificationRepository(HMDbContext context)
     {
         _context = context;
     }
-    
+
     public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
     {
         var listOfNotifications = new List<Notification>();
@@ -28,12 +28,12 @@ public class NotificationRepository : INotificationRepository
             .FirstOrDefault(x => x.Id == homeId);
 
         var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
-        
+
         if (home == null || homeDevice == null)
         {
             throw new Exception("Home or device not found");
         }
-        
+
         foreach (var member in home.Members)
         {
             var memberSettings = home.MemberSettings?.FirstOrDefault(x => x.UserId == member.Id);
@@ -41,7 +41,7 @@ public class NotificationRepository : INotificationRepository
             {
                 var hasPermission = memberSettings.Permissions
                     .Any(p => p.Value == "CanGetNotifications");
-                
+
                 if (hasPermission)
                 {
                     var notification = new Notification
@@ -63,8 +63,8 @@ public class NotificationRepository : INotificationRepository
         _context.SaveChanges();
         return listOfNotifications;
     }
-    
-        public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
+
+    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
     {
         var listOfNotifications = new List<Notification>();
         var home = _context.Homes?
@@ -75,12 +75,12 @@ public class NotificationRepository : INotificationRepository
             .FirstOrDefault(x => x.Id == homeId);
 
         var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
-        
+
         if (home == null || homeDevice == null)
         {
             throw new Exception("Home or device not found");
         }
-        
+
         foreach (var member in home.Members)
         {
             var memberSettings = home.MemberSettings?.FirstOrDefault(x => x.UserId == member.Id);
@@ -88,7 +88,7 @@ public class NotificationRepository : INotificationRepository
             {
                 var hasPermission = memberSettings.Permissions
                     .Any(p => p.Value == "CanGetNotifications");
-                
+
                 if (hasPermission)
                 {
                     var notification = new Notification
@@ -109,5 +109,5 @@ public class NotificationRepository : INotificationRepository
         }
         _context.SaveChanges();
         return (listOfNotifications.IsNullOrEmpty() ? null : listOfNotifications) ?? throw new InvalidOperationException();
-    } 
+    }
 }
