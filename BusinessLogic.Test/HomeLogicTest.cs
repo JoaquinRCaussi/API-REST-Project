@@ -170,11 +170,11 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = userId,
-            Members = new List<User> { user },
+            Members = [user],
             MemberCount = 20,
             Devices = homeDevices
         };
-        
+
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
 
         _homeRepositoryMock?.Setup(x => x.GetHomeMembers(homeId)).Returns(home.Members);
@@ -295,7 +295,7 @@ public class HomeLogicTest
 
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAddMembers")).Returns(true);
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAsociateDevices")).Returns(true);
-        
+
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest2);
 
@@ -317,7 +317,7 @@ public class HomeLogicTest
 
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest2);
-        
+
         _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAddMembers"), Times.Once);
         _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAsociateDevices"), Times.Once);
     }
@@ -331,7 +331,7 @@ public class HomeLogicTest
         var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = false };
 
         var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = false };
-        
+
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest2);
 

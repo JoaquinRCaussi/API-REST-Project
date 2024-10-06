@@ -62,7 +62,7 @@ public class HomeLogic : IHomeLogic
     public Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions)
     {
         var value = permissions.Value;
-        
+
         if (value == null)
         {
             throw new ArgumentNullException("Permission value is required");
@@ -76,7 +76,7 @@ public class HomeLogic : IHomeLogic
         {
             _memberSettingRepository.RemovePermission(homeId, userId, value);
         }
-        
+
         return _homeRepository.GetHome(homeId);
     }
 

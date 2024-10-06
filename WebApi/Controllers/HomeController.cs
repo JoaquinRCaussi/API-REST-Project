@@ -89,9 +89,9 @@ public class HomeController : ControllerBase
             var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
             return Ok(home);
         }
-        
+
         var homeData = _homeLogic.GetHome(homeId);
-        if(homeData.HomeOwner == user.Id)
+        if (homeData.HomeOwner == user.Id)
         {
             var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
             return Ok(home);
