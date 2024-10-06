@@ -56,6 +56,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             HomeOwner = user.Id
         };
@@ -64,7 +66,9 @@ public class HomeControllerTest
         {
             Location = home.Location,
             MemberCount = home.MemberCount,
-            HomeOwner = home.HomeOwner
+            HomeOwner = home.HomeOwner,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -86,6 +90,8 @@ public class HomeControllerTest
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
+            Latitude = homeRequestObject.Latitude,
+            Longitude = homeRequestObject.Longitude,
             MemberCount = homeRequestObject.MemberCount,
             HomeOwner = homeRequestObject.HomeOwner
         };
@@ -111,6 +117,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             HomeOwner = user.Id
         };
@@ -120,6 +128,8 @@ public class HomeControllerTest
         var homeRequest = new HomeRequest
         {
             Location = home.Location,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude,
             MemberCount = home.MemberCount,
             HomeOwner = home.HomeOwner
         };
@@ -139,6 +149,8 @@ public class HomeControllerTest
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
+            Latitude = homeRequestObject.Latitude,
+            Longitude = homeRequestObject.Longitude,
             MemberCount = homeRequestObject.MemberCount,
             HomeOwner = homeRequestObject.HomeOwner
         };
@@ -165,6 +177,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             HomeOwner = user.Id
         };
@@ -172,6 +186,8 @@ public class HomeControllerTest
         var homeRequest = new HomeRequest
         {
             Location = home.Location,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude,
             MemberCount = home.MemberCount,
             HomeOwner = home.HomeOwner
         };
@@ -191,6 +207,8 @@ public class HomeControllerTest
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
+            Latitude = homeRequestObject.Latitude,
+            Longitude = homeRequestObject.Longitude,
             MemberCount = homeRequestObject.MemberCount,
             HomeOwner = homeRequestObject.HomeOwner
         };
@@ -219,6 +237,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             Devices = [],
             HomeOwner = user.Id,
@@ -266,6 +286,8 @@ public class HomeControllerTest
         {
             Id = homeId,
             Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 1,
             Devices = [],
             HomeOwner = Guid.NewGuid(),
@@ -330,6 +352,8 @@ public class HomeControllerTest
         {
             Id = homeId,
             Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             Devices = homeDevices,
             HomeOwner = Guid.NewGuid()
@@ -391,6 +415,8 @@ public class HomeControllerTest
         {
             Id = homeId,
             Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 1,
             Devices = devices,
             HomeOwner = Guid.NewGuid()

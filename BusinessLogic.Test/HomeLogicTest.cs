@@ -15,6 +15,7 @@ public class HomeLogicTest
     private Mock<IHomeRepository>? _homeRepositoryMock;
     private Mock<IMemberSettingRepository>? _memberSettingRepositoryMock;
     private Mock<INotificationRepository>? _notificationRepositoryMock;
+    private Mock<IUserRepository>? _userRepositoryMock;
     private IHomeLogic? _homeLogic;
     private Company? _company;
 
@@ -39,6 +40,7 @@ public class HomeLogicTest
         _homeRepositoryMock = new Mock<IHomeRepository>();
         _memberSettingRepositoryMock = new Mock<IMemberSettingRepository>();
         _notificationRepositoryMock = new Mock<INotificationRepository>();
+        _userRepositoryMock = new Mock<IUserRepository>();
         _homeLogic = new HomeLogic(_homeRepositoryMock.Object, _memberSettingRepositoryMock.Object, _notificationRepositoryMock.Object);
     }
 
@@ -59,17 +61,21 @@ public class HomeLogicTest
             Password = "password@123"
         };
 
+        _userRepositoryMock?.Setup(x => x.GetUser(user.Id)).Returns(user);
+        
         var homes = new List<Home>
         {
             new Home
             {
-                Id = Guid.NewGuid(),
-                Location = "Home",
-                HomeOwner = Guid.NewGuid(),
-                Members = [user],
-                MemberCount = 5,
-                Devices = homeDevices
-            }
+            Id = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [user],
+            MemberCount = 5,
+            Devices = homeDevices
+        }
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHomes()).Returns(homes);
@@ -99,12 +105,15 @@ public class HomeLogicTest
         {
             Id = Guid.NewGuid(),
             Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
             HomeOwner = Guid.NewGuid(),
             Members = [user],
             MemberCount = 5,
             Devices = homeDevices
         };
-
+        
+        _userRepositoryMock?.Setup(x => x.GetUser(user.Id)).Returns(user);
         _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns(home);
 
         var result = _homeLogic?.CreateHome(home);
@@ -158,12 +167,13 @@ public class HomeLogicTest
         {
             Id = homeId,
             Location = "Home",
-            HomeOwner = Guid.NewGuid(),
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = userId,
             Members = [user],
             MemberCount = 5,
             Devices = homeDevices
         };
-
         _homeRepositoryMock?.Setup(x => x.AddMember(homeId, userId)).Returns(home);
 
         var result = _homeLogic?.AddMember(homeId, userId);
@@ -192,6 +202,8 @@ public class HomeLogicTest
         {
             Id = homeId,
             Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
             HomeOwner = user.Id,
             Members = [user],
             MemberCount = 5,
@@ -227,6 +239,8 @@ public class HomeLogicTest
             {
                 Id = Guid.NewGuid(),
                 Location = "Home",
+                Latitude = "123",
+                Longitude = "123",
                 HomeOwner = user.Id,
                 Members = [user],
                 MemberCount = 5,

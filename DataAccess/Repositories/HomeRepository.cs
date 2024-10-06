@@ -18,18 +18,9 @@ public class HomeRepository : IHomeRepository
     {
         var user = _dbContext.Users?.FirstOrDefault(x => x.Id == home.HomeOwner);
         var allPermissions = _dbContext.Permissions?.ToList();
-
-        if (user == null)
-        {
-            return new()
-            {
-                Location = null,
-                MemberCount = 0,
-                Devices = null,
-                HomeOwner = default
-            };
-        }
+        
         home.Owner = user;
+        
         // Crear un MemberSetting con todos los permisos para el usuario dueño de la casa
         _dbContext.MemberSettings?.Add(new MemberSetting
         {
@@ -49,7 +40,11 @@ public class HomeRepository : IHomeRepository
 
     public List<Home> GetHomesByUser(Guid userId)
     {
-        return _dbContext.Homes?.Where(x => x.HomeOwner == userId).ToList()!;
+        return _dbContext.Homes?.Where(x => x.HomeOwner == userId)
+            .Include(h => h.Devices)
+            .Include(h => h.Members)
+            .Include(h => h.Owner)
+            .ToList()!;
     }
 
     public Home GetHome(Guid homeId)
@@ -59,7 +54,7 @@ public class HomeRepository : IHomeRepository
             .Include(x => x.Members)
             .Include(x => x.Owner)
             .Include(x => x.MemberSettings)
-            .ThenInclude(x => x.Permissions)
+                .ThenInclude(x => x.Permissions)
             .FirstOrDefault(x => x.Id == homeId)!;
     }
 
@@ -92,6 +87,8 @@ public class HomeRepository : IHomeRepository
             return new()
             {
                 Location = null,
+                Latitude = null,
+                Longitude = null,
                 MemberCount = 0,
                 Devices = null,
                 HomeOwner = default
@@ -131,7 +128,7 @@ public class HomeRepository : IHomeRepository
     {
         var home = _dbContext.Homes?
             .Include(h => h.Devices)
-            .ThenInclude(Device => Device.Device)
+                .ThenInclude(Device => Device.Device)
             .FirstOrDefault(x => x.Id == homeId);
 
         return home.Devices;

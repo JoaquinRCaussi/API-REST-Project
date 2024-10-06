@@ -36,7 +36,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         }
 
         var userLoggedMapped = (User)userLogged;
-        var permission = BuildPermission(context);
+        var permission = BuildPermission();
         var hasNotPermission = !UserHasPermission(userLoggedMapped, permission);
         var hasNotType = false;
 
@@ -160,7 +160,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         return device.Device.DeviceType == type;
     }
 
-    private string? BuildPermission(AuthorizationFilterContext context)
+    private string? BuildPermission()
     {
         return permission ?? null;
     }

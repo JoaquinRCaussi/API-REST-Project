@@ -21,6 +21,10 @@ public class HomeLogic : IHomeLogic
     {
         var homeResult = _homeRepository.CreateHome(home);
         var homeWithMember = _homeRepository.AddMember(homeResult.Id, homeResult.HomeOwner);
+        if(homeWithMember == null)
+        {
+            return homeResult;
+        }
         return homeWithMember;
     }
 

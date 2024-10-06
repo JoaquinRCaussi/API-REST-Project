@@ -65,6 +65,8 @@ public class NotificationRepositoryTest
             Id = Guid.NewGuid(),
             HomeOwner = user1.Id,
             Location = "Home Location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 2,
             Devices = [homeDevice],
             Members = [user1, user2]
