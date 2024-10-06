@@ -202,7 +202,7 @@ public class MemberSettingRepositoryTest
 
         hasPermission.Should().BeTrue();
     }
-    
+
     [TestMethod]
     public void CreateMemberSetting_ShouldNotCreateDuplicateMemberSetting()
     {
@@ -212,9 +212,9 @@ public class MemberSettingRepositoryTest
         var repository = new MemberSettingRepository(context);
         var home = context.Homes?.First();
         var user = context.Users?.First();
-        
+
         var firstResult = repository.CreateMemberSetting(home.Id, user.Id);
-        
+
         var secondResult = repository.CreateMemberSetting(home.Id, user.Id);
         secondResult.Should().Be(firstResult);
         context.MemberSettings.Should().HaveCount(1);
@@ -224,16 +224,16 @@ public class MemberSettingRepositoryTest
     public void AddPermission_ShouldReturnNull_WhenMemberSettingDoesNotExist()
     {
         using var context = CreateInMemoryDbContext("AddPermissionNonExistentTest");
-    
+
         var repository = new MemberSettingRepository(context);
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        
+
         var result = repository.AddPermission(homeId, userId, "SomePermission");
-        
+
         result.Should().BeNull();
     }
-    
+
     [TestMethod]
     public void RemovePermission_ShouldBeNull()
     {
@@ -245,10 +245,10 @@ public class MemberSettingRepositoryTest
         var user = context.Users?.First();
 
         var result = repository.RemovePermission(home.Id, user.Id, "SomeNonExistentPermission");
-        
+
         result.Should().BeNull();
     }
-    
+
     [TestMethod]
     public void HasPermission_ShouldReturnFalse_WhenPermissionDoesNotExist()
     {

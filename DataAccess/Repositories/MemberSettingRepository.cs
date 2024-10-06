@@ -19,11 +19,11 @@ public class MemberSettingRepository : IMemberSettingRepository
         var user = _dbContext.Users?.FirstOrDefault(x => x.Id == userId);
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
         var permission = _dbContext.Permissions?.FirstOrDefault(x => x.Value == "CanGetNotifications");
-        
+
         var memberSetting = _dbContext.MemberSettings?
             .Include(ms => ms.Permissions) // Incluye las relaciones de permisos
             .FirstOrDefault(ms => ms.HomeId == homeId && ms.UserId == userId);
-        
+
         if (memberSetting == null)
         {
             memberSetting = new MemberSetting

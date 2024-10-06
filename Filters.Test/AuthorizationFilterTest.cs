@@ -77,9 +77,9 @@ public class AuthorizationFilterAttributeTest
         };
         var context = CreateAuthorizationFilterContext(user);
         _filter = new AuthorizationFilterAttribute("required-permission");
-        
+
         _filter.OnAuthorization(context);
-        
+
         context.Result.Should().BeNull();
     }
 
@@ -101,8 +101,8 @@ public class AuthorizationFilterAttributeTest
         var actionContext = new ActionContext(httpContext, new Microsoft.AspNetCore.Routing.RouteData(), new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
         return new AuthorizationFilterContext(actionContext, new List<IFilterMetadata>());
     }
-    
-    
+
+
     [TestMethod]
     public void OnAuthorization_UserWithoutRequiredPermission_ReturnsForbidden()
     {
@@ -112,17 +112,17 @@ public class AuthorizationFilterAttributeTest
             Name = "Jane Doe",
             Role = new Role
             {
-                PermissionKeys = new List<PermissionKey>
-                {
+                PermissionKeys =
+                [
                     new PermissionKey { Value = "other-permission" }
-                }
+                ]
             }
         };
         var context = CreateAuthorizationFilterContext(user);
         _filter = new AuthorizationFilterAttribute("required-permission");
-        
+
         _filter.OnAuthorization(context);
-        
+
         context.Result.Should().BeOfType<ObjectResult>()
             .Which.StatusCode.Should().Be((int)HttpStatusCode.Forbidden);
         context.Result.Should().BeEquivalentTo(new ObjectResult(new
@@ -134,7 +134,7 @@ public class AuthorizationFilterAttributeTest
             StatusCode = (int)HttpStatusCode.Forbidden
         });
     }
-    
+
     [TestMethod]
     public void OnAuthorization_HardwareIdHasIncorrectType_ReturnsForbidden()
     {
@@ -151,20 +151,20 @@ public class AuthorizationFilterAttributeTest
             Latitude = "123",
             Longitude = "456",
             MemberCount = 5,
-            Devices = new List<HomeDevice>
-            {
+            Devices =
+            [
                 new HomeDevice
                 {
                     HardwareId = Guid.NewGuid(),
                     Device = new Device { DeviceType = DeviceType.Camera } // Incorrect type
                 }
-            }
+            ]
         };
 
         var context = CreateAuthorizationFilterContext(user);
         context.RouteData.Values["homeId"] = home.Id.ToString();
         context.RouteData.Values["hardwareId"] = home.Devices.First().HardwareId.ToString();
-        
+
         context.HttpContext.Request.Path = "/home/" + home.Id + "/sensor/" + home.Devices.First().HardwareId;
 
         var homeRepository = new Mock<IHomeRepository>();
@@ -174,7 +174,7 @@ public class AuthorizationFilterAttributeTest
         _filter = new AuthorizationFilterAttribute();
 
         _filter.OnAuthorization(context);
-        
+
         context.Result.Should().BeOfType<ObjectResult>()
             .Which.StatusCode.Should().Be((int)HttpStatusCode.Forbidden);
         context.Result.Should().BeEquivalentTo(new ObjectResult(new
@@ -186,7 +186,7 @@ public class AuthorizationFilterAttributeTest
             StatusCode = (int)HttpStatusCode.Forbidden
         });
     }
-    
+
     [TestMethod]
     public void OnAuthorization_HomeNotFound_ReturnsForbidden()
     {
@@ -199,9 +199,9 @@ public class AuthorizationFilterAttributeTest
         homeRepository.Setup(repo => repo.GetHome(It.IsAny<Guid>())).Returns((Home)null);
 
         context.HttpContext.RequestServices = new MockServiceProvider(homeRepository.Object);
-        
+
         _filter.OnAuthorization(context);
-        
+
         context.Result.Should().BeOfType<ObjectResult>()
             .Which.StatusCode.Should().Be((int)HttpStatusCode.Forbidden);
         context.Result.Should().BeEquivalentTo(new ObjectResult(new
@@ -213,7 +213,7 @@ public class AuthorizationFilterAttributeTest
             StatusCode = (int)HttpStatusCode.Forbidden
         });
     }
-    
+
     [TestMethod]
     public void OnAuthorization_UserIsOwner_AllowsAccess()
     {
@@ -255,18 +255,18 @@ public class AuthorizationFilterAttributeTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            MemberSettings = new List<MemberSetting>
-            {
-                new MemberSetting { UserId = Guid.NewGuid(), Permissions = new List<Permission>() }
-            }
+            MemberSettings =
+            [
+                new MemberSetting { UserId = Guid.NewGuid(), Permissions = [] }
+            ]
         };
         var user = new User { Id = home.MemberSettings.First().UserId };
 
         var result = _filter.MemberHasPermission(home, user, null);
-        
+
         result.Should().BeTrue();
     }
-    
+
     [TestMethod]
     public void MemberHasPermission_HomeIsNull_ReturnsFalse()
     {
@@ -287,10 +287,10 @@ public class AuthorizationFilterAttributeTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            MemberSettings = new List<MemberSetting>
-            {
-                new MemberSetting { UserId = Guid.NewGuid(), Permissions = new List<Permission>() }
-            }
+            MemberSettings =
+            [
+                new MemberSetting { UserId = Guid.NewGuid(), Permissions = [] }
+            ]
         };
 
         var result = _filter.MemberHasPermission(home, null, "required-permission");
@@ -327,10 +327,10 @@ public class AuthorizationFilterAttributeTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            MemberSettings = new List<MemberSetting>
-            {
-                new MemberSetting { UserId = Guid.NewGuid(), Permissions = new List<Permission>() }
-            }
+            MemberSettings =
+            [
+                new MemberSetting { UserId = Guid.NewGuid(), Permissions = [] }
+            ]
         };
         var user = new User { Id = Guid.NewGuid() };
 
@@ -350,10 +350,10 @@ public class AuthorizationFilterAttributeTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            MemberSettings = new List<MemberSetting>
-            {
-                new MemberSetting { UserId = userId, Permissions = new List<Permission>() }
-            }
+            MemberSettings =
+            [
+                new MemberSetting { UserId = userId, Permissions = [] }
+            ]
         };
         var user = new User { Id = userId };
 
@@ -373,17 +373,17 @@ public class AuthorizationFilterAttributeTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            MemberSettings = new List<MemberSetting>
-            {
+            MemberSettings =
+            [
                 new MemberSetting
                 {
                     UserId = userId,
-                    Permissions = new List<Permission>
-                    {
+                    Permissions =
+                    [
                         new Permission { Value = "required-permission" }
-                    }
+                    ]
                 }
-            }
+            ]
         };
         var user = new User { Id = userId };
 
@@ -391,10 +391,10 @@ public class AuthorizationFilterAttributeTest
 
         result.Should().BeTrue();
     }
-    
-    
 
-    
+
+
+
     public class MockServiceProvider : IServiceProvider
     {
         private readonly IHomeRepository _homeRepository;
