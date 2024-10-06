@@ -1,11 +1,13 @@
 using Domain;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[AuthenticationFilter]
 public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
@@ -21,7 +23,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public IActionResult GetUsers()
     {
-        List<User> users = _userLogic.GetUsers(); //Select(u => new UserResponse(u)).ToList();
+        List<User> users = _userLogic.GetUsers();
         return Ok(users);
     }
 

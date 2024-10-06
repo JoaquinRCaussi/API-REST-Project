@@ -100,6 +100,7 @@ public class HomeController : ControllerBase
 
     [HttpGet]
     [Route("{homeId}/devices")]
+    [AuthorizationFilter("CanListDevices")]
     public IActionResult GetHomeDevices(Guid homeId)
     {
         var devices = _homeLogic.GetHomeDevices(homeId);
