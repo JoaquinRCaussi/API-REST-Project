@@ -62,7 +62,7 @@ public class HomeLogicTest
         };
 
         _userRepositoryMock?.Setup(x => x.GetUser(user.Id)).Returns(user);
-        
+
         var homes = new List<Home>
         {
             new Home
@@ -112,7 +112,7 @@ public class HomeLogicTest
             MemberCount = 5,
             Devices = homeDevices
         };
-        
+
         _userRepositoryMock?.Setup(x => x.GetUser(user.Id)).Returns(user);
         _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns(home);
 

@@ -25,14 +25,4 @@ public class CompanyOwnerController : ControllerBase
         User companyOwner = _userLogic.CreateCompanyOwner(user.ToArgs());
         return Ok(companyOwner);
     }
-
-    [HttpPut]
-    public IActionResult AddCompanyToCompanyOwner(AddCompanyToOwnerRequest request)
-    {
-        User user = _userLogic.AddCompanyToCompanyOwner(request.CompanyOwner, request.Company);
-
-        var response = new AddCompanyToOwnerResponse(user, request.Company);
-
-        return Ok(response);
-    }
 }

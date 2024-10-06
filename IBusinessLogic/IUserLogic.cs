@@ -9,8 +9,6 @@ public interface IUserLogic
     public User CreateCompanyOwner(User user);
     public User CreateHomeOwner(User user);
 
-    public User AddCompanyToCompanyOwner(User companyOwner, Company company);
-
     public List<User> GetUsers();
 
     public User GetUser(Guid userId);
@@ -22,4 +20,6 @@ public interface IUserLogic
     public User DeleteUser(Guid userId);
 
     public User AuthenticateUser(string mail, string password);
+
+    public List<Notification> GetNotifications(Guid userId);
 }

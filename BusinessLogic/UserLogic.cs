@@ -46,11 +46,6 @@ public class UserLogic : IUserLogic
         return _userRepository.CreateHomeOwner(user);
     }
 
-    public User AddCompanyToCompanyOwner(User user, Company company)
-    {
-        return _userRepository.AddCompanyToCompanyOwner(user, company);
-    }
-
     public User GetUser(Guid userId)
     {
         return _userRepository.GetUser(userId);
@@ -78,6 +73,11 @@ public class UserLogic : IUserLogic
     public User AuthenticateUser(string mail, string password)
     {
         return _userRepository.AuthenticateUser(mail, password);
+    }
+
+    public List<Notification> GetNotifications(Guid userId)
+    {
+        return _userRepository.GetNotifications(userId);
     }
 
     private bool IsCorrectUserFormat(User user)

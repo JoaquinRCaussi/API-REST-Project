@@ -40,7 +40,7 @@ public class UserRepositoryTest
     public void CreateAdminTest()
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestAddAdmin");
-        SeedData(context); // Llamar al método para hacer el seed
+        SeedData(context);
 
         Role? adminRole = context.Roles?.FirstOrDefault(r => r.Name == "Admin");
 
@@ -54,7 +54,6 @@ public class UserRepositoryTest
             Password = "securePassword123"
         };
 
-        // Llama al método que crea el admin y asigna el rol correspondiente
         User? result = repository.CreateAdmin(expected);
         context.SaveChanges();
 
@@ -336,7 +335,6 @@ public class UserRepositoryTest
     [TestMethod]
     public void ExistUser_WhenUserExists_ReturnsTrue()
     {
-        // Arrange
         using HMDbContext? context = CreateInMemoryDbContext("TestExistUser");
         var repository = new UserRepository(context);
 
@@ -352,31 +350,25 @@ public class UserRepositoryTest
         context.Users?.Add(existingUser);
         context.SaveChanges();
 
-        // Act
         var result = repository.ExistUser(existingUser.Id);
 
-        // Assert
         result.Should().BeTrue();
     }
 
     [TestMethod]
     public void ExistUser_WhenUserDoesNotExist_ReturnsFalse()
     {
-        // Arrange
         using HMDbContext? context = CreateInMemoryDbContext("TestExistUser_NotFound");
         var repository = new UserRepository(context);
 
-        // Act
         var result = repository.ExistUser(Guid.NewGuid());
 
-        // Assert
         result.Should().BeFalse();
     }
 
     [TestMethod]
     public void DeleteUser_WhenUserExists_DeletesAndReturnsUser()
     {
-        // Arrange
         using HMDbContext? context = CreateInMemoryDbContext("TestDeleteUser");
         var repository = new UserRepository(context);
 
@@ -392,11 +384,9 @@ public class UserRepositoryTest
         context.Users?.Add(userToDelete);
         context.SaveChanges();
 
-        // Act
         var result = repository.DeleteUser(userToDelete.Id);
         var userInDb = context.Users?.FirstOrDefault(u => u.Id == userToDelete.Id);
 
-        // Assert
         result.Should().BeEquivalentTo(userToDelete);
         userInDb.Should().BeNull(); // Verifies that the user was deleted
     }
@@ -404,14 +394,72 @@ public class UserRepositoryTest
     [TestMethod]
     public void DeleteUser_WhenUserDoesNotExist_ReturnsNull()
     {
-        // Arrange
         using HMDbContext? context = CreateInMemoryDbContext("TestDeleteUser_NotFound");
         var repository = new UserRepository(context);
 
-        // Act
         var result = repository.DeleteUser(Guid.NewGuid());
 
-        // Assert
         result.Should().BeNull();
+    }
+
+    [TestMethod]
+    public void GetNotifications_WhenUserHasNotifications_ReturnsNotifications()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetNotifications");
+        var repository = new UserRepository(context);
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Jane",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "securePassword123"
+        };
+
+        var notification1 = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "Notification 1",
+            UserId = user.Id,
+            User = user
+        };
+
+        var notification2 = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "Notification 2",
+            UserId = user.Id,
+            User = user
+        };
+
+        context.Notifications?.AddRange(notification1, notification2);
+        context.SaveChanges();
+
+        var result = repository.GetNotifications(user.Id);
+
+        result.Should().NotBeNullOrEmpty();
+        result.Should().HaveCount(2);
+        result.Should().ContainEquivalentOf(notification1);
+    }
+
+    [TestMethod]
+    public void GetNotifications_WhenUserHasNoNotifications_ReturnsEmptyList()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetNotifications_NoNotifications");
+        var repository = new UserRepository(context);
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Jane",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "securePassword123"
+        };
+
+        var result = repository.GetNotifications(user.Id);
+
+        result.Should().BeEmpty();
     }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DataAccess.Data;
 using Domain;
 using FluentAssertions;
@@ -7,6 +8,7 @@ using Models;
 namespace DataAccess.Tests;
 
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class NotificationRepositoryTest
 {
     private HMDbContext CreateInMemoryDbContext(string dbName)

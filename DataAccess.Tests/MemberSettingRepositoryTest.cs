@@ -42,7 +42,9 @@ public class MemberSettingRepositoryTest
         {
             Id = Guid.NewGuid(),
             HomeOwner = Guid.NewGuid(),
-            Location = "Home",Latitude = "123", Longitude = "123",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 3,
             Devices = homeDevices
         };
@@ -200,4 +202,68 @@ public class MemberSettingRepositoryTest
 
         hasPermission.Should().BeTrue();
     }
+
+    [TestMethod]
+    public void CreateMemberSetting_ShouldNotCreateDuplicateMemberSetting()
+    {
+        using var context = CreateInMemoryDbContext("CreateDuplicateMemberSettingTest");
+        SeedData(context);
+
+        var repository = new MemberSettingRepository(context);
+        var home = context.Homes?.First();
+        var user = context.Users?.First();
+
+        var firstResult = repository.CreateMemberSetting(home.Id, user.Id);
+
+        var secondResult = repository.CreateMemberSetting(home.Id, user.Id);
+        secondResult.Should().Be(firstResult);
+        context.MemberSettings.Should().HaveCount(1);
+    }
+
+    [TestMethod]
+    public void AddPermission_ShouldReturnNull_WhenMemberSettingDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("AddPermissionNonExistentTest");
+
+        var repository = new MemberSettingRepository(context);
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+
+        var result = repository.AddPermission(homeId, userId, "SomePermission");
+
+        result.Should().BeNull();
+    }
+
+    [TestMethod]
+    public void RemovePermission_ShouldBeNull()
+    {
+        using var context = CreateInMemoryDbContext("RemoveNonExistentPermissionTest");
+        SeedData(context);
+
+        var repository = new MemberSettingRepository(context);
+        var home = context.Homes?.First();
+        var user = context.Users?.First();
+
+        var result = repository.RemovePermission(home.Id, user.Id, "SomeNonExistentPermission");
+
+        result.Should().BeNull();
+    }
+
+    [TestMethod]
+    public void HasPermission_ShouldReturnFalse_WhenPermissionDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("HasPermissionNonExistentTest");
+        SeedData(context);
+
+        var repository = new MemberSettingRepository(context);
+        var home = context.Homes?.First();
+        var user = context.Users?.First();
+
+        var hasPermission = repository.HasPermission(home.Id, user.Id, "NonExistentPermission");
+
+        hasPermission.Should().BeFalse();
+    }
+
+
+
 }

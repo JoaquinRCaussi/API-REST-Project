@@ -147,35 +147,6 @@ public class UserLogicTest
     }
 
     [TestMethod]
-    public void AddCompanyToUserTest()
-    {
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            Name = "John",
-            LastName = "Snow",
-            Email = "mail@mail.com",
-            Password = "password@123"
-        };
-
-        var company = new Company
-        {
-            Id = Guid.NewGuid(),
-            Name = "Company",
-            RUT = "Address",
-            Owner = user
-        };
-
-        _userRepositoryMock.Setup(x => x.AddCompanyToCompanyOwner(user, company)).Returns(user);
-
-        var result = _userLogic.AddCompanyToCompanyOwner(user, company);
-
-        result.Should().BeEquivalentTo(user);
-
-        result.Company.Should().Be(user.Company);
-    }
-
-    [TestMethod]
     public void FindByMailTest()
     {
         var user = new User
@@ -355,5 +326,29 @@ public class UserLogicTest
         var act = () => _userLogic.CreateHomeOwner(user);
 
         act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
+    }
+
+    [TestMethod]
+    public void GetNotificationsTest()
+    {
+        var userId = Guid.NewGuid();
+        var notifications = new List<Notification>
+        {
+            new Notification
+            {
+                Id = Guid.NewGuid(),
+                Event = "Event",
+                UserId = userId,
+                CreatedAt = DateTime.Now,
+                IsRead = false,
+                HardwareId = Guid.NewGuid()
+            }
+        };
+
+        _userRepositoryMock.Setup(x => x.GetNotifications(userId)).Returns(notifications);
+
+        var result = _userLogic.GetNotifications(userId);
+
+        result.Should().BeEquivalentTo(notifications);
     }
 }

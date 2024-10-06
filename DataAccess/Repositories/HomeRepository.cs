@@ -18,10 +18,9 @@ public class HomeRepository : IHomeRepository
     {
         var user = _dbContext.Users?.FirstOrDefault(x => x.Id == home.HomeOwner);
         var allPermissions = _dbContext.Permissions?.ToList();
-        
+
         home.Owner = user;
-        
-        // Crear un MemberSetting con todos los permisos para el usuario dueño de la casa
+
         _dbContext.MemberSettings?.Add(new MemberSetting
         {
             UserId = user?.Id ?? default,
@@ -40,7 +39,8 @@ public class HomeRepository : IHomeRepository
 
     public List<Home> GetHomesByUser(Guid userId)
     {
-        return _dbContext.Homes?.Where(x => x.HomeOwner == userId)
+        return _dbContext.Homes?
+            .Where(h => h.Members != null && (h.HomeOwner == userId || h.Members.Any(m => m.Id == userId)))
             .Include(h => h.Devices)
             .Include(h => h.Members)
             .Include(h => h.Owner)
@@ -130,6 +130,11 @@ public class HomeRepository : IHomeRepository
             .Include(h => h.Devices)
                 .ThenInclude(Device => Device.Device)
             .FirstOrDefault(x => x.Id == homeId);
+
+        if (home == null)
+        {
+            return [];
+        }
 
         return home.Devices;
     }
