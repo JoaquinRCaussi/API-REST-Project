@@ -42,7 +42,9 @@ public class MemberSettingRepositoryTest
         {
             Id = Guid.NewGuid(),
             HomeOwner = Guid.NewGuid(),
-            Location = "Home",Latitude = "123", Longitude = "123",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 3,
             Devices = homeDevices
         };

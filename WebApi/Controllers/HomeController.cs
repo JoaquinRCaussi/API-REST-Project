@@ -27,7 +27,7 @@ public class HomeController : ControllerBase
         Home homeToCreate = home.ToArgs();
         homeToCreate.HomeOwner = user.Id;
         Home createdHome = _homeLogic.CreateHome(homeToCreate);
-        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner, Latitude = createdHome.Latitude, Longitude = createdHome.Longitude  };
+        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner, Latitude = createdHome.Latitude, Longitude = createdHome.Longitude };
         return Ok(response);
     }
 
@@ -35,7 +35,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHomes()
     {
         List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount,  Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
+        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount, Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
         return Ok(response);
     }
 
