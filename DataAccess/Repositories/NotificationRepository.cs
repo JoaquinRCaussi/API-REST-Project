@@ -19,7 +19,6 @@ public class NotificationRepository : INotificationRepository
     
     public Notification CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
     {
-        //Create one notification for each member of the home
         var listOfNotifications = new List<Notification>();
         var home = _context.Homes?
             .Include(h => h.Devices)

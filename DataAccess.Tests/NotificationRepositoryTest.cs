@@ -121,7 +121,7 @@ public class NotificationRepositoryTest
             Event = "open"
         };
         
-        repository.CreateNotificationSensor(nonExistentHomeId, homeDevice.Id, sensorRequest);
+        repository.CreateNotificationSensor(nonExistentHomeId, homeDevice.HardwareId, sensorRequest);
     }
 
     [TestMethod]
@@ -139,7 +139,7 @@ public class NotificationRepositoryTest
             Event = "open"
         };
         
-        repository.CreateNotificationSensor(home.Id, homeDevice.Id, sensorRequest);
+        repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorRequest);
 
         var notificationsInDb = context.Notifications?.ToList();
         notificationsInDb.Should().NotBeNull();
