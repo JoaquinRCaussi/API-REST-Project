@@ -50,35 +50,31 @@ public class HomeLogic : IHomeLogic
 
     public Home AddMember(Guid homeId, Guid userId)
     {
+        var home = _homeRepository.GetHome(homeId);
+        var members = _homeRepository.GetHomeMembers(homeId);
+        if (members.Count >= home.MemberCount)
+        {
+            throw new ConflictException("House is full. Member limit has been reached.");
+        }
         return _homeRepository.AddMember(homeId, userId);
     }
 
     public Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions)
     {
-        var permissionMappings = new Dictionary<Func<PermissionRequest, bool>, string>
-        {
-            { p => p.CanAddMembers, "CanAddMembers" },
-            { p => p.CanAsociateDevices, "CanAsociateDevices" },
-            { p => p.CanGetNotifications, "CanGetNotifications" },
-            { p => p.CanListDevices, "CanListDevices" }
-        };
+        var value = permissions.Value;
 
-        foreach (var mapping in permissionMappings)
+        if (value == null)
         {
-            var permissionName = mapping.Value;
-            var hasPermission = mapping.Key(permissions);
+            throw new ArgumentNullException("Permission value is required");
+        }
 
-            if (hasPermission)
-            {
-                _memberSettingRepository.AddPermission(homeId, userId, permissionName);
-            }
-            else
-            {
-                if (_memberSettingRepository.HasPermission(homeId, userId, permissionName))
-                {
-                    _memberSettingRepository.RemovePermission(homeId, userId, permissionName);
-                }
-            }
+        if (permissions.Enable)
+        {
+            _memberSettingRepository.AddPermission(homeId, userId, value);
+        }
+        else
+        {
+            _memberSettingRepository.RemovePermission(homeId, userId, value);
         }
 
         return _homeRepository.GetHome(homeId);

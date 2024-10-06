@@ -17,7 +17,7 @@ public interface IHomeLogic
 
     Home AddMember(Guid homeId, Guid userId);
 
-    Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions);
+    Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permission);
 
     HomeDevice AddDevice(Guid homeId, Guid deviceId);
 
