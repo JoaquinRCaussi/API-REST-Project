@@ -131,6 +131,10 @@ public class HomeRepository : IHomeRepository
                 .ThenInclude(Device => Device.Device)
             .FirstOrDefault(x => x.Id == homeId);
 
+        if (home == null)
+        {
+            return [];
+        }
         
         return home.Devices;
     }
