@@ -48,4 +48,12 @@ public class UserController : ControllerBase
         List<Home> homes = _homeLogic.GetHomesByUser(userId);
         return Ok(homes);
     }
+    
+    [HttpGet]
+    [Route("{userId}/notifications")]
+    public IActionResult GetUserNotifications([FromRoute] Guid userId)
+    {
+        List<Notification> notifications = _userLogic.GetNotifications(userId);
+        return Ok(notifications);
+    }
 }

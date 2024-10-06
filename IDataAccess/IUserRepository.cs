@@ -23,4 +23,6 @@ public interface IUserRepository
     public bool ExistUser(Guid userId);
 
     public User DeleteUser(Guid userId);
+    
+    public List<Notification> GetNotifications(Guid userId);
 }

@@ -258,5 +258,32 @@ public class UserControllerTest
         
         result.Should().BeEquivalentTo(expectedResponse);
     }
+    
+    [TestMethod]
+    public void GetUserNotifications_WhenNotificationsExist()
+    {
+        // Arrange
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+        
+        var expectedNotifications = new List<Notification>
+        {
+            new Notification { Id = Guid.NewGuid(), Event = "Notification 1", UserId = userId, CreatedAt = DateTime.UtcNow },
+            new Notification { Id = Guid.NewGuid(), Event = "Notification 2", UserId = userId, CreatedAt = DateTime.UtcNow }
+        };
+        
+        userLogicMock.Setup(logic => logic.GetNotifications(userId)).Returns(expectedNotifications);
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+        
+        IActionResult result = controller.GetUserNotifications(userId);
+
+        var expectedResponse = new OkObjectResult(expectedNotifications);
+        result.Should().BeEquivalentTo(expectedResponse);
+        
+        userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
+    }
 
 }
