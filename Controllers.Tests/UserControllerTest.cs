@@ -196,4 +196,67 @@ public class UserControllerTest
 
         result.Should().BeEquivalentTo(expectedResponse);
     }
+    
+    [TestMethod]
+    public void GetUserHomes_WhenUserIsMemberButNotOwner()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+        
+        var userId = Guid.NewGuid();
+        var otherOwnerId = Guid.NewGuid();
+        
+        var expectedHomes = new List<Home>
+        {
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Location = "Home 1",
+                HomeOwner = otherOwnerId,
+                Devices = new List<HomeDevice>(),
+                Members = new List<User>
+                {
+                    new User { Id = userId }
+                },
+                MemberCount = 1,
+                Latitude = "asdasd",
+                Longitude = "123123"
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Location = "Home 2",
+                HomeOwner = otherOwnerId,
+                Devices = new List<HomeDevice>(),
+                Members = new List<User>
+                {
+                    new User { Id = userId }
+                },
+                MemberCount = 1,
+                Latitude = "123123",
+                Longitude = "12312"
+            }
+        };
+        
+        homeLogicMock.Setup(logic => logic.GetHomesByUser(userId)).Returns(expectedHomes);
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        IActionResult result = controller.GetUserHomes(userId);
+        
+        var homeResponses = expectedHomes.Select(h => new HomeResponse
+        {
+            Location = h.Location,
+            HomeOwner = h.HomeOwner,
+            Devices = h.Devices,
+            MemberCount = h.MemberCount,
+            Latitude = h.Latitude,
+            Longitude = h.Longitude
+        }).ToList();
+
+        var expectedResponse = new OkObjectResult(homeResponses);
+        
+        result.Should().BeEquivalentTo(expectedResponse);
+    }
+
 }

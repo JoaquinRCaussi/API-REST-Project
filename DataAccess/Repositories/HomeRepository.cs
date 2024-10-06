@@ -39,7 +39,8 @@ public class HomeRepository : IHomeRepository
 
     public List<Home> GetHomesByUser(Guid userId)
     {
-        return _dbContext.Homes?.Where(x => x.HomeOwner == userId)
+        return _dbContext.Homes?
+            .Where(h => h.Members != null && (h.HomeOwner == userId || h.Members.Any(m => m.Id == userId)))
             .Include(h => h.Devices)
             .Include(h => h.Members)
             .Include(h => h.Owner)
