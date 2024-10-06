@@ -20,12 +20,10 @@ public class MemberSettingRepository : IMemberSettingRepository
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
         var permission = _dbContext.Permissions?.FirstOrDefault(x => x.Value == "CanGetNotifications");
 
-        // Verificar si ya existe un MemberSetting para el homeId y userId
         var memberSetting = _dbContext.MemberSettings?
             .Include(ms => ms.Permissions) // Incluye las relaciones de permisos
             .FirstOrDefault(ms => ms.HomeId == homeId && ms.UserId == userId);
 
-        // Si no existe, crear uno nuevo
         if (memberSetting == null)
         {
             memberSetting = new MemberSetting
