@@ -61,7 +61,7 @@ public class NotificationRepository : INotificationRepository
             }
         }
         _context.SaveChanges();
-        return (listOfNotifications.IsNullOrEmpty() ? null : listOfNotifications) ?? throw new InvalidOperationException();
+        return listOfNotifications;
     }
     
         public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)

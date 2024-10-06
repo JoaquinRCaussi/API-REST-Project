@@ -19,7 +19,9 @@ public class HomeLogic : IHomeLogic
     }
     public Home CreateHome(Home home)
     {
-        return _homeRepository.CreateHome(home);
+        var homeResult = _homeRepository.CreateHome(home);
+        var homeWithMember = _homeRepository.AddMember(homeResult.Id, homeResult.HomeOwner);
+        return homeWithMember;
     }
 
     public List<Home> GetHomes()

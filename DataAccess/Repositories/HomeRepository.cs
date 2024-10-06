@@ -17,9 +17,19 @@ public class HomeRepository : IHomeRepository
     public Home CreateHome(Home home)
     {
         var user = _dbContext.Users?.FirstOrDefault(x => x.Id == home.HomeOwner);
-        home.Owner = user;
         var allPermissions = _dbContext.Permissions?.ToList();
 
+        if (user == null)
+        {
+            return new()
+            {
+                Location = null,
+                MemberCount = 0,
+                Devices = null,
+                HomeOwner = default
+            };
+        }
+        home.Owner = user;
         // Crear un MemberSetting con todos los permisos para el usuario dueño de la casa
         _dbContext.MemberSettings?.Add(new MemberSetting
         {

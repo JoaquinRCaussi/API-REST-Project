@@ -149,6 +149,9 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("HardwareId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("HomeId")
                         .HasColumnType("uniqueidentifier");
 
@@ -181,6 +184,39 @@ namespace DataAccess.Migrations
                     b.HasIndex("HomeId");
 
                     b.ToTable("MemberSettings");
+                });
+
+            modelBuilder.Entity("Domain.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("HardwareId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("HomeDeviceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeDeviceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Domain.Permission", b =>
@@ -490,6 +526,23 @@ namespace DataAccess.Migrations
                         .HasForeignKey("HomeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Notification", b =>
+                {
+                    b.HasOne("Domain.HomeDevice", "HomeDevice")
+                        .WithMany()
+                        .HasForeignKey("HomeDeviceId");
+
+                    b.HasOne("Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HomeDevice");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.User", b =>

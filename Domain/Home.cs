@@ -8,7 +8,7 @@ public class Home
     public List<HomeDevice>? Devices { get; set; }
     public Guid HomeOwner { get; set; }
     public User? Owner { get; set; }
-    public List<User>? Members { get; set; }
+    public List<User>? Members { get; set; } = [];
 
     public virtual List<MemberSetting> MemberSettings { get; set; } = [];
 }

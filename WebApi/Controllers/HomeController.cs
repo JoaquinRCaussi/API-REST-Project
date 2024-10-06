@@ -109,6 +109,7 @@ public class HomeController : ControllerBase
     //Justificacion en documentacion de por que esta en home controller
     [HttpPost]
     [Route("{homeId}/sensor/{hardwareId}/open")]
+    [AuthorizationFilter]
     public IActionResult CreateNotificationOpenSensor(Guid homeId, Guid hardwareId)
     {
         var sensorRequest = new SensorRequest();
@@ -119,11 +120,36 @@ public class HomeController : ControllerBase
     }
     
     [HttpPost]
+    [Route("{homeId}/sensor/{hardwareId}/close")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationCloseSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "close";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
+    }
+    
+    [HttpPost]
     [Route("{homeId}/camera/{hardwareId}/person-detected")]
+    [AuthorizationFilter]
     public IActionResult CreateNotificationPersonDetectedCamera(Guid homeId, Guid hardwareId)
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "person-detected";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
+    }
+    
+    [HttpPost]
+    [Route("{homeId}/camera/{hardwareId}/movement-detected")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationMovementDetectedCamera(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "movement-detected";
         sensorRequest.Event = sensorEvent;
         var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
         return Ok(notification);
