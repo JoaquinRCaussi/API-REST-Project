@@ -124,6 +124,28 @@ public class NotificationRepositoryTest
         repository.CreateNotificationSensor(nonExistentHomeId, homeDevice.Id, sensorRequest);
     }
 
+    [TestMethod]
+    public void CreateNotificationSensor_ShouldAddNotificationsToDatabase()
+    {
+        using var context = CreateInMemoryDbContext("CreateNotificationSensorAddTest");
+        SeedData(context);
+
+        var repository = new NotificationRepository(context);
+        var home = context.Homes?.First();
+        var homeDevice = context.HomeDevices?.First();
+
+        var sensorRequest = new SensorRequest
+        {
+            Event = "open"
+        };
+        
+        repository.CreateNotificationSensor(home.Id, homeDevice.Id, sensorRequest);
+
+        var notificationsInDb = context.Notifications?.ToList();
+        notificationsInDb.Should().NotBeNull();
+        notificationsInDb.Should().HaveCount(home.Members.Count);
+    }
+
 
     
 }
