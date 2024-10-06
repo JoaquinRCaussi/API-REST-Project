@@ -9,12 +9,13 @@ namespace WebApi.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
-
+    private readonly IHomeLogic _homeLogic;
     //PASAR RESPONSES
 
-    public UserController(IUserLogic userLogic)
+    public UserController(IUserLogic userLogic, IHomeLogic homeLogic)
     {
         _userLogic = userLogic;
+        _homeLogic = homeLogic;
     }
 
     [HttpGet]
@@ -38,5 +39,13 @@ public class UserController : ControllerBase
     {
         User user = _userLogic.DeleteUser(userId);
         return Ok(user);
+    }
+    
+    [HttpGet]
+    [Route("{userId}/homes")]
+    public IActionResult GetUserHomes([FromRoute] Guid userId)
+    {
+        List<Home> homes = _homeLogic.GetHomesByUser(userId);
+        return Ok(homes);
     }
 }

@@ -51,6 +51,7 @@ public class UserControllerTest
     public void GetUsers_WhenAllPropertiesOk()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 
         var expectedUsers = new List<User>
         {
@@ -74,7 +75,7 @@ public class UserControllerTest
 
         userLogicMock.Setup(logic => logic.GetUsers()).Returns(expectedUsers);
 
-        var controller = new UserController(userLogicMock.Object);
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
         IActionResult result = controller.GetUsers();
 
@@ -94,7 +95,8 @@ public class UserControllerTest
     public void GetUser_WhenAllPropertiesOk()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
-
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+        
         var expectedUser = new User
         {
             Id = Guid.NewGuid(),
@@ -105,8 +107,9 @@ public class UserControllerTest
         };
 
         userLogicMock.Setup(logic => logic.GetUser(It.IsAny<Guid>())).Returns(expectedUser);
+        homeLogicMock.Setup(logic => logic.GetHomesByUser(It.IsAny<Guid>())).Returns(new List<Home>());
 
-        var controller = new UserController(userLogicMock.Object);
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
         IActionResult result = controller.GetUser(expectedUser.Id);
 
@@ -128,13 +131,69 @@ public class UserControllerTest
     {
         var user = new User { Id = Guid.NewGuid(), Name = "John", LastName = "Doe", Email = "mail@gmail.com" };
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+        
         userLogicMock.Setup(logic => logic.ExistUser(user.Id)).Returns(true);
         userLogicMock.Setup(logic => logic.DeleteUser(user.Id)).Returns(user);
 
-        var userController = new UserController(userLogicMock.Object);
+        var userController = new UserController(userLogicMock.Object, homeLogicMock.Object);
         var result = userController.DeleteUser(user.Id);
 
         var expectedResponse = new OkObjectResult(user);
+        result.Should().BeEquivalentTo(expectedResponse);
+    }
+    
+    [TestMethod]
+    public void GetUserHomes_WhenAllPropertiesOk()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+        
+        var userId = Guid.NewGuid();
+        var expectedHomes = new List<Home>
+        {
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Location = "Home",
+                HomeOwner = userId,
+                Devices = new List<HomeDevice>(),
+                Members = new List<User>(),
+                MemberCount = 0,
+                Latitude = "asdasd",
+                Longitude = "123123"
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Location = "Home",
+                HomeOwner = userId,
+                Devices = new List<HomeDevice>(),
+                Members = new List<User>(),
+                MemberCount = 0,
+                Latitude = "123123",
+                Longitude = "12312"
+            }
+        };
+
+        homeLogicMock.Setup(logic => logic.GetHomesByUser(userId)).Returns(expectedHomes);
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        IActionResult result = controller.GetUserHomes(userId);
+
+        var homeResponses = expectedHomes.Select(h => new HomeResponse
+        {
+            Location = h.Location,
+            HomeOwner = h.HomeOwner,
+            Devices = h.Devices,
+            MemberCount = h.MemberCount,
+            Latitude = h.Latitude,
+            Longitude = h.Longitude
+        }).ToList();
+
+        var expectedResponse = new OkObjectResult(homeResponses);
+
         result.Should().BeEquivalentTo(expectedResponse);
     }
 }
