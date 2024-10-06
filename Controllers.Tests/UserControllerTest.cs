@@ -285,5 +285,25 @@ public class UserControllerTest
         
         userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetUserNotifications_WhenNotificationsDoNotExist()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+        
+        userLogicMock.Setup(logic => logic.GetNotifications(userId)).Returns(new List<Notification>());
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+        
+        IActionResult result = controller.GetUserNotifications(userId);
+
+        var expectedResponse = new OkObjectResult(new List<Notification>());
+        result.Should().BeEquivalentTo(expectedResponse);
+        
+        userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
+    }
 
 }
