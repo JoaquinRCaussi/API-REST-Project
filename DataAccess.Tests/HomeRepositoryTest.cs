@@ -375,4 +375,88 @@ public class HomeRepositoryTest
         resultForEmptyMembers.Should().NotBeNull();
         resultForEmptyMembers.Should().BeEmpty();
     }
+    
+    [TestMethod]
+    public void GetHomeDevices_ShouldReturnEmptyList_WhenHomeDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("TestGetHomeDevicesHomeNull");
+        var repository = new HomeRepository(context);
+
+        var nonExistentHomeId = Guid.NewGuid();
+        
+        var result = repository.GetHomeDevices(nonExistentHomeId);
+        
+        result.Should().NotBeNull();
+        result.Should().BeEmpty();
+    }
+
+    [TestMethod]
+    public void GetHomeDevices_ShouldReturnListOfDevices_WhenHomeExists()
+    {
+        using var context = CreateInMemoryDbContext("TestGetHomeDevicesHomeExists");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var deviceId = Guid.NewGuid();
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+        
+        var _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
+
+        var device = new Device
+        {
+            Id = deviceId,
+            Company = _company,
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+
+        var homeDevice = new HomeDevice
+        {
+            Id = Guid.NewGuid(),
+            DeviceId = deviceId,
+            Device = device
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            MemberCount = 4,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            Devices = new List<HomeDevice> { homeDevice }
+        };
+
+        context.Homes?.Add(home);
+        context.Devices?.Add(device);
+        context.HomeDevices?.Add(homeDevice);
+        context.SaveChanges();
+
+        var result = repository.GetHomeDevices(homeId);
+
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+        result[0].DeviceId.Should().Be(deviceId);
+        result[0].Device.Should().Be(device);
+    }
+
+    
 }

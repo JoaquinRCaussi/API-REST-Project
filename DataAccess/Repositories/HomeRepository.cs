@@ -131,6 +131,7 @@ public class HomeRepository : IHomeRepository
                 .ThenInclude(Device => Device.Device)
             .FirstOrDefault(x => x.Id == homeId);
 
+        
         return home.Devices;
     }
 }
