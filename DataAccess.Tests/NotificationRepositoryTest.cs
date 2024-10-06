@@ -93,19 +93,37 @@ public class NotificationRepositoryTest
         {
             Event = "open"
         };
-
-        // Act
+        
         var notification = repository.CreateNotificationSensor(home.Id, homeDevice.Id, sensorRequest);
-
-        // Assert
+        
         var notifications = context.Notifications?.Where(n => n.HardwareId == homeDevice.Id).ToList();
 
         notifications.Should().NotBeNull();
-        notifications.Should().HaveCount(home.Members.Count); // Verifica que se crean tantas notificaciones como miembros
-        notifications.Should().OnlyContain(n => n.Event == "open"); // Verifica que el evento es correcto
-        notifications.Should().OnlyContain(n => n.HardwareId == homeDevice.Id); // Verifica que el hardwareId es correcto
-        notifications.Should().OnlyContain(n => !n.IsRead); // Verifica que todas las notificaciones están sin leer
+        notifications.Should().HaveCount(home.Members.Count);
+        notifications.Should().OnlyContain(n => n.Event == "open");
+        notifications.Should().OnlyContain(n => n.HardwareId == homeDevice.Id);
+        notifications.Should().OnlyContain(n => !n.IsRead);
     }
+    
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Home or device not found")]
+    public void CreateNotificationSensor_ShouldThrowExceptionWhenHomeOrDeviceNotFound()
+    {
+        using var context = CreateInMemoryDbContext("CreateNotificationSensorErrorTest");
+        SeedData(context);
+
+        var repository = new NotificationRepository(context);
+        var nonExistentHomeId = Guid.NewGuid();
+        var homeDevice = context.HomeDevices?.First();
+
+        var sensorRequest = new SensorRequest
+        {
+            Event = "open"
+        };
+        
+        repository.CreateNotificationSensor(nonExistentHomeId, homeDevice.Id, sensorRequest);
+    }
+
 
     
 }
