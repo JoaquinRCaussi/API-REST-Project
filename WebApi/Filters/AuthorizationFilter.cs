@@ -23,7 +23,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
             return;
         }
 
-        var userLogged = context.HttpContext.Items[0];
+        var userLogged = context.HttpContext.Items.ContainsKey(0) ? context.HttpContext.Items[0] : null;
 
         if (userLogged == null)
         {
@@ -129,7 +129,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         return user.Role.PermissionKeys.Any(p => p.Value == requiredPermission);
     }
 
-    private bool MemberHasPermission(Home home, User user, string? requiredPermission)
+    public bool MemberHasPermission(Home home, User user, string? requiredPermission)
     {
         if (requiredPermission == null)
         {
