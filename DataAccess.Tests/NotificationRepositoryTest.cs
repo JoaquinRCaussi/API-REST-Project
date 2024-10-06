@@ -199,4 +199,23 @@ public class NotificationRepositoryTest
         notificationsInDb.Should().OnlyContain(n => !n.IsRead);
     }
     
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Home or device not found")]
+    public void CreateNotificationCameraPersonDetected_ShouldThrowExceptionWhenHomeOrDeviceNotFound()
+    {
+        using var context = CreateInMemoryDbContext("CreateNotificationCameraPersonDetectedErrorTest");
+        SeedData(context);
+
+        var repository = new NotificationRepository(context);
+        var nonExistentHomeId = Guid.NewGuid();
+        var homeDevice = context.HomeDevices?.First();
+
+        var sensorRequest = new SensorRequest
+        {
+            Event = "personDetected"
+        };
+        
+        repository.CreateNotificationCamera(nonExistentHomeId, homeDevice.HardwareId, sensorRequest);
+    }
+    
 }
