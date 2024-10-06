@@ -23,6 +23,8 @@ public class NotificationRepository : INotificationRepository
         var home = _context.Homes?
             .Include(h => h.Devices)
             .Include(h => h.Members)
+            .Include(h => h.MemberSettings)
+                .ThenInclude(ms => ms.Permissions)
             .FirstOrDefault(x => x.Id == homeId);
 
         var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
@@ -32,23 +34,31 @@ public class NotificationRepository : INotificationRepository
             throw new Exception("Home or device not found");
         }
         
-        var members = home.Members;
-
-        foreach (var member in members)
+        foreach (var member in home.Members)
         {
-            var notification = new Notification
+            var memberSettings = home.MemberSettings?.FirstOrDefault(x => x.UserId == member.Id);
+            if (memberSettings != null)
             {
-                UserId = member.Id,
-                Event = sensor.Event,
-                CreatedAt = DateTime.Now,
-                HardwareId = hardwareId,
-                HomeDevice = homeDevice,
-                User = member,
-                IsRead = false
-            };
-            
-            listOfNotifications.Add(notification);
-            _context.Notifications?.Add(notification);
+                var hasPermission = memberSettings.Permissions
+                    .Any(p => p.Value == "CanGetNotifications");
+                
+                if (hasPermission)
+                {
+                    var notification = new Notification
+                    {
+                        UserId = member.Id,
+                        Event = sensor.Event,
+                        CreatedAt = DateTime.Now,
+                        HardwareId = hardwareId,
+                        HomeDevice = homeDevice,
+                        User = member,
+                        IsRead = false
+                    };
+
+                    listOfNotifications.Add(notification);
+                    _context.Notifications?.Add(notification);
+                }
+            }
         }
         _context.SaveChanges();
         return (listOfNotifications.IsNullOrEmpty() ? null : listOfNotifications) ?? throw new InvalidOperationException();

@@ -8,7 +8,7 @@ namespace DataAccess.Tests;
 
 [TestClass]
 public class NotificationRepositoryTest
-{
+{ 
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
         DbContextOptions<HMDbContext> options = new DbContextOptionsBuilder<HMDbContext>()
@@ -16,7 +16,7 @@ public class NotificationRepositoryTest
             .Options;
         return new HMDbContext(options);
     }
-    
+
     private void SeedData(HMDbContext context)
     {
         var user1 = new User
@@ -60,7 +60,6 @@ public class NotificationRepositoryTest
             DeviceId = device.Id
         };
 
-        
         var home = new Home
         {
             Id = Guid.NewGuid(),
@@ -71,16 +70,40 @@ public class NotificationRepositoryTest
             Members = new List<User> { user1, user2 }
         };
 
+        // Crear permisos
+        var permission = new Permission
+        {
+            Id = Guid.NewGuid(),
+            Value = "CanGetNotifications"
+        };
+        
+        context.Permissions.Add(permission);
+
+        // Configurar MemberSettings
+        var memberSetting1 = new MemberSetting
+        {
+            HomeId = home.Id,
+            UserId = user1.Id,
+            Permissions = new List<Permission> { permission } // Tiene el permiso
+        };
+
+        var memberSetting2 = new MemberSetting
+        {
+            HomeId = home.Id,
+            UserId = user2.Id,
+            Permissions = new List<Permission>() // No tiene el permiso
+        };
 
         context.Users?.AddRange(user1, user2);
         context.Devices?.Add(device);
         context.Homes?.Add(home);
         context.HomeDevices?.Add(homeDevice);
+        context.MemberSettings?.AddRange(memberSetting1, memberSetting2);
         context.SaveChanges();
     }
 
     [TestMethod]
-    public void CreateNotificationSensor_ShouldCreateNotificationsForAllMembers()
+    public void CreateNotificationSensor_ShouldCreateNotificationsOnlyForMembersWithPermission()
     {
         using var context = CreateInMemoryDbContext("CreateNotificationSensorTest");
         SeedData(context);
@@ -94,17 +117,20 @@ public class NotificationRepositoryTest
             Event = "open"
         };
         
-        var notification = repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorRequest);
+        var notifications = repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorRequest);
         
-        var notifications = context.Notifications?.Where(n => n.HardwareId == homeDevice.HardwareId).ToList();
+        var notificationsInDb = context.Notifications?.ToList();
 
         notifications.Should().NotBeNull();
-        notifications.Should().HaveCount(home.Members.Count);
-        notifications.Should().OnlyContain(n => n.Event == "open");
-        notifications.Should().OnlyContain(n => n.HardwareId == homeDevice.HardwareId);
-        notifications.Should().OnlyContain(n => !n.IsRead);
+        notifications.Should().HaveCount(1); // Solo 1 miembro tiene el permiso
+
+        // Verificar que el usuario con permiso (user1) recibió la notificación
+        notificationsInDb.Should().ContainSingle(n => home.Members != null && n.UserId == home.Members.First().Id);
+        notificationsInDb.Should().OnlyContain(n => n.Event == "open");
+        notificationsInDb.Should().OnlyContain(n => n.HardwareId == homeDevice.HardwareId);
+        notificationsInDb.Should().OnlyContain(n => !n.IsRead);
     }
-    
+
     [TestMethod]
     [ExpectedException(typeof(Exception), "Home or device not found")]
     public void CreateNotificationSensor_ShouldThrowExceptionWhenHomeOrDeviceNotFound()
@@ -143,9 +169,8 @@ public class NotificationRepositoryTest
 
         var notificationsInDb = context.Notifications?.ToList();
         notificationsInDb.Should().NotBeNull();
-        notificationsInDb.Should().HaveCount(home.Members.Count);
+        notificationsInDb.Should().HaveCount(1); // Solo 1 miembro tiene el permiso
     }
-
 
     
 }
