@@ -19,7 +19,11 @@ public interface IHomeLogic
 
     Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions);
 
-    Home AddDevice(Guid homeId, Guid deviceId);
+    HomeDevice AddDevice(Guid homeId, Guid deviceId);
 
     List<HomeDevice> GetHomeDevices(Guid homeId);
+
+    List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
+
+    List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
 }

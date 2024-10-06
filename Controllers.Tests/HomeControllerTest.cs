@@ -56,6 +56,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             HomeOwner = user.Id
         };
@@ -64,7 +66,9 @@ public class HomeControllerTest
         {
             Location = home.Location,
             MemberCount = home.MemberCount,
-            HomeOwner = home.HomeOwner
+            HomeOwner = home.HomeOwner,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -86,6 +90,8 @@ public class HomeControllerTest
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
+            Latitude = homeRequestObject.Latitude,
+            Longitude = homeRequestObject.Longitude,
             MemberCount = homeRequestObject.MemberCount,
             HomeOwner = homeRequestObject.HomeOwner
         };
@@ -111,6 +117,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             HomeOwner = user.Id
         };
@@ -120,6 +128,8 @@ public class HomeControllerTest
         var homeRequest = new HomeRequest
         {
             Location = home.Location,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude,
             MemberCount = home.MemberCount,
             HomeOwner = home.HomeOwner
         };
@@ -139,6 +149,8 @@ public class HomeControllerTest
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
+            Latitude = homeRequestObject.Latitude,
+            Longitude = homeRequestObject.Longitude,
             MemberCount = homeRequestObject.MemberCount,
             HomeOwner = homeRequestObject.HomeOwner
         };
@@ -165,6 +177,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             HomeOwner = user.Id
         };
@@ -172,6 +186,8 @@ public class HomeControllerTest
         var homeRequest = new HomeRequest
         {
             Location = home.Location,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude,
             MemberCount = home.MemberCount,
             HomeOwner = home.HomeOwner
         };
@@ -191,6 +207,8 @@ public class HomeControllerTest
         var homeResponse = new HomeResponse
         {
             Location = homeRequestObject.Location,
+            Latitude = homeRequestObject.Latitude,
+            Longitude = homeRequestObject.Longitude,
             MemberCount = homeRequestObject.MemberCount,
             HomeOwner = homeRequestObject.HomeOwner
         };
@@ -219,6 +237,8 @@ public class HomeControllerTest
         {
             Id = Guid.NewGuid(),
             Location = "location",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             Devices = [],
             HomeOwner = user.Id,
@@ -266,6 +286,8 @@ public class HomeControllerTest
         {
             Id = homeId,
             Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 1,
             Devices = [],
             HomeOwner = Guid.NewGuid(),
@@ -322,7 +344,7 @@ public class HomeControllerTest
             Photo = "photo1.jpg"
         };
 
-        var homeDevice = new HomeDevice { DeviceId = deviceId, Device = device, state = false };
+        var homeDevice = new HomeDevice { HardwareId = Guid.NewGuid(), DeviceId = deviceId, Device = device, state = false };
 
         var homeDevices = new List<HomeDevice> { homeDevice };
 
@@ -330,6 +352,8 @@ public class HomeControllerTest
         {
             Id = homeId,
             Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 5,
             Devices = homeDevices,
             HomeOwner = Guid.NewGuid()
@@ -337,8 +361,14 @@ public class HomeControllerTest
 
         var homeDeviceRequest = new HomeDeviceRequest { DeviceId = deviceId };
 
+        var homeDeviceResponse = new HomeDeviceResponse
+        {
+            HardwareId = homeDevice.HardwareId,
+            Device = device,
+        };
+
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.AddDevice(homeId, deviceId)).Returns(home);
+        homeLogic.Setup(x => x.AddDevice(homeId, deviceId)).Returns(homeDevice);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
@@ -346,12 +376,9 @@ public class HomeControllerTest
 
         IActionResult act = controller.AddDeviceToHome(homeId, homeDeviceRequest);
 
-        var okResult = act as OkObjectResult;
-        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+        var expected = new OkObjectResult(homeDeviceResponse);
 
-        okResult.Value.Should().BeEquivalentTo(home, options => options.WithStrictOrdering());
-
-        homeLogic.Verify(x => x.AddDevice(homeId, deviceId), Times.Once);
+        act.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
@@ -388,6 +415,8 @@ public class HomeControllerTest
         {
             Id = homeId,
             Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
             MemberCount = 1,
             Devices = devices,
             HomeOwner = Guid.NewGuid()
@@ -410,6 +439,79 @@ public class HomeControllerTest
         homeLogic.Verify(x => x.GetHomeDevices(homeId), Times.Once);
     }
 
+    [TestMethod]
+    public void CreateNotificationOpenSensor_WhenAllPropertiesOk()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest
+        {
+            Event = "open"
+        };
 
+        var notification = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "Sensor opened",
+            CreatedAt = DateTime.UtcNow,
+            IsRead = false,
+            HardwareId = hardwareId,
+            UserId = Guid.NewGuid()
 
+        };
+
+        var notifications = new List<Notification> { notification };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
+            .Returns(notifications);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.CreateNotificationOpenSensor(homeId, hardwareId);
+
+        var expected = new OkObjectResult(notifications);
+        act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void CreateNotificationCamera_WhenAllPropertiesOk()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest
+        {
+            Event = "person-detected"
+        };
+
+        var notification = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "person-detected",
+            CreatedAt = DateTime.UtcNow,
+            IsRead = false,
+            HardwareId = hardwareId,
+            UserId = Guid.NewGuid()
+
+        };
+
+        var notifications = new List<Notification> { notification };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, It.IsAny<SensorRequest>()))
+            .Returns(notifications);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.CreateNotificationPersonDetectedCamera(homeId, hardwareId);
+
+        var expected = new OkObjectResult(notifications);
+        act.Should().BeEquivalentTo(expected);
+    }
 }

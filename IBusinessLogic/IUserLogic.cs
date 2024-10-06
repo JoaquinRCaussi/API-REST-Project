@@ -20,4 +20,6 @@ public interface IUserLogic
     public User DeleteUser(Guid userId);
 
     public User AuthenticateUser(string mail, string password);
+
+    public List<Notification> GetNotifications(Guid userId);
 }

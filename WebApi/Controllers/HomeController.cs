@@ -27,7 +27,7 @@ public class HomeController : ControllerBase
         Home homeToCreate = home.ToArgs();
         homeToCreate.HomeOwner = user.Id;
         Home createdHome = _homeLogic.CreateHome(homeToCreate);
-        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner };
+        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner, Latitude = createdHome.Latitude, Longitude = createdHome.Longitude };
         return Ok(response);
     }
 
@@ -35,7 +35,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHomes()
     {
         List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount }).ToList();
+        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount, Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
         return Ok(response);
     }
 
@@ -44,7 +44,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHome(Guid homeId)
     {
         var home = _homeLogic.GetHome(homeId);
-        var response = new HomeResponse { Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner };
+        var response = new HomeResponse { Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner, Latitude = home.Latitude, Longitude = home.Longitude };
         return Ok(response);
     }
 
@@ -77,9 +77,9 @@ public class HomeController : ControllerBase
         return Ok(response);
     }
 
-    //Members porque cuando haga {homeid}/members traigo los usuarios, selecciono uno de ahi y le cambio los permisos en {homeid}/members/{userid}
     [HttpPut]
     [Route("{homeId}/members/{userId}")]
+    [AuthorizationFilter("IsOwner")]
     public IActionResult UpdatePermissions(Guid homeId, Guid userId, [FromBody] PermissionRequest permissions)
     {
         var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
@@ -91,16 +91,69 @@ public class HomeController : ControllerBase
     [Route("{homeId}/devices")]
     public IActionResult AddDeviceToHome(Guid homeId, [FromBody] HomeDeviceRequest deviceRequest)
     {
-        var deviceId = deviceRequest.DeviceId.Value;
-        var home = _homeLogic.AddDevice(homeId, deviceId);
-        return Ok(home);
+        var deviceId = deviceRequest.DeviceId.Value; ;
+        var homeDevice = _homeLogic.AddDevice(homeId, deviceId);
+
+        var response = new HomeDeviceResponse { HardwareId = homeDevice.HardwareId, Device = homeDevice.Device };
+
+        return Ok(response);
     }
 
     [HttpGet]
     [Route("{homeId}/devices")]
+    [AuthorizationFilter("CanListDevices")]
     public IActionResult GetHomeDevices(Guid homeId)
     {
         var devices = _homeLogic.GetHomeDevices(homeId);
         return Ok(devices);
+    }
+
+    //Justificacion en documentacion de por que esta en home controller
+    [HttpPost]
+    [Route("{homeId}/sensor/{hardwareId}/open")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationOpenSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "open";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/sensor/{hardwareId}/close")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationCloseSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "close";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/camera/{hardwareId}/person-detected")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationPersonDetectedCamera(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "person-detected";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/camera/{hardwareId}/movement-detected")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationMovementDetectedCamera(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "movement-detected";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
     }
 }

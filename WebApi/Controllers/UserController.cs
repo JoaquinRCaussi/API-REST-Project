@@ -1,25 +1,29 @@
 using Domain;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/users")]
-//Authorization Filter
+[AuthenticationFilter]
 public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
+    private readonly IHomeLogic _homeLogic;
+    //PASAR RESPONSES
 
-    public UserController(IUserLogic userLogic)
+    public UserController(IUserLogic userLogic, IHomeLogic homeLogic)
     {
         _userLogic = userLogic;
+        _homeLogic = homeLogic;
     }
 
     [HttpGet]
     public IActionResult GetUsers()
     {
-        List<User> users = _userLogic.GetUsers(); //Select(u => new UserResponse(u)).ToList();
+        List<User> users = _userLogic.GetUsers();
         return Ok(users);
     }
 
@@ -29,5 +33,29 @@ public class UserController : ControllerBase
     {
         User user = _userLogic.GetUser(userId);
         return Ok(user);
+    }
+
+    [HttpDelete]
+    [Route("{userId}")]
+    public IActionResult DeleteUser([FromRoute] Guid userId)
+    {
+        User user = _userLogic.DeleteUser(userId);
+        return Ok(user);
+    }
+
+    [HttpGet]
+    [Route("{userId}/homes")]
+    public IActionResult GetUserHomes([FromRoute] Guid userId)
+    {
+        List<Home> homes = _homeLogic.GetHomesByUser(userId);
+        return Ok(homes);
+    }
+
+    [HttpGet]
+    [Route("{userId}/notifications")]
+    public IActionResult GetUserNotifications([FromRoute] Guid userId)
+    {
+        List<Notification> notifications = _userLogic.GetNotifications(userId);
+        return Ok(notifications);
     }
 }

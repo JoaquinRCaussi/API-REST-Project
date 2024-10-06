@@ -9,16 +9,23 @@ public class HomeLogic : IHomeLogic
 {
     private readonly IHomeRepository _homeRepository;
     private readonly IMemberSettingRepository _memberSettingRepository;
+    private readonly INotificationRepository _notificationRepository;
 
-    public HomeLogic(IHomeRepository homeRepository, IMemberSettingRepository memberSettingRepository)
+    public HomeLogic(IHomeRepository homeRepository, IMemberSettingRepository memberSettingRepository, INotificationRepository notificationRepository)
     {
         _homeRepository = homeRepository;
         _memberSettingRepository = memberSettingRepository;
+        _notificationRepository = notificationRepository;
     }
-
     public Home CreateHome(Home home)
     {
-        return _homeRepository.CreateHome(home);
+        var homeResult = _homeRepository.CreateHome(home);
+        var homeWithMember = _homeRepository.AddMember(homeResult.Id, homeResult.HomeOwner);
+        if (homeWithMember == null)
+        {
+            return homeResult;
+        }
+        return homeWithMember;
     }
 
     public List<Home> GetHomes()
@@ -77,7 +84,7 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.GetHome(homeId);
     }
 
-    public Home AddDevice(Guid homeId, Guid deviceId)
+    public HomeDevice AddDevice(Guid homeId, Guid deviceId)
     {
         return _homeRepository.AddDevice(homeId, deviceId);
     }
@@ -87,4 +94,13 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.GetHomeDevices(homeId);
     }
 
+    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    {
+        return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, sensor);
+    }
+
+    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    {
+        return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
+    }
 }

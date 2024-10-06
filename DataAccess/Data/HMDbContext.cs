@@ -11,6 +11,7 @@ public class HMDbContext : DbContext
     {
     }
 
+    public DbSet<Notification>? Notifications { get; set; }
     public DbSet<Device>? Devices { get; set; }
     public DbSet<HomeDevice>? HomeDevices { get; set; }
     public DbSet<Company>? Companies { get; set; }

@@ -17,10 +17,10 @@ public class HomeRepository : IHomeRepository
     public Home CreateHome(Home home)
     {
         var user = _dbContext.Users?.FirstOrDefault(x => x.Id == home.HomeOwner);
-        home.Owner = user;
         var allPermissions = _dbContext.Permissions?.ToList();
 
-        // Crear un MemberSetting con todos los permisos para el usuario dueño de la casa
+        home.Owner = user;
+
         _dbContext.MemberSettings?.Add(new MemberSetting
         {
             UserId = user?.Id ?? default,
@@ -39,7 +39,12 @@ public class HomeRepository : IHomeRepository
 
     public List<Home> GetHomesByUser(Guid userId)
     {
-        return _dbContext.Homes?.Where(x => x.HomeOwner == userId).ToList()!;
+        return _dbContext.Homes?
+            .Where(h => h.Members != null && (h.HomeOwner == userId || h.Members.Any(m => m.Id == userId)))
+            .Include(h => h.Devices)
+            .Include(h => h.Members)
+            .Include(h => h.Owner)
+            .ToList()!;
     }
 
     public Home GetHome(Guid homeId)
@@ -49,7 +54,7 @@ public class HomeRepository : IHomeRepository
             .Include(x => x.Members)
             .Include(x => x.Owner)
             .Include(x => x.MemberSettings)
-            .ThenInclude(x => x.Permissions)
+                .ThenInclude(x => x.Permissions)
             .FirstOrDefault(x => x.Id == homeId)!;
     }
 
@@ -82,6 +87,8 @@ public class HomeRepository : IHomeRepository
             return new()
             {
                 Location = null,
+                Latitude = null,
+                Longitude = null,
                 MemberCount = 0,
                 Devices = null,
                 HomeOwner = default
@@ -93,7 +100,7 @@ public class HomeRepository : IHomeRepository
         return home;
     }
 
-    public Home AddDevice(Guid homeId, Guid deviceId)
+    public HomeDevice AddDevice(Guid homeId, Guid deviceId)
     {
 
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
@@ -103,10 +110,6 @@ public class HomeRepository : IHomeRepository
         {
             return new()
             {
-                Location = null,
-                MemberCount = 0,
-                Devices = null,
-                HomeOwner = default
             };
         }
         var homeDevice = new HomeDevice
@@ -118,15 +121,20 @@ public class HomeRepository : IHomeRepository
         _dbContext.HomeDevices?.Add(homeDevice);
         home.Devices?.Add(homeDevice);
         _dbContext.SaveChanges();
-        return home;
+        return homeDevice;
     }
 
     public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
         var home = _dbContext.Homes?
             .Include(h => h.Devices)
-            .ThenInclude(Device => Device.Device)
+                .ThenInclude(Device => Device.Device)
             .FirstOrDefault(x => x.Id == homeId);
+
+        if (home == null)
+        {
+            return [];
+        }
 
         return home.Devices;
     }

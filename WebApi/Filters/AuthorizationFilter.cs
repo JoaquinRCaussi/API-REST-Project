@@ -36,8 +36,9 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         }
 
         var userLoggedMapped = (User)userLogged;
-        var permission = BuildPermission(context);
+        var permission = BuildPermission();
         var hasNotPermission = !UserHasPermission(userLoggedMapped, permission);
+        var hasNotType = false;
 
         if (context.RouteData.Values.ContainsKey("homeId"))
         {
@@ -51,6 +52,42 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
             }
 
             hasNotPermission = home == null || !MemberHasPermission(home, userLoggedMapped, permission);
+
+            //Checkeo para notificaciones de dispositivos
+            if (context.RouteData.Values.ContainsKey("hardwareId"))
+            {
+                _ = homeRepository.GetHomeDevices(home.Id);
+                var hardwareId = context.RouteData.Values["hardwareId"].ToString();
+                var hardwareGuid = Guid.Empty;
+
+                if (homeRepository != null)
+                {
+                    var homeId = Guid.Parse(context.RouteData.Values["homeId"].ToString() ?? throw new InvalidOperationException());
+                    home = homeRepository.GetHome(homeId);
+                }
+                if (hardwareId != null)
+                {
+                    hardwareGuid = Guid.Parse(hardwareId);
+                }
+
+                var routeSegment = context.HttpContext.Request.Path.Value;
+                if (routeSegment != null && home != null)
+                {
+                    if (routeSegment.Contains("/sensor/"))
+                    {
+                        hasNotType = !HardwareIdActuallyHasType(hardwareGuid, DeviceType.Sensor, home);
+                    }
+                    else if (routeSegment.Contains("/camera/"))
+                    {
+                        hasNotType = !HardwareIdActuallyHasType(hardwareGuid, DeviceType.Camera, home);
+                    }
+                }
+            }
+            //Para el caso de que se quiera verificar si es el dueño de la casa
+            if (permission == "IsOwner")
+            {
+                hasNotPermission = home == null || home.HomeOwner != userLoggedMapped.Id;
+            }
         }
 
         if (hasNotPermission)
@@ -64,10 +101,26 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
                 StatusCode = (int)HttpStatusCode.Forbidden
             };
         }
+        else if (hasNotType)
+        {
+            context.Result = new ObjectResult(new
+            {
+                InnerCode = "Forbidden",
+                Message = $"HardwareId does not have the correct type"
+            })
+            {
+                StatusCode = (int)HttpStatusCode.Forbidden
+            };
+        }
     }
 
-    private bool UserHasPermission(User? user, string requiredPermission)
+    private bool UserHasPermission(User? user, string? requiredPermission)
     {
+        if (requiredPermission == null || requiredPermission == "IsOwner")
+        {
+            return true;
+        }
+
         if (user.Role == null || user.Role.PermissionKeys == null)
         {
             return false;
@@ -76,8 +129,12 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         return user.Role.PermissionKeys.Any(p => p.Value == requiredPermission);
     }
 
-    private bool MemberHasPermission(Home home, User user, string requiredPermission)
+    private bool MemberHasPermission(Home home, User user, string? requiredPermission)
     {
+        if (requiredPermission == null)
+        {
+            return true;
+        }
         if (home == null || user == null || home.MemberSettings == null)
         {
             return false;
@@ -92,8 +149,25 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         return memberSetting.Permissions.Any(p => p.Value == requiredPermission);
     }
 
-    private string BuildPermission(AuthorizationFilterContext context)
+    private bool HardwareIdActuallyHasType(Guid hardwareId, DeviceType type, Home home)
     {
-        return permission ?? $"{context.RouteData.Values["action"].ToString().ToLower()}-{context.RouteData.Values["controller"].ToString().ToLower()}";
+        if (home == null || home.Devices == null)
+        {
+            return false;
+        }
+
+        var device = home.Devices.FirstOrDefault(d => d.HardwareId == hardwareId);
+
+        if (device == null)
+        {
+            return false;
+        }
+
+        return device.Device.DeviceType == type;
+    }
+
+    private string? BuildPermission()
+    {
+        return permission ?? null;
     }
 }

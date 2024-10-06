@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using BusinessLogic;
+using DataAccess;
 using DataAccess.Data;
 using DataAccess.Repositories;
 using IBusinessLogic;
@@ -20,6 +21,7 @@ public static class OurServiceFactory
         services.AddScoped<ISessionService, SessionService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IHomeRepository, HomeRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IMemberSettingRepository, MemberSettingRepository>();
         services.AddScoped<IMemberSettingLogic, MemberSettingLogic>();
         services.AddScoped<IHomeLogic, HomeLogic>();

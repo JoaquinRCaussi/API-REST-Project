@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    partial class HMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241006050822_FixingsHomeMigration")]
+    partial class FixingsHomeMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,10 +93,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Devices");
-
-                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
-
-                    b.UseTphMappingStrategy();
 
                     b.HasData(
                         new
@@ -483,25 +482,6 @@ namespace DataAccess.Migrations
                             PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         });
-                });
-
-            modelBuilder.Entity("Domain.Camera", b =>
-                {
-                    b.HasBaseType("Domain.Device");
-
-                    b.Property<bool>("Indoors")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Outdoors")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SupportMovementDetection")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SupportPersonDetection")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("Domain.Company", b =>

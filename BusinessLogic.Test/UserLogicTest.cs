@@ -327,4 +327,28 @@ public class UserLogicTest
 
         act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
     }
+
+    [TestMethod]
+    public void GetNotificationsTest()
+    {
+        var userId = Guid.NewGuid();
+        var notifications = new List<Notification>
+        {
+            new Notification
+            {
+                Id = Guid.NewGuid(),
+                Event = "Event",
+                UserId = userId,
+                CreatedAt = DateTime.Now,
+                IsRead = false,
+                HardwareId = Guid.NewGuid()
+            }
+        };
+
+        _userRepositoryMock.Setup(x => x.GetNotifications(userId)).Returns(notifications);
+
+        var result = _userLogic.GetNotifications(userId);
+
+        result.Should().BeEquivalentTo(notifications);
+    }
 }
