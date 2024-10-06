@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    partial class HMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241006145005_DeviceHasRepositoryAndTPH")]
+    partial class DeviceHasRepositoryAndTPH
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,15 +130,7 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("HomeOwner")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Latitude")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Longitude")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -159,9 +154,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("DeviceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HardwareId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("HomeId")
@@ -196,39 +188,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("HomeId");
 
                     b.ToTable("MemberSettings");
-                });
-
-            modelBuilder.Entity("Domain.Notification", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Event")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("HardwareId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("HomeDeviceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HomeDeviceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Domain.Permission", b =>
@@ -557,23 +516,6 @@ namespace DataAccess.Migrations
                         .HasForeignKey("HomeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Notification", b =>
-                {
-                    b.HasOne("Domain.HomeDevice", "HomeDevice")
-                        .WithMany()
-                        .HasForeignKey("HomeDeviceId");
-
-                    b.HasOne("Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HomeDevice");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.User", b =>

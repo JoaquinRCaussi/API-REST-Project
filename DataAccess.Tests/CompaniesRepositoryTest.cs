@@ -135,5 +135,4 @@ public class CompaniesRepositoryTest
         result.Should().HaveCount(2);
         result.Should().Contain(anotherCompany);
     }
-
 }

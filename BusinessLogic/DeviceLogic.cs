@@ -31,8 +31,10 @@ public class DeviceLogic : IDeviceLogic
         return _deviceRepository.CreateCamera(camera);
     }
 
-    public List<Device> GetDevices(string? name, string? companyName, string? deviceType)
+
+    public List<Device> GetDevices(string? name, string? model, string? companyName, DeviceType? deviceType)
     {
+        _ = new List<Device>();
         if (name == null)
         {
             name = "";
@@ -41,11 +43,22 @@ public class DeviceLogic : IDeviceLogic
         {
             companyName = "";
         }
+
+        if (model == null)
+        {
+            model = "";
+        }
+
+        List<Device> result;
         if (deviceType == null)
         {
-            deviceType = "";
+            result = _deviceRepository.GetDevicesNoType(name, model, companyName);
         }
-        return _deviceRepository.GetDevices(name, companyName, deviceType);
+        else
+        {
+            result = _deviceRepository.GetDevices(name, model, companyName, (DeviceType)deviceType);
+        }
+        return result;
     }
 
     public List<string> GetDevicesTypes()
