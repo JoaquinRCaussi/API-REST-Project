@@ -218,4 +218,25 @@ public class NotificationRepositoryTest
         repository.CreateNotificationCamera(nonExistentHomeId, homeDevice.HardwareId, sensorRequest);
     }
     
+    [TestMethod]
+    public void CreateNotificationCameraPersonDetected_ShouldAddNotificationsToDatabase()
+    {
+        using var context = CreateInMemoryDbContext("CreateNotificationCameraPersonDetectedAddTest");
+        SeedData(context);
+
+        var repository = new NotificationRepository(context);
+        var home = context.Homes?.First();
+        var homeDevice = context.HomeDevices?.First();
+
+        var sensorRequest = new SensorRequest
+        {
+            Event = "personDetected"
+        };
+        
+        repository.CreateNotificationCamera(home.Id, homeDevice.HardwareId, sensorRequest);
+
+        var notificationsInDb = context.Notifications?.ToList();
+        notificationsInDb.Should().NotBeNull();
+        notificationsInDb.Should().HaveCount(1);
+    }
 }
