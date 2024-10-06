@@ -23,12 +23,16 @@ public class HMDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
+        modelBuilder.Entity<Device>()
+            .HasDiscriminator<DeviceType>("DeviceType")
+            .HasValue<Device>(DeviceType.Sensor)
+            .HasValue<Camera>(DeviceType.Camera);
 
         modelBuilder.Entity<Device>()
             .HasOne(d => d.Company)
             .WithMany()
             .HasForeignKey(d => d.CompanyId);
+
 
         var userId = Guid.Parse("205e7ec9-673c-4db2-911d-10fe2b9c159a");
         var companyId = Guid.Parse("10570280-239e-4fb8-8939-4f37415fccb7");
