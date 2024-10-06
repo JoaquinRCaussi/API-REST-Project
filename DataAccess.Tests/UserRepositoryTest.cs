@@ -442,4 +442,24 @@ public class UserRepositoryTest
         result.Should().HaveCount(2);
         result.Should().ContainEquivalentOf(notification1);
     }
+
+    [TestMethod]
+    public void GetNotifications_WhenUserHasNoNotifications_ReturnsEmptyList()
+    {
+        using HMDbContext? context = CreateInMemoryDbContext("TestGetNotifications_NoNotifications");
+        var repository = new UserRepository(context);
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "Jane",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "securePassword123"
+        };
+
+        var result = repository.GetNotifications(user.Id);
+        
+        result.Should().BeEmpty();
+    }
 }
