@@ -433,17 +433,20 @@ public class HomeControllerTest
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest))
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
             .Returns(notification);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-        
+
+        // Act
         IActionResult act = controller.CreateNotificationOpenSensor(homeId, hardwareId);
-        
+
+        // Assert
         var expected = new OkObjectResult(notification);
         act.Should().BeEquivalentTo(expected);
     }
+
 
 }
