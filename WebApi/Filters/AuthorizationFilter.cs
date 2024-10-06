@@ -83,6 +83,11 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
                     }
                 }
             }
+            //Para el caso de que se quiera verificar si es el dueño de la casa
+            if(permission == "IsOwner")
+            {
+                hasNotPermission = home == null || home.HomeOwner != userLoggedMapped.Id;
+            }
         }
 
         if (hasNotPermission)
@@ -111,10 +116,11 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
 
     private bool UserHasPermission(User? user, string? requiredPermission)
     {
-        if (requiredPermission == null)
+        if (requiredPermission == null || requiredPermission == "IsOwner")
         {
             return true;
         }
+        
         if (user.Role == null || user.Role.PermissionKeys == null)
         {
             return false;
