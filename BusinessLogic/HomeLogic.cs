@@ -50,6 +50,12 @@ public class HomeLogic : IHomeLogic
 
     public Home AddMember(Guid homeId, Guid userId)
     {
+        var home = _homeRepository.GetHome(homeId);
+        var members = _homeRepository.GetHomeMembers(homeId);
+        if (home.MemberCount >= members.Count)
+        {
+            throw new ConflictException("House is full. Member limit has been reached.");
+        }
         return _homeRepository.AddMember(homeId, userId);
     }
 

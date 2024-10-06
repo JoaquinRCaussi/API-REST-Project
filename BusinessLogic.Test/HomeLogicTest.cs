@@ -360,4 +360,41 @@ public class HomeLogicTest
         _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanGetNotifications"), Times.Once);
         _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanListDevices"), Times.Once);
     }
+
+    [TestMethod]
+    public void AddMember_ShouldThrowConflictException_WhenMemberLimitIsReached()
+    {
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@.asdas.com",
+            Password = "password@123"
+        };
+
+        var members = new List<User> { user };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = userId,
+            Members = members,
+            MemberCount = 1
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeMembers(homeId)).Returns(members);
+
+        Action act = () => _homeLogic?.AddMember(homeId, Guid.NewGuid());
+
+        act.Should().Throw<ConflictException>()
+            .WithMessage("House is full. Member limit has been reached.");
+    }
 }
