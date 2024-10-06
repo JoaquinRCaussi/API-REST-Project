@@ -356,7 +356,7 @@ public class UserLogicTest
 
         act.Should().Throw<NotValidDataException>().WithMessage("User data is not valid");
     }
-    
+
     [TestMethod]
     public void GetNotificationsTest()
     {

@@ -20,7 +20,7 @@ public class HomeRepository : IHomeRepository
         var allPermissions = _dbContext.Permissions?.ToList();
 
         home.Owner = user;
-        
+
         _dbContext.MemberSettings?.Add(new MemberSetting
         {
             UserId = user?.Id ?? default,
@@ -135,7 +135,7 @@ public class HomeRepository : IHomeRepository
         {
             return [];
         }
-        
+
         return home.Devices;
     }
 }

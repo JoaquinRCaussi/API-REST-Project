@@ -132,7 +132,7 @@ public class UserRepository : IUserRepository
         _context.SaveChanges();
         return user;
     }
-    
+
     public List<Notification> GetNotifications(Guid userId)
     {
         var notifications = _context.Notifications?
@@ -145,7 +145,7 @@ public class UserRepository : IUserRepository
         {
             return [];
         }
-        
+
         return notifications;
     }
 }

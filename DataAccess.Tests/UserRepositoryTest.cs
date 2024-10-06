@@ -53,7 +53,7 @@ public class UserRepositoryTest
             Email = "mail@mail.com",
             Password = "securePassword123"
         };
-        
+
         User? result = repository.CreateAdmin(expected);
         context.SaveChanges();
 
@@ -349,9 +349,9 @@ public class UserRepositoryTest
 
         context.Users?.Add(existingUser);
         context.SaveChanges();
-        
+
         var result = repository.ExistUser(existingUser.Id);
-        
+
         result.Should().BeTrue();
     }
 
@@ -360,7 +360,7 @@ public class UserRepositoryTest
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestExistUser_NotFound");
         var repository = new UserRepository(context);
-        
+
         var result = repository.ExistUser(Guid.NewGuid());
 
         result.Should().BeFalse();
@@ -386,7 +386,7 @@ public class UserRepositoryTest
 
         var result = repository.DeleteUser(userToDelete.Id);
         var userInDb = context.Users?.FirstOrDefault(u => u.Id == userToDelete.Id);
-        
+
         result.Should().BeEquivalentTo(userToDelete);
         userInDb.Should().BeNull(); // Verifies that the user was deleted
     }
@@ -396,9 +396,9 @@ public class UserRepositoryTest
     {
         using HMDbContext? context = CreateInMemoryDbContext("TestDeleteUser_NotFound");
         var repository = new UserRepository(context);
-        
+
         var result = repository.DeleteUser(Guid.NewGuid());
-        
+
         result.Should().BeNull();
     }
 
@@ -424,7 +424,7 @@ public class UserRepositoryTest
             UserId = user.Id,
             User = user
         };
-        
+
         var notification2 = new Notification
         {
             Id = Guid.NewGuid(),
@@ -432,12 +432,12 @@ public class UserRepositoryTest
             UserId = user.Id,
             User = user
         };
-        
+
         context.Notifications?.AddRange(notification1, notification2);
         context.SaveChanges();
-        
+
         var result = repository.GetNotifications(user.Id);
-        
+
         result.Should().NotBeNullOrEmpty();
         result.Should().HaveCount(2);
         result.Should().ContainEquivalentOf(notification1);
@@ -459,7 +459,7 @@ public class UserRepositoryTest
         };
 
         var result = repository.GetNotifications(user.Id);
-        
+
         result.Should().BeEmpty();
     }
 }

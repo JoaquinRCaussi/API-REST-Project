@@ -79,7 +79,7 @@ public class UserLogic : IUserLogic
     {
         return _userRepository.AuthenticateUser(mail, password);
     }
-    
+
     public List<Notification> GetNotifications(Guid userId)
     {
         return _userRepository.GetNotifications(userId);

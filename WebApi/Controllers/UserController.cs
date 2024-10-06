@@ -42,7 +42,7 @@ public class UserController : ControllerBase
         User user = _userLogic.DeleteUser(userId);
         return Ok(user);
     }
-    
+
     [HttpGet]
     [Route("{userId}/homes")]
     public IActionResult GetUserHomes([FromRoute] Guid userId)
@@ -50,7 +50,7 @@ public class UserController : ControllerBase
         List<Home> homes = _homeLogic.GetHomesByUser(userId);
         return Ok(homes);
     }
-    
+
     [HttpGet]
     [Route("{userId}/notifications")]
     public IActionResult GetUserNotifications([FromRoute] Guid userId)

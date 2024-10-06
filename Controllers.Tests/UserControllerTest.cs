@@ -96,7 +96,7 @@ public class UserControllerTest
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
-        
+
         var expectedUser = new User
         {
             Id = Guid.NewGuid(),
@@ -107,7 +107,7 @@ public class UserControllerTest
         };
 
         userLogicMock.Setup(logic => logic.GetUser(It.IsAny<Guid>())).Returns(expectedUser);
-        homeLogicMock.Setup(logic => logic.GetHomesByUser(It.IsAny<Guid>())).Returns(new List<Home>());
+        homeLogicMock.Setup(logic => logic.GetHomesByUser(It.IsAny<Guid>())).Returns([]);
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
@@ -132,7 +132,7 @@ public class UserControllerTest
         var user = new User { Id = Guid.NewGuid(), Name = "John", LastName = "Doe", Email = "mail@gmail.com" };
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
-        
+
         userLogicMock.Setup(logic => logic.ExistUser(user.Id)).Returns(true);
         userLogicMock.Setup(logic => logic.DeleteUser(user.Id)).Returns(user);
 
@@ -142,13 +142,13 @@ public class UserControllerTest
         var expectedResponse = new OkObjectResult(user);
         result.Should().BeEquivalentTo(expectedResponse);
     }
-    
+
     [TestMethod]
     public void GetUserHomes_WhenAllPropertiesOk()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
-        
+
         var userId = Guid.NewGuid();
         var expectedHomes = new List<Home>
         {
@@ -157,8 +157,8 @@ public class UserControllerTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = userId,
-                Devices = new List<HomeDevice>(),
-                Members = new List<User>(),
+                Devices = [],
+                Members = [],
                 MemberCount = 0,
                 Latitude = "asdasd",
                 Longitude = "123123"
@@ -168,8 +168,8 @@ public class UserControllerTest
                 Id = Guid.NewGuid(),
                 Location = "Home",
                 HomeOwner = userId,
-                Devices = new List<HomeDevice>(),
-                Members = new List<User>(),
+                Devices = [],
+                Members = [],
                 MemberCount = 0,
                 Latitude = "123123",
                 Longitude = "12312"
@@ -196,16 +196,16 @@ public class UserControllerTest
 
         result.Should().BeEquivalentTo(expectedResponse);
     }
-    
+
     [TestMethod]
     public void GetUserHomes_WhenUserIsMemberButNotOwner()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
-        
+
         var userId = Guid.NewGuid();
         var otherOwnerId = Guid.NewGuid();
-        
+
         var expectedHomes = new List<Home>
         {
             new()
@@ -213,11 +213,11 @@ public class UserControllerTest
                 Id = Guid.NewGuid(),
                 Location = "Home 1",
                 HomeOwner = otherOwnerId,
-                Devices = new List<HomeDevice>(),
-                Members = new List<User>
-                {
+                Devices = [],
+                Members =
+                [
                     new User { Id = userId }
-                },
+                ],
                 MemberCount = 1,
                 Latitude = "asdasd",
                 Longitude = "123123"
@@ -227,23 +227,23 @@ public class UserControllerTest
                 Id = Guid.NewGuid(),
                 Location = "Home 2",
                 HomeOwner = otherOwnerId,
-                Devices = new List<HomeDevice>(),
-                Members = new List<User>
-                {
+                Devices = [],
+                Members =
+                [
                     new User { Id = userId }
-                },
+                ],
                 MemberCount = 1,
                 Latitude = "123123",
                 Longitude = "12312"
             }
         };
-        
+
         homeLogicMock.Setup(logic => logic.GetHomesByUser(userId)).Returns(expectedHomes);
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
         IActionResult result = controller.GetUserHomes(userId);
-        
+
         var homeResponses = expectedHomes.Select(h => new HomeResponse
         {
             Location = h.Location,
@@ -255,10 +255,10 @@ public class UserControllerTest
         }).ToList();
 
         var expectedResponse = new OkObjectResult(homeResponses);
-        
+
         result.Should().BeEquivalentTo(expectedResponse);
     }
-    
+
     [TestMethod]
     public void GetUserNotifications_WhenNotificationsExist()
     {
@@ -267,25 +267,25 @@ public class UserControllerTest
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 
         var userId = Guid.NewGuid();
-        
+
         var expectedNotifications = new List<Notification>
         {
             new Notification { Id = Guid.NewGuid(), Event = "Notification 1", UserId = userId, CreatedAt = DateTime.UtcNow },
             new Notification { Id = Guid.NewGuid(), Event = "Notification 2", UserId = userId, CreatedAt = DateTime.UtcNow }
         };
-        
+
         userLogicMock.Setup(logic => logic.GetNotifications(userId)).Returns(expectedNotifications);
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
-        
+
         IActionResult result = controller.GetUserNotifications(userId);
 
         var expectedResponse = new OkObjectResult(expectedNotifications);
         result.Should().BeEquivalentTo(expectedResponse);
-        
+
         userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
     }
-    
+
     [TestMethod]
     public void GetUserNotifications_WhenNotificationsDoNotExist()
     {
@@ -293,16 +293,16 @@ public class UserControllerTest
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 
         var userId = Guid.NewGuid();
-        
-        userLogicMock.Setup(logic => logic.GetNotifications(userId)).Returns(new List<Notification>());
+
+        userLogicMock.Setup(logic => logic.GetNotifications(userId)).Returns([]);
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
-        
+
         IActionResult result = controller.GetUserNotifications(userId);
 
         var expectedResponse = new OkObjectResult(new List<Notification>());
         result.Should().BeEquivalentTo(expectedResponse);
-        
+
         userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
     }
 

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain;
 using FluentAssertions;
 using IDataAccess;
@@ -6,6 +7,7 @@ using Moq;
 namespace BusinessLogic.Test;
 
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class DevicesLogicTest
 {
     private Mock<IDeviceRepository>? _deviceRepository;

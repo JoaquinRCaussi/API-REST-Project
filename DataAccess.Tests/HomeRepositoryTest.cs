@@ -375,7 +375,7 @@ public class HomeRepositoryTest
         resultForEmptyMembers.Should().NotBeNull();
         resultForEmptyMembers.Should().BeEmpty();
     }
-    
+
     [TestMethod]
     public void GetHomeDevices_ShouldReturnEmptyList_WhenHomeDoesNotExist()
     {
@@ -383,9 +383,9 @@ public class HomeRepositoryTest
         var repository = new HomeRepository(context);
 
         var nonExistentHomeId = Guid.NewGuid();
-        
+
         var result = repository.GetHomeDevices(nonExistentHomeId);
-        
+
         result.Should().NotBeNull();
         result.Should().BeEmpty();
     }
@@ -407,7 +407,7 @@ public class HomeRepositoryTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
-        
+
         var _company = new Company()
         {
             Id = Guid.NewGuid(),
@@ -442,7 +442,7 @@ public class HomeRepositoryTest
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
-            Devices = new List<HomeDevice> { homeDevice }
+            Devices = [homeDevice]
         };
 
         context.Homes?.Add(home);
@@ -457,7 +457,7 @@ public class HomeRepositoryTest
         result[0].DeviceId.Should().Be(deviceId);
         result[0].Device.Should().Be(device);
     }
-    
+
     [TestMethod]
     public void AddDevice_ShouldReturnDefaultHomeDevice_WhenHomeOrDeviceDoesNotExist()
     {
@@ -466,9 +466,9 @@ public class HomeRepositoryTest
 
         var nonExistentHomeId = Guid.NewGuid();
         var nonExistentDeviceId = Guid.NewGuid();
-        
+
         var result = repository.AddDevice(nonExistentHomeId, nonExistentDeviceId);
-        
+
         result.Should().NotBeNull();
         result.DeviceId.Should().Be(default(Guid));
         result.Device.Should().BeNull();
@@ -491,7 +491,7 @@ public class HomeRepositoryTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -500,7 +500,7 @@ public class HomeRepositoryTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            Devices = new List<HomeDevice>()
+            Devices = []
         };
 
         var _company = new Company()
@@ -510,7 +510,7 @@ public class HomeRepositoryTest
             RUT = "2312311",
             Owner = user
         };
-        
+
         var device = new Device
         {
             Id = deviceId,
@@ -525,9 +525,9 @@ public class HomeRepositoryTest
         context.Homes?.Add(home);
         context.Devices?.Add(device);
         context.SaveChanges();
-        
+
         var result = repository.AddDevice(homeId, deviceId);
-        
+
         result.Should().NotBeNull();
         result.DeviceId.Should().Be(deviceId);
         result.Device.Should().Be(device);
