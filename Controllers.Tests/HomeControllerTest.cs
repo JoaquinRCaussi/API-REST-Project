@@ -409,7 +409,41 @@ public class HomeControllerTest
 
         homeLogic.Verify(x => x.GetHomeDevices(homeId), Times.Once);
     }
+    
+    [TestMethod]
+    public void CreateNotificationOpenSensor_WhenAllPropertiesOk()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest
+        {
+            Event = "open"
+        };
+    
+        var notification = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "Sensor opened",
+            CreatedAt = DateTime.UtcNow,
+            IsRead = false,
+            HardwareId = hardwareId,
+            UserId = Guid.NewGuid()
+            
+        };
 
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest))
+            .Returns(notification);
 
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        
+        IActionResult act = controller.CreateNotificationOpenSensor(homeId, hardwareId);
+        
+        var expected = new OkObjectResult(notification);
+        act.Should().BeEquivalentTo(expected);
+    }
 
 }

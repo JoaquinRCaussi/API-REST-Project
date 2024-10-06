@@ -76,8 +76,7 @@ public class HomeController : ControllerBase
 
         return Ok(response);
     }
-
-    //Members porque cuando haga {homeid}/members traigo los usuarios, selecciono uno de ahi y le cambio los permisos en {homeid}/members/{userid}
+    
     [HttpPut]
     [Route("{homeId}/members/{userId}")]
     public IActionResult UpdatePermissions(Guid homeId, Guid userId, [FromBody] PermissionRequest permissions)
@@ -102,5 +101,17 @@ public class HomeController : ControllerBase
     {
         var devices = _homeLogic.GetHomeDevices(homeId);
         return Ok(devices);
+    }
+    
+    //Justificacion en documentacion de por que esta en home controller
+    [HttpPost]
+    [Route("{homeId}/sensor/{hardwareId}/open")]
+    public IActionResult CreateNotificationOpenSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "open";
+        sensorRequest.Event = sensorEvent;
+        var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        return Ok(notification);
     }
 }

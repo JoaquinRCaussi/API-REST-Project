@@ -14,6 +14,7 @@ public class HomeLogicTest
 {
     private Mock<IHomeRepository>? _homeRepositoryMock;
     private Mock<IMemberSettingRepository>? _memberSettingRepositoryMock;
+    private Mock<INotificationRepository>? _notificationRepositoryMock;
     private IHomeLogic? _homeLogic;
     private Company? _company;
 
@@ -37,7 +38,8 @@ public class HomeLogicTest
         };
         _homeRepositoryMock = new Mock<IHomeRepository>();
         _memberSettingRepositoryMock = new Mock<IMemberSettingRepository>();
-        _homeLogic = new HomeLogic(_homeRepositoryMock.Object, _memberSettingRepositoryMock.Object);
+        _notificationRepositoryMock = new Mock<INotificationRepository>();
+        _homeLogic = new HomeLogic(_homeRepositoryMock.Object, _memberSettingRepositoryMock.Object, _notificationRepositoryMock.Object);
     }
 
     [TestMethod]

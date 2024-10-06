@@ -9,13 +9,14 @@ public class HomeLogic : IHomeLogic
 {
     private readonly IHomeRepository _homeRepository;
     private readonly IMemberSettingRepository _memberSettingRepository;
+    private readonly INotificationRepository _notificationRepository;
 
-    public HomeLogic(IHomeRepository homeRepository, IMemberSettingRepository memberSettingRepository)
+    public HomeLogic(IHomeRepository homeRepository, IMemberSettingRepository memberSettingRepository, INotificationRepository notificationRepository)
     {
         _homeRepository = homeRepository;
         _memberSettingRepository = memberSettingRepository;
+        _notificationRepository = notificationRepository;
     }
-
     public Home CreateHome(Home home)
     {
         return _homeRepository.CreateHome(home);
@@ -85,6 +86,11 @@ public class HomeLogic : IHomeLogic
     public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
         return _homeRepository.GetHomeDevices(homeId);
+    }
+    
+    public Notification CreateNotificationSensor(Guid homeId, Guid hardwareId,SensorRequest sensor)
+    {
+        return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, sensor);
     }
 
 }
