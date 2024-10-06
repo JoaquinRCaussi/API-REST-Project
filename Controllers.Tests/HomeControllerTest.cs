@@ -322,7 +322,7 @@ public class HomeControllerTest
             Photo = "photo1.jpg"
         };
 
-        var homeDevice = new HomeDevice { DeviceId = deviceId, Device = device, state = false };
+        var homeDevice = new HomeDevice { HardwareId = Guid.NewGuid(), DeviceId = deviceId, Device = device, state = false };
 
         var homeDevices = new List<HomeDevice> { homeDevice };
 
@@ -336,22 +336,25 @@ public class HomeControllerTest
         };
 
         var homeDeviceRequest = new HomeDeviceRequest { DeviceId = deviceId };
+        
+        var homeDeviceResponse = new HomeDeviceResponse
+        {
+            HardwareId = homeDevice.HardwareId,
+            Device = device,
+        };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.AddDevice(homeId, deviceId)).Returns(home);
+        homeLogic.Setup(x => x.AddDevice(homeId, deviceId)).Returns(homeDevice);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
         IActionResult act = controller.AddDeviceToHome(homeId, homeDeviceRequest);
-
-        var okResult = act as OkObjectResult;
-        Assert.IsNotNull(okResult, "Expected OkObjectResult");
-
-        okResult.Value.Should().BeEquivalentTo(home, options => options.WithStrictOrdering());
-
-        homeLogic.Verify(x => x.AddDevice(homeId, deviceId), Times.Once);
+        
+        var expected = new OkObjectResult(homeDeviceResponse);
+        
+        act.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]

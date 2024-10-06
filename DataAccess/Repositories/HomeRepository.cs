@@ -93,7 +93,7 @@ public class HomeRepository : IHomeRepository
         return home;
     }
 
-    public Home AddDevice(Guid homeId, Guid deviceId)
+    public HomeDevice AddDevice(Guid homeId, Guid deviceId)
     {
 
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
@@ -103,10 +103,6 @@ public class HomeRepository : IHomeRepository
         {
             return new()
             {
-                Location = null,
-                MemberCount = 0,
-                Devices = null,
-                HomeOwner = default
             };
         }
         var homeDevice = new HomeDevice
@@ -118,7 +114,7 @@ public class HomeRepository : IHomeRepository
         _dbContext.HomeDevices?.Add(homeDevice);
         home.Devices?.Add(homeDevice);
         _dbContext.SaveChanges();
-        return home;
+        return homeDevice;
     }
 
     public List<HomeDevice> GetHomeDevices(Guid homeId)

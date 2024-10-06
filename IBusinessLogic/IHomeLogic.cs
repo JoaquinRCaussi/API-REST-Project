@@ -19,7 +19,7 @@ public interface IHomeLogic
 
     Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions);
 
-    Home AddDevice(Guid homeId, Guid deviceId);
+    HomeDevice AddDevice(Guid homeId, Guid deviceId);
 
     List<HomeDevice> GetHomeDevices(Guid homeId);
     

@@ -90,7 +90,8 @@ public class HomeController : ControllerBase
     [Route("{homeId}/devices")]
     public IActionResult AddDeviceToHome(Guid homeId, [FromBody] HomeDeviceRequest deviceRequest)
     {
-        var deviceId = deviceRequest.DeviceId.Value;
+        var homeDeviceResponse = new HomeDeviceResponse();
+        var deviceId = deviceRequest.DeviceId.Value; ;
         var home = _homeLogic.AddDevice(homeId, deviceId);
         return Ok(home);
     }
