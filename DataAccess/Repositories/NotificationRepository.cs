@@ -26,7 +26,7 @@ public class NotificationRepository : INotificationRepository
             .Include(h => h.Members)
             .FirstOrDefault(x => x.Id == homeId);
 
-        var homeDevice = home?.Devices?.FirstOrDefault(x => x.Id == hardwareId);
+        var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
         
         if (home == null || homeDevice == null)
         {

@@ -94,14 +94,14 @@ public class NotificationRepositoryTest
             Event = "open"
         };
         
-        var notification = repository.CreateNotificationSensor(home.Id, homeDevice.Id, sensorRequest);
+        var notification = repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorRequest);
         
-        var notifications = context.Notifications?.Where(n => n.HardwareId == homeDevice.Id).ToList();
+        var notifications = context.Notifications?.Where(n => n.HardwareId == homeDevice.HardwareId).ToList();
 
         notifications.Should().NotBeNull();
         notifications.Should().HaveCount(home.Members.Count);
         notifications.Should().OnlyContain(n => n.Event == "open");
-        notifications.Should().OnlyContain(n => n.HardwareId == homeDevice.Id);
+        notifications.Should().OnlyContain(n => n.HardwareId == homeDevice.HardwareId);
         notifications.Should().OnlyContain(n => !n.IsRead);
     }
     
