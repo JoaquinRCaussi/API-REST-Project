@@ -21,27 +21,42 @@ public class UserLogic : IUserLogic
 
     public User CreateAdmin(User user)
     {
+        user.CreatedAt = DateTime.Now;
         if (!IsCorrectUserFormat(user))
         {
             throw new NotValidDataException("User data is not valid");
+        }
+        if(_userRepository.FindByMail(user.Email) != null)
+        {
+            throw new ConflictException("User with this email already exists");
         }
         return _userRepository.CreateAdmin(user);
     }
 
     public User CreateCompanyOwner(User user)
     {
+        user.CreatedAt = DateTime.Now;
         if (!IsCorrectUserFormat(user))
         {
             throw new NotValidDataException("User data is not valid");
+        }
+        if(_userRepository.FindByMail(user.Email) != null)
+        {
+            throw new ConflictException("User with this email already exists");
         }
         return _userRepository.CreateCompanyOwner(user);
     }
 
     public User CreateHomeOwner(User user)
     {
+        user.CreatedAt = DateTime.Now;
         if (!IsCorrectUserFormat(user))
         {
             throw new NotValidDataException("User data is not valid");
+        }
+        if(_userRepository.FindByMail(user.Email) != null)
+        {
+            throw new ConflictException("User with this email already exists");
         }
         return _userRepository.CreateHomeOwner(user);
     }

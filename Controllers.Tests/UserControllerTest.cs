@@ -83,7 +83,9 @@ public class UserControllerTest
         {
             Email = u.Email,
             Name = u.Name,
-            LastName = u.LastName
+            LastName = u.LastName,
+            CreatedAt = DateTime.Now,
+            Role = u.Role
         }).ToList();
 
         var expectedResponse = new OkObjectResult(userResponses);
@@ -117,7 +119,9 @@ public class UserControllerTest
         {
             Email = expectedUser.Email,
             Name = expectedUser.Name,
-            LastName = expectedUser.LastName
+            LastName = expectedUser.LastName,
+            Role = expectedUser.Role,
+            CreatedAt = DateTime.Now
         };
 
         var expectedResponse = new OkObjectResult(userResponse);

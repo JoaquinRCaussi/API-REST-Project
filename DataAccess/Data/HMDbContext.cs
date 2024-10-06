@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DataAccess.Data;
 
@@ -165,5 +166,6 @@ public class HMDbContext : DbContext
                 "Server=localhost,1433;Database=API;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
                 );
         }
+        optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
     }
 }

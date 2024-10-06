@@ -65,12 +65,18 @@ public class UserRepository : IUserRepository
 
     public List<User> GetUsers()
     {
-        return _context.Set<User>().ToList();
+        return _context.Set<User>()
+            .Include(u => u.Role)
+            .Include(u => u.Company)
+            .ToList();
     }
 
     public User GetUser(Guid userId)
     {
-        User? user = _context.Users?.FirstOrDefault(u => u.Id == userId);
+        User? user = _context.Users?
+            .Include(u => u.Role)
+            .Include(u => u.Company)
+            .FirstOrDefault(u => u.Id == userId);
 
         if (user == null)
         {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    [Migration("20241006032909_NotificationsFirstMigration")]
-    partial class NotificationsFirstMigration
+    [Migration("20241006230610_ChangesOnUser234")]
+    partial class ChangesOnUser234
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,10 @@ namespace DataAccess.Migrations
 
                     b.ToTable("Devices");
 
+                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
+
+                    b.UseTphMappingStrategy();
+
                     b.HasData(
                         new
                         {
@@ -126,7 +130,15 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("HomeOwner")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Latitude")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Longitude")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -341,6 +353,9 @@ namespace DataAccess.Migrations
                     b.Property<Guid?>("CompanyID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -380,6 +395,7 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
                             CompanyID = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 6, 9, 711, DateTimeKind.Local).AddTicks(4088),
                             Email = "anothercompanyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "anotherCompanyOwner",
@@ -390,6 +406,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 6, 9, 721, DateTimeKind.Local).AddTicks(8974),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -400,6 +417,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 6, 9, 721, DateTimeKind.Local).AddTicks(9163),
                             Email = "homeowner1@gmail.com",
                             ImagePath = "",
                             LastName = "HomeOwner",
@@ -410,6 +428,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 6, 9, 721, DateTimeKind.Local).AddTicks(9182),
                             Email = "companyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "CompanyOwner",
@@ -474,6 +493,25 @@ namespace DataAccess.Migrations
                             PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         });
+                });
+
+            modelBuilder.Entity("Domain.Camera", b =>
+                {
+                    b.HasBaseType("Domain.Device");
+
+                    b.Property<bool>("Indoors")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Outdoors")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SupportMovementDetection")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SupportPersonDetection")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("Domain.Company", b =>

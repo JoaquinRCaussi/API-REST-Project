@@ -1,6 +1,7 @@
 using Domain;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using WebApi.Filters;
 
 namespace WebApi.Controllers;
@@ -24,7 +25,17 @@ public class UserController : ControllerBase
     public IActionResult GetUsers()
     {
         List<User> users = _userLogic.GetUsers();
-        return Ok(users);
+        
+        List<GetUserResponse> response = users.Select(x => new GetUserResponse
+        {
+            Name = x.Name,
+            LastName = x.LastName,
+            CreatedAt = x.CreatedAt,
+            Email = x.Email,
+            Role = x.Role
+        }).ToList();
+        
+        return Ok(response);
     }
 
     [HttpGet]
@@ -32,7 +43,15 @@ public class UserController : ControllerBase
     public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
-        return Ok(user);
+        GetUserResponse response = new GetUserResponse
+        {
+            Name = user.Name,
+            LastName = user.LastName,
+            CreatedAt = user.CreatedAt,
+            Email = user.Email,
+            Role = user.Role
+        };
+        return Ok(response);
     }
 
     [HttpDelete]
@@ -40,7 +59,17 @@ public class UserController : ControllerBase
     public IActionResult DeleteUser([FromRoute] Guid userId)
     {
         User user = _userLogic.DeleteUser(userId);
-        return Ok(user);
+        
+        GetUserResponse response = new GetUserResponse
+        {
+            Name = user.Name,
+            LastName = user.LastName,
+            CreatedAt = user.CreatedAt,
+            Email = user.Email,
+            Role = user.Role
+        };
+        
+        return Ok(response);
     }
 
     [HttpGet]
