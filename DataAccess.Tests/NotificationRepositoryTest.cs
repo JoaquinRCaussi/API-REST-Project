@@ -54,20 +54,23 @@ public class NotificationRepositoryTest
             Photo = "photo_url"
         };
 
+        var homeDevice = new HomeDevice
+        {
+            Id = Guid.NewGuid(),
+            DeviceId = device.Id
+        };
+
+        
         var home = new Home
         {
             Id = Guid.NewGuid(),
             HomeOwner = user1.Id,
             Location = "Home Location",
             MemberCount = 2,
+            Devices = new List<HomeDevice> { homeDevice },
             Members = new List<User> { user1, user2 }
         };
 
-        var homeDevice = new HomeDevice
-        {
-            Id = Guid.NewGuid(),
-            DeviceId = device.Id
-        };
 
         context.Users?.AddRange(user1, user2);
         context.Devices?.Add(device);

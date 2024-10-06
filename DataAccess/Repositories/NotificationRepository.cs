@@ -21,8 +21,12 @@ public class NotificationRepository : INotificationRepository
     {
         //Create one notification for each member of the home
         var listOfNotifications = new List<Notification>();
-        var home = _context.Homes?.Find(homeId);
-        var homeDevice = _context.HomeDevices?.Find(hardwareId);
+        var home = _context.Homes?
+            .Include(h => h.Devices)
+            .Include(h => h.Members)
+            .FirstOrDefault(x => x.Id == homeId);
+
+        var homeDevice = home?.Devices?.FirstOrDefault(x => x.Id == hardwareId);
         
         if (home == null || homeDevice == null)
         {
@@ -39,6 +43,7 @@ public class NotificationRepository : INotificationRepository
                 Event = sensor.Event,
                 CreatedAt = DateTime.Now,
                 HardwareId = hardwareId,
+                HomeDevice = homeDevice,
                 User = member,
                 IsRead = false
             };
@@ -46,7 +51,7 @@ public class NotificationRepository : INotificationRepository
             listOfNotifications.Add(notification);
             _context.Notifications?.Add(notification);
         }
-        
+        _context.SaveChanges();
         return (listOfNotifications.IsNullOrEmpty() ? null : listOfNotifications.FirstOrDefault()) ?? throw new InvalidOperationException();
     }
     
