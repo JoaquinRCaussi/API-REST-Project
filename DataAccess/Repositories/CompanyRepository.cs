@@ -19,7 +19,7 @@ public class CompanyRepository : ICompanyRepository
 
         if (owner == null)
         {
-            throw new Exception("Owner not found");
+            throw new EntityNotFoundException("Owner not found");
         }
 
         company.Owner = owner;

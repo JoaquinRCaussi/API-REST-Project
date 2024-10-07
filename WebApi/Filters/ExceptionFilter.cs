@@ -1,5 +1,6 @@
 using System.Net;
 using BusinessLogic;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -10,7 +11,8 @@ public class ExceptionFilter : IExceptionFilter
     private readonly Dictionary<Type, HttpStatusCode> _errorStatusCodes = new Dictionary<Type, HttpStatusCode>
     {
         { typeof(ConflictException), HttpStatusCode.Conflict },
-        { typeof(NotValidDataException), HttpStatusCode.BadRequest }
+        { typeof(NotValidDataException), HttpStatusCode.BadRequest },
+        {typeof(EntityNotFoundException), HttpStatusCode.BadRequest}
     };
     public void OnException(ExceptionContext? context)
     {

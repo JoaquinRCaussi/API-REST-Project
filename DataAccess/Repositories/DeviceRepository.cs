@@ -36,7 +36,7 @@ public class DeviceRepository : IDeviceRepository
 
         if (company == null)
         {
-            throw new Exception("The Company does not exist");
+            throw new EntityNotFoundException("The Company does not exist");
         }
 
         camera.Company = company;
