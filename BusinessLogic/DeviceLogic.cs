@@ -17,26 +17,26 @@ public class DeviceLogic : IDeviceLogic
     }
     public Device CreateDevice(Device device)
     {
-        if (device.Company == null)     
+        if (device.Company == null)
         {
             throw new NotValidDataException("The User must have a Company registered");
         }
-        
+
         if (_deviceRepository.ExistsDevice(device.Name, device.Company.Id))
         {
             throw new ConflictException("The Device already exists");
         }
-        
-        if(!_companyRepository.ExistsCompany(device.Company.Id))
+
+        if (!_companyRepository.ExistsCompany(device.Company.Id))
         {
             throw new NotValidDataException("The Company does not exist");
         }
-        
+
         return _deviceRepository.CreateDevice(device);
     }
     public Camera CreateCamera(Camera camera)
     {
-        if (camera.Company == null)     
+        if (camera.Company == null)
         {
             throw new NotValidDataException("The User must have a Company registered");
         }

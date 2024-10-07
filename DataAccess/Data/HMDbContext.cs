@@ -78,7 +78,7 @@ public class HMDbContext : DbContext
         modelBuilder.Entity<User>().HasOne(u => u.Company)
             .WithOne(c => c.Owner)
             .HasForeignKey<Company>(c => c.OwnerId);
-        
+
         modelBuilder.Entity<Device>()
             .HasOne(d => d.Company)
             .WithMany()

@@ -16,7 +16,7 @@ public class DevicesController : ControllerBase
     public DevicesController(IDeviceLogic deviceLogic)
     {
         _deviceLogic = deviceLogic;
-        
+
     }
 
 

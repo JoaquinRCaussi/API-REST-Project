@@ -11,5 +11,4 @@ public class Company
     public Guid OwnerId { get; set; }
     [JsonIgnore]
     public User? Owner { get; set; }
-
 }

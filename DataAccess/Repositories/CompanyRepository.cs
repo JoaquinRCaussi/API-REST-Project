@@ -42,7 +42,7 @@ public class CompanyRepository : ICompanyRepository
 
         return filteredCompanies;
     }
-    
+
     public bool ExistsCompany(Guid companyId)
     {
         return _dbContext.Companies?.Any(x => x.Id == companyId) ?? false;
