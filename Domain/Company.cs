@@ -11,6 +11,5 @@ public class Company
     public Guid OwnerId { get; set; }
     [JsonIgnore]
     public User? Owner { get; set; }
-    public virtual List<Device>? Devices { get; set; } = [];
 
 }
