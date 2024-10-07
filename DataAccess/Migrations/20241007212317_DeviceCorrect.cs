@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class DeviceCorrect : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -302,9 +302,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "CompanyID", "CreatedAt", "Email", "HomeId", "ImagePath", "LastName", "Name", "Password", "RoleID" },
                 values: new object[,]
                 {
-                    { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, new DateTime(2024, 10, 7, 17, 28, 55, 939, DateTimeKind.Local).AddTicks(1269), "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), null, new DateTime(2024, 10, 7, 17, 28, 55, 940, DateTimeKind.Local).AddTicks(1867), "companyowner1@gmail.com", null, "", "CompanyOwner", "CompanyOwner", "companyowner@1", new Guid("78947c68-f0aa-49d3-8f47-444444444444") },
-                    { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), null, new DateTime(2024, 10, 7, 17, 28, 55, 940, DateTimeKind.Local).AddTicks(1842), "homeowner1@gmail.com", null, "", "HomeOwner", "HomeOwner", "homeowner@1", new Guid("6d72b33a-582b-411e-a9b1-333333333333") }
+                    { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, new DateTime(2024, 10, 7, 18, 23, 17, 188, DateTimeKind.Local).AddTicks(5290), "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
+                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), null, new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3730), "companyowner1@gmail.com", null, "", "CompanyOwner", "CompanyOwner", "companyowner@1", new Guid("78947c68-f0aa-49d3-8f47-444444444444") },
+                    { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), null, new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3700), "homeowner1@gmail.com", null, "", "HomeOwner", "HomeOwner", "homeowner@1", new Guid("6d72b33a-582b-411e-a9b1-333333333333") }
                 });
 
             migrationBuilder.CreateIndex(

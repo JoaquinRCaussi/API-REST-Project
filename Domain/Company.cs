@@ -12,5 +12,4 @@ public class Company
     [JsonIgnore]
     public User? Owner { get; set; }
     public virtual List<Device>? Devices { get; set; } = [];
-
 }

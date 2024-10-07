@@ -32,6 +32,14 @@ public class DeviceRepository : IDeviceRepository
 
     public Camera CreateCamera(Camera camera)
     {
+        var company = _dbContext.Companies?.FirstOrDefault(x => x.Id == camera.CompanyId);
+        
+        if (company == null)
+        {
+            throw new Exception("The Company does not exist");
+        }
+        
+        camera.Company = company;
         _dbContext.Devices?.Add(camera);
         _dbContext.SaveChanges();
         return camera;

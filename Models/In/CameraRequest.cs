@@ -14,6 +14,7 @@ public class CameraRequest : DeviceRequest
         return new Camera
         {
             Company = company,
+            CompanyId = company.Id,
             Name = Name,
             Model = Model,
             DeviceType = DeviceType.Camera,

@@ -360,7 +360,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 10, 7, 17, 28, 55, 939, DateTimeKind.Local).AddTicks(1269),
+                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 188, DateTimeKind.Local).AddTicks(5290),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -371,7 +371,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                            CreatedAt = new DateTime(2024, 10, 7, 17, 28, 55, 940, DateTimeKind.Local).AddTicks(1842),
+                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3700),
                             Email = "homeowner1@gmail.com",
                             ImagePath = "",
                             LastName = "HomeOwner",
@@ -382,7 +382,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                            CreatedAt = new DateTime(2024, 10, 7, 17, 28, 55, 940, DateTimeKind.Local).AddTicks(1867),
+                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3730),
                             Email = "companyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "CompanyOwner",
