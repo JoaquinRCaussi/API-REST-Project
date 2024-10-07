@@ -95,6 +95,11 @@ public class UserLogic : IUserLogic
         return _userRepository.GetNotifications(userId);
     }
 
+    public List<User> GetUsersFiltered(string? role, string? fullName)
+    {
+        return _userRepository.GetUsersFiltered(role, fullName);
+    }
+
     private bool IsCorrectUserFormat(User user)
     {
         if (!IsCorrectEmail(user.Email))

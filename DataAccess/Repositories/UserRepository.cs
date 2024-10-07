@@ -89,6 +89,7 @@ public class UserRepository : IUserRepository
     public User FindByMail(string mail)
     {
         User? user = _context.Users?
+            .Include(u => u.Company)
             .Include(u => u.Role)
             .ThenInclude(r => r.PermissionKeys)
             .FirstOrDefault(u => u.Email == mail);
@@ -153,5 +154,21 @@ public class UserRepository : IUserRepository
         }
 
         return notifications;
+    }
+
+    public List<User> GetUsersFiltered(string? role, string? fullName)
+    {
+        var users = _context.Users?
+            .Include(u => u.Role)
+            .Include(u => u.Company)
+            .Where(u => (role == null || u.Role.Name == role) && (fullName == null || u.Name.Contains(fullName) || u.LastName.Contains(fullName)))
+            .ToList();
+
+        if (users == null || users.Count == 0)
+        {
+            return [];
+        }
+
+        return users;
     }
 }

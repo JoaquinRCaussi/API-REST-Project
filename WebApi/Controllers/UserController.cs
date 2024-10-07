@@ -22,9 +22,10 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetUsers()
+    [AuthorizationFilter("CanManageUsers")]
+    public IActionResult GetUsers([FromQuery] string? role, [FromQuery] string? fullName)
     {
-        List<User> users = _userLogic.GetUsers();
+        List<User> users = _userLogic.GetUsersFiltered(role, fullName);
 
         var response = users.Select(x => new GetUserResponse
         {
@@ -38,8 +39,10 @@ public class UserController : ControllerBase
         return Ok(response);
     }
 
+
     [HttpGet]
     [Route("{userId}")]
+    [AuthorizationFilter("CanManageUsers")]
     public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
@@ -56,6 +59,7 @@ public class UserController : ControllerBase
 
     [HttpDelete]
     [Route("{userId}")]
+    [AuthorizationFilter("CanManageUsers")]
     public IActionResult DeleteUser([FromRoute] Guid userId)
     {
         User user = _userLogic.DeleteUser(userId);

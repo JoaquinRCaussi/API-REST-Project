@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Domain;
 
 public class Company
@@ -6,8 +8,8 @@ public class Company
     public string Name { get; set; } = string.Empty;
     public string RUT { get; set; } = string.Empty;
     public string Logo { get; set; } = string.Empty;
-    public User? Owner { get; set; }
     public Guid OwnerId { get; set; }
-
+    [JsonIgnore]
+    public User? Owner { get; set; }
 
 }

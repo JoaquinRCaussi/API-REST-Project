@@ -28,6 +28,13 @@ public class CompanyLogic : ICompanyLogic
         {
             throw new NotValidDataException("The name and RUT are required");
         }
+
+        var companies = _companyRepository.GetCompanies(companyToCreate.Name, companyToCreate.Owner.Name);
+        if (companies.Count > 0)
+        {
+            throw new ConflictException("The company already exists");
+        }
+
         return _companyRepository.CreateCompany(companyToCreate);
     }
 

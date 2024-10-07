@@ -25,4 +25,6 @@ public interface IUserRepository
     public User DeleteUser(Guid userId);
 
     public List<Notification> GetNotifications(Guid userId);
+
+    public List<User> GetUsersFiltered(string? role, string? fullName);
 }

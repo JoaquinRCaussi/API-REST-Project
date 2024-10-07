@@ -14,7 +14,6 @@ public class CompanyLogicTest
     [TestMethod]
     public void CreateCompanyTest_WhenAllPropertiesOk()
     {
-
         // Arrange
         var user = new User
         {
@@ -38,14 +37,17 @@ public class CompanyLogicTest
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
         userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
+
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
 
-        // Act
+        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>())).Returns([]);
+
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
         var result = companyLogic.CreateCompany(company);
 
         result.Should().BeEquivalentTo(company);
     }
+
 
 
     [TestMethod]
