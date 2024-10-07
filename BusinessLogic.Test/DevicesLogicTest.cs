@@ -243,4 +243,71 @@ public class DevicesLogicTest
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo(deviceTypes);
     }
+
+    [TestMethod]
+    public void GetDevicesTest_WhenAllParametersAreNull()
+    {
+        // Arrange
+        var devices = new List<Device>
+    {
+        new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company },
+        new Device { Id = Guid.NewGuid(), Name = "Device2", Model = "Model2", DeviceType = DeviceType.Camera, Company = _company }
+    };
+
+        _deviceRepository.Setup(x => x.GetDevicesNoType("", "", "")).Returns(devices);
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+
+        // Act
+        var result = deviceLogic.GetDevices(null, null, null, null);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().BeEquivalentTo(devices);
+    }
+
+    [TestMethod]
+    public void GetDevicesTest_WhenOnlyDeviceTypeIsProvided()
+    {
+        // Arrange
+        var devices = new List<Device>
+    {
+        new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company }
+    };
+
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns(devices);
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+
+        // Act
+        var result = deviceLogic.GetDevices(null, null, null, DeviceType.Camera);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+        result.Should().BeEquivalentTo(devices);
+    }
+
+    [TestMethod]
+    public void GetDevicesTest_WhenFilterByModelAndCompanyName()
+    {
+        // Arrange
+        var devices = new List<Device>
+    {
+        new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company }
+    };
+
+        _deviceRepository.Setup(x => x.GetDevices("", "Model1", "Company", It.IsAny<DeviceType>())).Returns(devices);
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object);
+
+        // Act
+        var result = deviceLogic.GetDevices(null, "Model1", "Company", DeviceType.Camera);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+        result.Should().BeEquivalentTo(devices);
+    }
 }
