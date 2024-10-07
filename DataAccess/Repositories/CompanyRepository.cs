@@ -23,6 +23,7 @@ public class CompanyRepository : ICompanyRepository
         }
 
         company.Owner = owner;
+        owner.CompanyID = company.Id;
         _dbContext.Companies?.Add(company);
         _dbContext.SaveChanges();
         return company;

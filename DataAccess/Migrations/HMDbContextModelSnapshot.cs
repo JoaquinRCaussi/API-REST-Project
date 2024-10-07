@@ -299,12 +299,12 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                            Id = new Guid("8aed0b92-ab5b-47f3-af36-220ab60b66e4"),
                             Value = "CanCreateCompany"
                         },
                         new
                         {
-                            Id = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
+                            Id = new Guid("265ab018-9afa-4f99-acaa-7d9082bfe5ad"),
                             Value = "CanCreateADevice"
                         },
                         new
@@ -397,7 +397,7 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
                             CompanyID = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 561, DateTimeKind.Local).AddTicks(7689),
+                            CreatedAt = new DateTime(2024, 10, 7, 15, 35, 19, 397, DateTimeKind.Local).AddTicks(7850),
                             Email = "anothercompanyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "anotherCompanyOwner",
@@ -408,7 +408,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 574, DateTimeKind.Local).AddTicks(415),
+                            CreatedAt = new DateTime(2024, 10, 7, 15, 35, 19, 437, DateTimeKind.Local).AddTicks(4270),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -419,7 +419,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 574, DateTimeKind.Local).AddTicks(1028),
+                            CreatedAt = new DateTime(2024, 10, 7, 15, 35, 19, 437, DateTimeKind.Local).AddTicks(4410),
                             Email = "homeowner1@gmail.com",
                             ImagePath = "",
                             LastName = "HomeOwner",
@@ -430,7 +430,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 574, DateTimeKind.Local).AddTicks(1052),
+                            CreatedAt = new DateTime(2024, 10, 7, 15, 35, 19, 437, DateTimeKind.Local).AddTicks(4430),
                             Email = "companyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "CompanyOwner",
@@ -487,12 +487,12 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                            PermissionKeysId = new Guid("8aed0b92-ab5b-47f3-af36-220ab60b66e4"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
+                            PermissionKeysId = new Guid("265ab018-9afa-4f99-acaa-7d9082bfe5ad"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         },
                         new

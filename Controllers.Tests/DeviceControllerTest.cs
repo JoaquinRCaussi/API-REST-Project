@@ -101,7 +101,14 @@ public class DeviceControllerTest
         httpContext.Items[0] = _user;
         _controller!.ControllerContext.HttpContext = httpContext;
         var device = CreateValidDevice();
-        var deviceRequest = new DeviceRequest(device);
+        var deviceRequest = new DeviceRequest()
+        {
+            Name = "Dispositivo genérico",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.Camera,
+            Model = "Model X",
+            Photo = "photo1.jpg"
+        };
         var expectedResponse = new DeviceResponse(device);
 
         _deviceLogicMock!
@@ -124,7 +131,18 @@ public class DeviceControllerTest
         httpContext.Items[0] = _user;
         _controller!.ControllerContext.HttpContext = httpContext;
         var camera = CreateValidCamera();
-        var cameraRequest = new CameraRequest(camera);
+        var cameraRequest = new CameraRequest()
+        {
+            Name = "Cámara genérica",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.Camera,
+            Model = "Model X",
+            Photo = "photo1.jpg",
+            Outdoors = true,
+            Indoors = false,
+            SupportMovementDetection = true,
+            SupportPersonDetection = false
+        };
         var expectedResponse = new CameraResponse(camera);
 
         _deviceLogicMock!

@@ -16,11 +16,12 @@ public class DevicesController : ControllerBase
     public DevicesController(IDeviceLogic deviceLogic)
     {
         _deviceLogic = deviceLogic;
+        
     }
 
 
     [HttpPost]
-    [AuthorizationFilter("CanCreateDevice")]
+    [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
     {
         var user = HttpContext.Items[0] as User;
@@ -32,7 +33,7 @@ public class DevicesController : ControllerBase
 
     [HttpPost]
     [Route("cameras")]
-    [AuthorizationFilter("CanCreateDevice")]
+    [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateCamera([FromBody] CameraRequest camera)
     {
         var user = HttpContext.Items[0] as User;

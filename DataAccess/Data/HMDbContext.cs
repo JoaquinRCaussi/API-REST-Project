@@ -82,8 +82,8 @@ public class HMDbContext : DbContext
             new PermissionKey { Id = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), Value = "CanCreateAdmin" },
             new PermissionKey { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), Value = "CanCreateCompanyOwner" },
             new PermissionKey { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), Value = "CanCreateHomeOwner" },
-            new PermissionKey { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"), Value = "CanCreateCompany" },
-            new PermissionKey { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"), Value = "CanCreateADevice" },
+            new PermissionKey { Id = Guid.Parse("8aed0b92-ab5b-47f3-af36-220ab60b66e4"), Value = "CanCreateCompany" },
+            new PermissionKey { Id = Guid.Parse("265ab018-9afa-4f99-acaa-7d9082bfe5ad"), Value = "CanCreateADevice" },
             new PermissionKey { Id = Guid.Parse("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"), Value = "CanManageUsers" }
         );
 
@@ -108,8 +108,8 @@ public class HMDbContext : DbContext
                 new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") }, // Admin -> CanCreateAdmin
                 new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") }, // Admin -> CanCreateCompanyOwner
                 new { RolesId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },  // HomeOwner -> CanCreateHomeOwner
-                new { RolesId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62") }, // CompanyOwner -> CanCreateCompany
-                new { RolesId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), PermissionKeysId = Guid.Parse("e43167ad-158b-4a39-8f5d-c1a69b32d7cf") }, //CompanyOwner -> CanCreateDevices
+                new { RolesId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), PermissionKeysId = Guid.Parse("8aed0b92-ab5b-47f3-af36-220ab60b66e4") }, // CompanyOwner -> CanCreateCompany
+                new { RolesId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), PermissionKeysId = Guid.Parse("265ab018-9afa-4f99-acaa-7d9082bfe5ad") }, //CompanyOwner -> CanCreateDevices
                 new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("a43167ad-158b-5a38-8f5d-c1a69b32d7cf") }, // Admin -> CanManageUsers
                 new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62") } // Admin -> CanCreateCompany
                 ));

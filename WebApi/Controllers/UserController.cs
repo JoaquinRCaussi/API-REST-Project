@@ -23,7 +23,7 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [AuthorizationFilter("CanManageUsers")]
-    public IActionResult GetUsers([FromQuery] string? role, [FromQuery] string? fullName)
+    public IActionResult GetUsers([FromQuery] string? fullName = null, [FromQuery] string? role = null)
     {
         List<User> users = _userLogic.GetUsersFiltered(role, fullName);
 

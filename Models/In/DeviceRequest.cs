@@ -10,23 +10,15 @@ public class DeviceRequest
     public string? Description { get; set; }
     public string? Photo { get; set; }
 
-    public DeviceRequest(Device device)
-    {
-        Name = device.Name;
-        Model = device.Model;
-        DeviceType = device.DeviceType;
-        Description = device.Description;
-        Photo = device.Photo;
-    }
-
     public virtual Device ToArgs(Company company)
     {
         return new Device
         {
             Company = company,
+            CompanyId = company.Id,
             Name = Name,
             Model = Model,
-            DeviceType = DeviceType,
+            DeviceType = DeviceType.Sensor,
             Description = Description,
             Photo = Photo
         };

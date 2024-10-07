@@ -16,6 +16,10 @@ public class DeviceLogic : IDeviceLogic
 
     public Device CreateDevice(Device device)
     {
+        if (device.Company == null)     
+        {
+            throw new NotValidDataException("The User must have a Company registered");
+        }
         if (_deviceRepository.ExistsDevice(device.Name, device.Company.Id))
         {
             throw new ConflictException("The Device already exists");
@@ -24,6 +28,10 @@ public class DeviceLogic : IDeviceLogic
     }
     public Camera CreateCamera(Camera camera)
     {
+        if (camera.Company == null)     
+        {
+            throw new NotValidDataException("The User must have a Company registered");
+        }
         if (_deviceRepository.ExistsDevice(camera.Name, camera.Company.Id))
         {
             throw new ConflictException("The Device already exists");
