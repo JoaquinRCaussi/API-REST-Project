@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class DeviceHasRep : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -98,11 +98,7 @@ namespace DataAccess.Migrations
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeviceType = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Outdoors = table.Column<bool>(type: "bit", nullable: true),
-                    Indoors = table.Column<bool>(type: "bit", nullable: true),
-                    SupportMovementDetection = table.Column<bool>(type: "bit", nullable: true),
-                    SupportPersonDetection = table.Column<bool>(type: "bit", nullable: true)
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -203,7 +199,7 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MemberSettingPermissions",
+                name: "MemberSettingPermission",
                 columns: table => new
                 {
                     MemberSettingsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -211,15 +207,15 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MemberSettingPermissions", x => new { x.MemberSettingsId, x.PermissionsId });
+                    table.PrimaryKey("PK_MemberSettingPermission", x => new { x.MemberSettingsId, x.PermissionsId });
                     table.ForeignKey(
-                        name: "FK_MemberSettingPermissions_MemberSettings_MemberSettingsId",
+                        name: "FK_MemberSettingPermission_MemberSettings_MemberSettingsId",
                         column: x => x.MemberSettingsId,
                         principalTable: "MemberSettings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MemberSettingPermissions_Permissions_PermissionsId",
+                        name: "FK_MemberSettingPermission_Permissions_PermissionsId",
                         column: x => x.PermissionsId,
                         principalTable: "Permissions",
                         principalColumn: "Id",
@@ -259,12 +255,12 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "Value" },
                 values: new object[,]
                 {
-                    { new Guid("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"), "CanManageUsers" },
-                    { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), "CanCreateAdmin" },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), "CanCreateHomeOwner" },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"), "CanCreateCompany" },
-                    { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), "CanCreateCompanyOwner" },
-                    { new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"), "CanCreateADevice" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), "CanCreateAdmin" },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), "CanCreateCompanyOwner" },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), "CanCreateHomeOwner" },
+                    { new Guid("44444444-4444-4444-4444-444444444444"), "CanCreateCompany" },
+                    { new Guid("55555555-5555-5555-5555-555555555555"), "CanCreateADevice" },
+                    { new Guid("66666666-6666-6666-6666-666666666666"), "CanManageUsers" }
                 });
 
             migrationBuilder.InsertData(
@@ -272,10 +268,10 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "Value" },
                 values: new object[,]
                 {
-                    { new Guid("4d99af50-c4b9-4bc7-8c63-6e4f6f24a73a"), "CanListDevices" },
-                    { new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"), "CanAsociateDevices" },
-                    { new Guid("b2ff8154-fdb0-4a87-a7b5-ded13fb66f57"), "CanAddMembers" },
-                    { new Guid("c0f0d7a7-3e77-4128-87d3-30113b19936d"), "CanGetNotifications" }
+                    { new Guid("1a6b8ddf-3f92-4fda-87a4-777777777777"), "CanAsociateDevices" },
+                    { new Guid("2ebd4f21-3cd4-431f-97e7-999999999999"), "CanGetNotifications" },
+                    { new Guid("3bcde1b8-5ad2-4f6c-92c7-101010101010"), "CanAddMembers" },
+                    { new Guid("d47fa8f6-ace7-42e5-8bdf-888888888888"), "CanListDevices" }
                 });
 
             migrationBuilder.InsertData(
@@ -283,9 +279,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), "Admin" },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), "CompanyOwner" },
-                    { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), "HomeOwner" }
+                    { new Guid("6d72b33a-582b-411e-a9b1-333333333333"), "HomeOwner" },
+                    { new Guid("78947c68-f0aa-49d3-8f47-444444444444"), "CompanyOwner" },
+                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -293,13 +289,12 @@ namespace DataAccess.Migrations
                 columns: new[] { "PermissionKeysId", "RolesId" },
                 values: new object[,]
                 {
-                    { new Guid("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"), new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
-                    { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"), new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"), new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
-                    { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
-                    { new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"), new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), new Guid("6d72b33a-582b-411e-a9b1-333333333333") },
+                    { new Guid("44444444-4444-4444-4444-444444444444"), new Guid("78947c68-f0aa-49d3-8f47-444444444444") },
+                    { new Guid("55555555-5555-5555-5555-555555555555"), new Guid("78947c68-f0aa-49d3-8f47-444444444444") },
+                    { new Guid("66666666-6666-6666-6666-666666666666"), new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") }
                 });
 
             migrationBuilder.InsertData(
@@ -307,24 +302,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "CompanyID", "CreatedAt", "Email", "HomeId", "ImagePath", "LastName", "Name", "Password", "RoleID" },
                 values: new object[,]
                 {
-                    { new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"), new Guid("10570280-239e-4fb8-8939-4f37415fccb7"), new DateTime(2024, 10, 7, 10, 45, 47, 736, DateTimeKind.Local).AddTicks(90), "anothercompanyowner1@gmail.com", null, "", "anotherCompanyOwner", "anotherCompanyOwner", "companyowner@1", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
-                    { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, new DateTime(2024, 10, 7, 10, 45, 47, 775, DateTimeKind.Local).AddTicks(4020), "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
-                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), null, new DateTime(2024, 10, 7, 10, 45, 47, 775, DateTimeKind.Local).AddTicks(4160), "companyowner1@gmail.com", null, "", "CompanyOwner", "CompanyOwner", "companyowner@1", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
-                    { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), null, new DateTime(2024, 10, 7, 10, 45, 47, 775, DateTimeKind.Local).AddTicks(4140), "homeowner1@gmail.com", null, "", "HomeOwner", "HomeOwner", "homeowner@1", new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Companies",
-                columns: new[] { "Id", "Logo", "Name", "OwnerId", "RUT" },
-                values: new object[] { new Guid("10570280-239e-4fb8-8939-4f37415fccb7"), "sadas/dasdasdas/asdasd", "Samsung", new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"), "2141412" });
-
-            migrationBuilder.InsertData(
-                table: "Devices",
-                columns: new[] { "Id", "CompanyId", "Description", "DeviceType", "Model", "Name", "Photo" },
-                values: new object[,]
-                {
-                    { new Guid("5d95af52-c4b9-4bc7-8c63-6e4f6f24a73a"), new Guid("10570280-239e-4fb8-8939-4f37415fccb7"), "Lampara de techo", 1, "Modelo 1", "Lampara", "https://www.google.com" },
-                    { new Guid("6d95af53-c4b9-4bc7-8c63-6e4f6f24a73a"), new Guid("10570280-239e-4fb8-8939-4f37415fccb7"), "Lampara de avion", 1, "Modelo 2", "Lampara de avion", "https://www.avion.com" }
+                    { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, new DateTime(2024, 10, 7, 17, 28, 55, 939, DateTimeKind.Local).AddTicks(1269), "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
+                    { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), null, new DateTime(2024, 10, 7, 17, 28, 55, 940, DateTimeKind.Local).AddTicks(1867), "companyowner1@gmail.com", null, "", "CompanyOwner", "CompanyOwner", "companyowner@1", new Guid("78947c68-f0aa-49d3-8f47-444444444444") },
+                    { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), null, new DateTime(2024, 10, 7, 17, 28, 55, 940, DateTimeKind.Local).AddTicks(1842), "homeowner1@gmail.com", null, "", "HomeOwner", "HomeOwner", "homeowner@1", new Guid("6d72b33a-582b-411e-a9b1-333333333333") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -354,8 +334,8 @@ namespace DataAccess.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MemberSettingPermissions_PermissionsId",
-                table: "MemberSettingPermissions",
+                name: "IX_MemberSettingPermission_PermissionsId",
+                table: "MemberSettingPermission",
                 column: "PermissionsId");
 
             migrationBuilder.CreateIndex(
@@ -419,7 +399,7 @@ namespace DataAccess.Migrations
                 table: "Homes");
 
             migrationBuilder.DropTable(
-                name: "MemberSettingPermissions");
+                name: "MemberSettingPermission");
 
             migrationBuilder.DropTable(
                 name: "Notifications");

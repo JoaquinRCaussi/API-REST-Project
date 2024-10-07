@@ -10,7 +10,7 @@ public class DeviceRequest
     public string? Description { get; set; }
     public string? Photo { get; set; }
 
-    public virtual Device ToArgs(Company company)
+    public Device ToArgs(Company company)
     {
         return new Device
         {

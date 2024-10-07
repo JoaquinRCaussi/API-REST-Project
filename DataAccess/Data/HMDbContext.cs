@@ -25,94 +25,50 @@ public class HMDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Device>()
-            .HasDiscriminator<DeviceType>("DeviceType")
-            .HasValue<Device>(DeviceType.Sensor)
-            .HasValue<Camera>(DeviceType.Camera);
+        // Definir GUIDs manualmente
+        var userId = Guid.Parse("d84722d7-8b0a-4ae6-aedd-111111111111");
+        var companyId = Guid.Parse("8b02a6f7-6a7e-45c8-899e-222222222222");
+        var adminRoleId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61");
+        var homeOwnerRoleId = Guid.Parse("6d72b33a-582b-411e-a9b1-333333333333");
+        var companyOwnerRoleId = Guid.Parse("78947c68-f0aa-49d3-8f47-444444444444");
 
-        modelBuilder.Entity<Device>()
-            .HasOne(d => d.Company)
-            .WithMany()
-            .HasForeignKey(d => d.CompanyId);
-
-
-        var userId = Guid.Parse("205e7ec9-673c-4db2-911d-10fe2b9c159a");
-        var companyId = Guid.Parse("10570280-239e-4fb8-8939-4f37415fccb7");
-
-        var user = new User
-        {
-            Id = userId,
-            Name = "anotherCompanyOwner",
-            LastName = "anotherCompanyOwner",
-            Email = "anothercompanyowner1@gmail.com",
-            Password = "companyowner@1",
-            RoleID = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-            CompanyID = companyId // Set the foreign key for the company
-        };
-        modelBuilder.Entity<User>().HasData(user);
-
-        var company = new Company
-        {
-            Id = companyId,
-            Name = "Samsung",
-            RUT = "2141412",
-            Logo = "sadas/dasdasdas/asdasd",
-            OwnerId = userId // Set the foreign key for the owner
-        };
-
-        modelBuilder.Entity<Company>()
-            .HasData(company);
-
-        //Seed de Devices
-        modelBuilder.Entity<Device>().HasData(
-            new Device { Id = Guid.Parse("5d95af52-c4b9-4bc7-8c63-6e4f6f24a73a"), Name = "Lampara", Model = "Modelo 1", CompanyId = companyId, DeviceType = DeviceType.Sensor, Description = "Lampara de techo", Photo = "https://www.google.com" },
-            new Device { Id = Guid.Parse("6d95af53-c4b9-4bc7-8c63-6e4f6f24a73a"), Name = "Lampara de avion", Model = "Modelo 2", DeviceType = DeviceType.Sensor, CompanyId = companyId, Description = "Lampara de avion", Photo = "https://www.avion.com" }
-        );
-
-        // Seed de permisos
-        modelBuilder.Entity<Permission>().HasData(
-            new Permission { Id = Guid.Parse("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"), Value = "CanAsociateDevices" },
-            new Permission { Id = Guid.Parse("4d99af50-c4b9-4bc7-8c63-6e4f6f24a73a"), Value = "CanListDevices" },
-            new Permission { Id = Guid.Parse("c0f0d7a7-3e77-4128-87d3-30113b19936d"), Value = "CanGetNotifications" },
-            new Permission { Id = Guid.Parse("b2ff8154-fdb0-4a87-a7b5-ded13fb66f57"), Value = "CanAddMembers" }
-        );
-
-        //Seed de PermissionKeys
-        modelBuilder.Entity<PermissionKey>().HasData(
-            new PermissionKey { Id = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), Value = "CanCreateAdmin" },
-            new PermissionKey { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), Value = "CanCreateCompanyOwner" },
-            new PermissionKey { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), Value = "CanCreateHomeOwner" },
-            new PermissionKey { Id = Guid.Parse("8aed0b92-ab5b-47f3-af36-220ab60b66e4"), Value = "CanCreateCompany" },
-            new PermissionKey { Id = Guid.Parse("265ab018-9afa-4f99-acaa-7d9082bfe5ad"), Value = "CanCreateADevice" },
-            new PermissionKey { Id = Guid.Parse("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"), Value = "CanManageUsers" }
-        );
-
-        //Seed de Roles
+        // Datos semilla para Roles
         modelBuilder.Entity<Role>().HasData(
-            new Role { Id = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), Name = "Admin" },
-            new Role { Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), Name = "HomeOwner" },
-            new Role { Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), Name = "CompanyOwner" }
+            new Role { Id = adminRoleId, Name = "Admin" },
+            new Role { Id = homeOwnerRoleId, Name = "HomeOwner" },
+            new Role { Id = companyOwnerRoleId, Name = "CompanyOwner" }
         );
 
-        // Configuraciones de relación muchos a muchos sin entidad intermedia
-        modelBuilder.Entity<MemberSetting>()
-            .HasMany(ms => ms.Permissions)
-            .WithMany(p => p.MemberSettings)
-            .UsingEntity(j => j.ToTable("MemberSettingPermissions"));
+        // Datos semilla para Permissions
+        modelBuilder.Entity<Permission>().HasData(
+            new Permission { Id = Guid.Parse("1a6b8ddf-3f92-4fda-87a4-777777777777"), Value = "CanAsociateDevices" },
+            new Permission { Id = Guid.Parse("d47fa8f6-ace7-42e5-8bdf-888888888888"), Value = "CanListDevices" },
+            new Permission { Id = Guid.Parse("2ebd4f21-3cd4-431f-97e7-999999999999"), Value = "CanGetNotifications" },
+            new Permission { Id = Guid.Parse("3bcde1b8-5ad2-4f6c-92c7-101010101010"), Value = "CanAddMembers" }
+        );
 
-        // Agregar datos en la tabla de relación (RolePermissions)
+        // Datos semilla para PermissionKeys
+        modelBuilder.Entity<PermissionKey>().HasData(
+            new PermissionKey { Id = Guid.Parse("11111111-1111-1111-1111-111111111111"), Value = "CanCreateAdmin" },
+            new PermissionKey { Id = Guid.Parse("22222222-2222-2222-2222-222222222222"), Value = "CanCreateCompanyOwner" },
+            new PermissionKey { Id = Guid.Parse("33333333-3333-3333-3333-333333333333"), Value = "CanCreateHomeOwner" },
+            new PermissionKey { Id = Guid.Parse("44444444-4444-4444-4444-444444444444"), Value = "CanCreateCompany" },
+            new PermissionKey { Id = Guid.Parse("55555555-5555-5555-5555-555555555555"), Value = "CanCreateADevice" },
+            new PermissionKey { Id = Guid.Parse("66666666-6666-6666-6666-666666666666"), Value = "CanManageUsers" }
+        );
+
+        // Configuración de relaciones many-to-many entre Roles y PermissionKeys
         modelBuilder.Entity<Role>()
             .HasMany(r => r.PermissionKeys)
             .WithMany(p => p.Roles)
             .UsingEntity(j => j.HasData(
-                new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") }, // Admin -> CanCreateAdmin
-                new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") }, // Admin -> CanCreateCompanyOwner
-                new { RolesId = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },  // HomeOwner -> CanCreateHomeOwner
-                new { RolesId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), PermissionKeysId = Guid.Parse("8aed0b92-ab5b-47f3-af36-220ab60b66e4") }, // CompanyOwner -> CanCreateCompany
-                new { RolesId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), PermissionKeysId = Guid.Parse("265ab018-9afa-4f99-acaa-7d9082bfe5ad") }, //CompanyOwner -> CanCreateDevices
-                new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("a43167ad-158b-5a38-8f5d-c1a69b32d7cf") }, // Admin -> CanManageUsers
-                new { RolesId = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), PermissionKeysId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62") } // Admin -> CanCreateCompany
-                ));
+                new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("11111111-1111-1111-1111-111111111111") },  // Admin -> CanCreateAdmin
+                new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("66666666-6666-6666-6666-666666666666") },  // Admin -> CanManageUsers
+                new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("22222222-2222-2222-2222-222222222222") },  // Admin -> CanCreateCompanyOwner
+                new { RolesId = companyOwnerRoleId, PermissionKeysId = Guid.Parse("44444444-4444-4444-4444-444444444444") }, // CompanyOwner -> CanCreateCompanyOwner
+                new { RolesId = companyOwnerRoleId, PermissionKeysId = Guid.Parse("55555555-5555-5555-5555-555555555555") }, // CompanyOwner -> CanCreateADevice
+                new { RolesId = homeOwnerRoleId, PermissionKeysId = Guid.Parse("33333333-3333-3333-3333-333333333333") }// HomeOwner -> CanCreateHomeOwner
+            ));
 
         modelBuilder.Entity<User>()
             .HasOne(u => u.Role)
@@ -122,6 +78,12 @@ public class HMDbContext : DbContext
         modelBuilder.Entity<User>().HasOne(u => u.Company)
             .WithOne(c => c.Owner)
             .HasForeignKey<Company>(c => c.OwnerId);
+        
+        modelBuilder.Entity<Device>()
+            .HasOne(d => d.Company)
+            .WithMany(c => c.Devices) // Asumiendo que tienes una colección de Devices en Company
+            .HasForeignKey(d => d.CompanyId);
+
 
 
         modelBuilder.Entity<User>().HasData(
@@ -132,7 +94,7 @@ public class HMDbContext : DbContext
                 LastName = "Admin",
                 Email = "admin@admin.com",
                 Password = "admin",
-                RoleID = Guid.Parse("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                RoleID = adminRoleId
             });
 
         modelBuilder.Entity<User>().HasData(
@@ -143,7 +105,7 @@ public class HMDbContext : DbContext
                 LastName = "HomeOwner",
                 Email = "homeowner1@gmail.com",
                 Password = "homeowner@1",
-                RoleID = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf")
+                RoleID = homeOwnerRoleId
             }
         );
 
@@ -155,7 +117,7 @@ public class HMDbContext : DbContext
                 LastName = "CompanyOwner",
                 Email = "companyowner1@gmail.com",
                 Password = "companyowner@1",
-                RoleID = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                RoleID = companyOwnerRoleId
             }
         );
 

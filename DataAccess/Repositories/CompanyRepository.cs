@@ -24,6 +24,8 @@ public class CompanyRepository : ICompanyRepository
 
         company.Owner = owner;
         owner.CompanyID = company.Id;
+        owner.Company = company;
+        _dbContext.Users?.Update(owner);
         _dbContext.Companies?.Add(company);
         _dbContext.SaveChanges();
         return company;
@@ -39,5 +41,10 @@ public class CompanyRepository : ICompanyRepository
         var filteredCompanies = companies?.Where(c => c.Name.Contains(name) && c.Owner.Name.Contains(ownerName)).ToList();
 
         return filteredCompanies;
+    }
+    
+    public bool ExistsCompany(Guid companyId)
+    {
+        return _dbContext.Companies?.Any(x => x.Id == companyId) ?? false;
     }
 }

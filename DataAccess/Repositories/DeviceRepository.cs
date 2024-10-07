@@ -16,6 +16,15 @@ public class DeviceRepository : IDeviceRepository
 
     public Device CreateDevice(Device device)
     {
+        var company = _dbContext.Companies?.FirstOrDefault(x => x.Id == device.CompanyId);
+        
+        if (company == null)
+        {
+            throw new Exception("The Company does not exist");
+        }
+        
+        device.Company = company;
+        
         _dbContext.Devices?.Add(device);
         _dbContext.SaveChanges();
         return device;
