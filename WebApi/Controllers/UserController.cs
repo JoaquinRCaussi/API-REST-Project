@@ -34,8 +34,8 @@ public class UserController : ControllerBase
         var totalResults = users.Count;
 
         var paginatedUsers = users
-            .Skip((pageNumber - 1) * pageSize)  
-            .Take(pageSize)                    
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ToList();
 
         var response = paginatedUsers.Select(x => new GetUserResponse
@@ -49,10 +49,10 @@ public class UserController : ControllerBase
 
         return Ok(new
         {
-            TotalResults = totalResults,  
-            PageNumber = pageNumber,     
-            PageSize = pageSize,          
-            Users = response              
+            TotalResults = totalResults,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Users = response
         });
     }
 
