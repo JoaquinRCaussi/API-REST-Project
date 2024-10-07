@@ -1,6 +1,7 @@
 using DataAccess.Data;
 using Domain;
 using IDataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -29,6 +30,13 @@ public class CompanyRepository : ICompanyRepository
 
     public List<Company> GetCompanies(string name, string ownerName)
     {
-        return _dbContext.Companies?.Where(x => x.Name.Contains(name) && x.Owner.Name.Contains(ownerName)).ToList()!;
+        
+        var companies = _dbContext.Companies?
+            .Include(x => x.Owner)
+            .ToList();
+        
+        var filteredCompanies = companies?.Where(c => c.Name.Contains(name) && c.Owner.Name.Contains(ownerName)).ToList();
+        
+        return filteredCompanies;
     }
 }

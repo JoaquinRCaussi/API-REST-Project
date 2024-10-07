@@ -89,6 +89,7 @@ public class UserRepository : IUserRepository
     public User FindByMail(string mail)
     {
         User? user = _context.Users?
+            .Include(u => u.Company)
             .Include(u => u.Role)
             .ThenInclude(r => r.PermissionKeys)
             .FirstOrDefault(u => u.Email == mail);
