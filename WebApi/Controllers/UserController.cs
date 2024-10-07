@@ -23,9 +23,9 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [AuthorizationFilter("CanManageUsers")]
-    public IActionResult GetUsers()
+    public IActionResult GetUsers([FromQuery] string? role, [FromQuery] string? fullName)
     {
-        List<User> users = _userLogic.GetUsers();
+        List<User> users = _userLogic.GetUsersFiltered(role, fullName);
 
         var response = users.Select(x => new GetUserResponse
         {
@@ -38,6 +38,7 @@ public class UserController : ControllerBase
 
         return Ok(response);
     }
+
 
     [HttpGet]
     [Route("{userId}")]

@@ -73,11 +73,11 @@ public class UserControllerTest
             }
         };
 
-        userLogicMock.Setup(logic => logic.GetUsers()).Returns(expectedUsers);
+        userLogicMock.Setup(logic => logic.GetUsersFiltered(null,null)).Returns(expectedUsers);
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
-        IActionResult result = controller.GetUsers();
+        IActionResult result = controller.GetUsers(null,null);
 
         var userResponses = expectedUsers.Select(u => new GetUserResponse
         {

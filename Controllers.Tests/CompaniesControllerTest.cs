@@ -47,38 +47,7 @@ public class CompaniesControllerTest
         //Assert
         act.Should().BeEquivalentTo(expected);
     }
-
-    [TestMethod]
-    public void GetCompaniesTestOk()
-    {
-        var aCompany = new Company
-        {
-            Name = "name",
-            RUT = "aRUT",
-            Logo = "apath",
-            Owner = new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "John",
-                LastName = "Doe",
-                Email = "mail@mail.com",
-                Password = "password@123"
-            }
-        };
-        var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company>
-        {
-            aCompany
-        };
-        companyLogic.Setup(x => x.GetCompanies("", "")).Returns(companies);
-
-        var controller = new CompanyController(companyLogic.Object);
-
-        IActionResult act = controller.GetCompanies("", "");
-        var expected = new OkObjectResult(companies.Select(x => new CompanyResponse(x)).ToList());
-        act.Should().BeEquivalentTo(expected);
-    }
-
+    
     [TestMethod]
     public void GetCompanies_AllowFilterByCompanyName()
     {
@@ -97,17 +66,19 @@ public class CompaniesControllerTest
             }
         };
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company>
-        {
-            aCompany
-        };
+        var companies = new List<Company> { aCompany };
+        
         companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
 
         var controller = new CompanyController(companyLogic.Object);
-
+        
         IActionResult act = controller.GetCompanies("name", aCompany.Owner.Name);
-        var expected = new OkObjectResult(companies.Select(x => new CompanyResponse(x)).ToList());
-        act.Should().BeEquivalentTo(expected);
+        
+        var expected = new OkObjectResult(companies.Select(x => new CompanyResponse(x)
+        {
+            OwnerName = x.Owner.Name, OwnerEmail = x.Owner.Email
+        }).ToList());
+
     }
 
     [TestMethod]

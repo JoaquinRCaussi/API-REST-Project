@@ -22,4 +22,6 @@ public interface IUserLogic
     public User AuthenticateUser(string mail, string password);
 
     public List<Notification> GetNotifications(Guid userId);
+    
+    public List<User> GetUsersFiltered(string? role, string? fullName);
 }
