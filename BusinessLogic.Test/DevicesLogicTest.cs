@@ -54,7 +54,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
 
@@ -84,7 +84,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
 
@@ -114,7 +114,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         _deviceRepository.Setup(x => x.GetDevices("Device", "", "", It.IsAny<DeviceType>())).Returns(devices);
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
@@ -140,7 +140,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
 
@@ -170,7 +170,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
 
@@ -200,7 +200,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         _deviceRepository.Setup(x => x.GetDevices("", "", "Company", DeviceType.Camera)).Returns(devices);
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
@@ -230,7 +230,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns(devices);
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
@@ -251,7 +251,7 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-        
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
 
         var result = deviceLogic.GetDevicesTypes();
