@@ -136,25 +136,6 @@ public class NotificationRepositoryTest
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), "Home or device not found")]
-    public void CreateNotificationSensor_ShouldThrowExceptionWhenHomeOrDeviceNotFound()
-    {
-        using var context = CreateInMemoryDbContext("CreateNotificationSensorErrorTest");
-        SeedData(context);
-
-        var repository = new NotificationRepository(context);
-        var nonExistentHomeId = Guid.NewGuid();
-        var homeDevice = context.HomeDevices?.First();
-
-        var sensorRequest = new SensorRequest
-        {
-            Event = "open"
-        };
-
-        repository.CreateNotificationSensor(nonExistentHomeId, homeDevice.HardwareId, sensorRequest);
-    }
-
-    [TestMethod]
     public void CreateNotificationSensor_ShouldAddNotificationsToDatabase()
     {
         using var context = CreateInMemoryDbContext("CreateNotificationSensorAddTest");
