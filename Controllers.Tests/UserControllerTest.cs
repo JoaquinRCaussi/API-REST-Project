@@ -159,6 +159,39 @@ public class UserControllerTest
     }
 
     [TestMethod]
+    public void DeleteUser_WhenUserExists_ReturnsOkWithUserResponse()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+        var userController = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        var userId = Guid.NewGuid();
+        var expectedUser = new User
+        {
+            Id = userId,
+            Name = "John",
+            LastName = "Doe",
+            Email = "john.doe@mail.com"
+        };
+
+        userLogicMock.Setup(logic => logic.DeleteUser(userId)).Returns(expectedUser);
+
+        IActionResult result = userController.DeleteUser(userId);
+
+        var okResult = result as OkObjectResult;
+        okResult.Should().NotBeNull();
+
+        var userResponse = okResult.Value as GetUserResponse;
+        userResponse.Should().NotBeNull();
+        userResponse.Name.Should().Be(expectedUser.Name);
+        userResponse.LastName.Should().Be(expectedUser.LastName);
+        userResponse.Email.Should().Be(expectedUser.Email);
+
+        userLogicMock.Verify(logic => logic.DeleteUser(userId), Times.Once);
+    }
+
+
+    [TestMethod]
     public void GetUserHomes_WhenAllPropertiesOk()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);

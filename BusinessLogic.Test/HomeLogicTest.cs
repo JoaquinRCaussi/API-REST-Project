@@ -378,4 +378,87 @@ public class HomeLogicTest
         act.Should().Throw<ConflictException>()
             .WithMessage("House is full. Member limit has been reached.");
     }
+
+    [TestMethod]
+    public void AddDevice_ShouldAddDevice_WhenCalled()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var deviceId = Guid.NewGuid();
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), DeviceId = deviceId };
+
+        _homeRepositoryMock?.Setup(x => x.AddDevice(homeId, deviceId)).Returns(homeDevice);
+
+        // Act
+        var result = _homeLogic?.AddDevice(homeId, deviceId);
+
+        // Assert
+        result.Should().BeEquivalentTo(homeDevice);
+        _homeRepositoryMock?.Verify(x => x.AddDevice(homeId, deviceId), Times.Once);
+    }
+
+    [TestMethod]
+    public void GetHomeDevices_ShouldReturnListOfDevices_WhenHomeIdIsValid()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var devices = new List<HomeDevice>
+    {
+        new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() },
+        new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() }
+    };
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(devices);
+
+        // Act
+        var result = _homeLogic?.GetHomeDevices(homeId);
+
+        // Assert
+        result.Should().BeEquivalentTo(devices);
+        _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId), Times.Once);
+    }
+
+    [TestMethod]
+    public void CreateNotificationSensor_ShouldCreateNotification_WhenCalled()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest(); // Asegúrate de inicializar con valores válidos
+        var notifications = new List<Notification>
+    {
+        new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
+    };
+
+        _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest)).Returns(notifications);
+
+        // Act
+        var result = _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+
+        // Assert
+        result.Should().BeEquivalentTo(notifications);
+        _notificationRepositoryMock?.Verify(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest), Times.Once);
+    }
+
+    [TestMethod]
+    public void CreateNotificationCamera_ShouldCreateNotification_WhenCalled()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest(); // Asegúrate de inicializar con valores válidos
+        var notifications = new List<Notification>
+    {
+        new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
+    };
+
+        _notificationRepositoryMock?.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest)).Returns(notifications);
+
+        // Act
+        var result = _homeLogic?.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+
+        // Assert
+        result.Should().BeEquivalentTo(notifications);
+        _notificationRepositoryMock?.Verify(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest), Times.Once);
+    }
 }
