@@ -478,6 +478,44 @@ public class HomeControllerTest
     }
 
     [TestMethod]
+    public void CreateNotificationCloseSensor_WhenAllPropertiesOk()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest
+        {
+            Event = "close"
+        };
+
+        var notification = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "Sensor closed",
+            CreatedAt = DateTime.UtcNow,
+            IsRead = false,
+            HardwareId = hardwareId,
+            UserId = Guid.NewGuid()
+
+        };
+
+        var notifications = new List<Notification> { notification };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
+            .Returns(notifications);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.CreateNotificationCloseSensor(homeId, hardwareId);
+
+        var expected = new OkObjectResult(notifications);
+        act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
     public void CreateNotificationCamera_WhenAllPropertiesOk()
     {
         // Arrange
