@@ -155,7 +155,7 @@ public class UserRepository : IUserRepository
 
         return notifications;
     }
-    
+
     public List<User> GetUsersFiltered(string? role, string? fullName)
     {
         var users = _context.Users?

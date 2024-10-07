@@ -30,13 +30,13 @@ public class CompanyRepository : ICompanyRepository
 
     public List<Company> GetCompanies(string name, string ownerName)
     {
-        
+
         var companies = _dbContext.Companies?
             .Include(x => x.Owner)
             .ToList();
-        
+
         var filteredCompanies = companies?.Where(c => c.Name.Contains(name) && c.Owner.Name.Contains(ownerName)).ToList();
-        
+
         return filteredCompanies;
     }
 }
