@@ -23,11 +23,22 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [AuthorizationFilter("CanManageUsers")]
-    public IActionResult GetUsers([FromQuery] string? fullName = null, [FromQuery] string? role = null)
+    public IActionResult GetUsers(
+    [FromQuery] string? role,
+    [FromQuery] string? fullName,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 10)
     {
         List<User> users = _userLogic.GetUsersFiltered(role, fullName);
 
-        var response = users.Select(x => new GetUserResponse
+        var totalResults = users.Count;
+
+        var paginatedUsers = users
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var response = paginatedUsers.Select(x => new GetUserResponse
         {
             Name = x.Name,
             LastName = x.LastName,
@@ -36,8 +47,15 @@ public class UserController : ControllerBase
             Role = x.Role
         }).ToList();
 
-        return Ok(response);
+        return Ok(new
+        {
+            TotalResults = totalResults,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Users = response
+        });
     }
+
 
 
     [HttpGet]
