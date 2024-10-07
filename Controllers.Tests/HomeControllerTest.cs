@@ -590,4 +590,61 @@ public class HomeControllerTest
         var expected = new OkObjectResult(notifications);
         act.Should().BeEquivalentTo(expected);
     }
+
+    [TestMethod]
+    public void UpdatePermissions_WhenUserIsHomeOwner_ShouldReturnOk()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+
+        var user = new User
+        {
+            Id = userId,
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "location",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            HomeOwner = user.Id
+        };
+
+        var permissionRequest = new PermissionRequest
+        {
+            Value = "CanGetNotifications"
+        };
+
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = user;
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.UpdatePermissions(homeId, userId, permissionRequest)).Returns(home);
+        homeLogic.Setup(x => x.GetHome(homeId)).Returns(home);
+
+        var controller = new HomeController(homeLogic.Object, null)
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = httpContext
+            }
+        };
+
+        // Act
+        IActionResult act = controller.UpdatePermissions(homeId, userId, permissionRequest);
+
+        // Assert
+        var okResult = act as OkObjectResult;
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+
+        okResult.Value.Should().BeEquivalentTo(home);
+        homeLogic.Verify(x => x.UpdatePermissions(homeId, userId, permissionRequest), Times.Once);
+    }
 }
