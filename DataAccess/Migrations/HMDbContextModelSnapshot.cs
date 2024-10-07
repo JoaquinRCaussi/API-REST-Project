@@ -49,16 +49,6 @@ namespace DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
-                            Logo = "sadas/dasdasdas/asdasd",
-                            Name = "Samsung",
-                            OwnerId = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
-                            RUT = "2141412"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Device", b =>
@@ -90,32 +80,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Devices");
-
-                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
-
-                    b.UseTphMappingStrategy();
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("5d95af52-c4b9-4bc7-8c63-6e4f6f24a73a"),
-                            CompanyId = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
-                            Description = "Lampara de techo",
-                            DeviceType = 1,
-                            Model = "Modelo 1",
-                            Name = "Lampara",
-                            Photo = "https://www.google.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("6d95af53-c4b9-4bc7-8c63-6e4f6f24a73a"),
-                            CompanyId = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
-                            Description = "Lampara de avion",
-                            DeviceType = 1,
-                            Model = "Modelo 2",
-                            Name = "Lampara de avion",
-                            Photo = "https://www.avion.com"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -248,22 +212,22 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7fa6a0f4-d7d9-4c89-a85e-92b937fc0274"),
+                            Id = new Guid("1a6b8ddf-3f92-4fda-87a4-777777777777"),
                             Value = "CanAsociateDevices"
                         },
                         new
                         {
-                            Id = new Guid("4d99af50-c4b9-4bc7-8c63-6e4f6f24a73a"),
+                            Id = new Guid("d47fa8f6-ace7-42e5-8bdf-888888888888"),
                             Value = "CanListDevices"
                         },
                         new
                         {
-                            Id = new Guid("c0f0d7a7-3e77-4128-87d3-30113b19936d"),
+                            Id = new Guid("2ebd4f21-3cd4-431f-97e7-999999999999"),
                             Value = "CanGetNotifications"
                         },
                         new
                         {
-                            Id = new Guid("b2ff8154-fdb0-4a87-a7b5-ded13fb66f57"),
+                            Id = new Guid("3bcde1b8-5ad2-4f6c-92c7-101010101010"),
                             Value = "CanAddMembers"
                         });
                 });
@@ -284,32 +248,32 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             Value = "CanCreateAdmin"
                         },
                         new
                         {
-                            Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
                             Value = "CanCreateCompanyOwner"
                         },
                         new
                         {
-                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
                             Value = "CanCreateHomeOwner"
                         },
                         new
                         {
-                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
                             Value = "CanCreateCompany"
                         },
                         new
                         {
-                            Id = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
                             Value = "CanCreateADevice"
                         },
                         new
                         {
-                            Id = new Guid("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"),
+                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
                             Value = "CanManageUsers"
                         });
                 });
@@ -331,17 +295,17 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
+                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
+                            Id = new Guid("6d72b33a-582b-411e-a9b1-333333333333"),
                             Name = "HomeOwner"
                         },
                         new
                         {
-                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
+                            Id = new Guid("78947c68-f0aa-49d3-8f47-444444444444"),
                             Name = "CompanyOwner"
                         });
                 });
@@ -395,48 +359,36 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
-                            CompanyID = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 561, DateTimeKind.Local).AddTicks(7689),
-                            Email = "anothercompanyowner1@gmail.com",
-                            ImagePath = "",
-                            LastName = "anotherCompanyOwner",
-                            Name = "anotherCompanyOwner",
-                            Password = "companyowner@1",
-                            RoleID = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
-                        },
-                        new
-                        {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 574, DateTimeKind.Local).AddTicks(415),
+                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 188, DateTimeKind.Local).AddTicks(5290),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
                             Name = "Admin",
                             Password = "admin",
-                            RoleID = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                            RoleID = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         },
                         new
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 574, DateTimeKind.Local).AddTicks(1028),
+                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3700),
                             Email = "homeowner1@gmail.com",
                             ImagePath = "",
                             LastName = "HomeOwner",
                             Name = "HomeOwner",
                             Password = "homeowner@1",
-                            RoleID = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf")
+                            RoleID = new Guid("6d72b33a-582b-411e-a9b1-333333333333")
                         },
                         new
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                            CreatedAt = new DateTime(2024, 10, 6, 22, 28, 22, 574, DateTimeKind.Local).AddTicks(1052),
+                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3730),
                             Email = "companyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "CompanyOwner",
                             Name = "CompanyOwner",
                             Password = "companyowner@1",
-                            RoleID = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                            RoleID = new Guid("78947c68-f0aa-49d3-8f47-444444444444")
                         });
                 });
 
@@ -452,7 +404,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("PermissionsId");
 
-                    b.ToTable("MemberSettingPermissions", (string)null);
+                    b.ToTable("MemberSettingPermission");
                 });
 
             modelBuilder.Entity("PermissionKeyRole", b =>
@@ -472,58 +424,34 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            PermissionKeysId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
-                        },
-                        new
-                        {
-                            PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
-                        },
-                        new
-                        {
-                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                            RolesId = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf")
-                        },
-                        new
-                        {
-                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                            PermissionKeysId = new Guid("11111111-1111-1111-1111-111111111111"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
+                            PermissionKeysId = new Guid("66666666-6666-6666-6666-666666666666"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"),
-                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                            PermissionKeysId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
                         },
                         new
                         {
-                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
-                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                            PermissionKeysId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            RolesId = new Guid("78947c68-f0aa-49d3-8f47-444444444444")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            RolesId = new Guid("78947c68-f0aa-49d3-8f47-444444444444")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            RolesId = new Guid("6d72b33a-582b-411e-a9b1-333333333333")
                         });
-                });
-
-            modelBuilder.Entity("Domain.Camera", b =>
-                {
-                    b.HasBaseType("Domain.Device");
-
-                    b.Property<bool>("Indoors")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Outdoors")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SupportMovementDetection")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SupportPersonDetection")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("Domain.Company", b =>
@@ -540,7 +468,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Domain.Device", b =>
                 {
                     b.HasOne("Domain.Company", "Company")
-                        .WithMany()
+                        .WithMany("Devices")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -639,6 +567,11 @@ namespace DataAccess.Migrations
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Company", b =>
+                {
+                    b.Navigation("Devices");
                 });
 
             modelBuilder.Entity("Domain.Home", b =>

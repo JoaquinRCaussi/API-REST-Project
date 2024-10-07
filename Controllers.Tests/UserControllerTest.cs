@@ -50,45 +50,56 @@ public class UserControllerTest
     [TestMethod]
     public void GetUsers_WhenAllPropertiesOk()
     {
+        // Arrange
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 
         var expectedUsers = new List<User>
+    {
+        new()
         {
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Name = "John",
-                LastName = "Doe",
-                Email = "mail@mail.com",
-                Password = "password@123"
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Jane",
-                LastName = "Doe",
-                Email = "mail@mail.com",
-                Password = "password@123"
-            }
-        };
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "john.doe@mail.com",
+            Password = "password@123"
+        },
+        new()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Jane",
+            LastName = "Doe",
+            Email = "jane.doe@mail.com",
+            Password = "password@123"
+        }
+    };
 
         userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null)).Returns(expectedUsers);
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
-        IActionResult result = controller.GetUsers(null, null);
+        IActionResult result = controller.GetUsers(null, null, 1, 10);
 
-        var userResponses = expectedUsers.Select(u => new GetUserResponse
+        var paginatedUsers = expectedUsers
+            .Skip(0)
+            .Take(10)
+            .Select(u => new GetUserResponse
+            {
+                Email = u.Email,
+                Name = u.Name,
+                LastName = u.LastName,
+                CreatedAt = u.CreatedAt,
+                Role = u.Role
+            })
+            .ToList();
+
+        var expectedResponse = new OkObjectResult(new
         {
-            Email = u.Email,
-            Name = u.Name,
-            LastName = u.LastName,
-            CreatedAt = u.CreatedAt,
-            Role = u.Role
-        }).ToList();
-
-        var expectedResponse = new OkObjectResult(userResponses);
+            TotalResults = expectedUsers.Count,
+            PageNumber = 1,
+            PageSize = 10,
+            Users = paginatedUsers
+        });
 
         result.Should().BeEquivalentTo(expectedResponse);
     }

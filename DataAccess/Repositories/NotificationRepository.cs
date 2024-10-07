@@ -1,4 +1,5 @@
 using DataAccess.Data;
+using DataAccess.Repositories;
 using Domain;
 using IDataAccess;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ public class NotificationRepository : INotificationRepository
 
         if (home == null || homeDevice == null)
         {
-            throw new Exception("Home or device not found");
+            throw new EntityNotFoundException("Home or device not found");
         }
 
         foreach (var member in home.Members)

@@ -8,22 +8,38 @@ namespace BusinessLogic;
 public class DeviceLogic : IDeviceLogic
 {
     private readonly IDeviceRepository _deviceRepository;
+    private readonly ICompanyRepository _companyRepository;
 
-    public DeviceLogic(IDeviceRepository deviceRepository)
+    public DeviceLogic(IDeviceRepository deviceRepository, ICompanyRepository companyRepository)
     {
         _deviceRepository = deviceRepository;
+        _companyRepository = companyRepository;
     }
-
     public Device CreateDevice(Device device)
     {
+        if (device.Company == null)
+        {
+            throw new NotValidDataException("The User must have a Company registered");
+        }
+
         if (_deviceRepository.ExistsDevice(device.Name, device.Company.Id))
         {
             throw new ConflictException("The Device already exists");
         }
+
+        if (!_companyRepository.ExistsCompany(device.Company.Id))
+        {
+            throw new NotValidDataException("The Company does not exist");
+        }
+
         return _deviceRepository.CreateDevice(device);
     }
     public Camera CreateCamera(Camera camera)
     {
+        if (camera.Company == null)
+        {
+            throw new NotValidDataException("The User must have a Company registered");
+        }
         if (_deviceRepository.ExistsDevice(camera.Name, camera.Company.Id))
         {
             throw new ConflictException("The Device already exists");

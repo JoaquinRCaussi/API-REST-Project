@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    [Migration("20241006230331_ChangesOnUser2")]
-    partial class ChangesOnUser2
+    [Migration("20241007145838_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -309,6 +309,11 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
                             Value = "CanCreateADevice"
+                        },
+                        new
+                        {
+                            Id = new Guid("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"),
+                            Value = "CanManageUsers"
                         });
                 });
 
@@ -395,7 +400,7 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
                             CompanyID = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
-                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 625, DateTimeKind.Local).AddTicks(8556),
+                            CreatedAt = new DateTime(2024, 10, 7, 11, 58, 37, 342, DateTimeKind.Local).AddTicks(1351),
                             Email = "anothercompanyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "anotherCompanyOwner",
@@ -406,7 +411,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(889),
+                            CreatedAt = new DateTime(2024, 10, 7, 11, 58, 37, 353, DateTimeKind.Local).AddTicks(5581),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -417,7 +422,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(1071),
+                            CreatedAt = new DateTime(2024, 10, 7, 11, 58, 37, 353, DateTimeKind.Local).AddTicks(5807),
                             Email = "homeowner1@gmail.com",
                             ImagePath = "",
                             LastName = "HomeOwner",
@@ -428,7 +433,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(1089),
+                            CreatedAt = new DateTime(2024, 10, 7, 11, 58, 37, 353, DateTimeKind.Local).AddTicks(5832),
                             Email = "companyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "CompanyOwner",
@@ -492,6 +497,16 @@ namespace DataAccess.Migrations
                         {
                             PermissionKeysId = new Guid("e43167ad-158b-4a39-8f5d-c1a69b32d7cf"),
                             RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("a43167ad-158b-5a38-8f5d-c1a69b32d7cf"),
+                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a62"),
+                            RolesId = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74")
                         });
                 });
 

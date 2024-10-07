@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using DataAccess.Data;
 using DataAccess.Repositories;
 using Domain;
@@ -7,20 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Tests;
 
-
-[ExcludeFromCodeCoverage]
 [TestClass]
-public class DevicesRepositoryTest
+public class DeviceRepositoryTest
 {
-    private Guid _companyId;
-    private Guid _userId;
-    private Guid _anotherCompanyId;
-    private Company? _company;
-    private Company? _anotherCompany;
-
     private HMDbContext CreateInMemoryDbContext(string dbName)
     {
-        DbContextOptions<HMDbContext>? options = new DbContextOptionsBuilder<HMDbContext>()
+        var options = new DbContextOptionsBuilder<HMDbContext>()
             .UseInMemoryDatabase(dbName)
             .Options;
         return new HMDbContext(options);
@@ -28,212 +19,156 @@ public class DevicesRepositoryTest
 
     private void SeedData(HMDbContext context)
     {
-        var user = new User()
+        var user = new User
         {
             Id = Guid.NewGuid(),
             Name = "John",
             LastName = "Snow",
             Email = "mail@mail.com",
             Password = "password@123",
-
         };
-        var anoterUser = new User()
+        var company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
+        user.CompanyID = company.Id;
+
+        context.Users.Add(user);
+        context.Companies.Add(company);
+        context.SaveChanges();
+    }
+
+    [TestMethod]
+    public void CreateDevice_ShouldAddDevice_WhenCompanyExists()
+    {
+        using var context = CreateInMemoryDbContext("CreateDeviceTest");
+        SeedData(context);
+
+        var repository = new DeviceRepository(context);
+        if (context.Companies != null)
         {
-            Id = Guid.NewGuid(),
-            Name = "John",
-            LastName = "Snow",
-            Email = "mail@mail.com",
-            Password = "password@123",
+            var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Sensor };
 
-        };
-        _company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
-        _anotherCompany = new Company { Id = Guid.NewGuid(), Name = "anotherCompany", RUT = "Address", Owner = anoterUser };
-        user.CompanyID = _company.Id;
-        user.Company = _company;
-        context.Users?.Add(user);
-        context.Users?.Add(anoterUser);
-        context.Companies?.Add(_company);
-        context.Companies?.Add(_anotherCompany);
-        _userId = user.Id;
-        _companyId = _company.Id;
-        _anotherCompanyId = _anotherCompany.Id;
-        context.SaveChanges();
+            var result = repository.CreateDevice(device);
+
+            context.Devices.Should().ContainSingle();
+            result.Should().BeEquivalentTo(device);
+        }
     }
 
+    [TestMethod]
+    public void CreateDevice_ShouldThrowException_WhenCompanyDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("CreateDeviceTest_CompanyDoesNotExist");
+
+        var repository = new DeviceRepository(context);
+        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = Guid.NewGuid(), DeviceType = DeviceType.Sensor };
+
+        Action act = () => repository.CreateDevice(device);
+
+        act.Should().Throw<Exception>().WithMessage("The Company does not exist");
+    }
 
     [TestMethod]
-    public void CreateDeviceTestOk()
+    public void CreateCamera_ShouldAddCamera_WhenCompanyExists()
     {
-        _ = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", OwnerId = _userId };
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
+        using var context = CreateInMemoryDbContext("CreateCameraTest");
+        SeedData(context);
 
-        using HMDbContext? context = CreateInMemoryDbContext("TestAddDevice");
+        var repository = new DeviceRepository(context);
+        if (context.Companies != null)
+        {
+            var camera = new Camera { Id = Guid.NewGuid(), Name = "aCamera", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Camera };
+
+            var result = repository.CreateCamera(camera);
+
+            context.Devices.Should().ContainSingle();
+            result.Should().BeEquivalentTo(camera);
+        }
+    }
+
+    [TestMethod]
+    public void CreateCamera_ShouldThrowException_WhenCompanyDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("CreateCameraTest_CompanyDoesNotExist");
+
+        var repository = new DeviceRepository(context);
+        var camera = new Camera { Id = Guid.NewGuid(), Name = "aCamera", CompanyId = Guid.NewGuid(), DeviceType = DeviceType.Camera };
+
+        Action act = () => repository.CreateCamera(camera);
+
+        act.Should().Throw<Exception>().WithMessage("The Company does not exist");
+    }
+
+    [TestMethod]
+    public void ExistsDevice_ShouldReturnTrue_WhenDeviceExists()
+    {
+        using var context = CreateInMemoryDbContext("ExistsDeviceTest");
+        SeedData(context);
+
+        var repository = new DeviceRepository(context);
+        if (context.Companies != null)
+        {
+            var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Sensor };
+            repository.CreateDevice(device);
+
+            var result = repository.ExistsDevice(device.Name, device.CompanyId);
+
+            result.Should().BeTrue();
+        }
+    }
+
+    [TestMethod]
+    public void ExistsDevice_ShouldReturnFalse_WhenDeviceDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("ExistsDeviceDoesNotExistTest");
         SeedData(context);
 
         var repository = new DeviceRepository(context);
 
-        var result = repository.CreateDevice(device);
-
-        context.SaveChanges();
-        result.Should().BeEquivalentTo(device);
-    }
-
-    [TestMethod]
-    public void ExistsDeviceTestOk()
-    {
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
-
-        using HMDbContext? context = CreateInMemoryDbContext("ExistsDeviceTestOk");
-        SeedData(context);
-
-        var repository = new DeviceRepository(context);
-        repository.CreateDevice(device);
-
-        var result = repository.ExistsDevice(device.Name, device.CompanyId);
-
-        result.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public void ExistsDevice_WhenDeviceDoesNotExist_ShouldReturnFalse()
-    {
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
-
-        using HMDbContext? context = CreateInMemoryDbContext("ExistsDevice_WhenDeviceDoesNotExist_ShouldReturnFalse");
-        SeedData(context);
-
-        var repository = new DeviceRepository(context);
-
-        var result = repository.ExistsDevice(device.Name, device.CompanyId);
+        var result = context.Companies != null && repository.ExistsDevice("NonExistentDevice", context.Companies.First().Id);
 
         result.Should().BeFalse();
     }
 
     [TestMethod]
-    public void ExistsDevice_ReturnsFalse_WhenDeviceNameIsTheSameButFromAnotherCompany()
+    public void GetDevices_ShouldReturnDevices_WhenDevicesExist()
     {
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
-
-        using HMDbContext? context = CreateInMemoryDbContext("ExistsDevice_ReturnsFalse_WhenDeviceNameIsTheSameButFromAnotherCompany");
+        using var context = CreateInMemoryDbContext("GetDevicesTest");
         SeedData(context);
 
         var repository = new DeviceRepository(context);
-        repository.CreateDevice(device);
+        if (context.Companies != null)
+        {
+            var device1 = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "Model1", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Sensor };
+            var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", Model = "Model2", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Camera };
+            repository.CreateDevice(device1);
+            repository.CreateDevice(device2);
 
-        var result = repository.ExistsDevice(device.Name, _anotherCompanyId);
-        result.Should().BeFalse();
+            var result = repository.GetDevices("aDevice", "", "Company", DeviceType.Sensor);
+
+            result.Should().NotBeNull();
+            result.Should().HaveCount(1);
+            result[0].Should().BeEquivalentTo(device1);
+        }
     }
 
     [TestMethod]
-    public void ExistsDevice_ReturnsFalse_WhenDeviceNameIsDifferentButFromTheSameCompany()
+    public void GetDevicesNoType_ShouldReturnDevices_WhenDevicesExist()
     {
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "123441", CompanyId = _companyId, DeviceType = DeviceType.Sensor };
-
-        using HMDbContext? context = CreateInMemoryDbContext("ExistsDevice_ReturnsFalse_WhenDeviceNameIsDifferentButFromTheSameCompany");
+        using var context = CreateInMemoryDbContext("GetDevicesNoTypeTest");
         SeedData(context);
 
         var repository = new DeviceRepository(context);
-        repository.CreateDevice(device);
-
-        var result = repository.ExistsDevice("anotherDevice", _companyId);
-        result.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public void GetDevicesTestOk()
-    {
-        var user = new User()
+        if (context.Companies != null)
         {
-            Id = Guid.NewGuid(),
-            Name = "John",
-            LastName = "Snow",
-            Email = "mail@mail.com",
-            Password = "password@123",
+            var device1 = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "Model1", CompanyId = context.Companies.First().Id };
+            var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", Model = "Model2", CompanyId = context.Companies.First().Id };
+            repository.CreateDevice(device1);
+            repository.CreateDevice(device2);
 
-        };
-        var anoterUser = new User()
-        {
-            Id = Guid.NewGuid(),
-            Name = "John",
-            LastName = "Snow",
-            Email = "mail@mail.com",
-            Password = "password@123",
+            var result = repository.GetDevicesNoType("aDevice", "Model1", "Company");
 
-        };
-        _company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
-        _anotherCompany = new Company { Id = Guid.NewGuid(), Name = "anotherCompany", RUT = "Address", Owner = anoterUser };
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "21424", CompanyId = _companyId, Company = _company, DeviceType = DeviceType.Sensor };
-        var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", Model = "123123", CompanyId = _companyId, Company = _anotherCompany, DeviceType = DeviceType.Camera };
-
-        using HMDbContext? context = CreateInMemoryDbContext("GetDevicesTest");
-        SeedData(context);
-
-        var repository = new DeviceRepository(context);
-        repository.CreateDevice(device);
-        repository.CreateDevice(device2);
-
-        var result = repository.GetDevices(device.Name, device.Model, device.Company.Name, DeviceType.Sensor);
-
-        result.Should().NotBeNull();
-        result.Should().HaveCount(1);
+            result.Should().NotBeNull();
+            result.Should().HaveCount(1);
+            result[0].Should().BeEquivalentTo(device1);
+        }
     }
-
-    [TestMethod]
-    public void GetDevicesNoType()
-    {
-        var user = new User()
-        {
-            Id = Guid.NewGuid(),
-            Name = "John",
-            LastName = "Snow",
-            Email = "mail@mail.com",
-            Password = "password@123",
-
-        };
-        var anoterUser = new User()
-        {
-            Id = Guid.NewGuid(),
-            Name = "John",
-            LastName = "Snow",
-            Email = "mail@mail.com",
-            Password = "password@123",
-
-        };
-        _company = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", Owner = user };
-        _anotherCompany = new Company { Id = Guid.NewGuid(), Name = "anotherCompany", RUT = "Address", Owner = anoterUser };
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "21424", CompanyId = _companyId, Company = _company, DeviceType = DeviceType.Sensor };
-        var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", Model = "123123", CompanyId = _companyId, Company = _anotherCompany, DeviceType = DeviceType.Camera };
-
-        using HMDbContext? context = CreateInMemoryDbContext("GetDevicesNoType");
-        SeedData(context);
-
-        var repository = new DeviceRepository(context);
-        repository.CreateDevice(device);
-        repository.CreateDevice(device2);
-
-        var result = repository.GetDevicesNoType(device.Name, device.Model, device.Company.Name);
-
-        result.Should().NotBeNull();
-        result.Should().HaveCount(1);
-    }
-
-    [TestMethod]
-    public void CreateCameraTest()
-    {
-        _ = new Company { Id = Guid.NewGuid(), Name = "Company", RUT = "Address", OwnerId = _userId };
-        var camera = new Camera { Id = Guid.NewGuid(), Name = "aCamera", Model = "q4ewqewq", Indoors = true, SupportMovementDetection = true, Photo = "24124/123412", CompanyId = _companyId, DeviceType = DeviceType.Camera };
-
-        using HMDbContext? context = CreateInMemoryDbContext("CreateCameraTest");
-        SeedData(context);
-
-        var repository = new DeviceRepository(context);
-
-        var result = repository.CreateCamera(camera);
-
-        context.SaveChanges();
-
-        repository.GetDevices("aCamera", "", "Company", DeviceType.Camera).Should().NotBeNull();
-        result.Should().BeEquivalentTo(camera);
-    }
-
 }
