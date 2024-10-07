@@ -4,12 +4,11 @@ namespace Domain;
 
 public class Company
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;
     public string RUT { get; set; } = string.Empty;
     public string Logo { get; set; } = string.Empty;
     public Guid OwnerId { get; set; }
     [JsonIgnore]
     public User? Owner { get; set; }
-
 }
