@@ -7,7 +7,7 @@
 namespace DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class NotificationsFirstMigration : Migration
+public partial class ChangesOnUser2 : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,7 +97,11 @@ public partial class NotificationsFirstMigration : Migration
                 Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 DeviceType = table.Column<int>(type: "int", nullable: false),
                 Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                Photo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                Outdoors = table.Column<bool>(type: "bit", nullable: true),
+                Indoors = table.Column<bool>(type: "bit", nullable: true),
+                SupportMovementDetection = table.Column<bool>(type: "bit", nullable: true),
+                SupportPersonDetection = table.Column<bool>(type: "bit", nullable: true)
             },
             constraints: table =>
             {
@@ -137,6 +141,8 @@ public partial class NotificationsFirstMigration : Migration
             {
                 Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                Latitude = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                Longitude = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 MemberCount = table.Column<int>(type: "int", nullable: false),
                 HomeOwner = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -170,6 +176,7 @@ public partial class NotificationsFirstMigration : Migration
             columns: table => new
             {
                 Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                 Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -293,13 +300,13 @@ public partial class NotificationsFirstMigration : Migration
 
         migrationBuilder.InsertData(
             table: "Users",
-            columns: new[] { "Id", "CompanyID", "Email", "HomeId", "ImagePath", "LastName", "Name", "Password", "RoleID" },
+            columns: new[] { "Id", "CompanyID", "CreatedAt", "Email", "HomeId", "ImagePath", "LastName", "Name", "Password", "RoleID" },
             values: new object[,]
             {
-                { new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"), new Guid("10570280-239e-4fb8-8939-4f37415fccb7"), "anothercompanyowner1@gmail.com", null, "", "anotherCompanyOwner", "anotherCompanyOwner", "companyowner@1", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
-                { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
-                { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), null, "companyowner1@gmail.com", null, "", "CompanyOwner", "CompanyOwner", "companyowner@1", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
-                { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), null, "homeowner1@gmail.com", null, "", "HomeOwner", "HomeOwner", "homeowner@1", new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") }
+                { new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"), new Guid("10570280-239e-4fb8-8939-4f37415fccb7"), new DateTime(2024, 10, 6, 20, 3, 30, 625, DateTimeKind.Local).AddTicks(8556), "anothercompanyowner1@gmail.com", null, "", "anotherCompanyOwner", "anotherCompanyOwner", "companyowner@1", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
+                { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(889), "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74") },
+                { new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"), null, new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(1089), "companyowner1@gmail.com", null, "", "CompanyOwner", "CompanyOwner", "companyowner@1", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") },
+                { new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"), null, new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(1071), "homeowner1@gmail.com", null, "", "HomeOwner", "HomeOwner", "homeowner@1", new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf") }
             });
 
         migrationBuilder.InsertData(

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    [Migration("20241005170846_DeviceHasRepository")]
-    partial class DeviceHasRepository
+    [Migration("20241006230331_ChangesOnUser2")]
+    partial class ChangesOnUser2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,10 @@ namespace DataAccess.Migrations
 
                     b.ToTable("Devices");
 
+                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
+
+                    b.UseTphMappingStrategy();
+
                     b.HasData(
                         new
                         {
@@ -126,7 +130,15 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("HomeOwner")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Latitude")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Longitude")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -150,6 +162,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("DeviceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HardwareId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("HomeId")
@@ -184,6 +199,39 @@ namespace DataAccess.Migrations
                     b.HasIndex("HomeId");
 
                     b.ToTable("MemberSettings");
+                });
+
+            modelBuilder.Entity("Domain.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("HardwareId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("HomeDeviceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeDeviceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Domain.Permission", b =>
@@ -305,6 +353,9 @@ namespace DataAccess.Migrations
                     b.Property<Guid?>("CompanyID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -344,6 +395,7 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("205e7ec9-673c-4db2-911d-10fe2b9c159a"),
                             CompanyID = new Guid("10570280-239e-4fb8-8939-4f37415fccb7"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 625, DateTimeKind.Local).AddTicks(8556),
                             Email = "anothercompanyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "anotherCompanyOwner",
@@ -354,6 +406,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(889),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -364,6 +417,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(1071),
                             Email = "homeowner1@gmail.com",
                             ImagePath = "",
                             LastName = "HomeOwner",
@@ -374,6 +428,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
+                            CreatedAt = new DateTime(2024, 10, 6, 20, 3, 30, 637, DateTimeKind.Local).AddTicks(1089),
                             Email = "companyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "CompanyOwner",
@@ -440,6 +495,25 @@ namespace DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Camera", b =>
+                {
+                    b.HasBaseType("Domain.Device");
+
+                    b.Property<bool>("Indoors")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Outdoors")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SupportMovementDetection")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SupportPersonDetection")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue(0);
+                });
+
             modelBuilder.Entity("Domain.Company", b =>
                 {
                     b.HasOne("Domain.User", "Owner")
@@ -493,6 +567,23 @@ namespace DataAccess.Migrations
                         .HasForeignKey("HomeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Notification", b =>
+                {
+                    b.HasOne("Domain.HomeDevice", "HomeDevice")
+                        .WithMany()
+                        .HasForeignKey("HomeDeviceId");
+
+                    b.HasOne("Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HomeDevice");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
