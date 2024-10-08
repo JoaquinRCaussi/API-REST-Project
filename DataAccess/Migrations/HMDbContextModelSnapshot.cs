@@ -369,35 +369,13 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 10, 8, 12, 5, 49, 27, DateTimeKind.Local).AddTicks(6084),
+                            CreatedAt = new DateTime(2024, 10, 8, 13, 44, 5, 927, DateTimeKind.Local).AddTicks(8950),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
                             Name = "Admin",
                             Password = "admin",
                             RoleID = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
-                        },
-                        new
-                        {
-                            Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                            CreatedAt = new DateTime(2024, 10, 8, 12, 5, 49, 29, DateTimeKind.Local).AddTicks(4886),
-                            Email = "homeowner1@gmail.com",
-                            ImagePath = "",
-                            LastName = "HomeOwner",
-                            Name = "HomeOwner",
-                            Password = "homeowner@1",
-                            RoleID = new Guid("6d72b33a-582b-411e-a9b1-333333333333")
-                        },
-                        new
-                        {
-                            Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                            CreatedAt = new DateTime(2024, 10, 8, 12, 5, 49, 29, DateTimeKind.Local).AddTicks(4947),
-                            Email = "companyowner1@gmail.com",
-                            ImagePath = "",
-                            LastName = "CompanyOwner",
-                            Name = "CompanyOwner",
-                            Password = "companyowner@1",
-                            RoleID = new Guid("78947c68-f0aa-49d3-8f47-444444444444")
                         });
                 });
 
