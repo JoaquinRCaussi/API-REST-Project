@@ -56,8 +56,6 @@ public class UserController : ControllerBase
         });
     }
 
-
-
     [HttpGet]
     [Route("{userId}")]
     [AuthorizationFilter("CanManageUsers")]
