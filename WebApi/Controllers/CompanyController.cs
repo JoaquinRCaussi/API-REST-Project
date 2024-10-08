@@ -24,14 +24,6 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
 
     [HttpGet]
     [AuthorizationFilter("CanGetCompanies")]
-    public IActionResult GetCompanies([FromQuery] string name, [FromQuery] string ownerName)
-    {
-        var companies = companyLogic.GetCompanies(name, ownerName);
-        return Ok(companies);
-    }
-
-    [HttpGet]
-    [AuthorizationFilter("CanGetCompanies")]
     public IActionResult GetCompanies(
     [FromQuery] string? name,
     [FromQuery] string? ownerName,
