@@ -24,9 +24,29 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
 
     [HttpGet]
     [AuthorizationFilter("CanGetCompanies")]
-    public IActionResult GetCompanies([FromQuery] string name, [FromQuery] string ownerName)
+    public IActionResult GetCompanies(
+    [FromQuery] string? name,
+    [FromQuery] string? ownerName,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 10)
     {
-        var companies = companyLogic.GetCompanies(name, ownerName);
-        return Ok(companies);
+        List<Company> companies = companyLogic.GetCompanies(name, ownerName);
+
+        var totalResults = companies.Count;
+
+        var paginatedCompanies = companies
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var response = paginatedCompanies.Select(x => new CompanyResponse(x)).ToList();
+
+        return Ok(new
+        {
+            TotalResults = totalResults,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Companies = response
+        });
     }
 }

@@ -119,21 +119,32 @@ public class DeviceControllerTest
     [TestMethod]
     public void GetDevicesTestOk()
     {
-        var ListOfDevices = new List<Device>
-        {
-            CreateValidDevice(),
-            CreateValidDevice(),
-            CreateValidDevice()
-        };
-        var ListOfDevicesResponse = ListOfDevices.Select(d => new DeviceResponse(d)).ToList();
+        var listOfDevices = new List<Device>
+    {
+        CreateValidDevice(),
+        CreateValidDevice(),
+        CreateValidDevice()
+    };
+
+        var listOfDevicesResponse = listOfDevices.Select(d => new DeviceResponse(d)).ToList();
+
         _deviceLogicMock!
             .Setup(logic => logic.GetDevices("", "", "", DeviceType.Sensor))
-            .Returns(ListOfDevices);
+            .Returns(listOfDevices);
 
-        IActionResult result = _controller!.GetDevices("", "", "", DeviceType.Sensor);
+        IActionResult result = _controller!.GetDevices("", "", "", DeviceType.Sensor, 1, 10);
 
-        result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(ListOfDevicesResponse);
+        var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
+
+        var expectedResponse = new
+        {
+            TotalResults = listOfDevices.Count,
+            PageNumber = 1,
+            PageSize = 10,
+            Devices = listOfDevicesResponse
+        };
+
+        okResult.Value.Should().BeEquivalentTo(expectedResponse);
     }
 
     [TestMethod]
