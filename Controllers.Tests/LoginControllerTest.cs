@@ -25,7 +25,7 @@ public class LoginControllerTest
     }
 
     [TestMethod]
-    public void Login_ValidCredentials_ReturnsOkResultWithToken()
+    public void Login_ValidCredentials_ReturnsCreatedAtActionWithToken()
     {
         var userId = Guid.NewGuid();
         var userRoleId = Guid.NewGuid();
@@ -51,21 +51,24 @@ public class LoginControllerTest
             HttpContext = httpContext
         };
 
+        // Act
         var actionResult = _loginController.Login(loginRequest);
-        actionResult.Should().BeOfType<OkObjectResult>();
-        var result = actionResult as OkObjectResult;
+
+        // Assert
+        actionResult.Should().BeOfType<CreatedAtActionResult>();
+        var result = actionResult as CreatedAtActionResult;
 
         result.Should().NotBeNull();
-        result.StatusCode.Should().Be(200);
+        result.StatusCode.Should().Be(201);
 
         var response = result.Value as LoginResponse;
         response.Should().NotBeNull();
         response.Token.Should().Be(userId.ToString());
 
-        // Verifica que la cabecera Authorization contiene el token esperado
         _loginController.Response.Headers.Should().ContainKey("Authorization");
         _loginController.Response.Headers["Authorization"].ToString().Should().Be(userId.ToString());
     }
+
 
 
 

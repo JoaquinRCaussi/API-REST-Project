@@ -27,11 +27,17 @@ public class CompaniesControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
+
         var httpContext = new DefaultHttpContext();
         httpContext.Items[0] = owner;
-        var company = new CompanyRequest("name", "aRUT", "apath");
+
+        var companyRequest = new CompanyRequest("name", "aRUT", "apath");
+
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        companyLogic.Setup(x => x.CreateCompany(It.IsAny<Company>())).Returns(company.ToArgs(owner));
+
+        var createdCompany = companyRequest.ToArgs(owner); // Suponiendo que ToArgs retorna el objeto Company.
+        companyLogic.Setup(x => x.CreateCompany(It.IsAny<Company>())).Returns(createdCompany);
+
         var controller = new CompanyController(companyLogic.Object)
         {
             ControllerContext = new ControllerContext()
@@ -41,12 +47,22 @@ public class CompaniesControllerTest
         };
 
         // Act
-        IActionResult act = controller.CreateCompany(company);
-        var companyResponse = new CompanyResponse(company.ToArgs(owner));
-        var expected = new OkObjectResult(companyResponse);
-        //Assert
-        act.Should().BeEquivalentTo(expected);
+        IActionResult act = controller.CreateCompany(companyRequest);
+
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateCompany),
+            nameof(CompanyController).Replace("Controller", ""),
+            new { id = createdCompany.Id },
+            new CompanyResponse(createdCompany)
+        );
+
+        // Assert
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
+
 
     [TestMethod]
     public void GetCompanies_AllowFilterByCompanyName()

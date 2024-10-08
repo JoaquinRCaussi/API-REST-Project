@@ -43,8 +43,22 @@ public class HomeOwnerControllerTest
             LastName = user.LastName,
             Email = user.Email
         };
-        var expected = new OkObjectResult(homeOwnerResponse);
 
-        act.Should().BeEquivalentTo(expected);
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateHomeOwner),
+            nameof(HomeOwnerController).Replace("Controller", ""),
+            new { id = user.Id },
+            new HomeOwnerResponse
+            {
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email
+            }
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 }

@@ -18,6 +18,7 @@ public class UserControllerTest
     [TestMethod]
     public void CreateAdmin_WhenAllPropertiesOk()
     {
+        // Arrange
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -26,7 +27,7 @@ public class UserControllerTest
             Email = "mail@mail.com",
             Password = "password@123"
         };
-        // Arrange
+
         var admin = new AdminRequest
         {
             Name = user.Name,
@@ -34,16 +35,30 @@ public class UserControllerTest
             Email = user.Email,
             Password = user.Password
         };
+
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
-        logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(admin.ToArgs());
-        //Act 
+        logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(user);
+
+        // Act 
         var controller = new AdminController(logic.Object);
         IActionResult act = controller.CreateAdmin(admin);
+
         var adminResponse = new AdminResponse { Name = admin.Name, LastName = admin.LastName, Email = admin.Email };
-        var expected = new OkObjectResult(adminResponse);
+
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateAdmin),
+            nameof(AdminController).Replace("Controller", ""),
+            new { id = user.Id },
+            adminResponse
+        );
+
         // Assert
-        act.Should().BeEquivalentTo(expected);
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
+
 
     #endregion
 

@@ -23,6 +23,6 @@ public class CompanyOwnerController : ControllerBase
     public IActionResult CreateCompanyOwner([FromBody] CompanyOwnerRequest user)
     {
         User companyOwner = _userLogic.CreateCompanyOwner(user.ToArgs());
-        return Ok(companyOwner);
+        return CreatedAtAction(nameof(CreateCompanyOwner), new { id = companyOwner.Id }, companyOwner);
     }
 }

@@ -30,7 +30,7 @@ public sealed class AdminController : ControllerBase
             LastName = createdUser.LastName,
             Email = createdUser.Email
         };
-        return Ok(response);
+        return CreatedAtAction(nameof(CreateAdmin), new { id = createdUser.Id }, response);
     }
 
     [HttpDelete]

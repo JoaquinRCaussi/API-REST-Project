@@ -96,9 +96,24 @@ public class HomeControllerTest
             HomeOwner = homeRequestObject.HomeOwner
         };
 
-        var expected = new OkObjectResult(homeResponse);
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateHome),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = homeRequestObject.Id },
+            new HomeResponse
+            {
+                Location = homeRequestObject.Location,
+                Latitude = homeRequestObject.Latitude,
+                Longitude = homeRequestObject.Longitude,
+                MemberCount = homeRequestObject.MemberCount,
+                HomeOwner = homeRequestObject.HomeOwner
+            }
+        );
 
-        act.Should().BeEquivalentTo(expected);
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]
@@ -376,9 +391,21 @@ public class HomeControllerTest
 
         IActionResult act = controller.AddDeviceToHome(homeId, homeDeviceRequest);
 
-        var expected = new OkObjectResult(homeDeviceResponse);
+        var expected = new CreatedAtActionResult(
+            nameof(controller.AddDeviceToHome),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = home.Id },
+            new HomeDeviceResponse
+            {
+                HardwareId = homeDevice.HardwareId,
+                Device = device
+            }
+        );
 
-        act.Should().BeEquivalentTo(expected);
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]
@@ -473,8 +500,17 @@ public class HomeControllerTest
 
         IActionResult act = controller.CreateNotificationOpenSensor(homeId, hardwareId);
 
-        var expected = new OkObjectResult(notifications);
-        act.Should().BeEquivalentTo(expected);
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateNotificationOpenSensor),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = notification.Id },
+            notifications
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]
@@ -496,7 +532,6 @@ public class HomeControllerTest
             IsRead = false,
             HardwareId = hardwareId,
             UserId = Guid.NewGuid()
-
         };
 
         var notifications = new List<Notification> { notification };
@@ -511,8 +546,17 @@ public class HomeControllerTest
 
         IActionResult act = controller.CreateNotificationCloseSensor(homeId, hardwareId);
 
-        var expected = new OkObjectResult(notifications);
-        act.Should().BeEquivalentTo(expected);
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateNotificationCloseSensor),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = notification.Id },
+            notifications
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]
@@ -549,8 +593,17 @@ public class HomeControllerTest
 
         IActionResult act = controller.CreateNotificationPersonDetectedCamera(homeId, hardwareId);
 
-        var expected = new OkObjectResult(notifications);
-        act.Should().BeEquivalentTo(expected);
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateNotificationPersonDetectedCamera),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = notification.Id },
+            notifications
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]
@@ -587,8 +640,17 @@ public class HomeControllerTest
 
         IActionResult act = controller.CreateNotificationMovementDetectedCamera(homeId, hardwareId);
 
-        var expected = new OkObjectResult(notifications);
-        act.Should().BeEquivalentTo(expected);
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateNotificationMovementDetectedCamera),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = notification.Id },
+            notifications
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]
