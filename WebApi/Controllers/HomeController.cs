@@ -28,7 +28,7 @@ public class HomeController : ControllerBase
         homeToCreate.HomeOwner = user.Id;
         Home createdHome = _homeLogic.CreateHome(homeToCreate);
         var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner, Latitude = createdHome.Latitude, Longitude = createdHome.Longitude };
-        return Ok(response);
+        return CreatedAtAction(nameof(CreateHome), new { id = createdHome.Id }, response);
     }
 
     [HttpGet]
@@ -112,7 +112,7 @@ public class HomeController : ControllerBase
 
         var response = new HomeDeviceResponse { HardwareId = homeDevice.HardwareId, Device = homeDevice.Device };
 
-        return Ok(response);
+        return CreatedAtAction(nameof(AddDeviceToHome), new { id = homeDevice.HardwareId }, response);
     }
 
     [HttpGet]
@@ -133,8 +133,9 @@ public class HomeController : ControllerBase
         var sensorRequest = new SensorRequest();
         var sensorEvent = "open";
         sensorRequest.Event = sensorEvent;
-        var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
-        return Ok(notification);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationOpenSensor), new { id = notification.Id }, notifications);
     }
 
     [HttpPost]
@@ -145,8 +146,9 @@ public class HomeController : ControllerBase
         var sensorRequest = new SensorRequest();
         var sensorEvent = "close";
         sensorRequest.Event = sensorEvent;
-        var notification = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
-        return Ok(notification);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationCloseSensor), new { id = notification.Id }, notifications);
     }
 
     [HttpPost]
@@ -157,8 +159,9 @@ public class HomeController : ControllerBase
         var sensorRequest = new SensorRequest();
         var sensorEvent = "person-detected";
         sensorRequest.Event = sensorEvent;
-        var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
-        return Ok(notification);
+        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationPersonDetectedCamera), new { id = notification.Id }, notifications);
     }
 
     [HttpPost]
@@ -169,7 +172,8 @@ public class HomeController : ControllerBase
         var sensorRequest = new SensorRequest();
         var sensorEvent = "movement-detected";
         sensorRequest.Event = sensorEvent;
-        var notification = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
-        return Ok(notification);
+        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationMovementDetectedCamera), new { id = notification.Id }, notifications);
     }
 }

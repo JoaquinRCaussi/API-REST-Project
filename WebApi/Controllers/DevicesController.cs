@@ -28,7 +28,7 @@ public class DevicesController : ControllerBase
         Device deviceToCreate = device.ToArgs(user.Company);
         Device createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
         var response = new DeviceResponse(createdDevice);
-        return Ok(response);
+        return CreatedAtAction(nameof(CreateDevice), new { id = createdDevice.Id }, response);
     }
 
     [HttpPost]
@@ -40,7 +40,7 @@ public class DevicesController : ControllerBase
         var cameraToCreate = (Camera)camera.ToArgs(user.Company);
         Camera createdCamera = _deviceLogic.CreateCamera(cameraToCreate);
         var response = new CameraResponse(createdCamera);
-        return Ok(response);
+        return CreatedAtAction(nameof(CreateCamera), new { id = createdCamera.Id }, response);
     }
 
     [HttpGet]

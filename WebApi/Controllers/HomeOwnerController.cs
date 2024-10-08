@@ -20,6 +20,6 @@ public class HomeOwnerController : ControllerBase
     public IActionResult CreateHomeOwner([FromBody] HomeOwnerRequest user)
     {
         User homeOwner = _userLogic.CreateHomeOwner(user.ToUser());
-        return Ok(homeOwner);
+        return CreatedAtAction(nameof(CreateHomeOwner), new { id = homeOwner.Id }, homeOwner);
     }
 }

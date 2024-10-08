@@ -54,7 +54,8 @@ public class HMDbContext : DbContext
             new PermissionKey { Id = Guid.Parse("33333333-3333-3333-3333-333333333333"), Value = "CanCreateHomeOwner" },
             new PermissionKey { Id = Guid.Parse("44444444-4444-4444-4444-444444444444"), Value = "CanCreateCompany" },
             new PermissionKey { Id = Guid.Parse("55555555-5555-5555-5555-555555555555"), Value = "CanCreateADevice" },
-            new PermissionKey { Id = Guid.Parse("66666666-6666-6666-6666-666666666666"), Value = "CanManageUsers" }
+            new PermissionKey { Id = Guid.Parse("66666666-6666-6666-6666-666666666666"), Value = "CanManageUsers" },
+            new PermissionKey { Id = Guid.Parse("77777777-7777-7777-7777-777777777777"), Value = "CanGetCompanies" }
         );
 
         // Configuración de relaciones many-to-many entre Roles y PermissionKeys
@@ -65,6 +66,7 @@ public class HMDbContext : DbContext
                 new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("11111111-1111-1111-1111-111111111111") },        // Admin -> CanCreateAdmin
                 new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("66666666-6666-6666-6666-666666666666") },        // Admin -> CanManageUsers
                 new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("22222222-2222-2222-2222-222222222222") },        // Admin -> CanCreateCompanyOwner
+                new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("77777777-7777-7777-7777-777777777777") },        // Admin -> CanGetCompanies
                 new { RolesId = companyOwnerRoleId, PermissionKeysId = Guid.Parse("44444444-4444-4444-4444-444444444444") }, // CompanyOwner -> CanCreateCompanyOwner
                 new { RolesId = companyOwnerRoleId, PermissionKeysId = Guid.Parse("55555555-5555-5555-5555-555555555555") }, // CompanyOwner -> CanCreateADevice
                 new { RolesId = homeOwnerRoleId, PermissionKeysId = Guid.Parse("33333333-3333-3333-3333-333333333333") }     // HomeOwner -> CanCreateHomeOwner

@@ -76,55 +76,7 @@ public class DeviceControllerTest
     }
 
     [TestMethod]
-    public void CreateDevice_WhenAllPropertiesOK_ShouldReturnOk()
-    {
-        // Arrange
-        _user = new User
-        {
-            Id = Guid.NewGuid(),
-            Name = "Matias",
-            LastName = "Cabrera",
-            Email = "mail@.asdas.com",
-            Password = "password@123",
-            Company = _company
-        };
-        _company = new Company()
-        {
-            Id = Guid.NewGuid(),
-            Name = "anotherCompany",
-            RUT = "2312311",
-            Logo = "logo.jpg",
-            Owner = _user,
-            OwnerId = _user.Id
-        };
-        var httpContext = new DefaultHttpContext();
-        httpContext.Items[0] = _user;
-        _controller!.ControllerContext.HttpContext = httpContext;
-        var device = CreateValidDevice();
-        var deviceRequest = new DeviceRequest()
-        {
-            Name = "Dispositivo genérico",
-            Description = "Descripción genérica",
-            DeviceType = DeviceType.Camera,
-            Model = "Model X",
-            Photo = "photo1.jpg"
-        };
-        var expectedResponse = new DeviceResponse(device);
-
-        _deviceLogicMock!
-            .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
-            .Returns(device);
-
-        // Act
-        IActionResult result = _controller!.CreateDevice(deviceRequest);
-
-        // Assert
-        result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(expectedResponse);
-    }
-
-    [TestMethod]
-    public void CreateCamera_WhenAllPropertiesOK_ShouldReturnOk()
+    public void CreateCamera_WhenAllPropertiesOK_ShouldReturnCreated()
     {
         _user.Company = _company;
         var httpContext = new DefaultHttpContext();
@@ -149,12 +101,19 @@ public class DeviceControllerTest
             .Setup(logic => logic.CreateCamera(It.IsAny<Camera>()))
             .Returns(camera);
 
-        // Act
         IActionResult result = _controller!.CreateCamera(cameraRequest);
 
-        // Assert
-        result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(expectedResponse);
+        var expected = new CreatedAtActionResult(
+            nameof(_controller.CreateCamera),
+            nameof(DevicesController).Replace("Controller", ""),
+            new { id = camera.Id },
+            expectedResponse
+        );
+
+        result.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]

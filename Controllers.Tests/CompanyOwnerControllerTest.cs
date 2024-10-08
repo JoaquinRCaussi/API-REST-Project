@@ -36,21 +36,33 @@ public class CompanyOwnerControllerTest
         };
 
         var companyOwnerLogic = new Mock<IUserLogic>(MockBehavior.Strict);
+        var createdOwner = companyOwnerRequest.ToArgs();
         companyOwnerLogic.Setup(x => x.CreateCompanyOwner(It.IsAny<User>()))
-            .Returns(companyOwnerRequest.ToArgs());
+            .Returns(createdOwner);
 
         _controller = new CompanyOwnerController(companyOwnerLogic.Object);
 
         IActionResult act = _controller.CreateCompanyOwner(companyOwnerRequest);
+
         var companyOwnerResponse = new CompanyOwnerResponse
         {
             Name = companyOwnerRequest.Name,
             LastName = companyOwnerRequest.LastName,
             Email = companyOwnerRequest.Email
         };
-        var expected = new OkObjectResult(companyOwnerResponse);
 
-        act.Should().BeEquivalentTo(expected);
+        var expected = new CreatedAtActionResult(
+            nameof(_controller.CreateCompanyOwner),
+            nameof(CompanyOwnerController).Replace("Controller", ""),
+            new { id = createdOwner.Id },
+            companyOwnerResponse
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
+
 
 }

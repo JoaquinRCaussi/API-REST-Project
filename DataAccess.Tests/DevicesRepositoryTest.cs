@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DataAccess.Data;
 using DataAccess.Repositories;
 using Domain;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Tests;
 
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class DeviceRepositoryTest
 {
