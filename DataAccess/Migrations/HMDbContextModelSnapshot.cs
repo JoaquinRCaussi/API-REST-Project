@@ -80,6 +80,10 @@ namespace DataAccess.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Devices");
+
+                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Home", b =>
@@ -275,6 +279,11 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("66666666-6666-6666-6666-666666666666"),
                             Value = "CanManageUsers"
+                        },
+                        new
+                        {
+                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Value = "CanGetCompanies"
                         });
                 });
 
@@ -360,7 +369,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 188, DateTimeKind.Local).AddTicks(5290),
+                            CreatedAt = new DateTime(2024, 10, 8, 12, 5, 49, 27, DateTimeKind.Local).AddTicks(6084),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -371,7 +380,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3700),
+                            CreatedAt = new DateTime(2024, 10, 8, 12, 5, 49, 29, DateTimeKind.Local).AddTicks(4886),
                             Email = "homeowner1@gmail.com",
                             ImagePath = "",
                             LastName = "HomeOwner",
@@ -382,7 +391,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                            CreatedAt = new DateTime(2024, 10, 7, 18, 23, 17, 221, DateTimeKind.Local).AddTicks(3730),
+                            CreatedAt = new DateTime(2024, 10, 8, 12, 5, 49, 29, DateTimeKind.Local).AddTicks(4947),
                             Email = "companyowner1@gmail.com",
                             ImagePath = "",
                             LastName = "CompanyOwner",
@@ -439,6 +448,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
+                            PermissionKeysId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            RolesId = new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61")
+                        },
+                        new
+                        {
                             PermissionKeysId = new Guid("44444444-4444-4444-4444-444444444444"),
                             RolesId = new Guid("78947c68-f0aa-49d3-8f47-444444444444")
                         },
@@ -452,6 +466,25 @@ namespace DataAccess.Migrations
                             PermissionKeysId = new Guid("33333333-3333-3333-3333-333333333333"),
                             RolesId = new Guid("6d72b33a-582b-411e-a9b1-333333333333")
                         });
+                });
+
+            modelBuilder.Entity("Domain.Camera", b =>
+                {
+                    b.HasBaseType("Domain.Device");
+
+                    b.Property<bool>("Indoors")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Outdoors")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SupportMovementDetection")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SupportPersonDetection")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("Domain.Company", b =>
@@ -468,7 +501,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Domain.Device", b =>
                 {
                     b.HasOne("Domain.Company", "Company")
-                        .WithMany("Devices")
+                        .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -567,11 +600,6 @@ namespace DataAccess.Migrations
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Company", b =>
-                {
-                    b.Navigation("Devices");
                 });
 
             modelBuilder.Entity("Domain.Home", b =>

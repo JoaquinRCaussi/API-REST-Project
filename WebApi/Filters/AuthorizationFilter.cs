@@ -39,6 +39,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         var permission = BuildPermission();
         var hasNotPermission = !UserHasPermission(userLoggedMapped, permission);
         var hasNotType = false;
+        var hasNotSupport = false;
 
         if (context.RouteData.Values.ContainsKey("homeId"))
         {
@@ -79,7 +80,14 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
                     }
                     else if (routeSegment.Contains("/camera/"))
                     {
-                        hasNotType = !HardwareIdActuallyHasType(hardwareGuid, DeviceType.Camera, home);
+                        if (routeSegment.Contains("/person-detected"))
+                        {
+                            hasNotSupport = !HardwareIdActuallyHasType(hardwareGuid, DeviceType.Camera, home, "person-detected");
+                        }
+                        else
+                        {
+                            hasNotSupport = !HardwareIdActuallyHasType(hardwareGuid, DeviceType.Camera, home, "movement-detected");
+                        }
                     }
                 }
             }
@@ -106,6 +114,18 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
             {
                 StatusCode = (int)HttpStatusCode.Forbidden
             };
+        }
+        else if (hasNotSupport)
+        {
+            context.Result = new ObjectResult(new
+            {
+                InnerCode = "BadRequest",
+                Message = $"Camera has not support for this event type"
+            })
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
+
         }
     }
 
@@ -144,7 +164,7 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         return memberSetting.Permissions.Any(p => p.Value == requiredPermission);
     }
 
-    private bool HardwareIdActuallyHasType(Guid hardwareId, DeviceType type, Home home)
+    private bool HardwareIdActuallyHasType(Guid hardwareId, DeviceType type, Home home, string? eventType = null)
     {
         if (home == null || home.Devices == null)
         {
@@ -156,6 +176,24 @@ public sealed class AuthorizationFilterAttribute : Attribute, IAuthorizationFilt
         if (device == null)
         {
             return false;
+        }
+
+        if (eventType != null)
+        {
+            var devicee = device.Device;
+            if (devicee.DeviceType == DeviceType.Camera)
+            {
+                var camera = (Camera)devicee;
+                if (camera.SupportPersonDetection && eventType == "person-detected")
+                {
+                    return true;
+                }
+                if (camera.SupportMovementDetection && eventType == "movement-detected")
+                {
+                    return true;
+                }
+                return false;
+            }
         }
 
         return device.Device.DeviceType == type;

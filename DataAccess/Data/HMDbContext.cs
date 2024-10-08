@@ -86,7 +86,10 @@ public class HMDbContext : DbContext
             .WithMany()
             .HasForeignKey(d => d.CompanyId);
 
-
+        modelBuilder.Entity<Device>()
+            .HasDiscriminator<DeviceType>("DeviceType")
+            .HasValue<Device>(DeviceType.Sensor)
+            .HasValue<Camera>(DeviceType.Camera);
 
         modelBuilder.Entity<User>().HasData(
             new User
