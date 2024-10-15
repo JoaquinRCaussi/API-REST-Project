@@ -500,7 +500,7 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest(); // Asegúrate de inicializar con valores válidos
+        var sensorRequest = new SensorRequest { Event = "person-detected" };
         var notifications = new List<Notification>
     {
         new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }

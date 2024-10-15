@@ -112,6 +112,11 @@ public class HomeLogic : IHomeLogic
 
     public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
     {
+        if (sensor.Event != "movement-detected" && sensor.Event != "person-detected")
+        {
+            throw new NotValidDataException("Event must be movement-detected or person-detected");
+        }   
+        
         return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
     }
 }
