@@ -92,6 +92,13 @@ public class HomeLogic : IHomeLogic
 
     public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
     {
+        if(sensor.Event != "open" && sensor.Event != "close")
+        {
+            throw new NotValidDataException("Event must be open or close");
+        }
+
+        _homeRepository.ChangeHomeDeviceStatus(homeId, hardwareId, sensor.Event == "open");
+
         return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, sensor);
     }
 

@@ -424,7 +424,7 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest(); // Asegúrate de inicializar con valores válidos
+        var sensorRequest = new SensorRequest { Event = "open" };
         var notifications = new List<Notification>
     {
         new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
@@ -446,7 +446,7 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest(); // Asegúrate de inicializar con valores válidos
+        var sensorRequest = new SensorRequest(); // AsegÃºrate de inicializar con valores vÃ¡lidos
         var notifications = new List<Notification>
     {
         new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
