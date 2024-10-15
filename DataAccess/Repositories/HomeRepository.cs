@@ -138,4 +138,21 @@ public class HomeRepository : IHomeRepository
 
         return home.Devices;
     }
+
+    public HomeDevice ChangeHomeDeviceStatus(Guid homeId, Guid hardwareId, bool state)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+        var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
+
+        if (home == null || homeDevice == null)
+        {
+            return new()
+            {
+            };
+        }
+
+        homeDevice.State = state;
+        _dbContext.SaveChanges();
+        return homeDevice;
+    }
 }
