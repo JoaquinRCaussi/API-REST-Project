@@ -1,4 +1,5 @@
 using System.Net;
+using BusinessLogic;
 using Domain;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
@@ -68,14 +69,7 @@ public sealed class AuthenticationFilterAttribute
         }
         catch (Exception)
         {
-            context.Result = new ObjectResult(new
-            {
-                InnerCode = "InternalError",
-                Message = "An error ocurred while processing the request"
-            })
-            {
-                StatusCode = (int)HttpStatusCode.InternalServerError
-            };
+            throw new NotValidDataException("Invalid token");
         }
     }
 
