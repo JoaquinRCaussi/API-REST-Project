@@ -478,12 +478,26 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
+        
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId };
+        
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = new List<User>(),
+            Devices = [homeDevice],
+            MemberCount = 5
+        };
+        
         var sensorRequest = new SensorRequest { Event = "open" };
-        var notifications = new List<Notification>
-    {
-        new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
-    };
+        var notifications = new List<Notification>{ new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
 
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
         _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest)).Returns(notifications);
 
         // Act
@@ -500,12 +514,27 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
+        
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId };
+        
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = new List<User>(),
+            Devices = [homeDevice],
+            MemberCount = 5
+        };
+        
         var sensorRequest = new SensorRequest { Event = "person-detected" };
-        var notifications = new List<Notification>
-    {
-        new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
-    };
+        var notifications = new List<Notification>{ new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
 
+        
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
         _notificationRepositoryMock?.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest)).Returns(notifications);
 
         // Act
@@ -521,12 +550,25 @@ public class HomeLogicTest
     {
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
+        
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = new List<User>(),
+            MemberCount = 5
+        };
+        
         var sensorRequest = new SensorRequest { Event = "notAValidEvent" };
         var notifications = new List<Notification>
         {
             new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
         };
 
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest)).Returns(notifications);
 
         Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
