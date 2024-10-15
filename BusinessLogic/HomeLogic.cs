@@ -20,7 +20,8 @@ public class HomeLogic : IHomeLogic
     public Home CreateHome(Home home)
     {
         var homeResult = _homeRepository.CreateHome(home);
-        var homeWithMember = _homeRepository.AddMember(homeResult.Id, homeResult.HomeOwner);
+        var homeWithMember = AddMember(homeResult.Id, homeResult.HomeOwner);
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (homeWithMember == null)
         {
             return homeResult;
@@ -52,7 +53,7 @@ public class HomeLogic : IHomeLogic
     {
         var home = _homeRepository.GetHome(homeId);
         var members = _homeRepository.GetHomeMembers(homeId);
-        if (members.Count >= home.MemberCount)
+        if (home != null && members.Count >= home.MemberCount)
         {
             throw new ConflictException("House is full. Member limit has been reached.");
         }
@@ -65,7 +66,14 @@ public class HomeLogic : IHomeLogic
 
         if (value == null)
         {
-            throw new ArgumentNullException("Permission value is required");
+            throw new NotValidDataException("Permission value is required");
+        }
+        
+        var home = _homeRepository.GetHome(homeId);
+        
+        if(home == null)
+        {
+            throw new NotValidDataException("Home not found");
         }
 
         if (permissions.Enable)
@@ -77,7 +85,7 @@ public class HomeLogic : IHomeLogic
             _memberSettingRepository.RemovePermission(homeId, userId, value);
         }
 
-        return _homeRepository.GetHome(homeId);
+        return home;
     }
 
     public HomeDevice AddDevice(Guid homeId, Guid deviceId)
