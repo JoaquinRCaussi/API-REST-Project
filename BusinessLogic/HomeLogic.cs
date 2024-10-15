@@ -110,9 +110,15 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Home not found");
         }
 
-        if (GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId) == null)
+        var homeDevice = GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId);
+        if (homeDevice == null)
         {
             throw new NotValidDataException("Device not found");
+        }
+
+        if (homeDevice.Device?.DeviceType != DeviceType.Sensor)
+        {
+            throw new NotValidDataException("Device is not a sensor");
         }
 
         _homeRepository.ChangeHomeDeviceStatus(homeId, hardwareId, sensor.Event == "open");
@@ -132,9 +138,15 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Home not found");
         }
 
-        if (GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId) == null)
+        var homeDevice = GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId);
+        if (homeDevice == null)
         {
             throw new NotValidDataException("Device not found");
+        }
+
+        if (homeDevice.Device?.DeviceType != DeviceType.Camera)
+        {
+            throw new NotValidDataException("Device is not a camera");
         }
 
         return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);

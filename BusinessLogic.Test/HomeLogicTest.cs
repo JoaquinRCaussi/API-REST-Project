@@ -479,7 +479,9 @@ public class HomeLogicTest
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
 
-        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId };
+        var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Sensor, Description = "description", Photo = "photo" };
+
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
 
         var home = new Home
         {
@@ -515,7 +517,9 @@ public class HomeLogicTest
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
 
-        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId };
+        var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" };
+
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
 
         var home = new Home
         {
