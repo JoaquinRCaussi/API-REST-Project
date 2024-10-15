@@ -92,7 +92,7 @@ public class HomeLogic : IHomeLogic
 
     public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
     {
-        if(sensor.Event != "open" && sensor.Event != "close")
+        if (sensor.Event != "open" && sensor.Event != "close")
         {
             throw new NotValidDataException("Event must be open or close");
         }

@@ -461,7 +461,7 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(notifications);
         _notificationRepositoryMock?.Verify(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest), Times.Once);
     }
-    
+
     [TestMethod]
     public void CreateNotificationSensor_ShouldThrowExceptionWhenEventNotValid()
     {
@@ -474,9 +474,9 @@ public class HomeLogicTest
         };
 
         _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest)).Returns(notifications);
-        
+
         Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
-        
+
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Event must be open or close");
     }

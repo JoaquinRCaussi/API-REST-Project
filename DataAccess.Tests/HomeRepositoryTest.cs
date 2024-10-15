@@ -533,7 +533,7 @@ public class HomeRepositoryTest
         result.Device.Should().Be(device);
         home.Devices.Should().Contain(result);
     }
-    
+
     [TestMethod]
     public void ChangeHomeDeviceStatus_ShouldReturnDefaultHomeDevice_WhenHomeOrDeviceDoesNotExist()
     {
@@ -578,7 +578,7 @@ public class HomeRepositoryTest
             MemberCount = 5,
             Devices = []
         };
-        
+
         var _company = new Company()
         {
             Id = Guid.NewGuid(),
@@ -586,7 +586,7 @@ public class HomeRepositoryTest
             RUT = "2312311",
             Owner = user
         };
-        
+
         var device = new Device
         {
             Id = deviceId,
@@ -597,7 +597,7 @@ public class HomeRepositoryTest
             Description = "description",
             Photo = "photo"
         };
-        
+
         var homeDevice = new HomeDevice
         {
             Id = Guid.NewGuid(),
@@ -606,13 +606,13 @@ public class HomeRepositoryTest
             Device = device,
             State = false
         };
-        
+
         context.Homes?.Add(home);
         context.Devices?.Add(device);
         context.HomeDevices?.Add(homeDevice);
-        
+
         context.SaveChanges();
-        
+
         var result = repository.ChangeHomeDeviceStatus(homeId, deviceId, true);
     }
 }

@@ -19,6 +19,6 @@ public interface IHomeRepository
     public HomeDevice AddDevice(Guid homeId, Guid deviceId);
 
     public List<HomeDevice> GetHomeDevices(Guid homeId);
-    
+
     public HomeDevice ChangeHomeDeviceStatus(Guid homeId, Guid hardwareId, bool state);
 }
