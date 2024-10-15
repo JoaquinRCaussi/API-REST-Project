@@ -533,5 +533,86 @@ public class HomeRepositoryTest
         result.Device.Should().Be(device);
         home.Devices.Should().Contain(result);
     }
+    
+    [TestMethod]
+    public void ChangeHomeDeviceStatus_ShouldReturnDefaultHomeDevice_WhenHomeOrDeviceDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeDeviceStatusHomeOrDeviceNull");
+        var repository = new HomeRepository(context);
 
+        var nonExistentHomeId = Guid.NewGuid();
+        var nonExistentDeviceId = Guid.NewGuid();
+
+        var result = repository.ChangeHomeDeviceStatus(nonExistentHomeId, nonExistentDeviceId, true);
+
+        result.Should().NotBeNull();
+        result.DeviceId.Should().Be(default(Guid));
+        result.Device.Should().BeNull();
+    }
+
+    [TestMethod]
+    public void ChangeHomeDeviceStatus_ShouldChangeDeviceStatus_WhenHomeAndDeviceExist()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeDeviceStatusHomeAndDeviceExist");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var deviceId = Guid.NewGuid();
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = []
+        };
+        
+        var _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
+        
+        var device = new Device
+        {
+            Id = deviceId,
+            Company = _company,
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+        
+        var homeDevice = new HomeDevice
+        {
+            Id = Guid.NewGuid(),
+            HardwareId = Guid.NewGuid(),
+            DeviceId = deviceId,
+            Device = device,
+            State = false
+        };
+        
+        context.Homes?.Add(home);
+        context.Devices?.Add(device);
+        context.HomeDevices?.Add(homeDevice);
+        
+        context.SaveChanges();
+        
+        var result = repository.ChangeHomeDeviceStatus(homeId, deviceId, true);
+    }
 }

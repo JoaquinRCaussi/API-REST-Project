@@ -359,7 +359,7 @@ public class HomeControllerTest
             Photo = "photo1.jpg"
         };
 
-        var homeDevice = new HomeDevice { HardwareId = Guid.NewGuid(), DeviceId = deviceId, Device = device, state = false };
+        var homeDevice = new HomeDevice { HardwareId = Guid.NewGuid(), DeviceId = deviceId, Device = device, State = false };
 
         var homeDevices = new List<HomeDevice> { homeDevice };
 
