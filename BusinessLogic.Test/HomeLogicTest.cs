@@ -266,7 +266,7 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -274,10 +274,10 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = userId,
-            Members = new List<User>(),
+            Members = [],
             MemberCount = 5
         };
-        
+
         var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = true };
 
         // Act
@@ -300,7 +300,7 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -308,17 +308,17 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = userId,
-            Members = new List<User>(),
+            Members = [],
             MemberCount = 5
         };
-        
+
         var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = false };
 
         var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = false };
 
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        
+
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAddMembers")).Returns(true);
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAsociateDevices")).Returns(true);
 
@@ -337,7 +337,7 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -345,14 +345,14 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = userId,
-            Members = new List<User>(),
+            Members = [],
             MemberCount = 5
         };
-        
+
         var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = true };
 
         var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = true };
-        
+
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
 
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
@@ -368,7 +368,7 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -376,14 +376,14 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = userId,
-            Members = new List<User>(),
+            Members = [],
             MemberCount = 5
         };
-        
+
         var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = false };
 
         var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = false };
-        
+
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
 
         _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
@@ -457,10 +457,10 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var devices = new List<HomeDevice>
-    {
-        new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() },
-        new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() }
-    };
+            {
+                new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() },
+                new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() }
+            };
 
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(devices);
 
@@ -478,9 +478,9 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        
+
         var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId };
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -488,13 +488,13 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User>(),
+            Members = [],
             Devices = [homeDevice],
             MemberCount = 5
         };
-        
+
         var sensorRequest = new SensorRequest { Event = "open" };
-        var notifications = new List<Notification>{ new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
+        var notifications = new List<Notification> { new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
@@ -514,9 +514,9 @@ public class HomeLogicTest
         // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        
+
         var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId };
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -524,15 +524,15 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User>(),
+            Members = [],
             Devices = [homeDevice],
             MemberCount = 5
         };
-        
-        var sensorRequest = new SensorRequest { Event = "person-detected" };
-        var notifications = new List<Notification>{ new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
 
-        
+        var sensorRequest = new SensorRequest { Event = "person-detected" };
+        var notifications = new List<Notification> { new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
+
+
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
         _notificationRepositoryMock?.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest)).Returns(notifications);
@@ -550,7 +550,7 @@ public class HomeLogicTest
     {
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -558,10 +558,10 @@ public class HomeLogicTest
             Latitude = "123",
             Longitude = "123",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User>(),
+            Members = [],
             MemberCount = 5
         };
-        
+
         var sensorRequest = new SensorRequest { Event = "notAValidEvent" };
         var notifications = new List<Notification>
         {

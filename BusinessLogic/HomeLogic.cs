@@ -68,10 +68,10 @@ public class HomeLogic : IHomeLogic
         {
             throw new NotValidDataException("Permission value is required");
         }
-        
+
         var home = _homeRepository.GetHome(homeId);
-        
-        if(home == null)
+
+        if (home == null)
         {
             throw new NotValidDataException("Home not found");
         }
@@ -104,13 +104,13 @@ public class HomeLogic : IHomeLogic
         {
             throw new NotValidDataException("Event must be open or close");
         }
-        
-        if(GetHome(homeId) == null)
+
+        if (GetHome(homeId) == null)
         {
             throw new NotValidDataException("Home not found");
         }
-        
-        if(GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId) == null)
+
+        if (GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId) == null)
         {
             throw new NotValidDataException("Device not found");
         }
@@ -125,18 +125,18 @@ public class HomeLogic : IHomeLogic
         if (sensor.Event != "movement-detected" && sensor.Event != "person-detected")
         {
             throw new NotValidDataException("Event must be movement-detected or person-detected");
-        }   
-        
-        if(GetHome(homeId) == null)
+        }
+
+        if (GetHome(homeId) == null)
         {
             throw new NotValidDataException("Home not found");
         }
-        
-        if(GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId) == null)
+
+        if (GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId) == null)
         {
             throw new NotValidDataException("Device not found");
         }
-        
+
         return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
     }
 }
