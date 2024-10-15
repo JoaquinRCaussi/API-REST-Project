@@ -102,30 +102,6 @@ public class HMDbContext : DbContext
                 RoleID = adminRoleId
             });
 
-        modelBuilder.Entity<User>().HasData(
-            new User
-            {
-                Id = Guid.Parse("e43167ad-158b-4a39-8f5d-c0a69b32d7cf"),
-                Name = "HomeOwner",
-                LastName = "HomeOwner",
-                Email = "homeowner1@gmail.com",
-                Password = "homeowner@1",
-                RoleID = homeOwnerRoleId
-            }
-        );
-
-        modelBuilder.Entity<User>().HasData(
-            new User
-            {
-                Id = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61"),
-                Name = "CompanyOwner",
-                LastName = "CompanyOwner",
-                Email = "companyowner1@gmail.com",
-                Password = "companyowner@1",
-                RoleID = companyOwnerRoleId
-            }
-        );
-
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
