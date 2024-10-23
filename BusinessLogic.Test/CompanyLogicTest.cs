@@ -119,7 +119,7 @@ public class CompanyLogicTest
 
         Action act = () => companyLogic.GetCompanies(null, null);
         
-        act.Should().Throw<EmptyException>().WithMessage("No companies found");
+        act.Should().Throw<EmptyException>().WithMessage("No companies found.");
     }
     
 
