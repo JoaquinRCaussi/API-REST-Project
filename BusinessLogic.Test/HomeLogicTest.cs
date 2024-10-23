@@ -473,6 +473,18 @@ public class HomeLogicTest
     }
 
     [TestMethod]
+    public void GetHomes_ShouldReturnException_WhenNoHomesFound()
+    {
+        _homeRepositoryMock?.Setup(x => x.GetHomes()).Returns(new List<Home>());
+
+        Action act = () => _homeLogic?.GetHomes();
+
+        act.Should().Throw<EmptyException>()
+            .WithMessage("No homes found.");
+    }
+    
+    
+    [TestMethod]
     public void CreateNotificationSensor_ShouldCreateNotification_WhenCalled()
     {
         // Arrange
