@@ -25,7 +25,12 @@ public class MemberSettingLogic : IMemberSettingLogic
 
     public MemberSetting GetMemberSetting(Guid homeId, Guid userId)
     {
-        return _memberSettingRepository.GetMemberSetting(homeId, userId);
+        var memberSetting = _memberSettingRepository.GetMemberSetting(homeId, userId);
+        if (memberSetting == null)
+        {
+            throw new EmptyException("No member setting found for this user at this home.");
+        }
+        return memberSetting;
     }
 
     public MemberSetting UpdateMemberSetting(MemberSetting memberSetting)
