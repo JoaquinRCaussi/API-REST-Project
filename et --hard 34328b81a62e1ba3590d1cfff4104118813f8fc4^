@@ -1,0 +1,2418 @@
+[33mcommit 34328b81a62e1ba3590d1cfff4104118813f8fc4[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 8 14:41:04 2024 -0300
+
+    Merging main release commit
+
+[33mcommit 5facdcc8f7d45769d939e65ed1dc8fa500e4f824[m[33m ([m[1;33mtag: 0.0.30[m[33m, [m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 9c4772d 5fb2ef3
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Tue Oct 8 12:25:45 2024 -0300
+
+    Merge pull request #38 from IngSoft-DA2/Feature/CoveringTests
+    
+    [REFACTOR] Now we check for the camera events when creating notificat…
+
+[33mcommit 5fb2ef3b41bd650711754461eac21ca9a1e12264[m
+Merge: f06f34f 9c4772d
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Tue Oct 8 12:23:02 2024 -0300
+
+    Merge branch 'develop' into Feature/CoveringTests
+
+[33mcommit f06f34f5209a3b6bf75573920a6cf76f2871d294[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 8 12:21:48 2024 -0300
+
+    [REFACTOR] Now we check for the camera events when creating notifications
+
+[33mcommit 9c4772dcf95d98d0e7695a7e6fb43c87ea56a3b6[m[33m ([m[1;33mtag: 0.0.29[m[33m)[m
+Merge: 8be8d94 5d9a735
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Tue Oct 8 12:20:58 2024 -0300
+
+    Merge pull request #37 from IngSoft-DA2/Feature/NewPaging
+    
+    Feature/new paging
+
+[33mcommit 5d9a73592881c6c020c98383a75f9dd744979a79[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 8 11:52:21 2024 -0300
+
+    [REFACTOR] test in GetDevices
+
+[33mcommit a4de990b51934f8b132394437b262212bcc89694[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 8 11:19:39 2024 -0300
+
+    Paging GetDevices
+
+[33mcommit 5b983e7c5d8d6a6ba5bc932e9a8f5d8268f0f05c[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 8 10:57:14 2024 -0300
+
+    Paging getCompanies
+
+[33mcommit 8be8d94f543f688b7efba46b7f440118486bcfb8[m[33m ([m[1;33mtag: 0.0.28[m[33m)[m
+Merge: de1a852 395becc
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Oct 7 23:17:52 2024 -0300
+
+    Merge pull request #35 from IngSoft-DA2/Feature/CoveringTests
+    
+    [REFACTOR] Ahora los endpoints devuelven 201 cuand ocrean cosas y tes…
+
+[33mcommit 395becc13c30637cea71582914d414f912a79f71[m
+Merge: 8eae9f7 de1a852
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Oct 7 23:15:30 2024 -0300
+
+    Merge branch 'develop' into Feature/CoveringTests
+
+[33mcommit 8eae9f79e335098f586568b25012815f27097c9f[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 23:11:16 2024 -0300
+
+    [REFACTOR] Ahora los endpoints devuelven 201 cuand ocrean cosas y tests arreglados, cosas innecesarias eliminadas
+
+[33mcommit de1a852b34792c75018c73d54f334bba1886f1ae[m[33m ([m[1;33mtag: 0.0.27[m[33m)[m
+Merge: ff7000c a46dc5a
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Oct 7 19:27:07 2024 -0300
+
+    Merge pull request #34 from IngSoft-DA2/Feature/CoveringTests
+    
+    Feature/covering tests
+
+[33mcommit a46dc5ac9db9a45418dd9d3f6a638d4aa0d11198[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 19:23:31 2024 -0300
+
+    Fixing tests
+
+[33mcommit a0fffea2d7b987ccc3da33fc3f8c8f0b86488e21[m
+Merge: d15bb15 ff7000c
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Oct 7 19:18:02 2024 -0300
+
+    Merge branch 'develop' into Feature/CoveringTests
+
+[33mcommit ff7000c42de0d64bd844a77a0d4c111932063854[m[33m ([m[1;33mtag: 0.0.26[m[33m)[m
+Merge: 5605283 ea57872
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Oct 7 19:17:49 2024 -0300
+
+    Merge pull request #33 from IngSoft-DA2/Feature/DevicesRepo
+    
+    [REFACTOR] Devices Repositories Has error
+
+[33mcommit ea578725803c2c2e2e472bcb3e29dc80eb22f13b[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 19:14:03 2024 -0300
+
+    Merging develop
+
+[33mcommit 054361b5237f26cf7886bd40404f19c485179ae1[m
+Merge: 09085ac 5605283
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 19:12:39 2024 -0300
+
+    MERGING
+
+[33mcommit 560528399f86d613c088362e152f51c0dade49c1[m[33m ([m[1;33mtag: 0.0.25[m[33m)[m
+Merge: 7f3274f e52d4f5
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Oct 7 19:03:05 2024 -0300
+
+    Merge pull request #32 from IngSoft-DA2/Feature/Paging
+    
+    Feature/paging
+
+[33mcommit 09085acf8a739838a4c32e899f03c01f5ddc897b[m
+Merge: 31fe9d6 3198ff0
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 19:00:25 2024 -0300
+
+    Merge branch 'Feature/DevicesRepo' of https://github.com/IngSoft-DA2/231355-224304-270635 into Feature/DevicesRepo
+
+[33mcommit 31fe9d63d666823b4101578905dd99f3998e38e3[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 19:00:22 2024 -0300
+
+    Fixing tests
+
+[33mcommit 3198ff095729f4d24abf2e7646b166a544d89763[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Oct 7 18:56:34 2024 -0300
+
+    [REFACTOR] EntityNotFoundException implemented
+
+[33mcommit 4f2eb4b74c851a46d6b6abea71c3217e4695fd6f[m
+Merge: 171a028 ebdb442
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 18:43:29 2024 -0300
+
+    Estoy cansado jefe
+
+[33mcommit 171a028691f78d15cc6ece77370c939e32938fc8[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 18:42:41 2024 -0300
+
+    [REFACTOR] Refacrtor
+
+[33mcommit ebdb44249e0fb5efcda295a3036454ec4be7509c[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Oct 7 18:40:29 2024 -0300
+
+    [REFACTOR] Code Analysis
+
+[33mcommit 4da97ba3afb29395ec96dde83f6d37027c861986[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Oct 7 18:39:35 2024 -0300
+
+    [REFACTOR] CameraRequest
+
+[33mcommit 99bd6016096f139ffaa29eb5177be9134f5be89a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Oct 7 18:14:56 2024 -0300
+
+    [REFACTOR] A lot of fixes on devices
+
+[33mcommit d15bb151ba04fd02a298b06e4975b98c307efb32[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Mon Oct 7 18:04:18 2024 -0300
+
+    [GREEN]GetDevices
+
+[33mcommit 3ea0a62b5a67fc2116cca61462fe234a03501b54[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Mon Oct 7 17:45:04 2024 -0300
+
+    [GREEN]UpdatePermissions_WhenUserIsHomeOwner_ShouldReturnOk
+
+[33mcommit 7d136870436e9697e054d63e212db1652995957d[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Mon Oct 7 17:19:36 2024 -0300
+
+    [GREEN] CreateNotificationCameraMovementDetected_WhenAllPropertiesOk
+
+[33mcommit 3d327c735adc547cff06f14de4e83419d333d3a9[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Mon Oct 7 17:01:05 2024 -0300
+
+    [RED] CreateNotificationCLoseSensor
+
+[33mcommit c002cf5ecaf87365bb0e90dd49da120bcaca0c96[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Oct 7 15:51:19 2024 -0300
+
+    [REFACTOR] Devices Repositories Has error
+
+[33mcommit e52d4f5fb940dd329a95014b674859f28b3e051b[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Mon Oct 7 14:02:12 2024 -0300
+
+    [REFACTOR]GetUsers_WhenAllPropertiesOk
+
+[33mcommit a1b1e55b104f18571538aa59b753d4f98b093df9[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Mon Oct 7 13:23:09 2024 -0300
+
+    [REFACTOR] GetUsers now with paging
+
+[33mcommit 7f3274f5fb537cbdbcca02c7fede9ad92b1a0151[m[33m ([m[1;33mtag: 0.0.24[m[33m)[m
+Merge: 477975a d1b1fa1
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sun Oct 6 23:51:37 2024 -0300
+
+    Merge pull request #30 from IngSoft-DA2/Fixings
+    
+    Fixings about Company And Users
+
+[33mcommit d1b1fa16a138ea49c8c20841f453236ce81ee782[m
+Merge: 582c86e 477975a
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sun Oct 6 23:48:56 2024 -0300
+
+    Merge branch 'develop' into Fixings
+
+[33mcommit 582c86ed34d181f39d13800cfe49b5ebc2d46da7[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 23:37:01 2024 -0300
+
+    dotnet analysis
+
+[33mcommit 5433b2b2e61ad653a52fcbfea4cedcba657b4af4[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 23:33:21 2024 -0300
+
+    [REFACTOR] Now we filter users by role and full name
+
+[33mcommit c61e8e92b9ae5284c612edd5fc2513042d9feeee[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 22:46:04 2024 -0300
+
+    Fixing Company Repository, Cycle problems,Guid parse errors, Admin permissions
+
+[33mcommit 477975a91cc714453ed13c6d95c29438b752e596[m[33m ([m[1;33mtag: 0.0.23[m[33m)[m
+Merge: 897cfbe fb34c4c
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Sun Oct 6 21:35:29 2024 -0300
+
+    Merge pull request #29 from IngSoft-DA2/Fixings
+    
+    [REFACTOR] Refactor on User Functionalities. Now we limit emails, imp…
+
+[33mcommit fb34c4c903885d540862fc9aa24875412563942d[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 20:37:58 2024 -0300
+
+    [REFACTOR] Missed one test, ups
+
+[33mcommit 6f5f16ab829cb383c6e91f6199cacc5f6f70cc7d[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 20:32:52 2024 -0300
+
+    [REFACTOR] Refactor on User Functionalities. Now we limit emails, improved responses and CreationDate
+
+[33mcommit 897cfbe0cbc5c48ab36e0c34c1fdecaa8c4b2454[m[33m ([m[1;33mtag: 0.0.22[m[33m)[m
+Merge: c20fa6b 08db48e
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sun Oct 6 18:50:20 2024 -0300
+
+    Merge pull request #28 from IngSoft-DA2/Fixings
+    
+    Fixings
+
+[33mcommit 08db48e04870a66a2cc0b1041ae410093d4f2c11[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 18:38:09 2024 -0300
+
+    Dotnet analysis
+
+[33mcommit 35af65249e877931813cfa5e8f2b6b3cf82c8cc7[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 18:33:59 2024 -0300
+
+    [REFACTOR] Now a member user can add notification permission for himself
+
+[33mcommit 79ec56631cf3ec0bcba61fa4b1435a3e2b8fdb8e[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 17:53:40 2024 -0300
+
+    [REFACTOR] Changing how permissions are given
+
+[33mcommit b678496ffb1f1f35988ed8de3bb6c5cc5f92464f[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 17:09:48 2024 -0300
+
+    [GREEN] AddMember Should Throw Conflict Exception When Limit Reached
+
+[33mcommit e5987efc053fe779468bc08bb1b8ce40972baab3[m
+Merge: df11ab3 c20fa6b
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 15:26:51 2024 -0300
+
+    Merge branch 'develop' into Fixings
+
+[33mcommit c20fa6b75f0c6b8f074f4a0b03ee5ffa03060066[m[33m ([m[1;33mtag: 0.0.21[m[33m)[m
+Merge: 8039b14 e1071a3
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sun Oct 6 15:24:56 2024 -0300
+
+    Merge pull request #27 from IngSoft-DA2/TestCoverage
+    
+    Test coverage improvement
+
+[33mcommit e1071a3fe14fe0c6f26068f03f14438fc6a20b7d[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 15:21:39 2024 -0300
+
+    Dotnet formating
+
+[33mcommit ded0854464f77e68a3266429c3605b04fc0a6452[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 15:20:17 2024 -0300
+
+    Improving test coverage - Authorization Filter and MemberSettings
+
+[33mcommit 8039b14516548078e1d0f8286817c6ab58be847c[m[33m ([m[1;33mtag: 0.0.20[m[33m)[m
+Merge: 9e49e8c 25b04a8
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sun Oct 6 14:37:58 2024 -0300
+
+    Merge pull request #26 from IngSoft-DA2/Feature/HomeControllerNotifications
+    
+    Feature HomeController with Notifications
+
+[33mcommit 25b04a80865f25104968577dba3dd0827f47c8db[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 14:35:28 2024 -0300
+
+    Code analysis
+
+[33mcommit 0057ee78ebc69dc294ead83c79c24c77fbbedfcf[m
+Merge: 85b3440 6774996
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 14:33:31 2024 -0300
+
+    Merging with user changes
+
+[33mcommit 85b3440800b56deb771d8aa29aed300c2dbe2024[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 14:26:53 2024 -0300
+
+    Fixing excludes from tests and merging
+
+[33mcommit 677499666c91f07f717f3cbc6e721df8a5f253e5[m
+Merge: 01ba6fb 9e49e8c
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sun Oct 6 14:18:17 2024 -0300
+
+    Merge branch 'develop' into Feature/HomeControllerNotifications
+
+[33mcommit 961af7f5225b0b3d810792cc5a046612da247d91[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 13:27:42 2024 -0300
+
+    [GREEN] AddDevices
+
+[33mcommit 1f71c39768d7820b9851c83f693925052c1d3c95[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 13:19:32 2024 -0300
+
+    [GREEN] GetHomeDevices should return emptylist
+
+[33mcommit fd094db6599a93b27cf7b10b92578ea2bc86dfec[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 13:18:18 2024 -0300
+
+    [RED] GetHomeDevices should return emptylist
+
+[33mcommit 0057586458d63c8c8321097af45a8b1e3ba1a24e[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 12:59:34 2024 -0300
+
+    [REFACTOR] Fixing missings: Now we check if the owner is the one adding permissions
+
+[33mcommit a472c16d211fa21690556f4b35f80e8bbccd2631[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 12:47:04 2024 -0300
+
+    [REFACTOR] Fixing some issues: Authorization on List Devices, Authentication on User, ...
+
+[33mcommit 9e49e8c3dc9810974b9eb3be24d321bd9d689ec1[m[33m ([m[1;33mtag: 0.0.19[m[33m)[m
+Merge: 7408a5b b93798a
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sun Oct 6 12:16:43 2024 -0300
+
+    Merge pull request #25 from IngSoft-DA2/Feature/DevicesRepository
+    
+    Feature/devices repository
+
+[33mcommit b93798a5646aec68c0173da948c8d9821c111974[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sun Oct 6 11:56:55 2024 -0300
+
+    [REFACTOR] Code Analysis
+
+[33mcommit 3fea3d92874510507718d6f28764b092b1094a69[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sun Oct 6 11:54:31 2024 -0300
+
+    [REFACTOR] NowCameraIsWellAdded
+
+[33mcommit 3c3dc71c2fba536083ce8498978690250452f24e[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 11:38:51 2024 -0300
+
+    [GREEN] GetUserNotifications_Repository_WhenEmpty
+
+[33mcommit 18d0cd979415d6a7061a7e0db6eab0d975a26cfe[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 11:37:33 2024 -0300
+
+    [GREEN] GetUserNotifications_Repository
+
+[33mcommit f360bdf67119067fb98fcf70bdaeec29a3c11995[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 11:35:12 2024 -0300
+
+    [GREEN] GetUserNotifications_Logic
+
+[33mcommit 5c1bb356987e810a92f373fd8c17299ca305eb9b[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 11:34:04 2024 -0300
+
+    [GREEN] GetUserNotifications_WhenDontExist
+
+[33mcommit 939806bb097f550a286dc97682318e579ceae8d1[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 11:29:51 2024 -0300
+
+    [GREEN] GetUserNotifications_WhenExist
+
+[33mcommit 4f2e2ec2a4d042e9f5147b513171ecd82388708e[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 11:10:37 2024 -0300
+
+    [REFACTOR] Now we get homes even if he isnt the home owner. We check the member as well
+
+[33mcommit 8f7f56aba6b00fcdab5a00ae6d085e76159c8bee[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 11:03:41 2024 -0300
+
+    [GREEN] GetUserHomes_WhenAllOk
+
+[33mcommit 01ba6fbf8d6c22ae30dd20a44396ba96eef9e03a[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 02:32:51 2024 -0300
+
+    Fixing indentations and anaylsis
+
+[33mcommit df11ab3cb225fb45789b1eeff198a8fd2b51946a[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 02:31:09 2024 -0300
+
+    Fixing errors on Home, now we have Latitude and Longitude
+
+[33mcommit fe482468af7881fd9841f209cb41bf8e39104b47[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 01:55:55 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 43cd220e7fa0744f42b2c717b00df113ae2fc166[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 01:53:11 2024 -0300
+
+    [REFACTOR] We filter notifications for type when notification is going to be created
+
+[33mcommit 2272a2be49d9fada6884cee3ac5af85e24a7e1a1[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 00:22:53 2024 -0300
+
+    [REFACTOR] Now we return HomeDeviceResponse at AddingDevices
+
+[33mcommit b199dbab17386d605552bac667906faf1680c0de[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 00:21:41 2024 -0300
+
+    [REFACTOR] Now we return HomeDeviceResponse at AddingDevices
+
+[33mcommit 445e5750256550e7d9fba31776e01c5f0cf7316c[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 00:09:31 2024 -0300
+
+    [GREEN] NotificationRepository CreateNotiCameraShouldAddToDv
+
+[33mcommit 4c1dc486c9658bda4b113fba392aa48d3685441d[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 00:08:54 2024 -0300
+
+    [GREEN] NotificationRepository CreateNotiCameraShouldntCreate_NoDeviceFound
+
+[33mcommit 96d6cd4a9a49d7153ada01edc54876cdefcdc3b6[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 00:08:18 2024 -0300
+
+    [GREEN] NotificationRepository CreateNotiCameraShouldCreateOnlyForMember
+
+[33mcommit 88d5766967bc0795a2a1ddc74dcd794dbcbbafec[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 00:02:41 2024 -0300
+
+    [GREEN] CreateNotificationCamera_WhenAllPropertiesOk
+
+[33mcommit e0504923dfa595233f27ce33621fb0f1b156f348[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sun Oct 6 00:01:21 2024 -0300
+
+    [RED] CreateNotificationCamera_WhenAllPropertiesOk
+
+[33mcommit f2c41c66bd5b6e6a14a5373c2d27fd0d0a56ba02[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:56:49 2024 -0300
+
+    [REFACTOR] Now it only creates notifications when member has the permission
+
+[33mcommit 1fbccddbdfce26008eb7a9722ef390122718fb77[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:46:52 2024 -0300
+
+    [REFACTOR] Returning list of the created notifications
+
+[33mcommit a145d572ecac302a02f3b66a8c8c955770eb7ddb[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:44:37 2024 -0300
+
+    [REFACTOR] Pending stuff to fix
+
+[33mcommit 09e21c84d56469131f7f9e7412c6bc9476f30307[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:40:03 2024 -0300
+
+    [REFACTOR] Now we have Hardware Id
+
+[33mcommit b74c2502fd9b7f2d1131132e58ce6aad987be54f[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:37:23 2024 -0300
+
+    [GREEN] CreateNotificationSensor_ShouldAddNotificationsToDatabase
+
+[33mcommit a0b276d647bde23fcdcb3ec390328ddbcb806d96[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:36:44 2024 -0300
+
+    [GREEN] NotificationRepository CreateNotificationSensor_ShouldThrowExceptionWhenHomeOrDeviceNotFound
+
+[33mcommit 830c302e5db1cf65b046bfdf5af4d8a587ce1595[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:35:32 2024 -0300
+
+     [GREEN] NotificationRepository CreateNotificationSensor
+
+[33mcommit ae12defdcecf918c8217d7ba29505edc842efb8d[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 23:15:00 2024 -0300
+
+    [RED] NotificationRepository for Sensor
+
+[33mcommit b94a4148344372581c9045f82a2c532be3584402[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 22:58:08 2024 -0300
+
+    [GREEN] CreateNotification for Sensor
+
+[33mcommit e4564217e4c05552b339b48801c8cf81d0d4ffff[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 22:17:18 2024 -0300
+
+    [RED] CreateNotification for Sensor
+
+[33mcommit fd18f4172e4490afb23fb7de0720fea249f661bb[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 20:45:55 2024 -0300
+
+    [REFACTOR] Code Analysis
+
+[33mcommit c1c228a689985a67749298990fbd3cfbb9d6f941[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 20:40:08 2024 -0300
+
+    [GREEN] createCamerasOK
+
+[33mcommit 1b5fc3e1bd6d523a801959c63f8fc4e32efdcc37[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 20:28:57 2024 -0300
+
+    [RED] CreateCamera
+
+[33mcommit 3049be2fa355d43fca2cc2eaa1e0d5c48418a9c8[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 20:25:28 2024 -0300
+
+    [GREEN] GetDevicesNotype
+
+[33mcommit 985dd37fba5d851d2cfb7cb095e31c37d0f52aa5[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 20:23:19 2024 -0300
+
+    [RED] GetDevicesNotype
+
+[33mcommit 9516a8e95c24c3eb6af37355f7ebf3f7564ed165[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 18:58:56 2024 -0300
+
+    [GREEN] GetDevicesTest
+
+[33mcommit 6058cf8515629971227a5414c1821965a23e1130[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 15:11:04 2024 -0300
+
+    [RED] GetDevicesTest
+
+[33mcommit 5172cdfb4aaecff375298196ac14e11f4ef696c2[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 14:56:12 2024 -0300
+
+    [GREEN] ExistsDevice_ReturnsFalse_WhenDeviceNameIsDifferentButFromTheSameCompany
+
+[33mcommit 4c6a2ec862254d2e47c003db1256d3378cd13d0a[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 14:54:47 2024 -0300
+
+    [GREEN] ExistsDevice_ReturnsFalse_WhenDeviceNameIsTheSameButFromAnotherCompany
+
+[33mcommit cbddfd0237e5baf2bebf9ebfa7fee822fa621c22[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 14:05:30 2024 -0300
+
+    [GREEN] CreateDeviceTestOk
+
+[33mcommit 504d9fac23191f8f80e05087c8620bca1df59c51[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 13:57:58 2024 -0300
+
+    [RED] CreateDeviceTestOk
+
+[33mcommit 7408a5bb80c18a9a86fe56b819e8acf9140eba18[m[33m ([m[1;33mtag: 0.0.18[m[33m)[m
+Merge: e4b809b 8e6a18b
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sat Oct 5 11:19:27 2024 -0300
+
+    Merge pull request #24 from IngSoft-DA2/Feature/HomeDevices
+    
+    HomeDevices Functionalities
+
+[33mcommit 8e6a18b0da4dc7f1cbf6d621794622df583bfce9[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 11:15:38 2024 -0300
+
+    [REFACTOR] Fixing naming
+
+[33mcommit 341e950275ec8c6470f4806544126cb44b82448f[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 11:12:28 2024 -0300
+
+    [REFACTOR] Fixing naming
+
+[33mcommit 75542e6715debb20259dd91f5496a5005dc8c6d7[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 11:10:27 2024 -0300
+
+    [REFACTOR] Fixing indentations
+
+[33mcommit 8137f17a159dc1bd40f1cd011d2c411c56ee6cb3[m
+Merge: 92778b1 a990e4e
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 10:54:07 2024 -0300
+
+    Merge branch 'Feature/HomeDevices' of https://github.com/IngSoft-DA2/231355-224304-270635 into Feature/HomeDevices
+
+[33mcommit 92778b1bb1d3c4dbc18611a478c5274f3040921c[m
+Merge: dfca5a5 e4b809b
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Sat Oct 5 10:54:01 2024 -0300
+
+    MERGING develop
+
+[33mcommit a990e4e37f17d59321d7927dfc8757f1245c8e6d[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 10:32:37 2024 -0300
+
+    [GREEN] GetDevicesTypesOk
+
+[33mcommit dfca5a5b46cdb975c91858c1b2b4882310c7fdcf[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 10:16:58 2024 -0300
+
+    [GREEN] GetDevicesTest_WhenFilterByDeviceType
+
+[33mcommit 0f89b8753a81ead5b7003d742fbfad816f0ea6fd[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 10:12:29 2024 -0300
+
+    [GREEN] GetDevicesTest_WhenFilterByCompanyName
+
+[33mcommit e4867f138979db8434ea2ec89b06ddc2aa30a635[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Oct 5 10:08:20 2024 -0300
+
+    [GREEN] CreateCamera_WhenCompanyHasTheSameAlreadyCreatedShouldThrowException
+
+[33mcommit 62250ff6b39d345098419cb2f162e6c182d190e5[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 23:32:41 2024 -0300
+
+    [GREEN] CreateDevice_WhenCompanyHasTheSameAlreadyCreatedShouldThrowException
+
+[33mcommit 03dfe1a989eba1a783254be4f9325d1396277193[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 23:27:27 2024 -0300
+
+    [RED] CreateDevice_WhenCompanyHasTheSameAlreadyCreatedShouldThrowException
+
+[33mcommit a52a04ff6223ebeb9607824326462b48012f493f[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 23:12:04 2024 -0300
+
+    [GREEN] GetDevicesTest_WhenFilterByName
+
+[33mcommit 7a0d8c22c60f845db2753954582d498dfde241c7[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 23:11:40 2024 -0300
+
+    [RED] GetDevicesTest_WhenFilterByName
+
+[33mcommit 1cc2e71d7730a41895c234db5d0328b4714db7cb[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 22:55:44 2024 -0300
+
+    [GREEN] CreateDeviceTest_WhenAllPropertiesAreOk
+
+[33mcommit ce570707a9a3feca791a8e2ce357ff24ad50132a[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 22:29:15 2024 -0300
+
+    [GREEN] GetDevicesTypesOK
+
+[33mcommit 1d6e745920239e3769bdf093a39866a5ca3517db[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 22:25:50 2024 -0300
+
+    [RED] GetDevicesTypesOk
+
+[33mcommit 8b934242f2b379dc55edf13ec82be1decd2441fc[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 21:55:43 2024 -0300
+
+    [REFACTOR] GetDevicesTestOk
+
+[33mcommit 3e478ed2e16a12a9bc41823c5203a7cdcf9f2bc3[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 21:44:33 2024 -0300
+
+    [GREEN] GetDevicesTestOk
+
+[33mcommit 160f0416279db197b80107b7717a5dcb265ddfd5[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 21:40:12 2024 -0300
+
+    [RED] GetDevicesTestOk
+
+[33mcommit b31bed3c757741d2c862dbbbe61c9352728e350e[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Fri Oct 4 21:27:56 2024 -0300
+
+    [REFACTOR] Now Device receive a Company
+
+[33mcommit 8a2832362ee89d4ae9daf671477ec9c7e910e561[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Oct 4 01:30:16 2024 -0300
+
+    [REFACTOR] Now we can add devices, get devices, and when home created, permissions and home owner is given
+
+[33mcommit 67c099fc9aef637c6f797eab92c28d00dea01d4c[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 23:30:10 2024 -0300
+
+    [REFACTOR] Adding seed data membersettings
+
+[33mcommit 0476895522760f5dcb9478bbcb02a67d0a307ffd[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 23:03:39 2024 -0300
+
+    [REFACTOR] Seed data, little modifications
+
+[33mcommit 5a037ff6afddf4b9f80e5b261a331a3b487b51c1[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 22:54:19 2024 -0300
+
+    [GREEN] GetHomeDevices_WhenHomeHasDevices
+
+[33mcommit cb90b482e89b31ef28d2abd1df6136a0efdc9f40[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 22:31:21 2024 -0300
+
+    [RED] GetHomeDevices_WhenHomeHasDevices
+
+[33mcommit d44bfdaf1b8ea8bd9fd63ba552d8e01476de8510[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 22:17:43 2024 -0300
+
+    [GREEN] AddDevicToHome_WhenAllPropertiesOK
+
+[33mcommit e4b809bd26b786fcf50eeb5e01348552526016e7[m[33m ([m[1;33mtag: 0.0.17[m[33m)[m
+Merge: 716a6ab c765064
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Thu Oct 3 21:28:40 2024 -0300
+
+    Merge pull request #23 from IngSoft-DA2/Feature/ExceptionFilter
+    
+    Feature/ExceptionFilter
+
+[33mcommit c765064577523b6ce10c609a4610c20babf79ea9[m
+Merge: 761d496 716a6ab
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Thu Oct 3 21:26:00 2024 -0300
+
+    Merge branch 'develop' into Feature/ExceptionFilter
+
+[33mcommit 761d496b4825f9ea3d1f5c9f892360ccc0c2079e[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 21:23:14 2024 -0300
+
+    [REFACTOR] - Now the API response has the Exception messages
+
+[33mcommit 716a6ab34a3231b0176c0d63220fa45c8da86aa1[m[33m ([m[1;33mtag: 0.0.16[m[33m)[m
+Merge: cf079dd 981414c
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Thu Oct 3 21:22:10 2024 -0300
+
+    Merge pull request #22 from IngSoft-DA2/Feature/CompaniesRepository
+    
+    Feature/companies repository
+
+[33mcommit 981414c6fcd8e36587c786789154726b041f2103[m
+Merge: 5ae4f51 cf079dd
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Thu Oct 3 21:17:11 2024 -0300
+
+    Merge branch 'develop' into Feature/CompaniesRepository
+
+[33mcommit 5ae4f51de984db1c2ea20547afd31a28d8357c39[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 21:14:23 2024 -0300
+
+    [REFACTOR] Changing Codes Names
+
+[33mcommit 6d691c31e66424f296d6cc03554f732ae4f5ecd6[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 21:00:07 2024 -0300
+
+    [REFACTOR] Code Analysis
+
+[33mcommit 271ea2ebcd9acc31ee64cbcbd838afd72e606b48[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 19:15:41 2024 -0300
+
+    [RED] HomeDevices as changes on home and devices
+
+[33mcommit 01dff9e9759ef4c9973cb373259c6025b9f2837e[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 18:38:00 2024 -0300
+
+    [GREEN] OnNotValidDataException_WhenExceptionIsThrown_ShouldReturnBadRequest
+
+[33mcommit 4441f07db9416fde9c07c9abc9d14d9a245db9ff[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 18:31:21 2024 -0300
+
+    [RED] OnNotValidDataException_WhenExceptionIsThrown_ShouldReturnBadRequest
+
+[33mcommit 7948c986e5fc6720868603dc31156ff94bca0a06[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 18:27:50 2024 -0300
+
+    [GREEN] OnConflictException_WhenExceptionIsThrown_ShouldReturnConflict
+
+[33mcommit ebc0cc1c38d1d43dafed723fa3396e6796a7ce51[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 18:17:32 2024 -0300
+
+    [RED] OnConflictException_WhenExceptionIsThrown_ShouldReturnConflict
+
+[33mcommit 6caccc616e73b82e8fea76c314e355fa180523bb[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 18:14:46 2024 -0300
+
+    [GREEN] OnException_WhenExceptionIsThrown_ShouldReturnInternalServerError
+
+[33mcommit e21439eb2f7d78c8011d68156a984b6219079f02[m
+Merge: a8cc82d 5318234
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 18:09:21 2024 -0300
+
+    Merging with companies
+
+[33mcommit 37e027214d4ea981418f464594777d16ba193116[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 18:02:02 2024 -0300
+
+    [RED] OnException_WhenExceptionIsThrown_ShouldReturnInternalServerError
+
+[33mcommit 5318234e0360dee7872b8cce05ba731941300a2f[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 17:59:22 2024 -0300
+
+    [REFACTOR] Fixing tests
+
+[33mcommit a8cc82dd24e18cc54e026e266ed92eeceff6f79d[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 17:41:06 2024 -0300
+
+    [REFACTOR] Fixings
+
+[33mcommit 1ecc2907c5707a0ed304fab06144d88e3b025e31[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 17:34:07 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 86ce68480c5c64cf7a054810ff3521770f2b7453[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 17:32:34 2024 -0300
+
+    [REFACTOR] Fixing controller and repositories
+
+[33mcommit 443390e3ea3c3e714b42ce21afa133753ac8e3bf[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 17:11:55 2024 -0300
+
+    [REFACTOR] Problems with Permissions
+
+[33mcommit f963a68194396f1a9ca06c777368d642749b1e07[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 15:10:51 2024 -0300
+
+    [REFACTOR] code analysis
+
+[33mcommit 2215586044f5683520d1589e1877d73ceaa82aac[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 14:22:23 2024 -0300
+
+    [GREEN] GetCompanies_WhenNoFilter
+
+[33mcommit 4a2491f10a4a14bbbeec7c2b4ec5f5f823928494[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 14:16:02 2024 -0300
+
+    [GREEN] GetCompanies_WhenFilterByOwnerName
+
+[33mcommit a61e66369420df983b656276d6f2d6f2fb7f7ebe[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 14:14:19 2024 -0300
+
+    [RED] GetCompanies_WhenFilterByOwnerName
+
+[33mcommit 60c4fa4dcec8eb75d99773082b90ce5c0e51354b[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 14:13:06 2024 -0300
+
+    [RED] GetCompanies_WhenFilterByName
+
+[33mcommit 9b73379c42d2be9681be9b96971b7ecf514fcf2a[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 13:59:47 2024 -0300
+
+    [GREEN] GetCompaniesTest
+
+[33mcommit f18ec17756ea73a7587d17a2bdf6c2f77fe5519e[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Oct 3 13:55:49 2024 -0300
+
+    [RED] GetCompaniesTest
+
+[33mcommit cf079ddc85f3df09d455b65ae2be65b922d41946[m[33m ([m[1;33mtag: 0.0.15[m[33m)[m
+Merge: b51703a c1061f5
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Thu Oct 3 12:41:11 2024 -0300
+
+    Merge pull request #21 from IngSoft-DA2/Feature/HomeController
+    
+    Merging and implementing AuthFilter for Member roles
+
+[33mcommit c1061f5b2f9de88a1f515666b197ecbc3df76b59[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Oct 3 01:31:26 2024 -0300
+
+    [REFACTOR] Unnecesary path on HomeController
+
+[33mcommit b8fc327147c00fababca2a8585de1fc4002cc067[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 23:08:45 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 70f0fa9754f85dbc3c886c5abdecd91ca5b9d929[m
+Merge: 691688e b51703a
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 23:06:42 2024 -0300
+
+    Merging develop
+
+[33mcommit 691688e7a7bec6d1f5ef4d3523e24512e748d639[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 23:01:57 2024 -0300
+
+    [REFACTOR] Missing Migrations Fixed
+
+[33mcommit a95aae7cca26ba92e0feac4bd6b5f7332a1562cb[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 22:58:22 2024 -0300
+
+    [GREEN] HomeLogic UpdatePermissionTest
+
+[33mcommit 35e0fe60d159e98b1aa76cd7c955da843a77ec57[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 22:44:28 2024 -0300
+
+    [GREEN] MemberSettingsRepositoryTests (Made this way because it was a refactor)
+
+[33mcommit 9325a0649063ce38a4351c27999bceeeb86e7f36[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 22:32:54 2024 -0300
+
+    [GREEN] MemberSettingLogic Tests (Made this way because it was a refactor)
+
+[33mcommit d1a760bf074c14b95524de71f8c149e4c9dd5a9a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 22:30:05 2024 -0300
+
+    [REFACTOR] HomeController now with authfilter and tests fixed
+
+[33mcommit b3bf95d87b8170f0caa80d03e7894597e0663e94[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 21:09:06 2024 -0300
+
+    [GREEN] CreateCompanyTest
+
+[33mcommit ef965a987e7c41b0b7dc470c7574c0a3adf4a096[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 21:07:17 2024 -0300
+
+    [RED] CreateCompanyTest
+
+[33mcommit b51703a4ac2c4058ebd45ab5778cc016eae45640[m[33m ([m[1;33mtag: 0.0.14[m[33m)[m
+Merge: 9f4b3d8 4d3cf9c
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Oct 2 20:39:16 2024 -0300
+
+    Merge pull request #20 from IngSoft-DA2/Fix/CompanyError
+    
+    "Fixing issue with the DataBase"
+
+[33mcommit 4d3cf9cf52ff04c9a8d1cf05f88cb79bad82adf2[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 20:36:32 2024 -0300
+
+    [REFACTOR] Fixing code Analysis
+
+[33mcommit 3b34a114844bab55785ed2af33c2e3dd994b2b04[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 20:32:32 2024 -0300
+
+    "Fixing issue with the DataBase"
+
+[33mcommit 9658e475fbf2d718345749c24b3bdd362f792818[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 20:03:47 2024 -0300
+
+    [REFACTOR] Authorization Filter for HomeController
+
+[33mcommit 9f4b3d8f175597b9d6ee4570600965833d7578d8[m[33m ([m[1;33mtag: 0.0.13[m[33m)[m
+Merge: 3a0188a f07432e
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Oct 2 19:48:53 2024 -0300
+
+    Merge pull request #19 from IngSoft-DA2/Feature/CompaniesController
+    
+    Feature/CompanyLogicRefactor
+
+[33mcommit f07432ed275f9605b40abc8cdf30063735dc3bea[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 19:30:41 2024 -0300
+
+    [REFACTOR] Including Missing File
+
+[33mcommit 7f8a5eff2e0699395ae353a1fb56c718d28ee805[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 19:30:03 2024 -0300
+
+    [REFACTOR] Changing homecontroller addmembers feature
+
+[33mcommit fdfb86efad49e0c97746bcb952d84a38a63bd6a9[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 19:28:30 2024 -0300
+
+    [REFACTOR] Change Name of A Function
+
+[33mcommit e3ac6d9f0d362a576242a54fc3fb3311bc152adf[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 19:27:37 2024 -0300
+
+    [REFACTOR] Format Analysis
+
+[33mcommit b257e66ecdd075a5974009424175798aed4da66a[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 19:20:23 2024 -0300
+
+    [REFACTOR] Format Analysis
+
+[33mcommit 1f1f796cc261352c96636a1904dc184290bcce2f[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 19:18:54 2024 -0300
+
+    [REFACTOR] CreateCompany_WhenPropertiesAreWrong
+
+[33mcommit 2c12ccbc838779b28ac66c29c80eda7b8e8908ac[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 18:59:24 2024 -0300
+
+    [GREEN] CreateCompany_WhenPropertiesAreWrong
+
+[33mcommit 951badb5398256eb98455c7afb32dcc81a602d56[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 18:55:41 2024 -0300
+
+    [RED] CreateCompany_WhenPropertiesAreWrong
+
+[33mcommit bdbd8e464a78006552c61e83edec0eee3a1ae266[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 18:49:44 2024 -0300
+
+    [GREEN] GetCompaniesTest_WhenAllPropertiesOk()
+
+[33mcommit df453037a00cccf2e47ce92679824cac660f01eb[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 18:39:50 2024 -0300
+
+    [RED]     public void GetCompaniesTest_WhenAllPropertiesOk()
+
+[33mcommit 951a775e53c4d95a0f2093f156f2e34c5ee8b0bc[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 18:31:26 2024 -0300
+
+    [GREEN] CreateCompany_WhenTheOwnerHasAlreadyACompany
+
+[33mcommit 7010c662fd7350de5b0e586b057faaf10d60b978[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 18:23:54 2024 -0300
+
+    [RED] CreateCompany_WhenTheOwnerHasAlreadyACompany
+
+[33mcommit 4e72cbc591599e4fe9c8f216421603d2ff329694[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 18:05:03 2024 -0300
+
+    [GREEN] CreateCompanyTest_WhenAllPropertiesOk
+
+[33mcommit d4f46d937d8ddecf13b7c2d04e4bf5cec0d1a239[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 17:49:50 2024 -0300
+
+    [RED] CreateCompanyTest_WhenAllPropertiesOk
+
+[33mcommit c114ec664d30a34c9563977f3c8cf3d85f3de6d1[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 16:31:42 2024 -0300
+
+    [GREEN]  - GetCompanies_AllowFilterByOwnersName
+
+[33mcommit 3a0188a84c70c7ab5aa4edd6b4df661da6f03272[m[33m ([m[1;33mtag: 0.0.12[m[33m)[m
+Merge: 6c2b151 04348db
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Oct 2 13:04:32 2024 -0300
+
+    Merge pull request #18 from IngSoft-DA2/Feature/CompanyLogic
+    
+    Feature/CompanyController
+
+[33mcommit 04348db71f7e8a6541056cc23f888f4805e758a0[m
+Merge: 7a86cba 6c2b151
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Oct 2 13:00:25 2024 -0300
+
+    Merge branch 'develop' into Feature/CompanyLogic
+
+[33mcommit 7a86cba1116404860853ae71b2baf2481782f5b9[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 12:56:40 2024 -0300
+
+    [REFACTOR] GetCompaniesTestOk - Code Analysis
+
+[33mcommit 9320626b6588b5e25e56358d19cceeacb8829a12[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Oct 2 12:50:21 2024 -0300
+
+    [GREEN] GetCompaniesTestOk
+
+[33mcommit 6c2b1514904f33b355fdae80f1f01b635f9b1e13[m[33m ([m[1;33mtag: 0.0.11[m[33m)[m
+Merge: 34cf6ca d2bea97
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Oct 2 12:46:38 2024 -0300
+
+    Merge pull request #15 from IngSoft-DA2/Feature/DeviceController
+    
+    Feature/device controller
+
+[33mcommit d2bea978d64228c9095b43032dee3ecb80113b15[m
+Merge: 92d22ce 8c4439d
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Wed Oct 2 00:29:06 2024 -0300
+
+    Merge branch 'Feature/DeviceController' of https://github.com/IngSoft-DA2/231355-224304-270635 into Feature/DeviceController
+
+[33mcommit 92d22ce4a060ee9f08747bf6accf7aef42d4ad53[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Wed Oct 2 00:27:43 2024 -0300
+
+    [REFACTOR]cameraController into deviceController
+
+[33mcommit 8c4439d93f138ea4b31d1f1eb1c09770b604d03c[m
+Merge: 855a90c 34cf6ca
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Wed Oct 2 00:09:06 2024 -0300
+
+    Merge branch 'develop' into Feature/DeviceController
+
+[33mcommit 115d95dd64d395a0488f982fd4f7045038f3cd6e[m
+Merge: 56a910f 34cf6ca
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Oct 2 00:07:26 2024 -0300
+
+    Merge branch 'develop' into Feature/HomeController
+
+[33mcommit 34cf6ca6087b3f9e8429257ba4ba26ffa4f17482[m[33m ([m[1;33mtag: 0.0.10[m[33m)[m
+Merge: a26171d e03da30
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Wed Oct 2 00:05:08 2024 -0300
+
+    Merge pull request #17 from IngSoft-DA2/Feature/FilterTests
+    
+    Tests for FIlters
+
+[33mcommit e03da3036e896522aff98d38ab4af882c8135728[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 23:57:45 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 75a57697773b66fd7688e87694382be523b6a158[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 23:56:26 2024 -0300
+
+    Â[GREEN] Filter tests
+
+[33mcommit a26171d880d3480246080013f2872b6a8d38b0d0[m[33m ([m[1;33mtag: 0.0.9[m[33m)[m
+Merge: f2321a2 102802b
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Tue Oct 1 21:52:24 2024 -0300
+
+    Merge pull request #16 from IngSoft-DA2/Feature/UserController
+    
+    [REFACTOR] Finally, authentication filter finalized
+
+[33mcommit 102802bfd913560d0445a1ebcb6c81d7969f33a2[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 20:41:55 2024 -0300
+
+    [REFACTOR] Fixing for code analysis
+
+[33mcommit d700579beb2a9d6f82efa9a8c53f04c6818d737e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 20:39:07 2024 -0300
+
+    [REFACTOR] Fixing for code analysis
+
+[33mcommit e9fee8d741fb621f07381ac4a1376f79f677417b[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 20:35:28 2024 -0300
+
+    [REFACTOR] Fixing for code analysis
+
+[33mcommit a097f7e4187c8cf0e4fdbccd30d42fb2e3287132[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 20:31:00 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit de00def0dbf10673ff3f5fbec160ec0cf9726cbf[m
+Merge: a0ae033 f2321a2
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Tue Oct 1 20:20:21 2024 -0300
+
+    Merge branch 'develop' into Feature/UserController
+
+[33mcommit a0ae033ff7f26cd2611c0dafc6c07a979ae32dbe[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 20:13:26 2024 -0300
+
+    [REFACTOR] Finally, authentication filter finalized
+
+[33mcommit 855a90c399301cf31ab6dc1a9f6925d4fbf0150b[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 1 17:52:49 2024 -0300
+
+    Fixing format
+
+[33mcommit e8bbde8f90e50e145c214cc53c44e5885f8c4468[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 1 17:51:20 2024 -0300
+
+    [GREEN] CreateCamera_WhenAllPropertiesOK
+
+[33mcommit c9bcc135fc3f5cdabc91b34f51e65a5566d0796c[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 16:52:34 2024 -0300
+
+    [RED] GetCompaniesTestOk
+
+[33mcommit f2321a2e14811f1da155cfac70c6c16979ebdb63[m[33m ([m[1;33mtag: 0.0.8[m[33m)[m
+Merge: 1df2ef6 71a1606
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Tue Oct 1 16:28:11 2024 -0300
+
+    Merge pull request #14 from IngSoft-DA2/Feature/DeleteAdmin
+    
+    Feature/LogicAdmin
+
+[33mcommit 71a160614e9f8b1b3d0f463ca7a7ee9872172b6c[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 16:01:17 2024 -0300
+
+    [REFACTOR] Code Analysis implementing
+
+[33mcommit c55a66d7dc589a64417856e8ca275a0ebdf4e6f1[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:55:04 2024 -0300
+
+    [GREEN] CreateHomeOwner_WhenUserHasNoNameOrPasword
+
+[33mcommit b9ef6223cb2866919f5b16ad13495b2f57c36785[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:53:58 2024 -0300
+
+    [RED] CreateHomeOwner_WhenUserHasNoNameOrPasword
+
+[33mcommit d67dbac3f8050ae39743765326b3942c97416b48[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:50:51 2024 -0300
+
+    [GREEN] CreateCompanyOwner_WhenUserHasNoNameOrPasword
+
+[33mcommit 684531ff02843a52ce12c6b70045609cc91b293a[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:49:58 2024 -0300
+
+    [RED] CreateCompanyOwner_WhenUserHasNoNameOrPasword
+
+[33mcommit 41ef815decb6f73902a226014868238479efb698[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:42:19 2024 -0300
+
+    [GREEN] CreateUser_WhenUserHasNoNameOrPasword
+
+[33mcommit d82c624ca94360d0a4b3707fdb6bd33572f8ed80[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:36:43 2024 -0300
+
+    [REFACTOR] CreateUser_WhenUserHasNoEmailValid
+
+[33mcommit 2e95aa17cb3070a922406ffebbee6bb25bb89397[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:30:06 2024 -0300
+
+    [REFACTOR] CreateUser_WhenUserHasNoEmailValid
+
+[33mcommit 39f04bc70646e676ad01db8471cd3c28a3f64b34[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:24:52 2024 -0300
+
+    [GREEN] CreateUser_WhenUserHasNoEmailValid
+
+[33mcommit cd2a328aa7aee53536e63897ab13339216c02b18[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 15:14:00 2024 -0300
+
+    [RED] CreateUser_WhenUserHasNoEmailValid
+
+[33mcommit ea1e4e64027e8557e3269e46428dbf3e86caf6c2[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 1 14:06:23 2024 -0300
+
+    fixing format
+
+[33mcommit cd80e69f553dc0f299bfa025663c963b769d5425[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 1 09:53:07 2024 -0300
+
+    Adding Enum
+
+[33mcommit e17df90da98ff70ec441b492a6057b357c449303[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 09:43:40 2024 -0300
+
+    [GREEN] DeleteNotExistUserTest_WhenUserNotExist
+
+[33mcommit 0bb19e7a3aec65307ec17d09dfe242bdfb15d188[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 09:00:45 2024 -0300
+
+    [GREEN] DeleteUserTest_WhenUserExist
+
+[33mcommit c3bca04e0be6f667bfb6ce1689cc1f65a9ba64e0[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 08:49:52 2024 -0300
+
+    [RED] DeleteUserTest_WhenUserExist
+
+[33mcommit 10937b471614a78f89e24f41bf87bb128b0b033d[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 08:32:23 2024 -0300
+
+    [GREEN] ExistUserTest_WhenUserExist
+
+[33mcommit 2b2ed33d4282511995525c68300f9d8ec5e409ed[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Oct 1 08:30:56 2024 -0300
+
+    [RED] ExistUserTest_WhenUserExist
+
+[33mcommit 1df2ef67c754ebf0d5da00e1d2ee95aa906159a3[m[33m ([m[1;33mtag: 0.0.7[m[33m)[m
+Merge: 6c24beb a1c9644
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Tue Oct 1 06:49:13 2024 -0300
+
+    Merge pull request #12 from IngSoft-DA2/Feature/UserController
+    
+    Authentication Filter
+
+[33mcommit a1c96442605d54804bca55422e6495d9b914bde5[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 03:26:02 2024 -0300
+
+    [REFACTOR] Fixing indentation and errors
+
+[33mcommit 1582e3c02ac7fedffe3e74dd6accb892298e4860[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 03:22:49 2024 -0300
+
+    [REFACTOR] Fixing indentation and errors
+
+[33mcommit 76081a9511b824f8415cdb251e32978c5916a3aa[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 03:21:58 2024 -0300
+
+    [REFACTOR] Now auth works just fine
+
+[33mcommit 16a43041a38c5707199c3bc2d6c43b16e1f88357[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Oct 1 00:59:40 2024 -0300
+
+    [REFACTOR] Fixing cod analysis
+
+[33mcommit bac86a91ad8aa5a1f537e954ae20175f1ed408c1[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 1 00:50:05 2024 -0300
+
+    [REFACTOR]CreateDevice_WhenAllPropertiesOK
+
+[33mcommit 6916cc3b3093f58adedb3521b535b0df2d60b37c[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Tue Oct 1 00:47:53 2024 -0300
+
+    [REFACTOR] CreateDevice_WhenPropertiesAreOk
+
+[33mcommit f19e9a35ad94a169c2233da8e99b658a1870da63[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Sep 30 23:10:11 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 64165d50870df96df97585e21574aac688b422d8[m
+Merge: f3b0897 55823c7
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Sep 30 23:09:33 2024 -0300
+
+    Merge branch 'Feature/UserController' of https://github.com/IngSoft-DA2/231355-224304-270635 into Feature/UserController
+
+[33mcommit f3b089737c3323e3a4ee860a2fcc3a828f51cd3f[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Sep 30 23:08:21 2024 -0300
+
+    [REFACTOR] Fixing
+
+[33mcommit 55823c77753f51d62e4b5420bfd2b8c28aecedb1[m
+Merge: 96d21e4 6c24beb
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Sep 30 23:02:18 2024 -0300
+
+    Merge branch 'develop' into Feature/UserController
+
+[33mcommit 96d21e48f8223c7f504b74aaf19500ddf50f4934[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Sep 30 22:52:21 2024 -0300
+
+    [REFACTOR] Fixing Indentations
+
+[33mcommit a6a47a5c514b6f55fac2ac4c47fa6670ea359d4c[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Mon Sep 30 22:48:44 2024 -0300
+
+    [REFACTOR] Refactor now we use auth filter on admin controller for example
+
+[33mcommit 6c24beb7d4b8f2a67fc44db70f72cea6f7670405[m[33m ([m[1;33mtag: 0.0.6[m[33m)[m
+Merge: b5eef82 59ed492
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Mon Sep 30 16:57:35 2024 -0300
+
+    Merge pull request #8 from IngSoft-DA2/Feature/HomeRepository
+    
+    Implementación de HomeRepository
+
+[33mcommit f58519df2867def28fdfc18094f7aa0311890899[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Mon Sep 30 15:46:57 2024 -0300
+
+    Fixing format problem
+
+[33mcommit 14976851bc74a89eb007364af839ad44a6c5acdf[m
+Author: Agus-Madrid <agustin.madrid@quanam.com>
+Date:   Mon Sep 30 01:15:30 2024 -0300
+
+    [REFACTOR] Auth filter and logic
+
+[33mcommit 85a0d386362a2652f6ee15593052234cbde1b182[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Sun Sep 29 18:56:38 2024 -0300
+
+    [REFACTOR]CreateDevice_WhenAllPropertiesOK
+
+[33mcommit f9d5ab94af2a8c26740ca9e2189a6766f7bfb362[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Sun Sep 29 18:38:24 2024 -0300
+
+    [GREEN] CreateDevice_WhenAllPropertiesOK
+
+[33mcommit fbd5de6b5d975827cbd25c8fd5067ead1be84fa8[m
+Author: JuanMen23 <jm224304@fi365.ort.edu.uy>
+Date:   Sun Sep 29 15:35:50 2024 -0300
+
+    [RED]CreateDevice_WhenAllPropertiesOK
+
+[33mcommit 59ed492e6aa89993dead90dc134eb933e1f53a86[m
+Merge: 8506a4d b5eef82
+Author: Agus Madrid <86538200+Agus-Madrid@users.noreply.github.com>
+Date:   Sat Sep 28 19:33:42 2024 -0300
+
+    Merge branch 'develop' into Feature/HomeRepository
+
+[33mcommit b5eef82afb32f50ecf42d82bc0f02f73d8c570fb[m[33m ([m[1;33mtag: 0.0.5[m[33m)[m
+Merge: 68197d4 158bd5a
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Sat Sep 28 17:13:27 2024 -0300
+
+    Merge pull request #9 from IngSoft-DA2/Feature/DeleteAdmin
+    
+    Feature/Delete admin Controller
+
+[33mcommit 158bd5a0e79d69253ee6db9f2ca9353b896e9cc2[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Sep 28 17:04:58 2024 -0300
+
+    [REFACTOR] DeleteAdminAccount_WhenIdIsCorrect - Format implementation
+
+[33mcommit 2212f2f8b8607d9cfa0d63bb3b4124a494864b6f[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Sep 28 17:00:46 2024 -0300
+
+    [GREEN] DeleteAdminAccount_WhenIdIsCorrect
+
+[33mcommit db9c9ee259d9633ddf29454a529c6e559971bd47[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sat Sep 28 16:52:56 2024 -0300
+
+    [RED] DeleteAdminAccount_WhenIdIsCorrect
+
+[33mcommit 328aee8d0cfbaaba2f4e428bd3655bf9122a6774[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Sat Sep 28 10:23:58 2024 -0300
+
+    ÃÂ[REFACTOR] Authentication Filter now
+
+[33mcommit 5f06aa10ff13b2acdaf8edca64eb32b313605d74[m
+Merge: ec8e971 8506a4d
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Sat Sep 28 09:27:37 2024 -0300
+
+    Merge branch 'Feature/HomeRepository' into Feature/UserController
+
+[33mcommit 8506a4de5a1e0739febeea5701ccf2c0710e0042[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 02:11:16 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 47513ae329b0a3390c44e43abcd277d9d583c707[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 02:06:50 2024 -0300
+
+    [REFACTOR] Confilcted Endpoints Solved
+
+[33mcommit cec2bfeed7271e764505e8b95fbade96ce20c41e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:59:35 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 357ac24b6b75d634c373bf1ae2beee5ec66d164b[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:57:44 2024 -0300
+
+    [GREEN] HomeLogic GetHomeByUserId
+
+[33mcommit d7651e155771448ed51a90bae7e66015e1f7294d[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:57:14 2024 -0300
+
+    [GREEN] HomeLogic GetHome
+
+[33mcommit bde1760969cc55c515705c87ed22649550c3031a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:56:44 2024 -0300
+
+    [GREEN] HomeLogic AddMember
+
+[33mcommit c0a19cd180d1d8bff17015539966eb784128db75[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:56:14 2024 -0300
+
+    [GREEN] HomeLogic GetHomeMembers
+
+[33mcommit 107a2daf1b353f51b3dec1944477f76eede0cf9e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:53:54 2024 -0300
+
+    [GREEN] HomeLogic CreateHome
+
+[33mcommit d50cd0d9752362048f310a2515bcb1bd8c3b3f2a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:53:24 2024 -0300
+
+    [GREEN] HomeLogic GetHomes
+
+[33mcommit e2c2fbf3991267f81ce27e8925af4e52133f13bc[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:49:08 2024 -0300
+
+    [GREEN] HomeRepository GetHomeMembersShouldReturnEmpty
+
+[33mcommit 332c603fe1d9540c095adc7987ecadd1e60069b8[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:43:59 2024 -0300
+
+    [GREEN] HomeRepository GetHomeMembers
+
+[33mcommit 71076f4c48c40d80b0b129e112be8dc53801d29a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:39:20 2024 -0300
+
+    [GREEN] HomeRepository GetHomeById
+
+[33mcommit e78590adfa8274ab75f9fa2bb5ace7a5a1ad6ee1[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:37:39 2024 -0300
+
+    [GREEN] HomeRepository AddMember
+
+[33mcommit ac56fa49298ce64f45fd71d84407bcc32b00859a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:36:24 2024 -0300
+
+    [RED] HomeRepository AddMember
+
+[33mcommit 57d4aa8916e7bec464284afb54adaee83a3b27fd[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:32:42 2024 -0300
+
+    [GREEN] HomeRepository GetHomesByUser
+
+[33mcommit 77f5d7b827a1d898b5a41085cb7d5f24bea219e0[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:30:34 2024 -0300
+
+    [RED] HomeRepository GetHomesByUser
+
+[33mcommit fa2a49752f003bf8f2d2f620076337d83540ed62[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:28:09 2024 -0300
+
+    [GREEN] HomeRepository GetHomes
+
+[33mcommit d4b291288879917dec884efaf07c6e92f3b386bb[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:26:48 2024 -0300
+
+    [RED] HomeRepository GetHomes
+
+[33mcommit f7693b40704a5d4a4387476363b2de2cdace0fb1[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:24:14 2024 -0300
+
+    [GREEN] HomeRepository CreateHome
+
+[33mcommit 56a910f3e01aa33c28e157403f51491cfcc139e6[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Fri Sep 27 01:06:59 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 9d47f4c57ac2298879b2d21cdb85cc25d8c2520e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 22:50:21 2024 -0300
+
+    [GREEN] HomeController AddMember
+
+[33mcommit fa106b764c8b319a894ddec4433ac8afc5ed6ad8[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 22:43:34 2024 -0300
+
+    [RED] HomeController AddMember
+
+[33mcommit 9d9ecfe33f4840541b5c185441bcf7598c2dc437[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 22:30:26 2024 -0300
+
+    [REFACTOR] HomeController Removing Member Id from response, To discuss
+
+[33mcommit 495b7f970416b979594c901c55a57349cf88b6ad[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 22:28:56 2024 -0300
+
+    [GREEN] HomeController GetHomeMembers
+
+[33mcommit 47cfcaf1a1e5ee982634a1d0a96c117f507370b6[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 22:26:01 2024 -0300
+
+    [RED] HomeController GetHomeMembers
+
+[33mcommit 817f3352da8b6c09136db86040913e40029c7d5a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 22:08:37 2024 -0300
+
+    [REFACTOR] HomeController Upgrading Home Solution
+
+[33mcommit b8b481d82e51d08960dc2ed7d462bcd9be662435[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 21:57:31 2024 -0300
+
+    [GREEN] HomeController GetHome
+
+[33mcommit 5ae28f2cb90bf4a28a244520d0a7590c5237266b[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 21:56:36 2024 -0300
+
+    [RED] HomeController GetHome
+
+[33mcommit 9459efabdc47e7d7ab23f299932220e277570045[m
+Merge: 6e0f2f7 ec8e971
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 21:44:39 2024 -0300
+
+    Merge branch 'Feature/UserController' into Feature/HomeController
+
+[33mcommit 68197d4209ccc573d81f35c6c5bfb7ba8345a725[m[33m ([m[1;33mtag: 0.0.4[m[33m)[m
+Merge: 500f895 ec8e971
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Thu Sep 26 21:02:19 2024 -0300
+
+    Merge pull request #6 from IngSoft-DA2/Feature/UserController
+    
+    Implementación de UserRepository y EFCore
+
+[33mcommit ec8e9711b0c150fcccde6b739ab2011f1dd5ff42[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 20:53:18 2024 -0300
+
+    [REFACTOR] Fixing build
+
+[33mcommit aca6cb9acf0113784bc3e377f0cc663b0fd04f08[m
+Merge: 73c4446 f9cd731
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 20:36:57 2024 -0300
+
+    Merge branch 'Fix/BuildAndTest' into Feature/UserController
+
+[33mcommit f9cd731426500dfc633635cc9837ba7d2a82780a[m[33m ([m[1;31morigin/Fix/BuildAndTest[m[33m)[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Sep 26 20:30:11 2024 -0300
+
+    Fixing format problems
+
+[33mcommit cbfde83128071d6574d02c75de8ae7f078097aca[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Thu Sep 26 20:25:38 2024 -0300
+
+    Fixing build problems
+
+[33mcommit 73c4446a0f7a3d6b57129698f529fe28ec0f9c19[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 10:07:03 2024 -0300
+
+    [REFACTOR] Running analysis fixing indentation
+
+[33mcommit 3a7ab73f66320a51942a28421a828f051168ceed[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 10:04:38 2024 -0300
+
+    [GREEN] AddCompanyToUserLogic
+
+[33mcommit e30b1fa941b0b602c51a39b73072babfa18948b2[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 10:02:05 2024 -0300
+
+    [GREEN] GetUserLogic
+
+[33mcommit 0caa742272210091c00e6e2e6ee4f6626c9a8435[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 10:00:10 2024 -0300
+
+    [GREEN] CreateOwnerLogic
+
+[33mcommit c18d33babdfc44530628661f66a920db6f4c23fd[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 09:58:24 2024 -0300
+
+    [GREEN] CreateAdminLogic, GetUsersLogic
+
+[33mcommit 3d534767bda6e474a9cc344fdd68cea6a7cf76ac[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 09:46:24 2024 -0300
+
+    [REFACTOR] Filling tests
+
+[33mcommit e1aad6777bc85213efc3fdc10d72716698f6737f[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 09:43:38 2024 -0300
+
+    [REFACTOR] Running formatter
+
+[33mcommit 37c95954bf961e9ef2771dc1ded5ef85edf04638[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 01:15:40 2024 -0300
+
+    [REFACTOR] Fixing to acomplish code analysis
+
+[33mcommit 690d06229d2963282ea282d02e9954cab49b5abd[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 01:13:15 2024 -0300
+
+    [REFACTOR] Fixing to acomplish code analysis
+
+[33mcommit b6910acd905dce818c75f94270388f4c0a4b9753[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 01:09:44 2024 -0300
+
+    [REFACTOR] Fixing to acomplish code analysis
+
+[33mcommit 9d65607a16d1cbc54b732cdda835beeca4b72b3d[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 01:06:21 2024 -0300
+
+    [REFACTOR] Fixing to acomplish code analysis
+
+[33mcommit b97d47a54664bb22c2cb96900990e4b3793e44c8[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 00:54:48 2024 -0300
+
+    [REFACTOR] Fixing to acomplish code analysis
+
+[33mcommit 23a50e73c893727cfa4d6fdf49475210d3ce014d[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 00:49:51 2024 -0300
+
+    [REFACTOR] Fixing to acomplish code analysis
+
+[33mcommit 28cf40b253bb6aa25e5b7bca3151aa13dfc09fe8[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 00:24:10 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit d512d424326f0ed203287349776c0c69ba6cc82a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Thu Sep 26 00:23:41 2024 -0300
+
+    [REFACTOR] Fixing Entities for EFCore
+
+[33mcommit 885f3b7932e7f333dfe9b1c9cf51436694c1e2ed[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 22:37:22 2024 -0300
+
+    [GREEN] UserRepository GetUserByGuid
+
+[33mcommit 69597686304c785d867f67bfeee4591a29b4439b[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:21:04 2024 -0300
+
+    [RED] UserRepository GetUserByGuid
+
+[33mcommit a784b53f68c33a232d7104a77ddc316ef5eee8fa[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:17:01 2024 -0300
+
+    [GREEN] UserController GetUserByGuid
+
+[33mcommit a099d257009f0fb6b04e01ff5e1e476f3ac03e65[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:13:16 2024 -0300
+
+    [REFACTOR] UserControllers managing with requests
+
+[33mcommit 10bf278994b44d2f77ba44e1572a149f1ebf07f0[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:11:14 2024 -0300
+
+    [REFACTOR] UserControllers
+
+[33mcommit 43d35a36dc02cde01af3a2dd49660a5573dca35e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:09:47 2024 -0300
+
+    [GREEN] UserRepository CreateHomeOwner
+
+[33mcommit 32a13db998af32aceb35a6711c47b8b8b6c98873[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:08:51 2024 -0300
+
+    [RED] UserRepository CreateHomeOwner (Now its actually repository, the oldest one was controller)
+
+[33mcommit 2281e67cc5f7a7769f4843b01fba634fbf3960bc[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:07:03 2024 -0300
+
+    [REFACTOR] UserRepository Now we dont create the role inside the test
+
+[33mcommit fcab5b114a06be749e9736c98a34190c209535f5[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:03:46 2024 -0300
+
+    [REFACTOR] UserRepository Now ILogic fixed and using repository
+
+[33mcommit 531984c4e595676bd44eaf1ccf4fba957ae23903[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 21:02:30 2024 -0300
+
+    [GREEN] UserRepository CreateHomeOwner
+
+[33mcommit f17039f71392dc6f180d11457ab4606909179ce1[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 20:55:16 2024 -0300
+
+    [RED] UserRepository CreateHomeOwner
+
+[33mcommit 418360e76b2c467fb0d840d3b156bdc6202090cf[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 20:40:42 2024 -0300
+
+    [GREEN] UserRepository AddCompanyToOwner
+
+[33mcommit 6deda70cead5f39d142b0ded81f5941aff230ca5[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 20:37:59 2024 -0300
+
+    [GREEN] UserRepository CreateCompanyOwner
+
+[33mcommit 16f423370fa02a92fb2fb9387b8cec8d59bedb6c[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 20:33:54 2024 -0300
+
+    [REFACTOR] Now we handle Roles
+
+[33mcommit 78f47d93bed8eb5b9806d65086c72dc719cae144[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 19:55:23 2024 -0300
+
+    [GREEN] UserRepository GetUsers
+
+[33mcommit 181f9beb0248122e014aa0240546cce068d5bc55[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 19:51:24 2024 -0300
+
+    [GREEN] UserRepository CreateAdmin
+
+[33mcommit 09a34b995343982bda7ca923092d91fe24358c39[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 19:48:36 2024 -0300
+
+    [RED] UserRepository CreateAdmin
+
+[33mcommit f7b66628a8aaf14b58a93dcc89201416ceb84750[m
+Merge: 165a07e 6e0f2f7
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 17:38:27 2024 -0300
+
+    Merge branch 'Feature/HomeController' into Feature/UserController
+
+[33mcommit 500f895000220eb861485039bbfaab709e635326[m[33m ([m[1;33mtag: 0.0.3[m[33m)[m
+Merge: 4f9960f 6e0f2f7
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Sep 25 16:58:32 2024 -0300
+
+    Merge pull request #5 from IngSoft-DA2/Feature/HomeController
+    
+    Feature Home Controller for Getting and Creating Homes
+
+[33mcommit 4f9960f66ab3347431a5d1b6845680eae4f8c387[m[33m ([m[1;33mtag: 0.0.2[m[33m)[m
+Merge: 83f3e46 165a07e
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Sep 25 16:58:19 2024 -0300
+
+    Merge pull request #4 from IngSoft-DA2/Feature/UserController
+    
+    Feature User Controller for Getting Users
+
+[33mcommit 83f3e46cf03837f466643e743efaf1c4180aa7ce[m[33m ([m[1;33mtag: 0.0.1[m[33m)[m
+Merge: 10682ad 8caab59
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Wed Sep 25 16:58:03 2024 -0300
+
+    Merge pull request #2 from IngSoft-DA2/Feature/AdminController
+    
+    Feature/AdminController
+
+[33mcommit 6e0f2f73319d85c24ccf0883b58d81b29f119ee0[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:54:37 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 08760ac355dc55a509b4132c4555f06464776b30[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:45:22 2024 -0300
+
+    [REFACTOR] Fixing indentation
+
+[33mcommit 13522feafa9f905d8ff3d7a53059fa4aacf62746[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:42:30 2024 -0300
+
+    [GREEN] HomeController GetHomeByUser
+
+[33mcommit 03e7f145ba9826d2ae438ddf33cfa281011fc288[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:32:58 2024 -0300
+
+    [RED] HomeController GetHomeByUser
+
+[33mcommit f808961ad86554e46f31826cfeca00dc9a9ff89d[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:29:22 2024 -0300
+
+    [GREEN] HomeController GetHomes
+
+[33mcommit f2562c62e26b878c0d8886c4329eadf92cf9aa2c[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:23:22 2024 -0300
+
+    [RED] HomeController GetHomes
+
+[33mcommit d73d2965d2e39ad29931778b46179c93168fec05[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:17:37 2024 -0300
+
+    [REFACTOR] HomeController Noew we use IRepository
+
+[33mcommit e0c64d79e9ca8f15d6410f816a8a1eab436269e3[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:10:18 2024 -0300
+
+    [REFACTOR] HomeController Now we use User for home owner
+
+[33mcommit 13a6ca598727712ac5e7509e513df7a512f3c983[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 02:07:15 2024 -0300
+
+    [GREEN] HomeController Create Home
+
+[33mcommit 59adfa6567fb33b8c2e0166c72ad56e34d95d6bc[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Wed Sep 25 01:56:46 2024 -0300
+
+    [RED] HomeController Create Home
+
+[33mcommit 165a07ebeffd2a1102f496214f938901f41a47ce[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:55:58 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit 1977cc315b0d51bddecc39a168206be6828eb019[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:53:20 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit e290a9d0819e707f05486d2abdee5fa4b0c52e30[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:47:21 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit 70422eeffad96909e95dbfb8d847b5af166257f7[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:44:09 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit 8938443fa383a887a912081076e6a3a513ffc7c8[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:39:33 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit 83900b2ad2971065a34a73eb9657ad69f32d1db7[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:30:31 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit 18dc31aad8067adb29c13fabec6989b1f110399e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:26:02 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit 91c8fc0546dfc6f4632eb69d9ab512aee1fc9a82[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:18:15 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit 71d96a69cd315012d4953dcfa040ae64a27a84df[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:15:44 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit f7aaf3b1ff42af2537f7e631a5c47c3154a5565d[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 22:05:48 2024 -0300
+
+    [REFACTOR] Fixing usings
+
+[33mcommit db7bc129bfe31a79c4d7c0c8ee86f8301a502b25[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 21:50:47 2024 -0300
+
+    [REFACTOR] Fixed indentation
+
+[33mcommit eed544ffaa33afefa1f379e73beaaad8066774e3[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 21:46:00 2024 -0300
+
+    [REFACTOR] Fixing explicit types for var
+
+[33mcommit 0a049266311e72e6ce88017c6d1db0fc228026ae[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 21:44:24 2024 -0300
+
+    [REFACTOR] Fixing explicit types for var
+
+[33mcommit 2f8e8d51e3970d6ad9f2788fc209008e3424d91e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 21:36:18 2024 -0300
+
+    [REFACTOR] Now we use IRepositories to manage Users
+
+[33mcommit bab44028dc0fe641d8c38d3c807af3cb21c774b9[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 21:03:48 2024 -0300
+
+    [GREEN] GetUsers_UserController
+
+[33mcommit 3e1a67a799b077d5bc20a591a0dafebb539797af[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 20:54:04 2024 -0300
+
+    [RED] GetUsers_UserController
+
+[33mcommit 3cefbb9b8de4102b8229fd1ce64fb9dac24e705d[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 20:47:27 2024 -0300
+
+    [REFACTOR] Api configured properly
+
+[33mcommit 49960fb3871e9ea2af2a215483f15439c3140964[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 20:46:14 2024 -0300
+
+    [REFACTOR] Api configured properly
+
+[33mcommit 63bdf1541f6810f8a7fb217dfeb94ea3f3e8799b[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 20:44:01 2024 -0300
+
+    [REFACTOR] Fixes on CompanyOwner and Namespaces
+
+[33mcommit ecdb6343654049e833895108b96656c509e429b3[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 19:40:52 2024 -0300
+
+    [REFACTOR] Interfaces in right place
+
+[33mcommit a14e1073116a060f3a29d845d6dd4fba11cb374f[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 19:31:33 2024 -0300
+
+    [REFACTOR] Models in right place
+
+[33mcommit 26e7f943a68ee694f0dd4919f90aad64efb00702[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 19:19:23 2024 -0300
+
+    [GREEN] Add Company to CompanyOwner
+
+[33mcommit 7c8e8963191e4fc6f018ba54ba39e6c79f2fca9a[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 18:44:49 2024 -0300
+
+    [RED] Add Company to CompanyOwner
+
+[33mcommit fd9f163091f5528ff9107491824d102d0d53cd2e[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 18:23:04 2024 -0300
+
+    [REFACTOR] Company Owner - Managing with REQ and RES
+
+[33mcommit 1f8b9f0015f633f3ad8dd57b940be1bc21b33398[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 18:15:35 2024 -0300
+
+    [GREEN] Create Company Owner Test
+
+[33mcommit 16927860c247ae52de17d257b921892aa476d1ca[m
+Author: Agustin Madrid <aguzaram33@gmail.com>
+Date:   Tue Sep 24 18:11:12 2024 -0300
+
+    [RED] Create Company Owner Test
+
+[33mcommit 8caab5934c8819818ec2e0068ceac023f803c2c3[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Tue Sep 24 09:06:05 2024 -0300
+
+    [REFACTOR] CreateCompany_WhenAllPropertiesOk- Code analysis
+
+[33mcommit c610179d2b9a71eebda2395c4b41ceaa0c74044b[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 22:20:12 2024 -0300
+
+    [REFACTOR] CreateCompany_WhenAllPropertiesOk
+
+[33mcommit b956913aa1e03d7365081705b6f43bb4cf1b3b9f[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 22:17:15 2024 -0300
+
+    [REFACTOR] CreateCompany_WhenAllPropertiesOk
+
+[33mcommit 6561b59590f0172e43c4b36c54357bfe0cf0e2b0[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 22:13:46 2024 -0300
+
+    [GREEN] CreateCompany_WhenAllPropertiesOk
+
+[33mcommit cefdc0fc19ba1cdbb7ad33cfcf55db7e9e50e46b[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 22:07:19 2024 -0300
+
+    [RED] CreateCompany_WhenAllPropertiesOk
+
+[33mcommit 042cd01e41dec29fa8a1eab32650868e9bf4f267[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 21:32:45 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - changes to meet code analysis expectations
+
+[33mcommit ff5cb752b42298407d1b3c78077bfe2693eb4e88[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 21:29:56 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - Change to AdminRequest
+
+[33mcommit c5547b03512f434178742331ea49d2752536e5a4[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 21:23:19 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - Change to AdminRequest
+
+[33mcommit f1ccaafa04e40d6a867f8d6ccc57289ca1ab07d0[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 21:21:26 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - Change to AdminRequest and Response
+
+[33mcommit e5734e50f7b8b7d2e893f9f99d1dcdda79bb9c8c[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 20:51:59 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - excluding program.cs
+
+[33mcommit 0ef22dce597c66007732d54f5b7d2d4618ca74fa[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 20:49:20 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - excluding program.cs
+
+[33mcommit 74203fe9652df7f05fc00b45920e37fd297a833c[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 20:30:24 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - Putting UserRequest
+
+[33mcommit 270d2194780d287ed4f9f0ed710d93f404b96f9f[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 20:01:33 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk
+
+[33mcommit 2982d6eb4adada5812a4e24997f12033c9495bbe[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 19:37:13 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - Excluding Program.cs from coverage
+
+[33mcommit 6c9baa8c67920897217a20cedb66235700e7bb88[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 19:23:37 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - changing var for especific types
+
+[33mcommit bf0d7cbddc7f76b473647b0cb514032a19bbcd3d[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 19:20:36 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk - changing var for especific types
+
+[33mcommit d2e84cf78b7e2bf007a7ec5a1ecb469a0bc98a8c[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 19:14:38 2024 -0300
+
+    [REFACTOR] CreateAdmin_WhenAllPropertiesOk
+
+[33mcommit 07203ec0580fd3c6d832724002ba046add46d325[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Mon Sep 23 18:45:00 2024 -0300
+
+    [GREEN] CreateAdmin_WhenAllPropertiesOk
+
+[33mcommit 0130224567363132449459fe498d30febdee896e[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Sun Sep 22 21:38:56 2024 -0300
+
+    [RED] CreateAdmin_WhenAllPropertiesOk
+
+[33mcommit 10682ad80c8b1e940e0c93a5dc8bf5e120eee027[m
+Merge: 979aeb8 b5dab22
+Author: Daniel Acevedo <daniel18acevedo@gmail.com>
+Date:   Fri Sep 13 19:24:55 2024 -0300
+
+    Merge pull request #1 from IngSoft-DA2/fix/update-editorconfig
+    
+    Update .editorconfig
+
+[33mcommit b5dab22a38b5390c58d98a2ff7d1c5bf00a02fe6[m
+Author: Daniel Acevedo <daniel18acevedo@gmail.com>
+Date:   Fri Sep 13 19:24:27 2024 -0300
+
+    Update .editorconfig
+
+[33mcommit 979aeb8ef7666e790479404ae5e7158319b86763[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Joaquin Rodriguez <joaquinrodriguezcaussi@gmail.com>
+Date:   Wed Sep 4 18:18:36 2024 -0300
+
+    Repo configuration
+
+[33mcommit 226c9976dad57a569595eb168ebe866ed1da7758[m
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Tue Sep 3 16:55:30 2024 -0300
+
+    Update README.md
+
+[33mcommit 9b98f14e4a500c5fcc22c17a5db4c1a9bc8406f3[m
+Author: Joaquin Rodriguez Caussi <112181408+JoaquinRCaussi@users.noreply.github.com>
+Date:   Tue Sep 3 09:48:52 2024 -0300
+
+    Initial commit

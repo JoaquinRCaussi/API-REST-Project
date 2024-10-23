@@ -103,5 +103,25 @@ public class ExceptionFilterTest
         GetInnerCode(objectResult.Value).Should().Be("BadRequest");
         GetInnerMessage(objectResult.Value).Should().Be(exception.Message);
     }
+    
+    [TestMethod]
+    public void OnEmptyException_WhenExceptionIsThrown_ShouldReturnNoContent()
+    {
+        // Arrange
+        var exception = new EmptyException("Test exception");
+        _context.Exception = exception;
+
+        // Act
+        _attribute.OnException(_context);
+
+        var response = _context.Result;
+
+        response.Should().NotBeNull();
+        var objectResult = response as ObjectResult;
+        objectResult.Should().NotBeNull();
+        objectResult.StatusCode.Should().Be((int)StatusCodes.Status204NoContent);
+        GetInnerCode(objectResult.Value).Should().Be("NoContent");
+        GetInnerMessage(objectResult.Value).Should().Be(exception.Message);
+    }
 
 }

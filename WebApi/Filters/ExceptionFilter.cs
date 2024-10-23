@@ -12,7 +12,8 @@ public class ExceptionFilter : IExceptionFilter
     {
         { typeof(ConflictException), HttpStatusCode.Conflict },
         { typeof(NotValidDataException), HttpStatusCode.BadRequest },
-        {typeof(EntityNotFoundException), HttpStatusCode.BadRequest}
+        {typeof(EntityNotFoundException), HttpStatusCode.BadRequest},
+        {typeof(EmptyException), HttpStatusCode.NoContent}
     };
     public void OnException(ExceptionContext? context)
     {
