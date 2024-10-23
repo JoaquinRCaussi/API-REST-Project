@@ -381,6 +381,18 @@ public class UserLogicTest
 
         result.Should().BeEquivalentTo(notifications);
     }
+    
+    [TestMethod]
+    public void GetNotificationsTest_WhenNoNotifications()
+    {
+        var userId = Guid.NewGuid();
+        
+        _userRepositoryMock.Setup(x => x.GetNotifications(userId)).Returns(new List<Notification>());
+
+        var act = () => _userLogic.GetNotifications(userId);
+
+        act.Should().Throw<EmptyException>().WithMessage("No notifications found.");
+    }
 
     [TestMethod]
     public void GetUsersFilteredTest()

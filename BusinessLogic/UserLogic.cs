@@ -106,7 +106,14 @@ public class UserLogic : IUserLogic
 
     public List<Notification> GetNotifications(Guid userId)
     {
-        return _userRepository.GetNotifications(userId);
+        var notifications = _userRepository.GetNotifications(userId);
+        
+        if (notifications.Count == 0)
+        {
+            throw new EmptyException("No notifications found.");
+        }
+        
+        return notifications;
     }
 
     public List<User> GetUsersFiltered(string? role, string? fullName)
