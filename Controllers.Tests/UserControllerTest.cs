@@ -490,5 +490,44 @@ public class UserControllerTest
 
         userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetUserNotifications_ShouldReturnNoContent_WhenNoNotificationsFound()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+
+        userLogicMock.Setup(logic => logic.GetNotifications(userId))
+            .Throws(new EmptyException("No notifications found"));
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        Action act = () => controller.GetUserNotifications(userId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No notifications found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        userLogicMock.VerifyAll();
+    }
 
 }
