@@ -142,6 +142,20 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(users);
     }
+    
+    [TestMethod]
+    public void GetHomeMembers_ShouldThrowEmptyException_WhenNoMembersFound()
+    {
+        var homeId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeMembers(homeId)).Returns(new List<User>());
+
+        Action act = () => _homeLogic?.GetHomeMembers(homeId);
+
+        act.Should().Throw<EmptyException>()
+            .WithMessage("No members found.");
+    }
+    
 
     [TestMethod]
     public void AddMemberTest()

@@ -67,7 +67,14 @@ public class HomeLogic : IHomeLogic
 
     public List<User> GetHomeMembers(Guid homeId)
     {
-        return _homeRepository.GetHomeMembers(homeId);
+        var result = _homeRepository.GetHomeMembers(homeId);
+        
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No members found.");
+        }
+        
+        return result;
     }
 
     public Home AddMember(Guid homeId, Guid userId)
