@@ -74,6 +74,12 @@ public class DeviceLogic : IDeviceLogic
         {
             result = _deviceRepository.GetDevices(name, model, companyName, (DeviceType)deviceType);
         }
+        
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No devices found.");
+        }
+        
         return result;
     }
 

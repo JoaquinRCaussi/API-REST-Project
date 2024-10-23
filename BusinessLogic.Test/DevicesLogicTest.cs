@@ -127,6 +127,21 @@ public class DevicesLogicTest
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
     }
+    
+    [TestMethod]
+    public void GetDevices_WhenNoDevicesFoundShouldThrowException()
+    {
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns(new List<Device>());
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+
+        Action act = () => deviceLogic.GetDevices("", "", "", DeviceType.Camera);
+
+        act.Should().Throw<EmptyException>().WithMessage("No devices  found.");
+    }
 
     [TestMethod]
     public void CreateDevice_WhenCompanyHasTheSameAlreadyCreatedShouldThrowException()
