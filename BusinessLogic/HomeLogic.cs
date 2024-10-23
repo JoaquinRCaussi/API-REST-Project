@@ -43,7 +43,14 @@ public class HomeLogic : IHomeLogic
 
     public List<Home> GetHomesByUser(Guid userId)
     {
-        return _homeRepository.GetHomesByUser(userId);
+        var result = _homeRepository.GetHomesByUser(userId);
+        
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No homes found.");
+        }
+        
+        return result;
     }
 
     public Home GetHome(Guid homeId)

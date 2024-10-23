@@ -259,6 +259,20 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(homes);
     }
+    
+    [TestMethod]
+    public void GetHomesByUser_ShouldThrowEmptyException_WhenNoHomesFound()
+    {
+        var userId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHomesByUser(userId)).Returns(new List<Home>());
+
+        Action act = () => _homeLogic?.GetHomesByUser(userId);
+
+        act.Should().Throw<EmptyException>()
+            .WithMessage("No homes found.");
+    }
+    
 
     [TestMethod]
     public void UpdatePermissions_ShouldAddPermissions_WhenPermissionsAreTrue()
