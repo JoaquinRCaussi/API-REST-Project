@@ -111,7 +111,12 @@ public class UserLogic : IUserLogic
 
     public List<User> GetUsersFiltered(string? role, string? fullName)
     {
-        return _userRepository.GetUsersFiltered(role, fullName);
+        var users = _userRepository.GetUsersFiltered(role, fullName);
+        if (users.Count == 0)
+        {
+            throw new EmptyException("No users found.");
+        }
+        return users;
     }
 
     private bool IsCorrectUserFormat(User user)

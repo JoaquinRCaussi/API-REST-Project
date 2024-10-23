@@ -381,4 +381,25 @@ public class UserLogicTest
 
         result.Should().BeEquivalentTo(notifications);
     }
+
+    [TestMethod]
+    public void GetUsersFilteredTest()
+    {
+        var users = new List<User>
+        {
+            new User
+            {
+                Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "mauil@mail.com",
+                Password = "password@123"
+            }
+        };
+
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns(users);
+        
+        var result = _userLogic.GetUsersFiltered("John", "");
+        
+        result.Should().BeEquivalentTo(users);
+        
+        _userRepositoryMock.Verify(x => x.GetUsersFiltered("John", ""), Times.Once);
+    }
 }
