@@ -49,7 +49,14 @@ public class CompanyLogic : ICompanyLogic
         {
             ownerName = "";
         }
-        return _companyRepository.GetCompanies(name, ownerName);
+        
+        List<Company> companies = _companyRepository.GetCompanies(name, ownerName);
+        if (companies.Count == 0)
+        {
+            throw new EmptyException("No companies found.");
+        }
+
+        return companies;
     }
 
     private bool IsFormatNotCorrect(Company company)
