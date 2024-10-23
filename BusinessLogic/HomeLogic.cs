@@ -71,7 +71,7 @@ public class HomeLogic : IHomeLogic
         
         if (result.Count == 0)
         {
-            throw new EmptyException("No members found.");
+            throw new EmptyException("No members found for this home.");
         }
         
         return result;

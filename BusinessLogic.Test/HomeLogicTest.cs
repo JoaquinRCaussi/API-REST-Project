@@ -153,7 +153,7 @@ public class HomeLogicTest
         Action act = () => _homeLogic?.GetHomeMembers(homeId);
 
         act.Should().Throw<EmptyException>()
-            .WithMessage("No members found.");
+            .WithMessage("No members found for this home.");
     }
     
 
