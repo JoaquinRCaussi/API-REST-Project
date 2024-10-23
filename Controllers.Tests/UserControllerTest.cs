@@ -198,6 +198,45 @@ public class UserControllerTest
         result.Should().BeEquivalentTo(expectedResponse);
     }
 
+    [TestMethod]
+    public void GetUserById_ShouldReturnNoContent()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+
+        userLogicMock.Setup(logic => logic.GetUser(userId))
+            .Throws(new NotValidDataException("User does not exist"));
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        Action act = () => controller.GetUser(userId);
+
+        act.Should().Throw<NotValidDataException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new NotValidDataException("User does not exist")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
+        userLogicMock.VerifyAll();
+    }
+    
 
     [TestMethod]
     public void DeleteAdminAccount_WhenIdIsCorrect()
