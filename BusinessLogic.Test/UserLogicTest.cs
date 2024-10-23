@@ -402,4 +402,14 @@ public class UserLogicTest
         
         _userRepositoryMock.Verify(x => x.GetUsersFiltered("John", ""), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetUsersFilteredTest_WhenNoUsers()
+    {
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns(new List<User>());
+
+        var act = () => _userLogic.GetUsersFiltered("John", "");
+
+        act.Should().Throw<EmptyException>().WithMessage("No users found.");
+    }
 }
