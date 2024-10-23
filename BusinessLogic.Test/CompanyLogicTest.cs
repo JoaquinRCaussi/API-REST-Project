@@ -106,22 +106,22 @@ public class CompanyLogicTest
         // Assert
         result.Should().BeEquivalentTo(companies);
     }
-    
+
     [TestMethod]
     public void GetCompaniesTest_WhenNoCompaniesFound()
     {
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
-        mock.Setup(x => x.GetCompanies("", "")).Returns(new List<Company>());
+        mock.Setup(x => x.GetCompanies("", "")).Returns([]);
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
         Action act = () => companyLogic.GetCompanies(null, null);
-        
+
         act.Should().Throw<EmptyException>().WithMessage("No companies found.");
     }
-    
+
 
     [TestMethod]
     public void CreateCompany_WhenPropertiesAreWrong()

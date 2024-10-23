@@ -32,48 +32,48 @@ public class HomeLogic : IHomeLogic
     public List<Home> GetHomes()
     {
         var result = _homeRepository.GetHomes();
-        
+
         if (result.Count == 0)
         {
             throw new EmptyException("No homes found.");
         }
-        
+
         return result;
     }
 
     public List<Home> GetHomesByUser(Guid userId)
     {
         var result = _homeRepository.GetHomesByUser(userId);
-        
+
         if (result.Count == 0)
         {
             throw new EmptyException("No homes found for this user.");
         }
-        
+
         return result;
     }
 
     public Home GetHome(Guid homeId)
     {
         var result = _homeRepository.GetHome(homeId);
-        
+
         if (result == null)
         {
             throw new NotValidDataException("Home not found.");
         }
-        
+
         return result;
     }
 
     public List<User> GetHomeMembers(Guid homeId)
     {
         var result = _homeRepository.GetHomeMembers(homeId);
-        
+
         if (result.Count == 0)
         {
             throw new EmptyException("No members found for this home.");
         }
-        
+
         return result;
     }
 
@@ -124,12 +124,12 @@ public class HomeLogic : IHomeLogic
     public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
         var result = _homeRepository.GetHomeDevices(homeId);
-        
+
         if (result.Count == 0)
         {
             throw new EmptyException("No devices found for this home.");
         }
-        
+
         return result;
     }
 

@@ -166,7 +166,7 @@ public class DeviceControllerTest
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(deviceTypes);
     }
-    
+
     [TestMethod]
     public void GetDevices_ShouldReturnNoContent()
     {

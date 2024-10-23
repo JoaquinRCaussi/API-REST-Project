@@ -126,16 +126,16 @@ public class CompaniesControllerTest
         };
         companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
     }
-    
+
     [TestMethod]
     public void GetCompanies_ShouldReturnNoContentWhenNoCompaniesFound()
     {
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
         companyLogic.Setup(x => x.GetCompanies(null, null))
             .Throws(new EmptyException("No companies found"));
-        
+
         var controller = new CompanyController(companyLogic.Object);
-        
+
         var context = new ActionContext
         {
             HttpContext = new DefaultHttpContext(),
@@ -148,9 +148,9 @@ public class CompaniesControllerTest
         {
             Exception = new EmptyException("No companies found")
         };
-        
+
         Action act = () => controller.GetCompanies(null, null);
-        
+
         act.Should().Throw<EmptyException>();
 
         exceptionFilter.OnException(exceptionContext);
@@ -158,7 +158,7 @@ public class CompaniesControllerTest
         var result = exceptionContext.Result as ObjectResult;
         result.Should().NotBeNull();
         result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-        
+
         companyLogic.VerifyAll();
     }
 }

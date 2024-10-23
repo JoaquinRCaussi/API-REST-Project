@@ -84,7 +84,7 @@ public class MemberSettingLogicTest
 
         act.Should().Throw<EmptyException>().WithMessage("No member setting found for this user at this home.");
     }
-    
+
     [TestMethod]
     public void UpdateMemberSettingTest()
     {

@@ -713,7 +713,7 @@ public class HomeControllerTest
         okResult.Value.Should().BeEquivalentTo(home);
         homeLogic.Verify(x => x.UpdatePermissions(homeId, userId, permissionRequest), Times.Once);
     }
-    
+
     [TestMethod]
     public void GetHomes_ShouldReturnNoContent()
     {
@@ -748,7 +748,7 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
-    
+
     [TestMethod]
     public void GetHomeMembers_ShouldReturnNoContent()
     {
@@ -820,7 +820,7 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
-    
+
     [TestMethod]
     public void GetHomeDevices_ShouldReturnNoContent()
     {

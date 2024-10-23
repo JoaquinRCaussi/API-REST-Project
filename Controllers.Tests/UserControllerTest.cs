@@ -123,7 +123,7 @@ public class UserControllerTest
 
         result.Should().BeEquivalentTo(expectedResponse);
     }
-    
+
     [TestMethod]
     public void GetUsers_ShouldReturnNoContent_WhenNoUsersFound()
     {
@@ -160,7 +160,7 @@ public class UserControllerTest
 
         userLogicMock.VerifyAll();
     }
-    
+
 
     [TestMethod]
     public void GetUser_WhenAllPropertiesOk()
@@ -236,7 +236,7 @@ public class UserControllerTest
 
         userLogicMock.VerifyAll();
     }
-    
+
 
     [TestMethod]
     public void DeleteAdminAccount_WhenIdIsCorrect()
@@ -341,7 +341,7 @@ public class UserControllerTest
 
         result.Should().BeEquivalentTo(expectedResponse);
     }
-    
+
     [TestMethod]
     public void GetUserHomes_ShouldReturnNoContent_WhenNoHomesFound()
     {
@@ -380,7 +380,7 @@ public class UserControllerTest
 
         userLogicMock.VerifyAll();
     }
-    
+
 
     [TestMethod]
     public void GetUserHomes_WhenUserIsMemberButNotOwner()
@@ -490,7 +490,7 @@ public class UserControllerTest
 
         userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
     }
-    
+
     [TestMethod]
     public void GetUserNotifications_ShouldReturnNoContent_WhenNoNotificationsFound()
     {

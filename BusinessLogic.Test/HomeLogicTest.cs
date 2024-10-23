@@ -142,20 +142,20 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(users);
     }
-    
+
     [TestMethod]
     public void GetHomeMembers_ShouldThrowEmptyException_WhenNoMembersFound()
     {
         var homeId = Guid.NewGuid();
 
-        _homeRepositoryMock?.Setup(x => x.GetHomeMembers(homeId)).Returns(new List<User>());
+        _homeRepositoryMock?.Setup(x => x.GetHomeMembers(homeId)).Returns([]);
 
         Action act = () => _homeLogic?.GetHomeMembers(homeId);
 
         act.Should().Throw<EmptyException>()
             .WithMessage("No members found for this home.");
     }
-    
+
 
     [TestMethod]
     public void AddMemberTest()
@@ -235,7 +235,7 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(home);
     }
-    
+
     [TestMethod]
     public void GetHome_ShouldThrowNotValidDataException_WhenHomeNotFound()
     {
@@ -248,7 +248,7 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Home not found.");
     }
-    
+
 
     [TestMethod]
     public void GetHomesByUserTest()
@@ -287,20 +287,20 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(homes);
     }
-    
+
     [TestMethod]
     public void GetHomesByUser_ShouldThrowEmptyException_WhenNoHomesFound()
     {
         var userId = Guid.NewGuid();
 
-        _homeRepositoryMock?.Setup(x => x.GetHomesByUser(userId)).Returns(new List<Home>());
+        _homeRepositoryMock?.Setup(x => x.GetHomesByUser(userId)).Returns([]);
 
         Action act = () => _homeLogic?.GetHomesByUser(userId);
 
         act.Should().Throw<EmptyException>()
             .WithMessage("No homes found for this user.");
     }
-    
+
 
     [TestMethod]
     public void UpdatePermissions_ShouldAddPermissions_WhenPermissionsAreTrue()
@@ -513,33 +513,33 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(devices);
         _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId), Times.Once);
     }
-    
+
     [TestMethod]
     public void GetHomeDevices_ShouldReturnException_WhenNoDevicesFound()
     {
         var homeId = Guid.NewGuid();
 
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(new List<HomeDevice>());
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns([]);
 
         Action act = () => _homeLogic?.GetHomeDevices(homeId);
 
         act.Should().Throw<EmptyException>()
             .WithMessage("No devices found for this home.");
     }
-    
+
 
     [TestMethod]
     public void GetHomes_ShouldReturnException_WhenNoHomesFound()
     {
-        _homeRepositoryMock?.Setup(x => x.GetHomes()).Returns(new List<Home>());
+        _homeRepositoryMock?.Setup(x => x.GetHomes()).Returns([]);
 
         Action act = () => _homeLogic?.GetHomes();
 
         act.Should().Throw<EmptyException>()
             .WithMessage("No homes found.");
     }
-    
-    
+
+
     [TestMethod]
     public void CreateNotificationSensor_ShouldCreateNotification_WhenCalled()
     {

@@ -49,7 +49,7 @@ public class CompanyLogic : ICompanyLogic
         {
             ownerName = "";
         }
-        
+
         List<Company> companies = _companyRepository.GetCompanies(name, ownerName);
         if (companies.Count == 0)
         {

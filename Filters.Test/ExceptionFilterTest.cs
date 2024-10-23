@@ -103,13 +103,13 @@ public class ExceptionFilterTest
         GetInnerCode(objectResult.Value).Should().Be("BadRequest");
         GetInnerMessage(objectResult.Value).Should().Be(exception.Message);
     }
-    
+
     [TestMethod]
     public void OnEmptyException_WhenExceptionIsThrown_ShouldReturnNoContent()
     {
         var exception = new EmptyException("Test exception");
         _context.Exception = exception;
-        
+
         _attribute.OnException(_context);
 
         var response = _context.Result;

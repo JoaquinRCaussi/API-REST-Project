@@ -107,12 +107,12 @@ public class UserLogic : IUserLogic
     public List<Notification> GetNotifications(Guid userId)
     {
         var notifications = _userRepository.GetNotifications(userId);
-        
+
         if (notifications.Count == 0)
         {
             throw new EmptyException("No notifications found.");
         }
-        
+
         return notifications;
     }
 
