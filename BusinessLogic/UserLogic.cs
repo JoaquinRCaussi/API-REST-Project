@@ -68,6 +68,10 @@ public class UserLogic : IUserLogic
 
     public User GetUser(Guid userId)
     {
+        if (!_userRepository.ExistUser(userId))
+        {
+            throw new NotValidDataException("User does not exist");
+        }
         return _userRepository.GetUser(userId);
     }
 
