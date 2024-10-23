@@ -1,12 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using BusinessLogic;
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Filters;
 
 namespace Controllers.Tests;
 
@@ -127,15 +131,34 @@ public class CompaniesControllerTest
     public void GetCompanies_ShouldReturnNoContentWhenNoCompaniesFound()
     {
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company>();
-        companyLogic.Setup(x => x.GetCompanies(null, null)).Returns(companies);
-
+        companyLogic.Setup(x => x.GetCompanies(null, null))
+            .Throws(new EmptyException("No companies found"));
+        
         var controller = new CompanyController(companyLogic.Object);
+        
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
 
-        IActionResult act = controller.GetCompanies(null, null);
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No companies found")
+        };
+        
+        Action act = () => controller.GetCompanies(null, null);
+        
+        act.Should().Throw<EmptyException>();
 
-        var expected = new NoContentResult();
+        exceptionFilter.OnException(exceptionContext);
 
-        act.Should().BeEquivalentTo(expected);
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+        
+        companyLogic.VerifyAll();
     }
 }
