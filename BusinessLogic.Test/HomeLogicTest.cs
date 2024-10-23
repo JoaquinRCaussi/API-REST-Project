@@ -524,7 +524,7 @@ public class HomeLogicTest
         Action act = () => _homeLogic?.GetHomeDevices(homeId);
 
         act.Should().Throw<EmptyException>()
-            .WithMessage("No devices found.");
+            .WithMessage("No devices found for this home.");
     }
     
 

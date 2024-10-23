@@ -127,7 +127,7 @@ public class HomeLogic : IHomeLogic
         
         if (result.Count == 0)
         {
-            throw new EmptyException("No devices found.");
+            throw new EmptyException("No devices found for this home.");
         }
         
         return result;
