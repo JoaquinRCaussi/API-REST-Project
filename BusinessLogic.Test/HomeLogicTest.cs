@@ -513,6 +513,20 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(devices);
         _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetHomeDevices_ShouldReturnException_WhenNoDevicesFound()
+    {
+        var homeId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(new List<HomeDevice>());
+
+        Action act = () => _homeLogic?.GetHomeDevices(homeId);
+
+        act.Should().Throw<EmptyException>()
+            .WithMessage("No devices found.");
+    }
+    
 
     [TestMethod]
     public void GetHomes_ShouldReturnException_WhenNoHomesFound()

@@ -123,7 +123,14 @@ public class HomeLogic : IHomeLogic
 
     public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
-        return _homeRepository.GetHomeDevices(homeId);
+        var result = _homeRepository.GetHomeDevices(homeId);
+        
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No devices found.");
+        }
+        
+        return result;
     }
 
     public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
