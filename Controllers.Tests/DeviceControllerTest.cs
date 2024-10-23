@@ -1,12 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using BusinessLogic;
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Filters;
 
 namespace Controllers.Tests;
 
@@ -161,5 +165,38 @@ public class DeviceControllerTest
 
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(deviceTypes);
+    }
+
+    [TestMethod]
+    public void GetDevices_ShouldReturnNoContent()
+    {
+        _deviceLogicMock!
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.Sensor))
+            .Throws(new EmptyException("No devices found"));
+
+        Action act = () => _controller!.GetDevices("", "", "", DeviceType.Sensor, 1, 10);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No devices found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        _deviceLogicMock.VerifyAll();
     }
 }

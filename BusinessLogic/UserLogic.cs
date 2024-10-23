@@ -16,7 +16,12 @@ public class UserLogic : IUserLogic
 
     public List<User> GetUsers()
     {
-        return _userRepository.GetUsers();
+        var users = _userRepository.GetUsers();
+        if (users.Count == 0)
+        {
+            throw new EmptyException("No users found.");
+        }
+        return users;
     }
 
     public User CreateAdmin(User user)
@@ -63,12 +68,21 @@ public class UserLogic : IUserLogic
 
     public User GetUser(Guid userId)
     {
+        if (!_userRepository.ExistUser(userId))
+        {
+            throw new NotValidDataException("User does not exist");
+        }
         return _userRepository.GetUser(userId);
     }
 
     public User FindByMail(string mail)
     {
-        return _userRepository.FindByMail(mail);
+        var user = _userRepository.FindByMail(mail);
+        if (user == null)
+        {
+            throw new NotValidDataException("User does not exist");
+        }
+        return user;
     }
 
     public bool ExistUser(Guid userId)
@@ -92,12 +106,24 @@ public class UserLogic : IUserLogic
 
     public List<Notification> GetNotifications(Guid userId)
     {
-        return _userRepository.GetNotifications(userId);
+        var notifications = _userRepository.GetNotifications(userId);
+
+        if (notifications.Count == 0)
+        {
+            throw new EmptyException("No notifications found.");
+        }
+
+        return notifications;
     }
 
     public List<User> GetUsersFiltered(string? role, string? fullName)
     {
-        return _userRepository.GetUsersFiltered(role, fullName);
+        var users = _userRepository.GetUsersFiltered(role, fullName);
+        if (users.Count == 0)
+        {
+            throw new EmptyException("No users found.");
+        }
+        return users;
     }
 
     private bool IsCorrectUserFormat(User user)

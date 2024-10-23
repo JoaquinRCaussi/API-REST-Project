@@ -1,11 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using BusinessLogic;
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Filters;
 
 namespace Controllers.Tests;
 
@@ -120,6 +125,44 @@ public class UserControllerTest
     }
 
     [TestMethod]
+    public void GetUsers_ShouldReturnNoContent_WhenNoUsersFound()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null))
+            .Throws(new EmptyException("No users found"));
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        Action act = () => controller.GetUsers(null, null, 1, 10);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No users found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        userLogicMock.VerifyAll();
+    }
+
+
+    [TestMethod]
     public void GetUser_WhenAllPropertiesOk()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
@@ -153,6 +196,45 @@ public class UserControllerTest
         var expectedResponse = new OkObjectResult(userResponse);
 
         result.Should().BeEquivalentTo(expectedResponse);
+    }
+
+    [TestMethod]
+    public void GetUserById_ShouldReturnNoContent()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+
+        userLogicMock.Setup(logic => logic.GetUser(userId))
+            .Throws(new NotValidDataException("User does not exist"));
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        Action act = () => controller.GetUser(userId);
+
+        act.Should().Throw<NotValidDataException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new NotValidDataException("User does not exist")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
+        userLogicMock.VerifyAll();
     }
 
 
@@ -261,6 +343,46 @@ public class UserControllerTest
     }
 
     [TestMethod]
+    public void GetUserHomes_ShouldReturnNoContent_WhenNoHomesFound()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+
+        homeLogicMock.Setup(logic => logic.GetHomesByUser(userId))
+            .Throws(new EmptyException("No homes found"));
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        Action act = () => controller.GetUserHomes(userId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No homes found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        userLogicMock.VerifyAll();
+    }
+
+
+    [TestMethod]
     public void GetUserHomes_WhenUserIsMemberButNotOwner()
     {
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
@@ -367,6 +489,45 @@ public class UserControllerTest
         result.Should().BeEquivalentTo(expectedResponse);
 
         userLogicMock.Verify(logic => logic.GetNotifications(userId), Times.Once);
+    }
+
+    [TestMethod]
+    public void GetUserNotifications_ShouldReturnNoContent_WhenNoNotificationsFound()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+
+        userLogicMock.Setup(logic => logic.GetNotifications(userId))
+            .Throws(new EmptyException("No notifications found"));
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        Action act = () => controller.GetUserNotifications(userId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No notifications found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        userLogicMock.VerifyAll();
     }
 
 }

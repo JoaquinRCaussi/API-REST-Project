@@ -73,6 +73,19 @@ public class MemberSettingLogicTest
     }
 
     [TestMethod]
+    public void GetMemberSettingNotFoundTest()
+    {
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+
+        _memberSettingRepositoryMock?.Setup(x => x.GetMemberSetting(homeId, userId)).Returns((MemberSetting?)null);
+
+        Action act = () => _memberSettingLogic?.GetMemberSetting(homeId, userId);
+
+        act.Should().Throw<EmptyException>().WithMessage("No member setting found for this user at this home.");
+    }
+
+    [TestMethod]
     public void UpdateMemberSettingTest()
     {
         var memberSetting = new MemberSetting

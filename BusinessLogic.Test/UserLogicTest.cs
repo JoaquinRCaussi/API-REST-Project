@@ -44,6 +44,17 @@ public class UserLogicTest
     }
 
     [TestMethod]
+    public void GetUsersTest_WhenNoUsers()
+    {
+        _userRepositoryMock.Setup(x => x.GetUsers()).Returns([]);
+
+        var act = () => _userLogic.GetUsers();
+
+        act.Should().Throw<EmptyException>().WithMessage("No users found.");
+    }
+
+
+    [TestMethod]
     public void CreateAdminTest()
     {
         var user = new User
@@ -132,18 +143,16 @@ public class UserLogicTest
             Password = "password@123"
         };
 
+        _userRepositoryMock.Setup(x => x.ExistUser(user.Id)).Returns(true);
+
         _userRepositoryMock.Setup(x => x.GetUser(user.Id)).Returns(user);
 
         var result = _userLogic.GetUser(user.Id);
 
         result.Should().BeEquivalentTo(user);
 
-        result.Id.Should().Be(user.Id);
-        result.Name.Should().Be(user.Name);
-        result.LastName.Should().Be(user.LastName);
-        result.Email.Should().Be(user.Email);
-        result.Password.Should().Be(user.Password);
-        result.Role.Should().Be(user.Role);
+        _userRepositoryMock.Verify(x => x.GetUser(user.Id), Times.Once);
+        _userRepositoryMock.Verify(x => x.ExistUser(user.Id), Times.Once);
     }
 
     [TestMethod]
@@ -165,6 +174,27 @@ public class UserLogicTest
         result.Should().BeEquivalentTo(user);
 
         result.Id.Should().Be(user.Id);
+
+        _userRepositoryMock.Verify(x => x.FindByMail(user.Email), Times.Once);
+    }
+
+    [TestMethod]
+    public void FindByMailTest_WhenUserNotExist()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Snow",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        _userRepositoryMock.Setup(x => x.FindByMail(user.Email)).Returns((User)null);
+
+        var act = () => _userLogic.FindByMail(user.Email);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("User does not exist");
 
         _userRepositoryMock.Verify(x => x.FindByMail(user.Email), Times.Once);
     }
@@ -350,5 +380,48 @@ public class UserLogicTest
         var result = _userLogic.GetNotifications(userId);
 
         result.Should().BeEquivalentTo(notifications);
+    }
+
+    [TestMethod]
+    public void GetNotificationsTest_WhenNoNotifications()
+    {
+        var userId = Guid.NewGuid();
+
+        _userRepositoryMock.Setup(x => x.GetNotifications(userId)).Returns([]);
+
+        var act = () => _userLogic.GetNotifications(userId);
+
+        act.Should().Throw<EmptyException>().WithMessage("No notifications found.");
+    }
+
+    [TestMethod]
+    public void GetUsersFilteredTest()
+    {
+        var users = new List<User>
+        {
+            new User
+            {
+                Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "mauil@mail.com",
+                Password = "password@123"
+            }
+        };
+
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns(users);
+
+        var result = _userLogic.GetUsersFiltered("John", "");
+
+        result.Should().BeEquivalentTo(users);
+
+        _userRepositoryMock.Verify(x => x.GetUsersFiltered("John", ""), Times.Once);
+    }
+
+    [TestMethod]
+    public void GetUsersFilteredTest_WhenNoUsers()
+    {
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns([]);
+
+        var act = () => _userLogic.GetUsersFiltered("John", "");
+
+        act.Should().Throw<EmptyException>().WithMessage("No users found.");
     }
 }

@@ -31,22 +31,50 @@ public class HomeLogic : IHomeLogic
 
     public List<Home> GetHomes()
     {
-        return _homeRepository.GetHomes();
+        var result = _homeRepository.GetHomes();
+
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No homes found.");
+        }
+
+        return result;
     }
 
     public List<Home> GetHomesByUser(Guid userId)
     {
-        return _homeRepository.GetHomesByUser(userId);
+        var result = _homeRepository.GetHomesByUser(userId);
+
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No homes found for this user.");
+        }
+
+        return result;
     }
 
     public Home GetHome(Guid homeId)
     {
-        return _homeRepository.GetHome(homeId);
+        var result = _homeRepository.GetHome(homeId);
+
+        if (result == null)
+        {
+            throw new NotValidDataException("Home not found.");
+        }
+
+        return result;
     }
 
     public List<User> GetHomeMembers(Guid homeId)
     {
-        return _homeRepository.GetHomeMembers(homeId);
+        var result = _homeRepository.GetHomeMembers(homeId);
+
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No members found for this home.");
+        }
+
+        return result;
     }
 
     public Home AddMember(Guid homeId, Guid userId)
@@ -95,7 +123,14 @@ public class HomeLogic : IHomeLogic
 
     public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
-        return _homeRepository.GetHomeDevices(homeId);
+        var result = _homeRepository.GetHomeDevices(homeId);
+
+        if (result.Count == 0)
+        {
+            throw new EmptyException("No devices found for this home.");
+        }
+
+        return result;
     }
 
     public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)

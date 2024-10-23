@@ -1,12 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using BusinessLogic;
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Filters;
 
 namespace Controllers.Tests;
 
@@ -708,5 +712,148 @@ public class HomeControllerTest
 
         okResult.Value.Should().BeEquivalentTo(home);
         homeLogic.Verify(x => x.UpdatePermissions(homeId, userId, permissionRequest), Times.Once);
+    }
+
+    [TestMethod]
+    public void GetHomes_ShouldReturnNoContent()
+    {
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomes())
+            .Throws(new EmptyException("No homes found"));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.GetHomes();
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No homes found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        homeLogic.VerifyAll();
+    }
+
+    [TestMethod]
+    public void GetHomeMembers_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeMembers(homeId))
+            .Throws(new EmptyException("No members found for this home."));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.GetHomeMembers(homeId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No members found for this home.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        homeLogic.VerifyAll();
+    }
+
+    [TestMethod]
+    public void GetHomeById_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHome(homeId))
+            .Throws(new NotValidDataException("Home not found."));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.GetHome(homeId);
+
+        act.Should().Throw<NotValidDataException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new NotValidDataException("Home not found.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
+        homeLogic.VerifyAll();
+    }
+
+    [TestMethod]
+    public void GetHomeDevices_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId))
+            .Throws(new EmptyException("No devices found for this home."));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.GetHomeDevices(homeId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No devices found for this home.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        homeLogic.VerifyAll();
     }
 }
