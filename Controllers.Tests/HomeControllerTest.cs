@@ -709,4 +709,20 @@ public class HomeControllerTest
         okResult.Value.Should().BeEquivalentTo(home);
         homeLogic.Verify(x => x.UpdatePermissions(homeId, userId, permissionRequest), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetHomes_ShouldReturnNoContent()
+    {
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomes()).Returns(new List<Home>());
+
+        var controller = new HomeController(homeLogic.Object, null);
+        
+        IActionResult act = controller.GetHomes();
+
+        var noContentResult = act as NoContentResult;
+        Assert.IsNotNull(noContentResult, "Expected NoContentResult");
+
+        homeLogic.Verify(x => x.GetHomes(), Times.Once);
+    }
 }
