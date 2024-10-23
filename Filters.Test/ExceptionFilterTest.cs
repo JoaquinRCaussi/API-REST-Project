@@ -107,11 +107,9 @@ public class ExceptionFilterTest
     [TestMethod]
     public void OnEmptyException_WhenExceptionIsThrown_ShouldReturnNoContent()
     {
-        // Arrange
         var exception = new EmptyException("Test exception");
         _context.Exception = exception;
-
-        // Act
+        
         _attribute.OnException(_context);
 
         var response = _context.Result;
