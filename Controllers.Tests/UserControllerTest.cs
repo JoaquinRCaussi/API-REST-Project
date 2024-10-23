@@ -118,6 +118,24 @@ public class UserControllerTest
 
         result.Should().BeEquivalentTo(expectedResponse);
     }
+    
+    [TestMethod]
+    public void GetUsers_ShouldReturnNoContent_WhenNoUsersFound()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null)).Returns(new List<User>());
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        IActionResult result = controller.GetUsers(null, null, 1, 10);
+
+        var expectedResponse = new NoContentResult();
+
+        result.Should().BeEquivalentTo(expectedResponse);
+    }
+    
 
     [TestMethod]
     public void GetUser_WhenAllPropertiesOk()
