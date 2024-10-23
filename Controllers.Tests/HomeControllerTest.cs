@@ -816,7 +816,7 @@ public class HomeControllerTest
 
         var result = exceptionContext.Result as ObjectResult;
         result.Should().NotBeNull();
-        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+        result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
 
         homeLogic.VerifyAll();
     }
