@@ -47,7 +47,7 @@ public class HomeLogic : IHomeLogic
         
         if (result.Count == 0)
         {
-            throw new EmptyException("No homes found.");
+            throw new EmptyException("No homes found for this user.");
         }
         
         return result;
