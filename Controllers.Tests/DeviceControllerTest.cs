@@ -162,4 +162,16 @@ public class DeviceControllerTest
         result.Should().BeOfType<OkObjectResult>()
             .Which.Value.Should().BeEquivalentTo(deviceTypes);
     }
+    
+    [TestMethod]
+    public void GetDevices_ShouldReturnNoContent()
+    {
+        _deviceLogicMock!
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.Sensor))
+            .Returns(new List<Device>());
+
+        IActionResult result = _controller!.GetDevices("", "", "", DeviceType.Sensor, 1, 10);
+
+        result.Should().BeOfType<NoContentResult>();
+    }
 }
