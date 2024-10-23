@@ -77,7 +77,12 @@ public class UserLogic : IUserLogic
 
     public User FindByMail(string mail)
     {
-        return _userRepository.FindByMail(mail);
+        var user = _userRepository.FindByMail(mail);
+        if (user == null)
+        {
+            throw new NotValidDataException("User does not exist");
+        }
+        return user;
     }
 
     public bool ExistUser(Guid userId)
