@@ -16,7 +16,12 @@ public class UserLogic : IUserLogic
 
     public List<User> GetUsers()
     {
-        return _userRepository.GetUsers();
+        var users = _userRepository.GetUsers();
+        if (users.Count == 0)
+        {
+            throw new EmptyException("No users found.");
+        }
+        return users;
     }
 
     public User CreateAdmin(User user)

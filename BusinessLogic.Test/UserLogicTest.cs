@@ -42,6 +42,17 @@ public class UserLogicTest
 
         result.Should().BeEquivalentTo(users);
     }
+    
+    [TestMethod]
+    public void GetUsersTest_WhenNoUsers()
+    {
+        _userRepositoryMock.Setup(x => x.GetUsers()).Returns(new List<User>());
+
+        var act = () => _userLogic.GetUsers();
+
+        act.Should().Throw<EmptyException>().WithMessage("No users found.");
+    }
+    
 
     [TestMethod]
     public void CreateAdminTest()
