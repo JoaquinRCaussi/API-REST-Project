@@ -1,11 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using BusinessLogic;
 using Domain;
 using FluentAssertions;
 using IBusinessLogic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Filters;
 
 namespace Controllers.Tests;
 
@@ -125,15 +130,35 @@ public class UserControllerTest
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 
-        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null)).Returns(new List<User>());
+        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null))
+            .Throws(new EmptyException("No users found"));
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
-        IActionResult result = controller.GetUsers(null, null, 1, 10);
+        Action act = () => controller.GetUsers(null, null, 1, 10);
 
-        var expectedResponse = new NoContentResult();
+        act.Should().Throw<EmptyException>();
 
-        result.Should().BeEquivalentTo(expectedResponse);
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No users found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        userLogicMock.VerifyAll();
     }
     
 
