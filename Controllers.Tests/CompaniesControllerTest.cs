@@ -121,7 +121,21 @@ public class CompaniesControllerTest
         {
         };
         companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
+    }
+    
+    [TestMethod]
+    public void GetCompanies_ShouldReturnNoContentWhenNoCompaniesFound()
+    {
+        var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
+        var companies = new List<Company>();
+        companyLogic.Setup(x => x.GetCompanies(null, null)).Returns(companies);
 
+        var controller = new CompanyController(companyLogic.Object);
 
+        IActionResult act = controller.GetCompanies(null, null);
+
+        var expected = new NoContentResult();
+
+        act.Should().BeEquivalentTo(expected);
     }
 }
