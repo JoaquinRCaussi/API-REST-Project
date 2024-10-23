@@ -784,4 +784,40 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
+
+    [TestMethod]
+    public void GetHomeById_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHome(homeId))
+            .Throws(new NotValidDataException("Home not found."));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.GetHome(homeId);
+
+        act.Should().Throw<NotValidDataException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new NotValidDataException("Home not found.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        homeLogic.VerifyAll();
+    }
 }
