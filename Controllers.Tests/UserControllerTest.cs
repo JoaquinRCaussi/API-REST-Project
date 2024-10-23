@@ -341,6 +341,46 @@ public class UserControllerTest
 
         result.Should().BeEquivalentTo(expectedResponse);
     }
+    
+    [TestMethod]
+    public void GetUserHomes_ShouldReturnNoContent_WhenNoHomesFound()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+
+        var userId = Guid.NewGuid();
+
+        homeLogicMock.Setup(logic => logic.GetHomesByUser(userId))
+            .Throws(new EmptyException("No homes found"));
+
+        var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        Action act = () => controller.GetUserHomes(userId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No homes found")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        userLogicMock.VerifyAll();
+    }
+    
 
     [TestMethod]
     public void GetUserHomes_WhenUserIsMemberButNotOwner()
