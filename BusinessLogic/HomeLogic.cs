@@ -55,7 +55,14 @@ public class HomeLogic : IHomeLogic
 
     public Home GetHome(Guid homeId)
     {
-        return _homeRepository.GetHome(homeId);
+        var result = _homeRepository.GetHome(homeId);
+        
+        if (result == null)
+        {
+            throw new NotValidDataException("Home not found.");
+        }
+        
+        return result;
     }
 
     public List<User> GetHomeMembers(Guid homeId)

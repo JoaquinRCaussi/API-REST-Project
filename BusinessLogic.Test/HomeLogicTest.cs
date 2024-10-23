@@ -221,6 +221,20 @@ public class HomeLogicTest
 
         result.Should().BeEquivalentTo(home);
     }
+    
+    [TestMethod]
+    public void GetHome_ShouldThrowNotValidDataException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home?)null);
+
+        Action act = () => _homeLogic?.GetHome(homeId);
+
+        act.Should().Throw<NotValidDataException>()
+            .WithMessage("Home not found.");
+    }
+    
 
     [TestMethod]
     public void GetHomesByUserTest()
