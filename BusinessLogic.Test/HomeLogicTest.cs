@@ -298,7 +298,7 @@ public class HomeLogicTest
         Action act = () => _homeLogic?.GetHomesByUser(userId);
 
         act.Should().Throw<EmptyException>()
-            .WithMessage("No homes found for this user");
+            .WithMessage("No homes found for this user.");
     }
     
 
