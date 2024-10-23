@@ -140,7 +140,7 @@ public class DevicesLogicTest
 
         Action act = () => deviceLogic.GetDevices("", "", "", DeviceType.Camera);
 
-        act.Should().Throw<EmptyException>().WithMessage("No devices  found.");
+        act.Should().Throw<EmptyException>().WithMessage("No devices found.");
     }
 
     [TestMethod]
