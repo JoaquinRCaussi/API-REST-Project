@@ -44,7 +44,11 @@ public class HMDbContext : DbContext
             new Permission { Id = Guid.Parse("1a6b8ddf-3f92-4fda-87a4-777777777777"), Value = "CanAsociateDevices" },
             new Permission { Id = Guid.Parse("d47fa8f6-ace7-42e5-8bdf-888888888888"), Value = "CanListDevices" },
             new Permission { Id = Guid.Parse("2ebd4f21-3cd4-431f-97e7-999999999999"), Value = "CanGetNotifications" },
-            new Permission { Id = Guid.Parse("3bcde1b8-5ad2-4f6c-92c7-101010101010"), Value = "CanAddMembers" }
+            new Permission { Id = Guid.Parse("3bcde1b8-5ad2-4f6c-92c7-101010101010"), Value = "CanAddMembers" },
+            new Permission { Id = Guid.Parse("4c6b8b8d-3f92-4fda-87a4-202020202020"), Value = "CanCreateRoom" },
+            new Permission { Id = Guid.Parse("5d7fa8f6-ace7-42e5-8bdf-303030303030"), Value = "CanAsociateDeviceToRoom" },
+            new Permission { Id = Guid.Parse("6ebd4f21-3cd4-431f-97e7-404040404040"), Value = "CanChangeHomeName" },
+            new Permission { Id = Guid.Parse("7bcde1b8-5ad2-4f6c-92c7-505050505050"), Value = "CanChangeHomeDevicesNames" }
         );
 
         // Datos semilla para PermissionKeys
