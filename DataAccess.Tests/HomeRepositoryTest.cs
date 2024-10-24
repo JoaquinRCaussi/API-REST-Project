@@ -615,4 +615,89 @@ public class HomeRepositoryTest
 
         var result = repository.ChangeHomeDeviceStatus(homeId, deviceId, true);
     }
+    
+    [TestMethod]
+    public void ChangeHomeDeviceName_ShouldChangeDeviceName_WhenHomeAndDeviceExist()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeDeviceNameHomeAndDeviceExist");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var deviceId = Guid.NewGuid();
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = new List<HomeDevice>()
+        };
+        
+        var _company = new Company()
+        {
+            Id = Guid.NewGuid(),
+            Name = "anotherCompany",
+            RUT = "2312311",
+            Owner = user
+        };
+        
+        var device = new Device
+        {
+            Id = deviceId,
+            Company = _company,
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+        
+        var homeDevice = new HomeDevice
+        {
+            Id = Guid.NewGuid(),
+            HardwareId = Guid.NewGuid(),
+            DeviceId = deviceId,
+            Device = device,
+            State = false
+        };
+        
+        context.Homes.Add(home);
+        context.Devices.Add(device);
+        context.HomeDevices.Add(homeDevice);
+        
+        home.Devices.Add(homeDevice);
+        
+        context.SaveChanges();
+        
+        var homeWith = context.Homes.FirstOrDefault(x => x.Id == homeId);
+        var homeDeviceWith = homeWith?.Devices?.FirstOrDefault(x => x.HardwareId == homeDevice.HardwareId);
+        
+        if (homeDeviceWith != null)
+        {
+            homeDeviceWith.Name = "New Name";
+            context.SaveChanges();
+            
+            var result = repository.ChangeHomeDeviceName(homeId, homeDevice.HardwareId, "New Name");
+            
+            result.Should().NotBeNull();
+            result.Name.Should().Be("New Name");
+        }
+        else
+        {
+            Assert.Fail("Home device not found.");
+        }
+    }
+
 }
