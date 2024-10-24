@@ -695,7 +695,7 @@ public class HomeLogicTest
         Action act = () => _homeLogic?.ChangeHomeDeviceName(homeId, hardwareId, name);
 
         act.Should().Throw<NotValidDataException>()
-            .WithMessage("Home not found.");
+            .WithMessage("Home not found");
     }
 
     [TestMethod]
