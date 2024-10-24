@@ -856,4 +856,51 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
+    
+    [TestMethod]
+    public void ChangeHomeDeviceName_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var name = "NewName";
+
+        var device = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "XYZ",
+            DeviceType = DeviceType.Camera,
+            Description = "Outdoor camera",
+            Photo = "photo1.jpg"
+        };
+
+        var homeDevice = new HomeDevice { HardwareId = hardwareId, DeviceId = device.Id, Device = device, State = false };
+
+        var homeDevices = new List<HomeDevice> { homeDevice };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = homeDevices,
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.ChangeHomeDeviceName(homeId, hardwareId, name)).Returns(homeDevice);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.ChangeHomeDeviceName(homeId, hardwareId, name);
+
+        var expected = new OkObjectResult(homeDevice);
+
+        act.Should().BeEquivalentTo(expected);
+    }
 }
