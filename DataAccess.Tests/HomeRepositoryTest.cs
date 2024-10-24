@@ -699,5 +699,21 @@ public class HomeRepositoryTest
             Assert.Fail("Home device not found.");
         }
     }
+    
+    [TestMethod]
+    public void ChangeHomeDeviceName_ShouldReturnDefaultHomeDevice_WhenHomeOrDeviceDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeDeviceNameHomeOrDeviceNull");
+        var repository = new HomeRepository(context);
+
+        var nonExistentHomeId = Guid.NewGuid();
+        var nonExistentDeviceId = Guid.NewGuid();
+
+        var result = repository.ChangeHomeDeviceName(nonExistentHomeId, nonExistentDeviceId, "newName");
+
+        result.Should().NotBeNull();
+        result.DeviceId.Should().Be(default(Guid));
+        result.Device.Should().BeNull();
+    }
 
 }
