@@ -648,4 +648,39 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Event must be open or close");
     }
+    
+    [TestMethod]
+    public void ChangeHomeDeviceName_ShouldChangeName_WhenCalled()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var name = "newName";
+
+        var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" };
+
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device, Name = "oldName" };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            Devices = [homeDevice],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+
+        // Act
+        var result = _homeLogic?.ChangeHomeDeviceName(homeId, hardwareId, name);
+
+        // Assert
+        result?.Name.Should().Be(name);
+        _homeRepositoryMock?.Verify(x => x.ChangeHomeDeviceName(homeId, hardwareId, name), Times.Once);
+    }
 }

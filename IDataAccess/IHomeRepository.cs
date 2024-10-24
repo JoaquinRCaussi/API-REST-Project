@@ -21,4 +21,6 @@ public interface IHomeRepository
     public List<HomeDevice> GetHomeDevices(Guid homeId);
 
     public HomeDevice ChangeHomeDeviceStatus(Guid homeId, Guid hardwareId, bool state);
+    
+    public HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name);
 }
