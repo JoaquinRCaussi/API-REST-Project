@@ -123,7 +123,7 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return homeDevice;
     }
-    
+
     public HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name)
     {
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);

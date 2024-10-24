@@ -648,7 +648,7 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Event must be open or close");
     }
-    
+
     [TestMethod]
     public void ChangeHomeDeviceName_ShouldChangeName_WhenCalled()
     {
@@ -676,13 +676,13 @@ public class HomeLogicTest
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
         _homeRepositoryMock?.Setup(x => x.ChangeHomeDeviceName(homeId, hardwareId, name)).Returns(homeDeviceExpected);
-        
+
         var result = _homeLogic?.ChangeHomeDeviceName(homeId, hardwareId, name);
-        
+
         result?.Name.Should().Be(name);
         _homeRepositoryMock?.Verify(x => x.ChangeHomeDeviceName(homeId, hardwareId, name), Times.Once);
     }
-    
+
     [TestMethod]
     public void ChangeHomeDeviceName_ShouldThrowNotValidDataException_WhenHomeNotFound()
     {
@@ -697,7 +697,7 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Home not found.");
     }
-    
+
     [TestMethod]
     public void ChangeHomeDeviceName_ShouldThrowNotValidDataException_WhenDeviceNotFound()
     {

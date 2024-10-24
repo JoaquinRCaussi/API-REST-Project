@@ -176,7 +176,7 @@ public class HomeController : ControllerBase
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationMovementDetectedCamera), new { id = notification.Id }, notifications);
     }
-    
+
     [HttpPut]
     [Route("{homeId}/devices/{hardwareId}")]
     [AuthorizationFilter("CanChangeDeviceName")]

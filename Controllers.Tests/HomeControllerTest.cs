@@ -856,7 +856,7 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
-    
+
     [TestMethod]
     public void ChangeHomeDeviceName_WhenAllPropertiesOk()
     {

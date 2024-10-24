@@ -615,7 +615,7 @@ public class HomeRepositoryTest
 
         var result = repository.ChangeHomeDeviceStatus(homeId, deviceId, true);
     }
-    
+
     [TestMethod]
     public void ChangeHomeDeviceName_ShouldChangeDeviceName_WhenHomeAndDeviceExist()
     {
@@ -642,9 +642,9 @@ public class HomeRepositoryTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            Devices = new List<HomeDevice>()
+            Devices = []
         };
-        
+
         var _company = new Company()
         {
             Id = Guid.NewGuid(),
@@ -652,7 +652,7 @@ public class HomeRepositoryTest
             RUT = "2312311",
             Owner = user
         };
-        
+
         var device = new Device
         {
             Id = deviceId,
@@ -663,7 +663,7 @@ public class HomeRepositoryTest
             Description = "description",
             Photo = "photo"
         };
-        
+
         var homeDevice = new HomeDevice
         {
             Id = Guid.NewGuid(),
@@ -672,25 +672,25 @@ public class HomeRepositoryTest
             Device = device,
             State = false
         };
-        
+
         context.Homes.Add(home);
         context.Devices.Add(device);
         context.HomeDevices.Add(homeDevice);
-        
+
         home.Devices.Add(homeDevice);
-        
+
         context.SaveChanges();
-        
+
         var homeWith = context.Homes.FirstOrDefault(x => x.Id == homeId);
         var homeDeviceWith = homeWith?.Devices?.FirstOrDefault(x => x.HardwareId == homeDevice.HardwareId);
-        
+
         if (homeDeviceWith != null)
         {
             homeDeviceWith.Name = "New Name";
             context.SaveChanges();
-            
+
             var result = repository.ChangeHomeDeviceName(homeId, homeDevice.HardwareId, "New Name");
-            
+
             result.Should().NotBeNull();
             result.Name.Should().Be("New Name");
         }
@@ -699,7 +699,7 @@ public class HomeRepositoryTest
             Assert.Fail("Home device not found.");
         }
     }
-    
+
     [TestMethod]
     public void ChangeHomeDeviceName_ShouldReturnDefaultHomeDevice_WhenHomeOrDeviceDoesNotExist()
     {

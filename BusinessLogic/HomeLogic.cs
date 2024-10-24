@@ -128,23 +128,23 @@ public class HomeLogic : IHomeLogic
         {
             throw new NotValidDataException("Home not found");
         }
-        
+
         var homeDevice = _homeRepository.GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId);
         if (homeDevice == null)
         {
             throw new NotValidDataException("Device not found");
         }
-        
+
         var result = _homeRepository.ChangeHomeDeviceName(homeId, hardwareId, name);
-        
+
         if (result == null)
         {
             throw new NotValidDataException("Device name could not be changed");
         }
-        
+
         return result;
     }
-    
+
     public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
         var result = _homeRepository.GetHomeDevices(homeId);
