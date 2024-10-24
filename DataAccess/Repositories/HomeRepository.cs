@@ -124,6 +124,23 @@ public class HomeRepository : IHomeRepository
         return homeDevice;
     }
 
+    public HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+        var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
+
+        if (home == null || homeDevice == null)
+        {
+            return new()
+            {
+            };
+        }
+
+        homeDevice.Name = name;
+        _dbContext.SaveChanges();
+        return homeDevice;
+    }
+
     public List<HomeDevice> GetHomeDevices(Guid homeId)
     {
         var home = _dbContext.Homes?

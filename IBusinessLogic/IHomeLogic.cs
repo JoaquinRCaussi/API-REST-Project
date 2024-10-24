@@ -21,6 +21,8 @@ public interface IHomeLogic
 
     HomeDevice AddDevice(Guid homeId, Guid deviceId);
 
+    HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name);
+
     List<HomeDevice> GetHomeDevices(Guid homeId);
 
     List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
