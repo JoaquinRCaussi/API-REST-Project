@@ -697,4 +697,31 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Home not found.");
     }
+    
+    [TestMethod]
+    public void ChangeHomeDeviceName_ShouldThrowNotValidDataException_WhenDeviceNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var name = "newName";
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns([]);
+
+        Action act = () => _homeLogic?.ChangeHomeDeviceName(homeId, hardwareId, name);
+
+        act.Should().Throw<NotValidDataException>()
+            .WithMessage("Device not found");
+    }
 }
