@@ -123,7 +123,7 @@ public class HomeLogic : IHomeLogic
 
     public HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name)
     {
-        var home = _homeRepository.GetHome(homeId);
+        var home = GetHome(homeId);
         if (home == null)
         {
             throw new NotValidDataException("Home not found");

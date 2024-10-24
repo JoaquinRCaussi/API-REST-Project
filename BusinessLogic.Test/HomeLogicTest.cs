@@ -652,7 +652,6 @@ public class HomeLogicTest
     [TestMethod]
     public void ChangeHomeDeviceName_ShouldChangeName_WhenCalled()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var name = "newName";
@@ -660,6 +659,7 @@ public class HomeLogicTest
         var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" };
 
         var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device, Name = "oldName" };
+        var homeDeviceExpected = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device, Name = "newName" };
 
         var home = new Home
         {
@@ -675,11 +675,10 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
-
-        // Act
+        _homeRepositoryMock?.Setup(x => x.ChangeHomeDeviceName(homeId, hardwareId, name)).Returns(homeDeviceExpected);
+        
         var result = _homeLogic?.ChangeHomeDeviceName(homeId, hardwareId, name);
-
-        // Assert
+        
         result?.Name.Should().Be(name);
         _homeRepositoryMock?.Verify(x => x.ChangeHomeDeviceName(homeId, hardwareId, name), Times.Once);
     }
