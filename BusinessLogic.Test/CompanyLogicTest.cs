@@ -29,7 +29,7 @@ public class CompanyLogicTest
             Id = Guid.NewGuid(),
             Name = "Company",
             RUT = "Address",
-            Logo = "Logo",
+            Logo = "Logo.jpeg",
             Owner = user
         };
 
