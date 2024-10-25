@@ -146,7 +146,7 @@ public class UserLogic : IUserLogic
     }
     public bool IsCorrectImagePath(string imagePath)
     {
-        string[] validExtensions = [ ".jpg", ".jpeg", ".png", ".gif" ];
+        var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
 
         var fileExtension = Path.GetExtension(imagePath).ToLower();
 
