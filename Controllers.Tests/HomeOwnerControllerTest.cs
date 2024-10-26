@@ -30,7 +30,8 @@ public class HomeOwnerControllerTest
             Name = user.Name,
             LastName = user.LastName,
             Email = user.Email,
-            Password = user.Password
+            Password = user.Password,
+            ImagePath = user.ImagePath
         };
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateHomeOwner(It.IsAny<User>())).Returns(homeOwnerReq.ToUser());
