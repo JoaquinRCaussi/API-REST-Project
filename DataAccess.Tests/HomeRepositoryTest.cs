@@ -756,4 +756,51 @@ public class HomeRepositoryTest
         home.Rooms.Should().Contain(result);
     }
 
+    [TestMethod]
+    public void GetRooms_ShouldReturnRooms_WhenHomeExists()
+    {
+        using var context = CreateInMemoryDbContext("TestGetRoomsHomeExists");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var roomName = "Room";
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mauil@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            Rooms = []
+        };
+        
+        var room = new Room
+        {
+            Id = Guid.NewGuid(),
+            Name = roomName
+        };
+        
+        home.Rooms.Add(room);
+        
+        context.Homes.Add(home);
+        context.SaveChanges();
+        
+        var result = repository.GetRooms(homeId);
+        
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().Contain(room);
+    }
 }
