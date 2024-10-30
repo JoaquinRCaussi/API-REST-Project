@@ -811,10 +811,18 @@ public class HomeLogicTest
         _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room> { room });
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
         _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(room);
+        
+        var expectedResponse = new DeviceRoomResponse
+        {
+            HardwareId = hardwareId,
+            DeviceName = device.Name,
+            RoomName = room.Name
+        };
 
         var result = _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
 
-        result.Should().BeEquivalentTo(room);
+        result.Should().BeEquivalentTo(expectedResponse);
+        
         _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
     }
 }

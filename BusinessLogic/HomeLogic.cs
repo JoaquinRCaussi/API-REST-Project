@@ -275,7 +275,7 @@ public class HomeLogic : IHomeLogic
         return new DeviceRoomResponse
         {
             HardwareId = homeDevice.HardwareId,
-            DeviceName = homeDevice.Name,
+            DeviceName = homeDevice.Device?.Name,
             RoomName = room.Name
         };
         
