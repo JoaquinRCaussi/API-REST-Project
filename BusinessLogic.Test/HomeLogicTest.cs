@@ -781,4 +781,40 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(rooms);
         _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
     }
+    
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldAddDeviceToRoom_WhenCalled()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" };
+
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
+
+        var room = new Room { Id = roomId, Name = "room" };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            Devices = [homeDevice],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room> { room });
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(room);
+
+        var result = _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        result.Should().BeEquivalentTo(room);
+        _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
+    }
 }
