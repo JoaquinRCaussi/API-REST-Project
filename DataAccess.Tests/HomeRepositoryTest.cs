@@ -749,7 +749,7 @@ public class HomeRepositoryTest
         context.Homes.Add(home);
         context.SaveChanges();
         
-        var result = repository.AddRoom(homeId, "roomName");
+        var result = repository.AddRoom(homeId, roomName);
         
         result.Should().NotBeNull();
         result.Name.Should().Be(roomName);
