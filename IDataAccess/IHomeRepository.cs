@@ -23,4 +23,6 @@ public interface IHomeRepository
     public HomeDevice ChangeHomeDeviceStatus(Guid homeId, Guid hardwareId, bool state);
 
     public HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name);
+    
+    public Room AddRoom(Guid homeId, string name);
 }

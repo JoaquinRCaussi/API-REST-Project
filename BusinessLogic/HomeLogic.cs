@@ -210,4 +210,16 @@ public class HomeLogic : IHomeLogic
 
         return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
     }
+    
+    public Room AddRoom(Guid homeId, string name)
+    {
+        var home = _homeRepository.GetHome(homeId);
+        
+        if (home == null)
+        {
+            throw new NotValidDataException("Home not found");
+        }
+        
+        return _homeRepository.AddRoom(homeId, name);
+    }
 }

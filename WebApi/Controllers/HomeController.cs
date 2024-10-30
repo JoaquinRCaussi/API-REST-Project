@@ -186,4 +186,13 @@ public class HomeController : ControllerBase
         var homeDevice = _homeLogic.ChangeHomeDeviceName(homeId, hardwareId, name);
         return Ok(homeDevice);
     }
+    
+    [HttpPost]
+    [Route("{homeId}/rooms")]
+    [AuthorizationFilter("CanAddRooms")]
+    public IActionResult AddRoomToHome(Guid homeId, string roomName)
+    {
+        var createdRoom = _homeLogic.AddRoom(homeId, roomName);
+        return CreatedAtAction(nameof(AddRoomToHome), new { id = createdRoom.Id }, createdRoom);
+    }
 }

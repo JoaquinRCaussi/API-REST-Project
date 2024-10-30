@@ -172,4 +172,26 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return homeDevice;
     }
+    
+    public Room AddRoom(Guid homeId, string name)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+
+        if (home == null)
+        {
+            return new()
+            {
+            };
+        }
+
+        var room = new Room
+        {
+            Name = name
+        };
+
+        _dbContext.Rooms?.Add(room);
+        home.Rooms?.Add(room);
+        _dbContext.SaveChanges();
+        return room;
+    }
 }

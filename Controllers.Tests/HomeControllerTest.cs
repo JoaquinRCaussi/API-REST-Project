@@ -903,4 +903,50 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
+    
+    [TestMethod]
+    public void AddRoomToHome_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomName = "Living Room";
+
+        var room = new Room
+        {
+            Id = Guid.NewGuid(),
+            Name = roomName
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid(),
+            Rooms = new List<Room>()
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.AddRoom(homeId, roomName)).Returns(room);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.AddRoomToHome(homeId, "roomName");
+
+        var expected = new CreatedAtActionResult(
+            nameof(controller.AddRoomToHome),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = room.Id },
+            room
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
 }
