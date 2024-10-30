@@ -241,4 +241,43 @@ public class HomeLogic : IHomeLogic
         
         return rooms;
     }
+    
+    public DeviceRoomResponse AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
+    {
+        var home = _homeRepository.GetHome(homeId);
+        
+        if (home == null)
+        {
+            throw new NotValidDataException("Home not found");
+        }
+        
+        var room = _homeRepository.GetRooms(homeId).Find(r => r.Id == roomId);
+        
+        if (room == null)
+        {
+            throw new NotValidDataException("Room not found");
+        }
+        
+        var homeDevice = _homeRepository.GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId);
+        
+        if (homeDevice == null)
+        {
+            throw new NotValidDataException("Device not found");
+        }
+        
+        var roomd = _homeRepository.AddDeviceToRoom(homeId, hardwareId, roomId);
+        
+        if (roomd == null)
+        {
+            throw new NotValidDataException("Device could not be added to room");
+        }
+        
+        return new DeviceRoomResponse
+        {
+            HardwareId = homeDevice.HardwareId,
+            DeviceName = homeDevice.Name,
+            RoomName = room.Name
+        };
+        
+    }
 }

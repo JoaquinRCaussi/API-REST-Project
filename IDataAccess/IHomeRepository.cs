@@ -27,4 +27,6 @@ public interface IHomeRepository
     public Room AddRoom(Guid homeId, string name);
     
     public List<Room> GetRooms(Guid homeId);
+    
+    public Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId);
 }

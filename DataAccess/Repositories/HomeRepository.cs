@@ -208,4 +208,22 @@ public class HomeRepository : IHomeRepository
 
         return home.Rooms;
     }
+    
+    public Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+        var room = home?.Rooms?.FirstOrDefault(x => x.Id == roomId);
+        var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
+
+        if (home == null || room == null || homeDevice == null)
+        {
+            return new()
+            {
+            };
+        }
+
+        room.Devices?.Add(homeDevice);
+        _dbContext.SaveChanges();
+        return room;
+    }
 }

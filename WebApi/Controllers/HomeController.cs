@@ -207,4 +207,22 @@ public class HomeController : ControllerBase
         
         return Ok(getRoomsResponse.ToArgs());
     }
+    
+    [HttpPut]
+    [Route("{homeId}/rooms/{roomId}")]
+    [AuthorizationFilter("CanAsociateDevices")]
+    public IActionResult AddDeviceToRoom(Guid homeId, Guid roomId, [FromBody] AddDeviceToRoomRequest addDeviceToRoomRequest)
+    {
+        var hardwareId = addDeviceToRoomRequest.HardwareId;
+        var deviceRoomResponse = _homeLogic.AddDeviceToRoom(homeId, hardwareId, roomId);
+        
+        var response = new DeviceRoomResponse
+        {
+            HardwareId = deviceRoomResponse.HardwareId,
+            DeviceName = deviceRoomResponse.DeviceName,
+            RoomName = deviceRoomResponse.RoomName
+        };
+        
+        return Ok(response);
+    }
 }

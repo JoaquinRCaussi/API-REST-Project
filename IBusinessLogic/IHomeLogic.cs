@@ -32,4 +32,6 @@ public interface IHomeLogic
     Room AddRoom(Guid homeId, string name);
     
     List<Room> GetRooms(Guid homeId);
+    
+    DeviceRoomResponse AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId);
 }
