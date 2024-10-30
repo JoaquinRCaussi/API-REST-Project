@@ -981,7 +981,7 @@ public class HomeControllerTest
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
-        IActionResult act = controller.GetRooms(new Guid());
+        IActionResult act = controller.GetRooms(homeId);
 
         var expected = new OkObjectResult(home.Rooms);
 
