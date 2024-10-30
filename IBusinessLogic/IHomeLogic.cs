@@ -30,4 +30,6 @@ public interface IHomeLogic
     List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
     
     Room AddRoom(Guid homeId, string name);
+    
+    List<Room> GetRooms(Guid homeId);
 }

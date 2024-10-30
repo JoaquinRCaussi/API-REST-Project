@@ -25,4 +25,6 @@ public interface IHomeRepository
     public HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name);
     
     public Room AddRoom(Guid homeId, string name);
+    
+    public List<Room> GetRooms(Guid homeId);
 }

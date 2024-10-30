@@ -195,4 +195,14 @@ public class HomeController : ControllerBase
         var createdRoom = _homeLogic.AddRoom(homeId, roomName);
         return CreatedAtAction(nameof(AddRoomToHome), new { id = createdRoom.Id }, createdRoom);
     }
+    
+    [HttpGet]
+    [Route("{homeId}/rooms")]
+    [AuthorizationFilter("CanListDevices")]
+    public IActionResult GetRooms(Guid homeId)
+    {
+        var rooms = _homeLogic.GetRooms(homeId);
+        
+        return Ok(rooms);
+    }
 }

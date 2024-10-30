@@ -222,4 +222,23 @@ public class HomeLogic : IHomeLogic
         
         return _homeRepository.AddRoom(homeId, name);
     }
+    
+    public List<Room> GetRooms(Guid homeId)
+    {
+        var home = _homeRepository.GetHome(homeId);
+        
+        if (home == null)
+        {
+            throw new NotValidDataException("Home not found");
+        }
+        
+        var rooms = _homeRepository.GetRooms(homeId);
+        
+        if (rooms.Count == 0)
+        {
+            throw new EmptyException("No rooms found for this home.");
+        }
+        
+        return rooms;
+    }
 }

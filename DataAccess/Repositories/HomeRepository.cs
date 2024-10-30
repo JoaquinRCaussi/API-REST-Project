@@ -194,4 +194,18 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return room;
     }
+    
+    public List<Room> GetRooms(Guid homeId)
+    {
+        var home = _dbContext.Homes?
+            .Include(h => h.Rooms)
+            .FirstOrDefault(x => x.Id == homeId);
+
+        if (home == null)
+        {
+            return [];
+        }
+
+        return home.Rooms;
+    }
 }
