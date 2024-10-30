@@ -803,4 +803,76 @@ public class HomeRepositoryTest
         result.Should().HaveCount(1);
         result.Should().Contain(room);
     }
+
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldReturnRoom_WhenHomeAndRoomExist()
+    {
+        using var context = CreateInMemoryDbContext("TestAddDeviceToRoomHomeAndRoomExist");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+        var deviceId = Guid.NewGuid();
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            Rooms = []
+        };
+        
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Room"
+        };
+        
+        var device = new Device
+        {
+            Id = deviceId,
+            Company = _company,
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+        
+        var homeDevice = new HomeDevice
+        {
+            Id = Guid.NewGuid(),
+            DeviceId = deviceId,
+            Device = device
+        };
+        
+        context.Homes.Add(home);
+        
+        context.Rooms.Add(room);
+        
+        context.Devices.Add(device);
+        
+        context.HomeDevices.Add(homeDevice);
+        
+        context.SaveChanges();
+        
+        var result = repository.AddDeviceToRoom(homeId, deviceId, roomId);
+        
+        result.Should().NotBeNull();
+        result.Id.Should().Be(roomId);
+        result.Devices.Should().Contain(homeDevice);
+    }
 }
