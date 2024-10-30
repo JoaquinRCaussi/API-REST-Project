@@ -724,7 +724,7 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Device not found");
     }
-    
+
     [TestMethod]
     public void AddRoom_ShouldAddRoom_WhenCalled()
     {
@@ -751,7 +751,7 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(room);
         _homeRepositoryMock?.Verify(x => x.AddRoom(homeId, name), Times.Once);
     }
-    
+
     [TestMethod]
     public void GetRooms_ShouldReturnListOfRooms_WhenHomeIdIsValid()
     {
@@ -761,7 +761,7 @@ public class HomeLogicTest
             new Room { Id = Guid.NewGuid(), Name = "room1" },
             new Room { Id = Guid.NewGuid(), Name = "room2" }
         };
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -772,7 +772,7 @@ public class HomeLogicTest
             Members = [],
             MemberCount = 5
         };
-        
+
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(rooms);
 
@@ -781,7 +781,7 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(rooms);
         _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
     }
-    
+
     [TestMethod]
     public void AddDeviceToRoom_ShouldAddDeviceToRoom_WhenCalled()
     {
@@ -808,10 +808,10 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room> { room });
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([room]);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
         _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(room);
-        
+
         var expectedResponse = new DeviceRoomResponse
         {
             HardwareId = hardwareId,
@@ -822,7 +822,7 @@ public class HomeLogicTest
         var result = _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
 
         result.Should().BeEquivalentTo(expectedResponse);
-        
+
         _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
     }
 }

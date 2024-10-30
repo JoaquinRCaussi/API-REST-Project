@@ -210,74 +210,74 @@ public class HomeLogic : IHomeLogic
 
         return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
     }
-    
+
     public Room AddRoom(Guid homeId, string name)
     {
         var home = _homeRepository.GetHome(homeId);
-        
+
         if (home == null)
         {
             throw new NotValidDataException("Home not found");
         }
-        
+
         return _homeRepository.AddRoom(homeId, name);
     }
-    
+
     public List<Room> GetRooms(Guid homeId)
     {
         var home = _homeRepository.GetHome(homeId);
-        
+
         if (home == null)
         {
             throw new NotValidDataException("Home not found");
         }
-        
+
         var rooms = _homeRepository.GetRooms(homeId);
-        
+
         if (rooms.Count == 0)
         {
             throw new EmptyException("No rooms found for this home.");
         }
-        
+
         return rooms;
     }
-    
+
     public DeviceRoomResponse AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
     {
         var home = _homeRepository.GetHome(homeId);
-        
+
         if (home == null)
         {
             throw new NotValidDataException("Home not found");
         }
-        
+
         var room = _homeRepository.GetRooms(homeId).Find(r => r.Id == roomId);
-        
+
         if (room == null)
         {
             throw new NotValidDataException("Room not found");
         }
-        
+
         var homeDevice = _homeRepository.GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId);
-        
+
         if (homeDevice == null)
         {
             throw new NotValidDataException("Device not found");
         }
-        
+
         var roomd = _homeRepository.AddDeviceToRoom(homeId, hardwareId, roomId);
-        
+
         if (roomd == null)
         {
             throw new NotValidDataException("Device could not be added to room");
         }
-        
+
         return new DeviceRoomResponse
         {
             HardwareId = homeDevice.HardwareId,
             DeviceName = homeDevice.Device?.Name,
             RoomName = room.Name
         };
-        
+
     }
 }

@@ -23,10 +23,10 @@ public interface IHomeRepository
     public HomeDevice ChangeHomeDeviceStatus(Guid homeId, Guid hardwareId, bool state);
 
     public HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name);
-    
+
     public Room AddRoom(Guid homeId, string name);
-    
+
     public List<Room> GetRooms(Guid homeId);
-    
+
     public Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId);
 }

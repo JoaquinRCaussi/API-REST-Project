@@ -745,12 +745,12 @@ public class HomeRepositoryTest
             Devices = [],
             Rooms = []
         };
-        
+
         context.Homes.Add(home);
         context.SaveChanges();
-        
+
         var result = repository.AddRoom(homeId, roomName);
-        
+
         result.Should().NotBeNull();
         result.Name.Should().Be(roomName);
         home.Rooms.Should().Contain(result);
@@ -785,20 +785,20 @@ public class HomeRepositoryTest
             Devices = [],
             Rooms = []
         };
-        
+
         var room = new Room
         {
             Id = Guid.NewGuid(),
             Name = roomName
         };
-        
+
         home.Rooms.Add(room);
-        
+
         context.Homes.Add(home);
         context.SaveChanges();
-        
+
         var result = repository.GetRooms(homeId);
-        
+
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
         result.Should().Contain(room);
@@ -856,8 +856,8 @@ public class HomeRepositoryTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            Devices = new List<HomeDevice> { homeDevice },
-            Rooms = new List<Room> { room }
+            Devices = [homeDevice],
+            Rooms = [room]
         };
 
         context.Devices.Add(device);
@@ -871,6 +871,6 @@ public class HomeRepositoryTest
 
         result.Should().NotBeNull();
         result.Id.Should().Be(roomId);
-        result.Devices.Should().Contain(homeDevice); 
+        result.Devices.Should().Contain(homeDevice);
     }
 }

@@ -172,7 +172,7 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return homeDevice;
     }
-    
+
     public Room AddRoom(Guid homeId, string name)
     {
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
@@ -194,7 +194,7 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return room;
     }
-    
+
     public List<Room> GetRooms(Guid homeId)
     {
         var home = _dbContext.Homes?
@@ -208,7 +208,7 @@ public class HomeRepository : IHomeRepository
 
         return home.Rooms;
     }
-    
+
     public Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
     {
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);

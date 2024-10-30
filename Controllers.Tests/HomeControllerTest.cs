@@ -903,7 +903,7 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void AddRoomToHome_WhenAllPropertiesOk()
     {
@@ -925,7 +925,7 @@ public class HomeControllerTest
             MemberCount = 5,
             Devices = [],
             HomeOwner = Guid.NewGuid(),
-            Rooms = new List<Room>()
+            Rooms = []
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -949,7 +949,7 @@ public class HomeControllerTest
             .Excluding(x => x.ControllerName)
             .Excluding(x => x.RouteValues));
     }
-    
+
     [TestMethod]
     public void GetRooms_WhenAllPropertiesOk()
     {
@@ -969,9 +969,9 @@ public class HomeControllerTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            Devices = new List<HomeDevice>(),
+            Devices = [],
             HomeOwner = Guid.NewGuid(),
-            Rooms = new List<Room> { room }
+            Rooms = [room]
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
@@ -988,7 +988,7 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void AddDeviceToRoom_WhenAllPropertiesOk()
     {
@@ -1006,7 +1006,7 @@ public class HomeControllerTest
             Description = "Outdoor camera",
             Photo = "photo1.jpg"
         };
-        
+
         var room = new Room
         {
             Id = roomId,
@@ -1047,7 +1047,7 @@ public class HomeControllerTest
         IActionResult act = controller.AddDeviceToRoom(homeId, roomId, addDeviceToRoomReq);
 
         var expected = new OkObjectResult(addDeviceToRoomRes);
-        
+
         act.Should().BeEquivalentTo(expected);
     }
 }
