@@ -969,7 +969,7 @@ public class HomeControllerTest
             Latitude = "123",
             Longitude = "123",
             MemberCount = 5,
-            Devices = [],
+            Devices = new List<HomeDevice>(),
             HomeOwner = Guid.NewGuid(),
             Rooms = new List<Room> { room }
         };
@@ -983,7 +983,8 @@ public class HomeControllerTest
 
         IActionResult act = controller.GetRooms(homeId);
 
-        var expected = new OkObjectResult(home.Rooms);
+        var getRoomsResponse = new GetRoomsResponse(home.Rooms);
+        var expected = new OkObjectResult(getRoomsResponse.ToArgs());
 
         act.Should().BeEquivalentTo(expected);
     }

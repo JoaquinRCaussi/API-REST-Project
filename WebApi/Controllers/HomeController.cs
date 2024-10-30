@@ -203,6 +203,8 @@ public class HomeController : ControllerBase
     {
         var rooms = _homeLogic.GetRooms(homeId);
         
-        return Ok(rooms);
+        var getRoomsResponse = new GetRoomsResponse(rooms);
+        
+        return Ok(getRoomsResponse.ToArgs());
     }
 }
