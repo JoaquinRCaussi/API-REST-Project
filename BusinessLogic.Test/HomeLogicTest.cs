@@ -751,4 +751,22 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(room);
         _homeRepositoryMock?.Verify(x => x.AddRoom(homeId, name), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetRooms_ShouldReturnListOfRooms_WhenHomeIdIsValid()
+    {
+        var homeId = Guid.NewGuid();
+        var rooms = new List<Room>
+        {
+            new Room { Id = Guid.NewGuid(), Name = "room1" },
+            new Room { Id = Guid.NewGuid(), Name = "room2" }
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(rooms);
+
+        var result = _homeLogic?.GetRooms(homeId);
+
+        result.Should().BeEquivalentTo(rooms);
+        _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
+    }
 }
