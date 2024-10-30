@@ -731,8 +731,19 @@ public class HomeLogicTest
         var homeId = Guid.NewGuid();
         var name = "room";
 
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
         var room = new Room { Id = Guid.NewGuid(), Name = name };
 
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.AddRoom(homeId, name)).Returns(room);
 
         var result = _homeLogic?.AddRoom(homeId, name);
