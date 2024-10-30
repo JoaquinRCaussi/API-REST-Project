@@ -800,7 +800,7 @@ public class HomeRepositoryTest
         var result = repository.GetRooms(homeId);
         
         result.Should().NotBeNull();
-        result.Should().HaveCount(2);
+        result.Should().HaveCount(1);
         result.Should().Contain(room);
     }
 }
