@@ -1006,6 +1006,12 @@ public class HomeControllerTest
             Description = "Outdoor camera",
             Photo = "photo1.jpg"
         };
+        
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Living Room"
+        };
 
         var homeDevice = new HomeDevice { HardwareId = hardwareId, DeviceId = device.Id, Device = device, State = false };
 
@@ -1022,37 +1028,26 @@ public class HomeControllerTest
             HomeOwner = Guid.NewGuid()
         };
 
-        var homeDeviceRequest = new HomeDeviceRequest { DeviceId = device.Id };
+        var addDeviceToRoomReq = new AddDeviceToRoomRequest() { HardwareId = hardwareId };
 
-        var homeDeviceResponse = new HomeDeviceResponse
+        var addDeviceToRoomRes = new DeviceRoomResponse()
         {
             HardwareId = homeDevice.HardwareId,
-            Device = device
+            DeviceName = homeDevice.Device.Name,
+            RoomName = room.Name
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(homeDevice);
+        homeLogic.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(addDeviceToRoomRes);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
-        IActionResult act = controller.AddDeviceToRoom(homeId, hardwareId, roomId);
+        IActionResult act = controller.AddDeviceToRoom(homeId, roomId, addDeviceToRoomReq);
 
-        var expected = new CreatedAtActionResult(
-            nameof(controller.AddDeviceToRoom),
-            nameof(HomeController).Replace("Controller", ""),
-            new { id = home.Id },
-            new HomeDeviceResponse
-            {
-                HardwareId = homeDevice.HardwareId,
-                Device = device
-            }
-        );
-
-        act.Should().BeEquivalentTo(expected, options => options
-            .ExcludingMissingMembers()
-            .Excluding(x => x.ControllerName)
-            .Excluding(x => x.RouteValues));
+        var expected = new OkObjectResult(addDeviceToRoomRes);
+        
+        act.Should().BeEquivalentTo(expected);
     }
 }
