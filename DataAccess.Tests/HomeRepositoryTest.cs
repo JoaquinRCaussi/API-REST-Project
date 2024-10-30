@@ -716,4 +716,44 @@ public class HomeRepositoryTest
         result.Device.Should().BeNull();
     }
 
+    [TestMethod]
+    public void AddRoom_ShouldAddRoomToHome_WhenHomeExists()
+    {
+        using var context = CreateInMemoryDbContext("TestAddRoomHomeExists");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var roomName = "Room";
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            Rooms = []
+        };
+        
+        context.Homes.Add(home);
+        context.SaveChanges();
+        
+        var result = repository.AddRoom(homeId, "roomName");
+        
+        result.Should().NotBeNull();
+        result.Name.Should().Be(roomName);
+        home.Rooms.Should().Contain(result);
+    }
+
 }
