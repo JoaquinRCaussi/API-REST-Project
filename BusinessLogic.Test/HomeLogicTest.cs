@@ -504,14 +504,14 @@ public class HomeLogicTest
                 new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() }
             };
 
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(devices);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(devices);
 
         // Act
-        var result = _homeLogic?.GetHomeDevices(homeId);
+        var result = _homeLogic?.GetHomeDevices(homeId, null);
 
         // Assert
         result.Should().BeEquivalentTo(devices);
-        _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId), Times.Once);
+        _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
     }
 
     [TestMethod]
@@ -519,9 +519,9 @@ public class HomeLogicTest
     {
         var homeId = Guid.NewGuid();
 
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns([]);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns([]);
 
-        Action act = () => _homeLogic?.GetHomeDevices(homeId);
+        Action act = () => _homeLogic?.GetHomeDevices(homeId, null);
 
         act.Should().Throw<EmptyException>()
             .WithMessage("No devices found for this home.");
@@ -567,7 +567,7 @@ public class HomeLogicTest
         var notifications = new List<Notification> { new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
         _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest)).Returns(notifications);
 
         // Act
@@ -606,7 +606,7 @@ public class HomeLogicTest
 
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
         _notificationRepositoryMock?.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest)).Returns(notifications);
 
         // Act
@@ -674,7 +674,7 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
         _homeRepositoryMock?.Setup(x => x.ChangeHomeDeviceName(homeId, hardwareId, name)).Returns(homeDeviceExpected);
 
         var result = _homeLogic?.ChangeHomeDeviceName(homeId, hardwareId, name);
@@ -717,7 +717,7 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns([]);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns([]);
 
         Action act = () => _homeLogic?.ChangeHomeDeviceName(homeId, hardwareId, name);
 
@@ -809,7 +809,7 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([room]);
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
         _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(room);
 
         var expectedResponse = new DeviceRoomResponse

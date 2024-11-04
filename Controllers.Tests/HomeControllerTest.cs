@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
+using Models.Out;
 using Moq;
 using WebApi.Controllers;
 using WebApi.Filters;
@@ -454,7 +455,7 @@ public class HomeControllerTest
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
@@ -467,7 +468,7 @@ public class HomeControllerTest
 
         okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
 
-        homeLogic.Verify(x => x.GetHomeDevices(homeId), Times.Once);
+        homeLogic.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
     }
 
     [TestMethod]
@@ -826,7 +827,7 @@ public class HomeControllerTest
     {
         var homeId = Guid.NewGuid();
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomeDevices(homeId))
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, null))
             .Throws(new EmptyException("No devices found for this home."));
 
         var controller = new HomeController(homeLogic.Object, null);

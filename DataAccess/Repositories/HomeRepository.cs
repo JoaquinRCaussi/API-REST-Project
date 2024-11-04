@@ -141,11 +141,13 @@ public class HomeRepository : IHomeRepository
         return homeDevice;
     }
 
-    public List<HomeDevice> GetHomeDevices(Guid homeId)
+    public List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null)
     {
         var home = _dbContext.Homes?
             .Include(h => h.Devices)
                 .ThenInclude(Device => Device.Device)
+            .Include(h => h.Rooms)
+                .ThenInclude(r => r.Devices)
             .FirstOrDefault(x => x.Id == homeId);
 
         if (home == null)
@@ -153,7 +155,15 @@ public class HomeRepository : IHomeRepository
             return [];
         }
 
-        return home.Devices;
+        var homeDevices = home.Devices;
+        
+        if (roomId != null && home.Rooms != null && homeDevices != null)
+        {
+            var room = home.Rooms?.FirstOrDefault(x => x.Id == roomId);
+            homeDevices = room?.Devices;
+        }
+
+        return homeDevices ?? [];
     }
 
     public HomeDevice ChangeHomeDeviceStatus(Guid homeId, Guid hardwareId, bool state)
