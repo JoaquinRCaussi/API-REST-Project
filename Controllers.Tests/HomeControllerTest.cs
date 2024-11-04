@@ -1117,6 +1117,6 @@ public class HomeControllerTest
 
         okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
 
-        homeLogic.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
+        homeLogic.Verify(x => x.GetHomeDevices(homeId, roomId), Times.Once);
     }
 }
