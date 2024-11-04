@@ -3,5 +3,7 @@
 public enum DeviceType
 {
     Camera,
-    Sensor
+    WindowSensor,
+    MovementSensor,
+    SmartLamp
 }

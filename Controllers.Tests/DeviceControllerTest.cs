@@ -133,10 +133,10 @@ public class DeviceControllerTest
         var listOfDevicesResponse = listOfDevices.Select(d => new DeviceResponse(d)).ToList();
 
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", "", DeviceType.Sensor))
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor))
             .Returns(listOfDevices);
 
-        IActionResult result = _controller!.GetDevices("", "", "", DeviceType.Sensor, 1, 10);
+        IActionResult result = _controller!.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10);
 
         var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
 
@@ -157,7 +157,7 @@ public class DeviceControllerTest
         var deviceTypes = new List<string>()
         {
             "Camera",
-            "Sensor"
+            "WindowSensor"
         };
         _deviceLogicMock.Setup(x => x.GetDevicesTypes()).Returns(deviceTypes);
 
@@ -171,10 +171,10 @@ public class DeviceControllerTest
     public void GetDevices_ShouldReturnNoContent()
     {
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", "", DeviceType.Sensor))
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor))
             .Throws(new EmptyException("No devices found"));
 
-        Action act = () => _controller!.GetDevices("", "", "", DeviceType.Sensor, 1, 10);
+        Action act = () => _controller!.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10);
 
         act.Should().Throw<EmptyException>();
 

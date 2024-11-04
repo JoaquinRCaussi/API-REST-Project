@@ -18,7 +18,7 @@ public class DeviceRequest
             CompanyId = company.Id,
             Name = Name,
             Model = Model,
-            DeviceType = DeviceType.Sensor,
+            DeviceType = DeviceType.WindowSensor,
             Description = Description,
             Photo = Photo
         };

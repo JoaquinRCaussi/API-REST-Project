@@ -265,7 +265,7 @@ public class DevicesLogicTest
         var deviceTypes = new List<string>
         {
             "Camera",
-            "Sensor"
+            "WindowSensor"
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);

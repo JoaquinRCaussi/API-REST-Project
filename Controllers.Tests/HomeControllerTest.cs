@@ -432,7 +432,7 @@ public class HomeControllerTest
             Id = Guid.NewGuid(),
             Name = "Thermostat",
             Model = "ABC",
-            DeviceType = DeviceType.Sensor,
+            DeviceType = DeviceType.WindowSensor,
             Description = "Smart thermostat",
             Photo = "photo2.jpg"
         };

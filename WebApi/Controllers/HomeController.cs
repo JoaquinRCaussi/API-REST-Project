@@ -126,7 +126,7 @@ public class HomeController : ControllerBase
 
     //Justificacion en documentacion de por que esta en home controller
     [HttpPost]
-    [Route("{homeId}/sensor/{hardwareId}/open")]
+    [Route("{homeId}/windowSensor/{hardwareId}/open")]
     [AuthorizationFilter]
     public IActionResult CreateNotificationOpenSensor(Guid homeId, Guid hardwareId)
     {
@@ -139,7 +139,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpPost]
-    [Route("{homeId}/sensor/{hardwareId}/close")]
+    [Route("{homeId}/windowSensor/{hardwareId}/close")]
     [AuthorizationFilter]
     public IActionResult CreateNotificationCloseSensor(Guid homeId, Guid hardwareId)
     {

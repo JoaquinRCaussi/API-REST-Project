@@ -92,7 +92,7 @@ public class HMDbContext : DbContext
 
         modelBuilder.Entity<Device>()
             .HasDiscriminator<DeviceType>("DeviceType")
-            .HasValue<Device>(DeviceType.Sensor)
+            .HasValue<Device>(DeviceType.WindowSensor)
             .HasValue<Camera>(DeviceType.Camera);
 
         modelBuilder.Entity<User>().HasData(
