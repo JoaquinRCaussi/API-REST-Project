@@ -1051,4 +1051,72 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
+
+    [TestMethod]
+    public void GetHomeDevicesByRoomId_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+        
+        var device1 = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "XYZ",
+            DeviceType = DeviceType.Camera,
+            Description = "Outdoor camera",
+            Photo = "photo1.jpg"
+        };
+        var device2 = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Thermostat",
+            Model = "ABC",
+            DeviceType = DeviceType.Sensor,
+            Description = "Smart thermostat",
+            Photo = "photo2.jpg"
+        };
+        var devices = new List<HomeDevice>
+        {
+            new HomeDevice { DeviceId = device1.Id, Device = device1 },
+            new HomeDevice { DeviceId = device2.Id, Device = device2 }
+        };
+        
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Living Room",
+            Devices = devices
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 1,
+            Devices = devices,
+            Rooms = {room},
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, roomId)).Returns(home.Devices);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.GetHomeDevices(homeId,roomId);
+
+        var okResult = act as OkObjectResult;
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+
+        okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
+
+        homeLogic.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
+    }
 }
