@@ -716,4 +716,161 @@ public class HomeRepositoryTest
         result.Device.Should().BeNull();
     }
 
+    [TestMethod]
+    public void AddRoom_ShouldAddRoomToHome_WhenHomeExists()
+    {
+        using var context = CreateInMemoryDbContext("TestAddRoomHomeExists");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var roomName = "Room";
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            Rooms = []
+        };
+
+        context.Homes.Add(home);
+        context.SaveChanges();
+
+        var result = repository.AddRoom(homeId, roomName);
+
+        result.Should().NotBeNull();
+        result.Name.Should().Be(roomName);
+        home.Rooms.Should().Contain(result);
+    }
+
+    [TestMethod]
+    public void GetRooms_ShouldReturnRooms_WhenHomeExists()
+    {
+        using var context = CreateInMemoryDbContext("TestGetRoomsHomeExists");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var roomName = "Room";
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mauil@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            Rooms = []
+        };
+
+        var room = new Room
+        {
+            Id = Guid.NewGuid(),
+            Name = roomName
+        };
+
+        home.Rooms.Add(room);
+
+        context.Homes.Add(home);
+        context.SaveChanges();
+
+        var result = repository.GetRooms(homeId);
+
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+        result.Should().Contain(room);
+    }
+
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldReturnRoom_WhenHomeAndRoomExist()
+    {
+        using var context = CreateInMemoryDbContext("TestAddDeviceToRoomHomeAndRoomExist");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+        var deviceId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var device = new Device
+        {
+            Id = deviceId,
+            Company = _company,
+            Name = "Device",
+            Model = "Model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+
+        var homeDevice = new HomeDevice
+        {
+            HardwareId = hardwareId,
+            DeviceId = deviceId,
+            Device = device
+        };
+
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Room"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [homeDevice],
+            Rooms = [room]
+        };
+
+        context.Devices.Add(device);
+        context.Rooms.Add(room);
+        context.Homes.Add(home);
+        context.HomeDevices.Add(homeDevice);
+
+        context.SaveChanges();
+
+        var result = repository.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        result.Should().NotBeNull();
+        result.Id.Should().Be(roomId);
+        result.Devices.Should().Contain(homeDevice);
+    }
 }

@@ -903,4 +903,151 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
+
+    [TestMethod]
+    public void AddRoomToHome_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomName = "Living Room";
+
+        var room = new Room
+        {
+            Id = Guid.NewGuid(),
+            Name = roomName
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid(),
+            Rooms = []
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.AddRoom(homeId, roomName)).Returns(room);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.AddRoomToHome(homeId, roomName);
+
+        var expected = new CreatedAtActionResult(
+            nameof(controller.AddRoomToHome),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = room.Id },
+            room
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
+    public void GetRooms_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomName = "Living Room";
+
+        var room = new Room
+        {
+            Id = Guid.NewGuid(),
+            Name = roomName
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid(),
+            Rooms = [room]
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetRooms(homeId)).Returns(home.Rooms);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.GetRooms(homeId);
+
+        var getRoomsResponse = new GetRoomsResponse(home.Rooms);
+        var expected = new OkObjectResult(getRoomsResponse.ToArgs());
+
+        act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void AddDeviceToRoom_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var device = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "XYZ",
+            DeviceType = DeviceType.Camera,
+            Description = "Outdoor camera",
+            Photo = "photo1.jpg"
+        };
+
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Living Room"
+        };
+
+        var homeDevice = new HomeDevice { HardwareId = hardwareId, DeviceId = device.Id, Device = device, State = false };
+
+        var homeDevices = new List<HomeDevice> { homeDevice };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = homeDevices,
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var addDeviceToRoomReq = new AddDeviceToRoomRequest() { HardwareId = hardwareId };
+
+        var addDeviceToRoomRes = new DeviceRoomResponse()
+        {
+            HardwareId = homeDevice.HardwareId,
+            DeviceName = homeDevice.Device.Name,
+            RoomName = room.Name
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(addDeviceToRoomRes);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.AddDeviceToRoom(homeId, roomId, addDeviceToRoomReq);
+
+        var expected = new OkObjectResult(addDeviceToRoomRes);
+
+        act.Should().BeEquivalentTo(expected);
+    }
 }

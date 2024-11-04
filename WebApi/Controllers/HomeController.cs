@@ -186,4 +186,43 @@ public class HomeController : ControllerBase
         var homeDevice = _homeLogic.ChangeHomeDeviceName(homeId, hardwareId, name);
         return Ok(homeDevice);
     }
+
+    [HttpPost]
+    [Route("{homeId}/rooms")]
+    [AuthorizationFilter("CanAddRooms")]
+    public IActionResult AddRoomToHome(Guid homeId, string roomName)
+    {
+        var createdRoom = _homeLogic.AddRoom(homeId, roomName);
+        return CreatedAtAction(nameof(AddRoomToHome), new { id = createdRoom.Id }, createdRoom);
+    }
+
+    [HttpGet]
+    [Route("{homeId}/rooms")]
+    [AuthorizationFilter("CanListDevices")]
+    public IActionResult GetRooms(Guid homeId)
+    {
+        var rooms = _homeLogic.GetRooms(homeId);
+
+        var getRoomsResponse = new GetRoomsResponse(rooms);
+
+        return Ok(getRoomsResponse.ToArgs());
+    }
+
+    [HttpPut]
+    [Route("{homeId}/rooms/{roomId}")]
+    [AuthorizationFilter("CanAsociateDevices")]
+    public IActionResult AddDeviceToRoom(Guid homeId, Guid roomId, [FromBody] AddDeviceToRoomRequest addDeviceToRoomRequest)
+    {
+        var hardwareId = addDeviceToRoomRequest.HardwareId;
+        var deviceRoomResponse = _homeLogic.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        var response = new DeviceRoomResponse
+        {
+            HardwareId = deviceRoomResponse.HardwareId,
+            DeviceName = deviceRoomResponse.DeviceName,
+            RoomName = deviceRoomResponse.RoomName
+        };
+
+        return Ok(response);
+    }
 }
