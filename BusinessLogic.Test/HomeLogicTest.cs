@@ -863,14 +863,28 @@ public class HomeLogicTest
     public void GetHomeDevicesByRoom_ShouldReturnException_WhenHomeIdIsInvalid()
     {
         var homeId = Guid.NewGuid();
-        var roomId = Guid.NewGuid();
-
-        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, roomId)).Returns((List<HomeDevice>?)null);
-
-        Action act = () => _homeLogic?.GetHomeDevices(homeId, roomId);
-
+        
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns((List<HomeDevice>?)null);
+        
+        Action act = () => _homeLogic?.GetHomeDevices(homeId, null);
+        
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Home not found.");
+    }
+    
+    [TestMethod]
+    public void GetHomeDevicesByRoom_ShouldReturnException_WhenRoomIdIsNull()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns((new List<HomeDevice>()));
+
+        Action act = () => _homeLogic?.GetHomeDevices(homeId, null);
+
+        act.Should().Throw<EmptyException>()
+            .WithMessage("No devices found for this home.");
+
     }
     
 }

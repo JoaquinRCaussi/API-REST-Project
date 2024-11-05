@@ -153,13 +153,17 @@ public class HomeLogic : IHomeLogic
         {
             throw new NotValidDataException("Home not found.");
         }
-        if (result != null  && result.Count == 0 && roomId == null)
+
+        if (result.Count == 0)
         {
-            throw new EmptyException("No devices found for this home.");
-        }
-        if (result != null  && result.Count == 0 && roomId != null)
-        {
-            throw new EmptyException("No devices found for this room in this home.");
+            if (roomId == null)
+            {
+                throw new EmptyException("No devices found for this home.");
+            }
+            else
+            {
+                throw new EmptyException("No devices found for this room in this home.");
+            }
         }
 
         return result;
