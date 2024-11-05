@@ -148,7 +148,7 @@ public class HomeLogic : IHomeLogic
     public List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null)
     {
         var result = _homeRepository.GetHomeDevices(homeId, roomId);
-        
+
         if (result == null)
         {
             throw new NotValidDataException("Home not found.");

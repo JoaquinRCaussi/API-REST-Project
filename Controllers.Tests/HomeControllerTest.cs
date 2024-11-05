@@ -1057,7 +1057,7 @@ public class HomeControllerTest
     {
         var homeId = Guid.NewGuid();
         var roomId = Guid.NewGuid();
-        
+
         var device1 = new Device
         {
             Company = _company,
@@ -1083,7 +1083,7 @@ public class HomeControllerTest
             new HomeDevice { DeviceId = device1.Id, Device = device1 },
             new HomeDevice { DeviceId = device2.Id, Device = device2 }
         };
-        
+
         var room = new Room
         {
             Id = roomId,
@@ -1099,7 +1099,7 @@ public class HomeControllerTest
             Longitude = "123",
             MemberCount = 1,
             Devices = devices,
-            Rooms = {room},
+            Rooms = { room },
             HomeOwner = Guid.NewGuid()
         };
 
@@ -1110,7 +1110,7 @@ public class HomeControllerTest
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
-        IActionResult act = controller.GetHomeDevices(homeId,roomId);
+        IActionResult act = controller.GetHomeDevices(homeId, roomId);
 
         var okResult = act as OkObjectResult;
         Assert.IsNotNull(okResult, "Expected OkObjectResult");
@@ -1119,7 +1119,7 @@ public class HomeControllerTest
 
         homeLogic.Verify(x => x.GetHomeDevices(homeId, roomId), Times.Once);
     }
-    
+
     [TestMethod]
     public void GetHomeDevicesByRoomId_ShouldReturnNoContent()
     {

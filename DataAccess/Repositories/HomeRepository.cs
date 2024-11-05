@@ -155,12 +155,12 @@ public class HomeRepository : IHomeRepository
             return null;
         }
 
-        var homeDevices = home.Devices ?? new List<HomeDevice>();
+        var homeDevices = home.Devices ?? [];
 
         if (roomId != null && home.Rooms != null)
         {
             var room = home.Rooms?.FirstOrDefault(x => x.Id == roomId);
-            homeDevices = room?.Devices ?? new List<HomeDevice>();
+            homeDevices = room?.Devices ?? [];
         }
 
         return homeDevices;

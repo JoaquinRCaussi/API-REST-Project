@@ -456,7 +456,7 @@ public class HomeRepositoryTest
         result[0].DeviceId.Should().Be(deviceId);
         result[0].Device.Should().Be(device);
     }
-    
+
     [TestMethod]
     public void GetHomeDevices_ShouldReturnEmptyList_WhenHomeExistsButHasNoDevices()
     {
@@ -511,7 +511,7 @@ public class HomeRepositoryTest
             RUT = "2312311",
             Owner = user
         };
-        
+
         var device = new Device
         {
             Id = deviceId,
@@ -522,21 +522,21 @@ public class HomeRepositoryTest
             Description = "description",
             Photo = "photo"
         };
-        
+
         var homeDevice = new HomeDevice
         {
             Id = Guid.NewGuid(),
             DeviceId = deviceId,
             Device = device
         };
-        
+
         var room = new Room
         {
             Id = roomId,
             Name = "Room",
             Devices = [homeDevice]
         };
-        
+
         var home = new Home
         {
             Id = homeId,
@@ -548,21 +548,21 @@ public class HomeRepositoryTest
             Devices = [],
             Rooms = [room]
         };
-        
+
         context.Homes?.Add(home);
-        
+
         context.Devices?.Add(device);
-        
+
         context.HomeDevices?.Add(homeDevice);
-        
+
         context.Rooms?.Add(room);
-        
+
         context.SaveChanges();
-        
+
         var result = repository.GetHomeDevices(homeId, roomId);
-        
+
         result.Should().NotBeNull();
-        
+
         result.Should().HaveCount(1);
     }
 
@@ -602,7 +602,7 @@ public class HomeRepositoryTest
         result.Should().NotBeNull();
         result.Should().BeEmpty();
     }
-    
+
 
     [TestMethod]
     public void AddDevice_ShouldReturnDefaultHomeDevice_WhenHomeOrDeviceDoesNotExist()
