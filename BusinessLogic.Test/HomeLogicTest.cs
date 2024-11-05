@@ -876,7 +876,6 @@ public class HomeLogicTest
     public void GetHomeDevicesByRoom_WhenNoDevicesForHome()
     {
         var homeId = Guid.NewGuid();
-        var roomId = Guid.NewGuid();
 
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns((new List<HomeDevice>()));
 
