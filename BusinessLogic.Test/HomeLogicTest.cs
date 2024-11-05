@@ -859,4 +859,18 @@ public class HomeLogicTest
             .WithMessage("No devices found for this room in this home.");
     }
     
+    [TestMethod]
+    public void GetHomeDevicesByRoom_ShouldReturnException_WhenHomeIdIsInvalid()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, roomId)).Returns((List<HomeDevice>?)null);
+
+        Action act = () => _homeLogic?.GetHomeDevices(homeId, roomId);
+
+        act.Should().Throw<NotValidDataException>()
+            .WithMessage("Home not found.");
+    }
+    
 }
