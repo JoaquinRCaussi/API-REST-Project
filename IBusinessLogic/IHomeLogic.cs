@@ -23,7 +23,7 @@ public interface IHomeLogic
 
     HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name);
 
-    List<HomeDevice> GetHomeDevices(Guid homeId);
+    List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null);
 
     List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
 

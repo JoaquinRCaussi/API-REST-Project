@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
+using Models.Out;
 using Moq;
 using WebApi.Controllers;
 using WebApi.Filters;
@@ -454,7 +455,7 @@ public class HomeControllerTest
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
@@ -467,7 +468,7 @@ public class HomeControllerTest
 
         okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
 
-        homeLogic.Verify(x => x.GetHomeDevices(homeId), Times.Once);
+        homeLogic.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
     }
 
     [TestMethod]
@@ -826,7 +827,7 @@ public class HomeControllerTest
     {
         var homeId = Guid.NewGuid();
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomeDevices(homeId))
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, null))
             .Throws(new EmptyException("No devices found for this home."));
 
         var controller = new HomeController(homeLogic.Object, null);
@@ -1049,5 +1050,110 @@ public class HomeControllerTest
         var expected = new OkObjectResult(addDeviceToRoomRes);
 
         act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void GetHomeDevicesByRoomId_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var device1 = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "XYZ",
+            DeviceType = DeviceType.Camera,
+            Description = "Outdoor camera",
+            Photo = "photo1.jpg"
+        };
+        var device2 = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Thermostat",
+            Model = "ABC",
+            DeviceType = DeviceType.Sensor,
+            Description = "Smart thermostat",
+            Photo = "photo2.jpg"
+        };
+        var devices = new List<HomeDevice>
+        {
+            new HomeDevice { DeviceId = device1.Id, Device = device1 },
+            new HomeDevice { DeviceId = device2.Id, Device = device2 }
+        };
+
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Living Room",
+            Devices = devices
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 1,
+            Devices = devices,
+            Rooms = { room },
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, roomId)).Returns(home.Devices);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.GetHomeDevices(homeId, roomId);
+
+        var okResult = act as OkObjectResult;
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+
+        okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
+
+        homeLogic.Verify(x => x.GetHomeDevices(homeId, roomId), Times.Once);
+    }
+
+    [TestMethod]
+    public void GetHomeDevicesByRoomId_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, roomId))
+            .Throws(new EmptyException("No devices found for this room."));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.GetHomeDevices(homeId, roomId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No devices found for this room.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        homeLogic.VerifyAll();
     }
 }

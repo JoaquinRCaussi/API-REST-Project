@@ -145,13 +145,25 @@ public class HomeLogic : IHomeLogic
         return result;
     }
 
-    public List<HomeDevice> GetHomeDevices(Guid homeId)
+    public List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null)
     {
-        var result = _homeRepository.GetHomeDevices(homeId);
+        var result = _homeRepository.GetHomeDevices(homeId, roomId);
+
+        if (result == null)
+        {
+            throw new NotValidDataException("Home not found.");
+        }
 
         if (result.Count == 0)
         {
-            throw new EmptyException("No devices found for this home.");
+            if (roomId == null)
+            {
+                throw new EmptyException("No devices found for this home.");
+            }
+            else
+            {
+                throw new EmptyException("No devices found for this room in this home.");
+            }
         }
 
         return result;

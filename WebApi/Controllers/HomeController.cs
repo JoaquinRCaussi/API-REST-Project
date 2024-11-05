@@ -2,6 +2,7 @@ using Domain;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Out;
 using WebApi.Filters;
 
 namespace WebApi.Controllers;
@@ -118,9 +119,9 @@ public class HomeController : ControllerBase
     [HttpGet]
     [Route("{homeId}/devices")]
     [AuthorizationFilter("CanListDevices")]
-    public IActionResult GetHomeDevices(Guid homeId)
+    public IActionResult GetHomeDevices(Guid homeId, Guid? roomId = null)
     {
-        var devices = _homeLogic.GetHomeDevices(homeId);
+        var devices = _homeLogic.GetHomeDevices(homeId, roomId);
         return Ok(devices);
     }
 
