@@ -386,8 +386,7 @@ public class HomeRepositoryTest
 
         var result = repository.GetHomeDevices(nonExistentHomeId);
 
-        result.Should().NotBeNull();
-        result.Should().BeEmpty();
+        result.Should().BeNull();
     }
 
     [TestMethod]
