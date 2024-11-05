@@ -377,7 +377,7 @@ public class HomeRepositoryTest
     }
 
     [TestMethod]
-    public void GetHomeDevices_ShouldReturnEmptyList_WhenHomeDoesNotExist()
+    public void GetHomeDevices_ShouldReturnNull_WhenHomeDoesntExist()
     {
         using var context = CreateInMemoryDbContext("TestGetHomeDevicesHomeNull");
         var repository = new HomeRepository(context);
