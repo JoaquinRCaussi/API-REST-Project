@@ -7,7 +7,7 @@
 namespace DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class devicesandhomechanges : Migration
+public partial class DevicesAndHomeChanges : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)

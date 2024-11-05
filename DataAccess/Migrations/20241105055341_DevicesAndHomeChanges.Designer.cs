@@ -13,7 +13,7 @@ namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
     [Migration("20241105055341_devices-and-home-changes")]
-    partial class devicesandhomechanges
+    partial class DevicesAndHomeChanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
