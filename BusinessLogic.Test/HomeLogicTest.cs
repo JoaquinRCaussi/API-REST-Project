@@ -844,4 +844,19 @@ public class HomeLogicTest
         result.Should().BeEquivalentTo(devices);
         _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId, roomId), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetHomeDevicesByRoom_ShouldReturnException_WhenNoDevicesFound()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, roomId)).Returns([]);
+
+        Action act = () => _homeLogic?.GetHomeDevices(homeId, roomId);
+
+        act.Should().Throw<EmptyException>()
+            .WithMessage("No devices found for this room.");
+    }
+    
 }
