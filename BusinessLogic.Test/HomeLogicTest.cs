@@ -856,7 +856,7 @@ public class HomeLogicTest
         Action act = () => _homeLogic?.GetHomeDevices(homeId, roomId);
 
         act.Should().Throw<EmptyException>()
-            .WithMessage("No devices found for this room.");
+            .WithMessage("No devices found for this room in this home.");
     }
     
 }
