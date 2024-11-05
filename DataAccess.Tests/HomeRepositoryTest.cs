@@ -456,6 +456,35 @@ public class HomeRepositoryTest
         result[0].DeviceId.Should().Be(deviceId);
         result[0].Device.Should().Be(device);
     }
+    
+    [TestMethod]
+    public void GetHomeDevices_ShouldReturnEmptyList_WhenHomeExistsButHasNoDevices()
+    {
+        using var context = CreateInMemoryDbContext("TestGetHomeDevicesHomeExistsNoDevices");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+
+        var home = new Home
+        {
+            Id = homeId,
+            HomeOwner = Guid.NewGuid(),
+            MemberCount = 4,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            Devices = []
+        };
+
+        context.Homes?.Add(home);
+        context.SaveChanges();
+
+        var result = repository.GetHomeDevices(homeId);
+
+        result.Should().NotBeNull();
+        result.Should().BeEmpty();
+    }
+    
 
     [TestMethod]
     public void AddDevice_ShouldReturnDefaultHomeDevice_WhenHomeOrDeviceDoesNotExist()
