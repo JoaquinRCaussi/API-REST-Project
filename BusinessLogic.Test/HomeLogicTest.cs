@@ -825,4 +825,23 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
     }
+    
+    [TestMethod]
+    public void GetHomeDevicesByRoom_ShouldReturnListOfDevices_WhenHomeIdAndRoomIdAreValid()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+        var devices = new List<HomeDevice>
+        {
+            new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() },
+            new HomeDevice { Id = Guid.NewGuid(), DeviceId = Guid.NewGuid() }
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, roomId)).Returns(devices);
+
+        var result = _homeLogic?.GetHomeDevices(homeId, roomId);
+
+        result.Should().BeEquivalentTo(devices);
+        _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId, roomId), Times.Once);
+    }
 }
