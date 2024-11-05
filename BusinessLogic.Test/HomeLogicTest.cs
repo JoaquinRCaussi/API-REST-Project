@@ -873,7 +873,7 @@ public class HomeLogicTest
     }
     
     [TestMethod]
-    public void GetHomeDevicesByRoom_ShouldReturnException_WhenRoomIdIsNull()
+    public void GetHomeDevicesByRoom_WhenNoDevicesForHome()
     {
         var homeId = Guid.NewGuid();
         var roomId = Guid.NewGuid();
