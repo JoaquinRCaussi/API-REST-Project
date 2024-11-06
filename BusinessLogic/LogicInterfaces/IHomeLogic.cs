@@ -1,0 +1,37 @@
+using BusinessLogic.Entities;
+using Models;
+
+namespace BusinessLogic.LogicInterfaces;
+
+public interface IHomeLogic
+{
+    Home CreateHome(Home home);
+
+    List<Home> GetHomes();
+
+    List<Home> GetHomesByUser(Guid userId);
+
+    Home GetHome(Guid homeId);
+
+    List<User> GetHomeMembers(Guid homeId);
+
+    Home AddMember(Guid homeId, Guid userId);
+
+    Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permission);
+
+    HomeDevice AddDevice(Guid homeId, Guid deviceId);
+
+    HomeDevice ChangeHomeDeviceName(Guid homeId, Guid hardwareId, string name);
+
+    List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null);
+
+    List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
+
+    List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
+
+    Room AddRoom(Guid homeId, string name);
+
+    List<Room> GetRooms(Guid homeId);
+
+    DeviceRoomResponse AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId);
+}

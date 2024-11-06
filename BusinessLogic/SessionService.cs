@@ -1,12 +1,14 @@
-using Domain;
-using IBusinessLogic;
-using IDataAccess;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
+
 
 namespace BusinessLogic;
 
 public class SessionService : ISessionService
 {
     private readonly IUserRepository _userRepository;
+    
     private static readonly List<Session> _sessions = [];
 
     public SessionService(IUserRepository userRepository)

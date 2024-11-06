@@ -8,9 +8,6 @@
     <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
     <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj" />
-        <ProjectReference Include="..\IBusinessLogic\IBusinessLogic.csproj" />
-        <ProjectReference Include="..\Models\Models.csproj" />
         <ProjectReference Include="..\ServiceFactory\ServiceFactory.csproj" />
     </ItemGroup>
 

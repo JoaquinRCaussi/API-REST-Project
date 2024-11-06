@@ -248,7 +248,7 @@ dotnet_diagnostic.CS8321.severity = Error
 dotnet_diagnostic.CS0162.severity = Error
 
 
-dotnet_diagnostic.CS8618.severity = Error
+dotnet_diagnostic.CS8618.severity = Warning
 dotnet_diagnostic.CS9113.severity = Error
 dotnet_diagnostic.CS1998.severity = Error
 dotnet_diagnostic.CS8604.severity = Error

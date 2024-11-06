@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using BusinessLogic;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.LogicInterfaces;
 using DataAccess;
 using DataAccess.Data;
 using DataAccess.Repositories;
-using IBusinessLogic;
-using IDataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

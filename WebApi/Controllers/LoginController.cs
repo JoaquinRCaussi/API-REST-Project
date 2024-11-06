@@ -1,4 +1,4 @@
-using IBusinessLogic;
+using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
