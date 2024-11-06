@@ -1,6 +1,6 @@
-using Domain;
+using BusinessLogic.Entities;
 
-namespace Models;
+namespace WebApi.Models.In;
 
 public class CompanyRequest
 {

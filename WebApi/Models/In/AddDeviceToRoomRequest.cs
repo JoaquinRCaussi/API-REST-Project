@@ -1,4 +1,4 @@
-namespace Models;
+namespace WebApi.Models.In;
 
 public class AddDeviceToRoomRequest
 {

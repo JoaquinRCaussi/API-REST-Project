@@ -1,8 +1,10 @@
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+
 using WebApi.Filters;
+using WebApi.Models.In;
+using WebApi.Models.Out;
 
 namespace WebApi.Controllers;
 

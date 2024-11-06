@@ -1,6 +1,6 @@
 using BusinessLogic.Entities;
 
-namespace Models;
+namespace WebApi.Models.Out;
 
 public class AddMemberResponse
 {

@@ -1,6 +1,6 @@
-using Domain;
+using BusinessLogic.Entities;
 
-namespace Models.Out;
+namespace WebApi.Models.Out;
 
 public class HomeDeviceResponse
 {

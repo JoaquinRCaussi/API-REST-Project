@@ -1,6 +1,8 @@
-using Domain;
 
-namespace Models;
+
+using BusinessLogic.Entities;
+
+namespace WebApi.Models.Out;
 
 public class CompanyResponse
 {

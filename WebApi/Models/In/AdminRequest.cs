@@ -1,6 +1,8 @@
 
 
-namespace Models;
+using BusinessLogic.Entities;
+
+namespace WebApi.Models.In;
 
 public class AdminRequest
 {

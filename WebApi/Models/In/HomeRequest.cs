@@ -1,6 +1,7 @@
-using Domain;
 
-namespace Models;
+using BusinessLogic.Entities;
+
+namespace WebApi.Models.In;
 
 public class HomeRequest
 {

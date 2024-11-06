@@ -1,4 +1,4 @@
-namespace Models;
+namespace WebApi.Models.Out;
 
 public class CompanyOwnerResponse
 {
