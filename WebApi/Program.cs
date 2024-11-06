@@ -9,6 +9,7 @@ builder.Services.AddControllers(
     {
         options.Filters.Add<ExceptionFilter>();
     });
+
 builder.Services.AddServices(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
 WebApplication? app = builder.Build();

@@ -1,6 +1,6 @@
 using System.Net;
 using BusinessLogic;
-using DataAccess.Repositories;
+//using DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -12,7 +12,7 @@ public class ExceptionFilter : IExceptionFilter
     {
         { typeof(ConflictException), HttpStatusCode.Conflict },
         { typeof(NotValidDataException), HttpStatusCode.BadRequest },
-        {typeof(EntityNotFoundException), HttpStatusCode.BadRequest},
+        //{typeof(EntityNotFoundException), HttpStatusCode.BadRequest},
         {typeof(EmptyException), HttpStatusCode.NoContent}
     };
     public void OnException(ExceptionContext? context)

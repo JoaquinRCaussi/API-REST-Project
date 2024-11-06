@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
+using BusinessLogic.Entities;
 using DataAccess.Data;
-using Domain;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Models;
+using WebApi.Models.In;
 
 namespace DataAccess.Tests;
 

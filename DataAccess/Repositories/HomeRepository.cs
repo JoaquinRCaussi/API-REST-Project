@@ -1,6 +1,4 @@
 using DataAccess.Data;
-using Domain;
-using IDataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;

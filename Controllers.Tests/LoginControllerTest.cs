@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
-using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Models.Out;
 
 namespace Controllers.Tests;
 
