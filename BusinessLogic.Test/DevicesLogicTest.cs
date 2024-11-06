@@ -265,7 +265,9 @@ public class DevicesLogicTest
         var deviceTypes = new List<string>
         {
             "Camera",
-            "WindowSensor"
+            "WindowSensor",
+            "MovementSensor",
+            "SmartLamp"
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
@@ -275,7 +277,7 @@ public class DevicesLogicTest
         var result = deviceLogic.GetDevicesTypes();
 
         result.Should().NotBeNull();
-        result.Should().HaveCount(2);
+        result.Should().HaveCount(4);
         result.Should().BeEquivalentTo(deviceTypes);
     }
 
