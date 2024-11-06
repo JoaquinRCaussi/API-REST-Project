@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 

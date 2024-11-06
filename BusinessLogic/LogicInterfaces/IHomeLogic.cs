@@ -1,5 +1,4 @@
 using BusinessLogic.Entities;
-using Models;
 
 namespace BusinessLogic.LogicInterfaces;
 

@@ -1,3 +1,5 @@
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
 using DataAccess.Data;
 using Domain;
 using IDataAccess;
