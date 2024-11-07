@@ -157,11 +157,24 @@ public class HomeController : ControllerBase
     public IActionResult CreateNotificationTurnOnSmartLamp(Guid homeId, Guid hardwareId)
     {
         var sensorRequest = new SensorRequest();
-        var sensorEvent = "open";
+        var sensorEvent = "on";
         sensorRequest.Event = sensorEvent;
         var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationTurnOnSmartLamp), new { id = notification.Id }, notifications);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/smartLamp/{hardwareId}/off")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationTurnOffSmartLamp(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "off";
+        sensorRequest.Event = sensorEvent;
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationTurnOffSmartLamp), new { id = notification.Id }, notifications);
     }
 
     [HttpPost]
