@@ -564,6 +564,53 @@ public class HomeControllerTest
     }
 
     [TestMethod]
+    public void CreateNotificationTurnOnSmartLamp_WhenAllPropertiesOk()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest
+        {
+            Event = "Turn on"
+        };
+
+        var notification = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "SmartLamp turned on",
+            CreatedAt = DateTime.UtcNow,
+            IsRead = false,
+            HardwareId = hardwareId,
+            UserId = Guid.NewGuid()
+
+        };
+
+        var notifications = new List<Notification> { notification };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
+            .Returns(notifications);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.CreateNotificationTurnOnSmartLamp(homeId, hardwareId);
+
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateNotificationTurnOnSmartLamp),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = notification.Id },
+            notifications
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
     public void CreateNotificationOpenSensor_WhenAllPropertiesOk()
     {
         // Arrange
