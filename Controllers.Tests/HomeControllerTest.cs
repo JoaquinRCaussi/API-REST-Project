@@ -751,6 +751,53 @@ public class HomeControllerTest
     }
 
     [TestMethod]
+    public void CreateNotificationSensorMovementDetected_WhenAllPropertiesOk()
+    {
+        // Arrange
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorRequest = new SensorRequest
+        {
+            Event = "movement-detected"
+        };
+
+        var notification = new Notification
+        {
+            Id = Guid.NewGuid(),
+            Event = "movement-detected",
+            CreatedAt = DateTime.UtcNow,
+            IsRead = false,
+            HardwareId = hardwareId,
+            UserId = Guid.NewGuid()
+
+        };
+
+        var notifications = new List<Notification> { notification };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
+            .Returns(notifications);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.CreateNotificationMovementDetectedSensor(homeId, hardwareId);
+
+        var expected = new CreatedAtActionResult(
+            nameof(controller.CreateNotificationMovementDetectedSensor),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = notification.Id },
+            notifications
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
     public void UpdatePermissions_WhenUserIsHomeOwner_ShouldReturnOk()
     {
         // Arrange
