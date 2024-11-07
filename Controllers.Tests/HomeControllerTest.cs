@@ -473,7 +473,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationOpenMovementSensor_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -520,7 +519,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCloseMovementSensor_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -566,7 +564,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationTurnOnSmartLamp_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -613,7 +610,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationTurnOffSmartLamp_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -659,7 +655,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationOpenSensor_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -706,7 +701,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCloseSensor_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -752,7 +746,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCameraPersonDetected_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -799,7 +792,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCameraMovementDetected_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -846,7 +838,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationSensorMovementDetected_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorRequest = new SensorRequest
@@ -893,7 +884,6 @@ public class HomeControllerTest
     [TestMethod]
     public void UpdatePermissions_WhenUserIsHomeOwner_ShouldReturnOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
 
@@ -936,10 +926,8 @@ public class HomeControllerTest
             }
         };
 
-        // Act
         IActionResult act = controller.UpdatePermissions(homeId, userId, permissionRequest);
 
-        // Assert
         var okResult = act as OkObjectResult;
         Assert.IsNotNull(okResult, "Expected OkObjectResult");
 

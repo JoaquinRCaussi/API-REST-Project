@@ -124,7 +124,6 @@ public class HomeController : ControllerBase
         return Ok(devices);
     }
 
-    //Justificacion en documentacion de por que esta en home controller
     [HttpPost]
     [Route("{homeId}/windowSensor/{hardwareId}/open")]
     [AuthorizationFilter]
