@@ -152,6 +152,19 @@ public class HomeController : ControllerBase
     }
 
     [HttpPost]
+    [Route("{homeId}/movementSensor/{hardwareId}/open")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationOpenMovementSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "open";
+        sensorRequest.Event = sensorEvent;
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationOpenMovementSensor), new { id = notification.Id }, notifications);
+    }
+
+    [HttpPost]
     [Route("{homeId}/camera/{hardwareId}/person-detected")]
     [AuthorizationFilter]
     public IActionResult CreateNotificationPersonDetectedCamera(Guid homeId, Guid hardwareId)
