@@ -20,7 +20,6 @@ public class DevicesController : ControllerBase
 
     }
 
-
     [HttpPost]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
