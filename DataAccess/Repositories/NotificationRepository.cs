@@ -2,11 +2,8 @@ using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.Entities;
 using DataAccess.Data;
 using DataAccess.Repositories;
-using Domain;
-using IDataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Models;
 
 
 namespace DataAccess;
