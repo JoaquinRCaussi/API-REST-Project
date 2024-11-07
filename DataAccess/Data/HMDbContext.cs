@@ -92,6 +92,8 @@ public class HMDbContext : DbContext
 
         modelBuilder.Entity<Device>()
             .HasDiscriminator<DeviceType>("DeviceType")
+            .HasValue<Device>(DeviceType.SmartLamp)
+            .HasValue<Device>(DeviceType.MovementSensor)
             .HasValue<Device>(DeviceType.WindowSensor)
             .HasValue<Camera>(DeviceType.Camera);
 
