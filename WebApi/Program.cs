@@ -9,6 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.Filters;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        policy => policy.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 // Add services to the container.
 builder.Services.AddControllers(
     options =>
@@ -33,10 +42,12 @@ builder.Services.AddScoped<ICompanyLogic, CompanyLogic>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDeviceLogic, DeviceLogic>();
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+
 WebApplication? app = builder.Build();
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowLocalhost");
 
 app.UseAuthorization();
 
