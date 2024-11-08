@@ -7,7 +7,7 @@
 namespace DataAccess.Migrations;
 
 /// <inheritdoc />
-public partial class LastMigration : Migration
+public partial class InitialCreate4 : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -121,7 +121,8 @@ public partial class LastMigration : Migration
                 Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 HardwareId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 DeviceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                state = table.Column<bool>(type: "bit", nullable: false),
+                Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                State = table.Column<bool>(type: "bit", nullable: false),
                 HomeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
             },
             constraints: table =>
@@ -275,6 +276,10 @@ public partial class LastMigration : Migration
                 { new Guid("1a6b8ddf-3f92-4fda-87a4-777777777777"), "CanAsociateDevices" },
                 { new Guid("2ebd4f21-3cd4-431f-97e7-999999999999"), "CanGetNotifications" },
                 { new Guid("3bcde1b8-5ad2-4f6c-92c7-101010101010"), "CanAddMembers" },
+                { new Guid("4c6b8b8d-3f92-4fda-87a4-202020202020"), "CanCreateRoom" },
+                { new Guid("5d7fa8f6-ace7-42e5-8bdf-303030303030"), "CanAsociateDeviceToRoom" },
+                { new Guid("6ebd4f21-3cd4-431f-97e7-404040404040"), "CanChangeHomeName" },
+                { new Guid("7bcde1b8-5ad2-4f6c-92c7-505050505050"), "CanChangeHomeDevicesNames" },
                 { new Guid("d47fa8f6-ace7-42e5-8bdf-888888888888"), "CanListDevices" }
             });
 
@@ -305,7 +310,7 @@ public partial class LastMigration : Migration
         migrationBuilder.InsertData(
             table: "Users",
             columns: new[] { "Id", "CompanyID", "CreatedAt", "Email", "HomeId", "ImagePath", "LastName", "Name", "Password", "RoleID" },
-            values: new object[] { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, new DateTime(2024, 10, 8, 13, 44, 5, 927, DateTimeKind.Local).AddTicks(8950), "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") });
+            values: new object[] { new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"), null, new DateTime(2024, 11, 7, 20, 9, 8, 176, DateTimeKind.Local).AddTicks(652), "admin@admin.com", null, "", "Admin", "Admin", "admin", new Guid("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61") });
 
         migrationBuilder.CreateIndex(
             name: "IX_Companies_OwnerId",

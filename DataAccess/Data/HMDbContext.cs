@@ -26,21 +26,21 @@ public class HMDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Definir GUIDs manualmente
+        // Define GUIDs manually
         var userId = Guid.Parse("d84722d7-8b0a-4ae6-aedd-111111111111");
         var companyId = Guid.Parse("8b02a6f7-6a7e-45c8-899e-222222222222");
         var adminRoleId = Guid.Parse("c9a4a8f5-4393-4b5e-8c57-e7f5f58a9a61");
         var homeOwnerRoleId = Guid.Parse("6d72b33a-582b-411e-a9b1-333333333333");
         var companyOwnerRoleId = Guid.Parse("78947c68-f0aa-49d3-8f47-444444444444");
 
-        // Datos semilla para Roles
+        // Seed Data for Roles
         modelBuilder.Entity<Role>().HasData(
             new Role { Id = adminRoleId, Name = "Admin" },
             new Role { Id = homeOwnerRoleId, Name = "HomeOwner" },
             new Role { Id = companyOwnerRoleId, Name = "CompanyOwner" }
         );
 
-        // Datos semilla para Permissions
+        // Seed Data for Permissions
         modelBuilder.Entity<Permission>().HasData(
             new Permission { Id = Guid.Parse("1a6b8ddf-3f92-4fda-87a4-777777777777"), Value = "CanAsociateDevices" },
             new Permission { Id = Guid.Parse("d47fa8f6-ace7-42e5-8bdf-888888888888"), Value = "CanListDevices" },
@@ -52,7 +52,7 @@ public class HMDbContext : DbContext
             new Permission { Id = Guid.Parse("7bcde1b8-5ad2-4f6c-92c7-505050505050"), Value = "CanChangeHomeDevicesNames" }
         );
 
-        // Datos semilla para PermissionKeys
+        // Seed Data for PermissionKeys
         modelBuilder.Entity<PermissionKey>().HasData(
             new PermissionKey { Id = Guid.Parse("11111111-1111-1111-1111-111111111111"), Value = "CanCreateAdmin" },
             new PermissionKey { Id = Guid.Parse("22222222-2222-2222-2222-222222222222"), Value = "CanCreateCompanyOwner" },
@@ -63,7 +63,7 @@ public class HMDbContext : DbContext
             new PermissionKey { Id = Guid.Parse("77777777-7777-7777-7777-777777777777"), Value = "CanGetCompanies" }
         );
 
-        // Configuración de relaciones many-to-many entre Roles y PermissionKeys
+        // Relationship configuration many-to-many between Roles and PermissionKeys
         modelBuilder.Entity<Role>()
             .HasMany(r => r.PermissionKeys)
             .WithMany(p => p.Roles)
@@ -93,7 +93,9 @@ public class HMDbContext : DbContext
 
         modelBuilder.Entity<Device>()
             .HasDiscriminator<DeviceType>("DeviceType")
-            .HasValue<Device>(DeviceType.Sensor)
+            .HasValue<Device>(DeviceType.SmartLamp)
+            .HasValue<Device>(DeviceType.MovementSensor)
+            .HasValue<Device>(DeviceType.WindowSensor)
             .HasValue<Camera>(DeviceType.Camera);
 
         modelBuilder.Entity<User>().HasData(

@@ -546,7 +546,7 @@ public class HomeLogicTest
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
 
-        var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Sensor, Description = "description", Photo = "photo" };
+        var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.WindowSensor, Description = "description", Photo = "photo" };
 
         var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
 

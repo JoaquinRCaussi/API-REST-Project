@@ -125,9 +125,8 @@ public class HomeController : ControllerBase
         return Ok(devices);
     }
 
-    //Justificacion en documentacion de por que esta en home controller
     [HttpPost]
-    [Route("{homeId}/sensor/{hardwareId}/open")]
+    [Route("{homeId}/windowSensor/{hardwareId}/open")]
     [AuthorizationFilter]
     public IActionResult CreateNotificationOpenSensor(Guid homeId, Guid hardwareId)
     {
@@ -139,7 +138,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpPost]
-    [Route("{homeId}/sensor/{hardwareId}/close")]
+    [Route("{homeId}/windowSensor/{hardwareId}/close")]
     [AuthorizationFilter]
     public IActionResult CreateNotificationCloseSensor(Guid homeId, Guid hardwareId)
     {
@@ -148,6 +147,66 @@ public class HomeController : ControllerBase
         var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationCloseSensor), new { id = notification.Id }, notifications);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/smartLamp/{hardwareId}/on")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationTurnOnSmartLamp(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "on";
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationTurnOnSmartLamp), new { id = notification.Id }, notifications);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/smartLamp/{hardwareId}/off")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationTurnOffSmartLamp(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "off";
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationTurnOffSmartLamp), new { id = notification.Id }, notifications);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/movementSensor/{hardwareId}/open")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationOpenMovementSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "open";
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationOpenMovementSensor), new { id = notification.Id }, notifications);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/movementSensor/{hardwareId}/close")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationCloseMovementSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "close";
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationCloseMovementSensor), new { id = notification.Id }, notifications);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/movementSensor/{hardwareId}/movement-detected")]
+    [AuthorizationFilter]
+    public IActionResult CreateNotificationMovementDetectedSensor(Guid homeId, Guid hardwareId)
+    {
+        var sensorRequest = new SensorRequest();
+        var sensorEvent = "movement-detected";
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+        var notification = notifications.First();
+        return CreatedAtAction(nameof(CreateNotificationMovementDetectedSensor), new { id = notification.Id }, notifications);
     }
 
     [HttpPost]

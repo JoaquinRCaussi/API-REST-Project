@@ -265,7 +265,9 @@ public class DevicesLogicTest
         var deviceTypes = new List<string>
         {
             "Camera",
-            "Sensor"
+            "WindowSensor",
+            "MovementSensor",
+            "SmartLamp"
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
@@ -275,14 +277,13 @@ public class DevicesLogicTest
         var result = deviceLogic.GetDevicesTypes();
 
         result.Should().NotBeNull();
-        result.Should().HaveCount(2);
+        result.Should().HaveCount(4);
         result.Should().BeEquivalentTo(deviceTypes);
     }
 
     [TestMethod]
     public void GetDevicesTest_WhenAllParametersAreNull()
     {
-        // Arrange
         var devices = new List<Device>
         {
             new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company },
@@ -293,10 +294,8 @@ public class DevicesLogicTest
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
 
-        // Act
         var result = deviceLogic.GetDevices(null, null, null, null);
 
-        // Assert
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo(devices);
@@ -305,7 +304,6 @@ public class DevicesLogicTest
     [TestMethod]
     public void GetDevicesTest_WhenOnlyDeviceTypeIsProvided()
     {
-        // Arrange
         var devices = new List<Device>
         {
             new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company }
@@ -315,10 +313,8 @@ public class DevicesLogicTest
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
 
-        // Act
         var result = deviceLogic.GetDevices(null, null, null, DeviceType.Camera);
 
-        // Assert
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
         result.Should().BeEquivalentTo(devices);
@@ -327,7 +323,6 @@ public class DevicesLogicTest
     [TestMethod]
     public void GetDevicesTest_WhenFilterByModelAndCompanyName()
     {
-        // Arrange
         var devices = new List<Device>
     {
         new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company }
@@ -337,10 +332,8 @@ public class DevicesLogicTest
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
 
-        // Act
         var result = deviceLogic.GetDevices(null, "Model1", "Company", DeviceType.Camera);
 
-        // Assert
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
         result.Should().BeEquivalentTo(devices);

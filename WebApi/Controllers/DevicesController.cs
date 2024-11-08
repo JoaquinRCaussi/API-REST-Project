@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using WebApi.Filters;
 using WebApi.Models.In;
 using WebApi.Models.Out;
@@ -21,6 +22,31 @@ public class DevicesController : ControllerBase
     }
 
     [HttpPost]
+    [Route("smartLamp")]
+    [AuthorizationFilter("CanCreateADevice")]
+    public IActionResult CreateSmartLamp([FromBody] SmartLampRequest device)
+    {
+        var user = HttpContext.Items[0] as User;
+        var deviceToCreate = device.ToArgs(user.Company);
+        var createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
+        var response = new DeviceResponse(createdDevice);
+        return CreatedAtAction(nameof(CreateSmartLamp), new { id = createdDevice.Id }, response);
+    }
+
+    [HttpPost]
+    [Route("movementSensor")]
+    [AuthorizationFilter("CanCreateADevice")]
+    public IActionResult CreateMovementSensor([FromBody] MovementSensorRequest device)
+    {
+        var user = HttpContext.Items[0] as User;
+        Device deviceToCreate = device.ToArgs(user.Company);
+        Device createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
+        var response = new DeviceResponse(createdDevice);
+        return CreatedAtAction(nameof(CreateMovementSensor), new { id = createdDevice.Id }, response);
+    }
+
+    [HttpPost]
+    [Route("windowSensor")]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
     {
@@ -32,7 +58,7 @@ public class DevicesController : ControllerBase
     }
 
     [HttpPost]
-    [Route("cameras")]
+    [Route("camera")]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateCamera([FromBody] CameraRequest camera)
     {

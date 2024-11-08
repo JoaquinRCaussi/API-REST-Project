@@ -46,7 +46,7 @@ public class DeviceRepositoryTest
         var repository = new DeviceRepository(context);
         if (context.Companies != null)
         {
-            var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Sensor };
+            var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.WindowSensor };
 
             var result = repository.CreateDevice(device);
 
@@ -61,7 +61,7 @@ public class DeviceRepositoryTest
         using var context = CreateInMemoryDbContext("CreateDeviceTest_CompanyDoesNotExist");
 
         var repository = new DeviceRepository(context);
-        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = Guid.NewGuid(), DeviceType = DeviceType.Sensor };
+        var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = Guid.NewGuid(), DeviceType = DeviceType.WindowSensor };
 
         Action act = () => repository.CreateDevice(device);
 
@@ -108,7 +108,7 @@ public class DeviceRepositoryTest
         var repository = new DeviceRepository(context);
         if (context.Companies != null)
         {
-            var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Sensor };
+            var device = new Device { Id = Guid.NewGuid(), Name = "aDevice", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.WindowSensor };
             repository.CreateDevice(device);
 
             var result = repository.ExistsDevice(device.Name, device.CompanyId);
@@ -139,12 +139,12 @@ public class DeviceRepositoryTest
         var repository = new DeviceRepository(context);
         if (context.Companies != null)
         {
-            var device1 = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "Model1", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Sensor };
+            var device1 = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "Model1", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.WindowSensor };
             var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", Model = "Model2", CompanyId = context.Companies.First().Id, DeviceType = DeviceType.Camera };
             repository.CreateDevice(device1);
             repository.CreateDevice(device2);
 
-            var result = repository.GetDevices("aDevice", "", "Company", DeviceType.Sensor);
+            var result = repository.GetDevices("aDevice", "", "Company", DeviceType.WindowSensor);
 
             result.Should().NotBeNull();
             result.Should().HaveCount(1);

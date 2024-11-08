@@ -186,7 +186,7 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Device not found");
         }
 
-        if (homeDevice.Device?.DeviceType != DeviceType.Sensor)
+        if (homeDevice.Device?.DeviceType != DeviceType.WindowSensor)
         {
             throw new NotValidDataException("Device is not a sensor");
         }

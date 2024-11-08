@@ -418,7 +418,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 11, 5, 2, 53, 40, 246, DateTimeKind.Local).AddTicks(8012),
+                            CreatedAt = new DateTime(2024, 11, 7, 20, 9, 8, 176, DateTimeKind.Local).AddTicks(652),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -647,13 +647,6 @@ namespace DataAccess.Migrations
                     b.Navigation("MemberSettings");
 
                     b.Navigation("Members");
-
-                    b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("Domain.Room", b =>
-                {
-                    b.Navigation("Devices");
                 });
 
             modelBuilder.Entity("Domain.User", b =>

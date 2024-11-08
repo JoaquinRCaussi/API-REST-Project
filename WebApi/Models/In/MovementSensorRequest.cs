@@ -1,8 +1,8 @@
 ﻿using BusinessLogic.Entities;
 
-namespace WebApi.Models.In;
+namespace Models;
 
-public class DeviceRequest
+public class MovementSensorRequest
 {
     public string? Name { get; set; }
     public string? Model { get; set; }
@@ -18,7 +18,7 @@ public class DeviceRequest
             CompanyId = company.Id,
             Name = Name,
             Model = Model,
-            DeviceType = DeviceType.WindowSensor,
+            DeviceType = DeviceType.MovementSensor,
             Description = Description,
             Photo = Photo
         };

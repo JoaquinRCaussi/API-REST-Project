@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Models;
 using Moq;
 using WebApi.Controllers;
 using WebApi.Filters;
@@ -57,7 +58,7 @@ public class DeviceControllerTest
             Name = "Dispositivo genérico",
             Company = _company,
             Description = "Descripción genérica",
-            DeviceType = DeviceType.Camera,
+            DeviceType = DeviceType.WindowSensor,
             Model = "Model X",
             Photo = "photo1.jpg"
         };
@@ -78,6 +79,117 @@ public class DeviceControllerTest
             SupportMovementDetection = true,
             SupportPersonDetection = false
         };
+    }
+
+    [TestMethod]
+    public void CreateMovementSensor_WhenAllPropertiesOK_ShouldReturnCreated()
+    {
+        _user.Company = _company;
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = _user;
+        _controller!.ControllerContext.HttpContext = httpContext;
+        var device = CreateValidDevice();
+        var movementSensorRequest = new MovementSensorRequest()
+        {
+            Name = "Sensor de movimiento genérica",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.MovementSensor,
+            Model = "Model X",
+            Photo = "photo1.jpg",
+        };
+        var expectedResponse = new DeviceResponse(device);
+
+        _deviceLogicMock!
+            .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
+            .Returns(device);
+
+        IActionResult result = _controller!.CreateMovementSensor(movementSensorRequest);
+
+        var expected = new CreatedAtActionResult(
+            nameof(_controller.CreateMovementSensor),
+            nameof(DevicesController).Replace("Controller", ""),
+            new { id = device.Id },
+            expectedResponse
+        );
+
+        result.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
+    public void CreateSmartLamp_WhenAllPropertiesOK_ShouldReturnCreated()
+    {
+        _user.Company = _company;
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = _user;
+        _controller!.ControllerContext.HttpContext = httpContext;
+        var device = CreateValidDevice();
+        var smartLampRequest = new SmartLampRequest()
+        {
+            Name = "Lampara inteligente genérica",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.SmartLamp,
+            Model = "Model X",
+            Photo = "photo1.jpg",
+        };
+        var expectedResponse = new DeviceResponse(device);
+
+        _deviceLogicMock!
+            .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
+            .Returns(device);
+
+        IActionResult result = _controller!.CreateSmartLamp(smartLampRequest);
+
+        var expected = new CreatedAtActionResult(
+            nameof(_controller.CreateSmartLamp),
+            nameof(DevicesController).Replace("Controller", ""),
+            new { id = device.Id },
+            expectedResponse
+        );
+
+        result.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
+    public void CreateWindowSensor_WhenAllPropertiesOK_ShouldReturnCreated()
+    {
+        _user.Company = _company;
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = _user;
+        _controller!.ControllerContext.HttpContext = httpContext;
+        var device = CreateValidDevice();
+        var deviceRequest = new DeviceRequest()
+        {
+            Name = "Sensor de ventana genérica",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.WindowSensor,
+            Model = "Model X",
+            Photo = "photo1.jpg",
+        };
+        var expectedResponse = new DeviceResponse(device);
+
+        _deviceLogicMock!
+            .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
+            .Returns(device);
+
+        IActionResult result = _controller!.CreateDevice(deviceRequest);
+
+        var expected = new CreatedAtActionResult(
+            nameof(_controller.CreateDevice),
+            nameof(DevicesController).Replace("Controller", ""),
+            new { id = device.Id },
+            expectedResponse
+        );
+
+        result.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
     }
 
     [TestMethod]
@@ -134,10 +246,10 @@ public class DeviceControllerTest
         var listOfDevicesResponse = listOfDevices.Select(d => new DeviceResponse(d)).ToList();
 
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", "", DeviceType.Sensor))
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor))
             .Returns(listOfDevices);
 
-        IActionResult result = _controller!.GetDevices("", "", "", DeviceType.Sensor, 1, 10);
+        IActionResult result = _controller!.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10);
 
         var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
 
@@ -158,7 +270,7 @@ public class DeviceControllerTest
         var deviceTypes = new List<string>()
         {
             "Camera",
-            "Sensor"
+            "WindowSensor"
         };
         _deviceLogicMock.Setup(x => x.GetDevicesTypes()).Returns(deviceTypes);
 
@@ -172,10 +284,10 @@ public class DeviceControllerTest
     public void GetDevices_ShouldReturnNoContent()
     {
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", "", DeviceType.Sensor))
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor))
             .Throws(new EmptyException("No devices found"));
 
-        Action act = () => _controller!.GetDevices("", "", "", DeviceType.Sensor, 1, 10);
+        Action act = () => _controller!.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10);
 
         act.Should().Throw<EmptyException>();
 

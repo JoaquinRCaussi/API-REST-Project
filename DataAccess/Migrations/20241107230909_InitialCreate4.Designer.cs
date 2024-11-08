@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    [Migration("20241008164406_LastMigration")]
-    partial class LastMigration
+    [Migration("20241107230909_InitialCreate4")]
+    partial class InitialCreate4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -138,7 +138,10 @@ namespace DataAccess.Migrations
                     b.Property<Guid?>("HomeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("state")
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("State")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -236,6 +239,26 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("3bcde1b8-5ad2-4f6c-92c7-101010101010"),
                             Value = "CanAddMembers"
+                        },
+                        new
+                        {
+                            Id = new Guid("4c6b8b8d-3f92-4fda-87a4-202020202020"),
+                            Value = "CanCreateRoom"
+                        },
+                        new
+                        {
+                            Id = new Guid("5d7fa8f6-ace7-42e5-8bdf-303030303030"),
+                            Value = "CanAsociateDeviceToRoom"
+                        },
+                        new
+                        {
+                            Id = new Guid("6ebd4f21-3cd4-431f-97e7-404040404040"),
+                            Value = "CanChangeHomeName"
+                        },
+                        new
+                        {
+                            Id = new Guid("7bcde1b8-5ad2-4f6c-92c7-505050505050"),
+                            Value = "CanChangeHomeDevicesNames"
                         });
                 });
 
@@ -372,7 +395,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 10, 8, 13, 44, 5, 927, DateTimeKind.Local).AddTicks(8950),
+                            CreatedAt = new DateTime(2024, 11, 7, 20, 9, 8, 176, DateTimeKind.Local).AddTicks(652),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
