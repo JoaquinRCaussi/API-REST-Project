@@ -117,6 +117,43 @@ public class DeviceControllerTest
     }
 
     [TestMethod]
+    public void CreateSmartLamp_WhenAllPropertiesOK_ShouldReturnCreated()
+    {
+        _user.Company = _company;
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = _user;
+        _controller!.ControllerContext.HttpContext = httpContext;
+        var device = CreateValidDevice();
+        var smartLampRequest = new SmartLampRequest()
+        {
+            Name = "Lampara inteligente genérica",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.SmartLamp,
+            Model = "Model X",
+            Photo = "photo1.jpg",
+        };
+        var expectedResponse = new DeviceResponse(device);
+
+        _deviceLogicMock!
+            .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
+            .Returns(device);
+
+        IActionResult result = _controller!.CreateSmartLamp(smartLampRequest);
+
+        var expected = new CreatedAtActionResult(
+            nameof(_controller.CreateSmartLamp),
+            nameof(DevicesController).Replace("Controller", ""),
+            new { id = device.Id },
+            expectedResponse
+        );
+
+        result.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
     public void CreateWindowSensor_WhenAllPropertiesOK_ShouldReturnCreated()
     {
         _user.Company = _company;
