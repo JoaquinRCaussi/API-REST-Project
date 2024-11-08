@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="flex flex-col justify-center items-center gap-8">
+    <div *ngFor="let field of fields" class="form-field flex justify-center items-center">
+          <label [for]="field.name" class="text-white w-20">{{ field.label }}</label>
+  
+          <input *ngIf="field.type !== 'select'" 
+                [type]="field.type" 
+                [formControlName]="field.name" 
+                [id]="field.name" 
+                [required]="field.required !== undefined ? field.required : false"
+                class="border-solid border-4 border-slate-200 bg-[#E8F0FE] w-96 h-14 text-xl p-2 text-black rounded-lg" />
+      
+          <select *ngIf="field.type === 'select'" 
+                  [formControlName]="field.name" 
+                  [id]="field.name">
+            <option *ngFor="let option of field.options" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>     
+    </div>
+    
+  </div>
+  <div class="flex w-full justify-center mt-16"> 
+    <app-default-button text="Submit" button_type="submit"/>
+  </div>
+  </form>
+  

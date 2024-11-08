@@ -1,0 +1,15 @@
+/* Estilo cuando el botón está activo */
+a.active {
+    transition: all 300ms;
+    background-color: #393939;
+    color: white;
+  }
+
+/* Estilo cuando el botón no está activo */
+a {
+    color: #666666;
+}
+
+.active-svg {
+    stroke: white;
+}

@@ -1,0 +1,8 @@
+@if(button_type === 'submit'){
+        <button class="default-button bg-slate-200 p-2 px-4 rounded-lg text-xl font-bold hover:text-white hover:bg-black transition-all duration-300" type="submit">{{text}}</button>
+    }
+@else{
+        <button class="default-button bg-slate-200 p-2 px-4 rounded-lg text-xl font-bold hover:text-white hover:bg-black transition-all duration-300" (click)="handleClick()">{{text}}</button>
+    }
+    
+    
