@@ -20,6 +20,7 @@ public class DevicesController : ControllerBase
     }
 
     [HttpPost]
+<<<<<<< HEAD
     [Route("smartLamp")]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateSmartLamp([FromBody] SmartLampRequest device)
@@ -44,6 +45,8 @@ public class DevicesController : ControllerBase
     }
 
     [HttpPost]
+=======
+>>>>>>> parent of 4fcf730 ([GREEN]CreateMovementSensor_WhenAllPropertiesOK_ShouldReturnCreated)
     [Route("windowSensor")]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
