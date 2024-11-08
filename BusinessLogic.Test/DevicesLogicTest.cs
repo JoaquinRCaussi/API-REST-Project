@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
 using FluentAssertions;
-using IDataAccess;
 using Moq;
 
 namespace BusinessLogic.Test;

@@ -1,7 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
+using BusinessLogic.Entities;
 using DataAccess.Data;
 using DataAccess.Repositories;
-using Domain;
+
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 

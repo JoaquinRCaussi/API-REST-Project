@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain;
+using BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 

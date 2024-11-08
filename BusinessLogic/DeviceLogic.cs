@@ -1,7 +1,6 @@
-﻿using Domain;
-using IBusinessLogic;
-using IDataAccess;
-
+﻿using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 
 namespace BusinessLogic;
 

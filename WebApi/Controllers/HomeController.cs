@@ -1,9 +1,9 @@
-using Domain;
-using IBusinessLogic;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Models.Out;
 using WebApi.Filters;
+using WebApi.Models.In;
+using WebApi.Models.Out;
 
 namespace WebApi.Controllers;
 
@@ -87,14 +87,14 @@ public class HomeController : ControllerBase
         var value = permissions.Value;
         if (value == "CanGetNotifications" && user.Id == userId)
         {
-            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
+            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions.Value, permissions.Enable);
             return Ok(home);
         }
 
         var homeData = _homeLogic.GetHome(homeId);
         if (homeData.HomeOwner == user.Id)
         {
-            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
+            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions.Value, permissions.Enable);
             return Ok(home);
         }
         else
@@ -133,8 +133,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "open";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationOpenSensor), new { id = notification.Id }, notifications);
     }
@@ -146,8 +145,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "close";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationCloseSensor), new { id = notification.Id }, notifications);
     }
@@ -159,8 +157,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "person-detected";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationPersonDetectedCamera), new { id = notification.Id }, notifications);
     }
@@ -172,8 +169,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "movement-detected";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationMovementDetectedCamera), new { id = notification.Id }, notifications);
     }
@@ -215,13 +211,15 @@ public class HomeController : ControllerBase
     public IActionResult AddDeviceToRoom(Guid homeId, Guid roomId, [FromBody] AddDeviceToRoomRequest addDeviceToRoomRequest)
     {
         var hardwareId = addDeviceToRoomRequest.HardwareId;
-        var deviceRoomResponse = _homeLogic.AddDeviceToRoom(homeId, hardwareId, roomId);
+        var room = _homeLogic.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        var homeDevice = room.Devices.FirstOrDefault(x => x.HardwareId == hardwareId);
 
         var response = new DeviceRoomResponse
         {
-            HardwareId = deviceRoomResponse.HardwareId,
-            DeviceName = deviceRoomResponse.DeviceName,
-            RoomName = deviceRoomResponse.RoomName
+            HardwareId = homeDevice.HardwareId,
+            DeviceName = homeDevice.Name,
+            RoomName = room.Name
         };
 
         return Ok(response);

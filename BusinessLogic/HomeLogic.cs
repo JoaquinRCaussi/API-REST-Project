@@ -1,7 +1,6 @@
-using Domain;
-using IBusinessLogic;
-using IDataAccess;
-using Models;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 
 namespace BusinessLogic;
 
@@ -88,9 +87,9 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.AddMember(homeId, userId);
     }
 
-    public Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions)
+    public Home UpdatePermissions(Guid homeId, Guid userId, string permissions, bool addPermission)
     {
-        var value = permissions.Value;
+        var value = permissions;
 
         if (value == null)
         {
@@ -104,7 +103,7 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Home not found");
         }
 
-        if (permissions.Enable)
+        if (addPermission)
         {
             _memberSettingRepository.AddPermission(homeId, userId, value);
         }
@@ -169,9 +168,9 @@ public class HomeLogic : IHomeLogic
         return result;
     }
 
-    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, string anEvent)
     {
-        if (sensor.Event != "open" && sensor.Event != "close")
+        if (anEvent != "open" && anEvent != "close")
         {
             throw new NotValidDataException("Event must be open or close");
         }
@@ -192,14 +191,14 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Device is not a sensor");
         }
 
-        _homeRepository.ChangeHomeDeviceStatus(homeId, hardwareId, sensor.Event == "open");
+        _homeRepository.ChangeHomeDeviceStatus(homeId, hardwareId, anEvent == "open");
 
-        return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, sensor);
+        return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, anEvent);
     }
 
-    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, string anEvent)
     {
-        if (sensor.Event != "movement-detected" && sensor.Event != "person-detected")
+        if (anEvent != "movement-detected" && anEvent != "person-detected")
         {
             throw new NotValidDataException("Event must be movement-detected or person-detected");
         }
@@ -220,7 +219,7 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Device is not a camera");
         }
 
-        return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
+        return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, anEvent);
     }
 
     public Room AddRoom(Guid homeId, string name)
@@ -254,7 +253,7 @@ public class HomeLogic : IHomeLogic
         return rooms;
     }
 
-    public DeviceRoomResponse AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
+    public Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
     {
         var home = _homeRepository.GetHome(homeId);
 
@@ -284,12 +283,6 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Device could not be added to room");
         }
 
-        return new DeviceRoomResponse
-        {
-            HardwareId = homeDevice.HardwareId,
-            DeviceName = homeDevice.Device?.Name,
-            RoomName = room.Name
-        };
-
+        return roomd;
     }
 }
