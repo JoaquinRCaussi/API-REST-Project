@@ -1,8 +1,9 @@
-using Domain;
-using IBusinessLogic;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using WebApi.Filters;
+using WebApi.Models.In;
+using WebApi.Models.Out;
 
 namespace WebApi.Controllers;
 
@@ -86,14 +87,14 @@ public class HomeController : ControllerBase
         var value = permissions.Value;
         if (value == "CanGetNotifications" && user.Id == userId)
         {
-            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
+            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions.Value, permissions.Enable);
             return Ok(home);
         }
 
         var homeData = _homeLogic.GetHome(homeId);
         if (homeData.HomeOwner == user.Id)
         {
-            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions);
+            var home = _homeLogic.UpdatePermissions(homeId, userId, permissions.Value, permissions.Enable);
             return Ok(home);
         }
         else
@@ -118,9 +119,9 @@ public class HomeController : ControllerBase
     [HttpGet]
     [Route("{homeId}/devices")]
     [AuthorizationFilter("CanListDevices")]
-    public IActionResult GetHomeDevices(Guid homeId)
+    public IActionResult GetHomeDevices(Guid homeId, Guid? roomId = null)
     {
-        var devices = _homeLogic.GetHomeDevices(homeId);
+        var devices = _homeLogic.GetHomeDevices(homeId, roomId);
         return Ok(devices);
     }
 
@@ -131,8 +132,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "open";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationOpenSensor), new { id = notification.Id }, notifications);
     }
@@ -144,8 +144,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "close";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationCloseSensor), new { id = notification.Id }, notifications);
     }
@@ -157,8 +156,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "on";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationTurnOnSmartLamp), new { id = notification.Id }, notifications);
     }
@@ -170,8 +168,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "off";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationTurnOffSmartLamp), new { id = notification.Id }, notifications);
     }
@@ -183,8 +180,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "open";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationOpenMovementSensor), new { id = notification.Id }, notifications);
     }
@@ -196,8 +192,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "close";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationCloseMovementSensor), new { id = notification.Id }, notifications);
     }
@@ -209,8 +204,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "movement-detected";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationMovementDetectedSensor), new { id = notification.Id }, notifications);
     }
@@ -222,8 +216,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "person-detected";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationPersonDetectedCamera), new { id = notification.Id }, notifications);
     }
@@ -235,8 +228,7 @@ public class HomeController : ControllerBase
     {
         var sensorRequest = new SensorRequest();
         var sensorEvent = "movement-detected";
-        sensorRequest.Event = sensorEvent;
-        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        var notifications = _homeLogic.CreateNotificationCamera(homeId, hardwareId, sensorEvent);
         var notification = notifications.First();
         return CreatedAtAction(nameof(CreateNotificationMovementDetectedCamera), new { id = notification.Id }, notifications);
     }
@@ -249,5 +241,46 @@ public class HomeController : ControllerBase
         var name = changeDeviceNameRequest;
         var homeDevice = _homeLogic.ChangeHomeDeviceName(homeId, hardwareId, name);
         return Ok(homeDevice);
+    }
+
+    [HttpPost]
+    [Route("{homeId}/rooms")]
+    [AuthorizationFilter("CanAddRooms")]
+    public IActionResult AddRoomToHome(Guid homeId, string roomName)
+    {
+        var createdRoom = _homeLogic.AddRoom(homeId, roomName);
+        return CreatedAtAction(nameof(AddRoomToHome), new { id = createdRoom.Id }, createdRoom);
+    }
+
+    [HttpGet]
+    [Route("{homeId}/rooms")]
+    [AuthorizationFilter("CanListDevices")]
+    public IActionResult GetRooms(Guid homeId)
+    {
+        var rooms = _homeLogic.GetRooms(homeId);
+
+        var getRoomsResponse = new GetRoomsResponse(rooms);
+
+        return Ok(getRoomsResponse.ToArgs());
+    }
+
+    [HttpPut]
+    [Route("{homeId}/rooms/{roomId}")]
+    [AuthorizationFilter("CanAsociateDevices")]
+    public IActionResult AddDeviceToRoom(Guid homeId, Guid roomId, [FromBody] AddDeviceToRoomRequest addDeviceToRoomRequest)
+    {
+        var hardwareId = addDeviceToRoomRequest.HardwareId;
+        var room = _homeLogic.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        var homeDevice = room.Devices.FirstOrDefault(x => x.HardwareId == hardwareId);
+
+        var response = new DeviceRoomResponse
+        {
+            HardwareId = homeDevice.HardwareId,
+            DeviceName = homeDevice.Name,
+            RoomName = room.Name
+        };
+
+        return Ok(response);
     }
 }

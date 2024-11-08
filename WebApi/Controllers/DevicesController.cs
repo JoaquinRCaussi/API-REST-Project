@@ -1,8 +1,10 @@
-﻿using Domain;
-using IBusinessLogic;
+﻿using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using WebApi.Filters;
+using WebApi.Models.In;
+using WebApi.Models.Out;
 
 namespace WebApi.Controllers;
 
@@ -25,8 +27,8 @@ public class DevicesController : ControllerBase
     public IActionResult CreateSmartLamp([FromBody] SmartLampRequest device)
     {
         var user = HttpContext.Items[0] as User;
-        Device deviceToCreate = device.ToArgs(user.Company);
-        Device createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
+        var deviceToCreate = device.ToArgs(user.Company);
+        var createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
         var response = new DeviceResponse(createdDevice);
         return CreatedAtAction(nameof(CreateSmartLamp), new { id = createdDevice.Id }, response);
     }

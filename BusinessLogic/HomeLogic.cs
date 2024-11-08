@@ -1,7 +1,6 @@
-using Domain;
-using IBusinessLogic;
-using IDataAccess;
-using Models;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 
 namespace BusinessLogic;
 
@@ -88,9 +87,9 @@ public class HomeLogic : IHomeLogic
         return _homeRepository.AddMember(homeId, userId);
     }
 
-    public Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permissions)
+    public Home UpdatePermissions(Guid homeId, Guid userId, string permissions, bool addPermission)
     {
-        var value = permissions.Value;
+        var value = permissions;
 
         if (value == null)
         {
@@ -104,7 +103,7 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Home not found");
         }
 
-        if (permissions.Enable)
+        if (addPermission)
         {
             _memberSettingRepository.AddPermission(homeId, userId, value);
         }
@@ -145,21 +144,33 @@ public class HomeLogic : IHomeLogic
         return result;
     }
 
-    public List<HomeDevice> GetHomeDevices(Guid homeId)
+    public List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null)
     {
-        var result = _homeRepository.GetHomeDevices(homeId);
+        var result = _homeRepository.GetHomeDevices(homeId, roomId);
+
+        if (result == null)
+        {
+            throw new NotValidDataException("Home not found.");
+        }
 
         if (result.Count == 0)
         {
-            throw new EmptyException("No devices found for this home.");
+            if (roomId == null)
+            {
+                throw new EmptyException("No devices found for this home.");
+            }
+            else
+            {
+                throw new EmptyException("No devices found for this room in this home.");
+            }
         }
 
         return result;
     }
 
-    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, string anEvent)
     {
-        if (sensor.Event != "open" && sensor.Event != "close")
+        if (anEvent != "open" && anEvent != "close")
         {
             throw new NotValidDataException("Event must be open or close");
         }
@@ -180,14 +191,14 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Device is not a sensor");
         }
 
-        _homeRepository.ChangeHomeDeviceStatus(homeId, hardwareId, sensor.Event == "open");
+        _homeRepository.ChangeHomeDeviceStatus(homeId, hardwareId, anEvent == "open");
 
-        return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, sensor);
+        return _notificationRepository.CreateNotificationSensor(homeId, hardwareId, anEvent);
     }
 
-    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, string anEvent)
     {
-        if (sensor.Event != "movement-detected" && sensor.Event != "person-detected")
+        if (anEvent != "movement-detected" && anEvent != "person-detected")
         {
             throw new NotValidDataException("Event must be movement-detected or person-detected");
         }
@@ -208,6 +219,70 @@ public class HomeLogic : IHomeLogic
             throw new NotValidDataException("Device is not a camera");
         }
 
-        return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, sensor);
+        return _notificationRepository.CreateNotificationCamera(homeId, hardwareId, anEvent);
+    }
+
+    public Room AddRoom(Guid homeId, string name)
+    {
+        var home = _homeRepository.GetHome(homeId);
+
+        if (home == null)
+        {
+            throw new NotValidDataException("Home not found");
+        }
+
+        return _homeRepository.AddRoom(homeId, name);
+    }
+
+    public List<Room> GetRooms(Guid homeId)
+    {
+        var home = _homeRepository.GetHome(homeId);
+
+        if (home == null)
+        {
+            throw new NotValidDataException("Home not found");
+        }
+
+        var rooms = _homeRepository.GetRooms(homeId);
+
+        if (rooms.Count == 0)
+        {
+            throw new EmptyException("No rooms found for this home.");
+        }
+
+        return rooms;
+    }
+
+    public Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
+    {
+        var home = _homeRepository.GetHome(homeId);
+
+        if (home == null)
+        {
+            throw new NotValidDataException("Home not found");
+        }
+
+        var room = _homeRepository.GetRooms(homeId).Find(r => r.Id == roomId);
+
+        if (room == null)
+        {
+            throw new NotValidDataException("Room not found");
+        }
+
+        var homeDevice = _homeRepository.GetHomeDevices(homeId).Find(h => h.HardwareId == hardwareId);
+
+        if (homeDevice == null)
+        {
+            throw new NotValidDataException("Device not found");
+        }
+
+        var roomd = _homeRepository.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        if (roomd == null)
+        {
+            throw new NotValidDataException("Device could not be added to room");
+        }
+
+        return roomd;
     }
 }

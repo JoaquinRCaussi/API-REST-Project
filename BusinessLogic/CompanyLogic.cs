@@ -1,6 +1,6 @@
-using Domain;
-using IBusinessLogic;
-using IDataAccess;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 
 namespace BusinessLogic;
 
@@ -27,6 +27,11 @@ public class CompanyLogic : ICompanyLogic
         if (IsFormatNotCorrect(companyToCreate))
         {
             throw new NotValidDataException("The name and RUT are required");
+        }
+
+        if (!IsCorrectImagePath(companyToCreate.Logo))
+        {
+            throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");
         }
 
         var companies = _companyRepository.GetCompanies(companyToCreate.Name, companyToCreate.Owner.Name);
@@ -62,5 +67,13 @@ public class CompanyLogic : ICompanyLogic
     private bool IsFormatNotCorrect(Company company)
     {
         return company.Name == "" || company.RUT == "" || company.Logo == "";
+    }
+    public bool IsCorrectImagePath(string imagePath)
+    {
+        var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+        var fileExtension = Path.GetExtension(imagePath).ToLower();
+
+        return validExtensions.Contains(fileExtension);
     }
 }

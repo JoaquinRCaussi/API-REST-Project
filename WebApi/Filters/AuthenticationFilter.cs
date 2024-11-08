@@ -1,7 +1,7 @@
 using System.Net;
 using BusinessLogic;
-using Domain;
-using IBusinessLogic;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

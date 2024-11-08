@@ -1,11 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
-using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Moq;
 using WebApi.Controllers;
+using WebApi.Models.In;
+using WebApi.Models.Out;
 
 namespace Controllers.Tests;
 
@@ -30,7 +31,8 @@ public class HomeOwnerControllerTest
             Name = user.Name,
             LastName = user.LastName,
             Email = user.Email,
-            Password = user.Password
+            Password = user.Password,
+            ImagePath = user.ImagePath
         };
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateHomeOwner(It.IsAny<User>())).Returns(homeOwnerReq.ToUser());

@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain;
+using BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -19,6 +19,7 @@ public class HMDbContext : DbContext
     public DbSet<User>? Users { get; set; }
     public DbSet<Role>? Roles { get; set; }
     public DbSet<Home>? Homes { get; set; }
+    public DbSet<Room>? Rooms { get; set; }
     public DbSet<MemberSetting>? MemberSettings { get; set; }
     public DbSet<Permission>? Permissions { get; set; }
     public DbSet<PermissionKey>? PermissionKeys { get; set; }

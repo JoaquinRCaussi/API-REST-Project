@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
 using FluentAssertions;
-using IDataAccess;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -51,7 +51,7 @@ public class DevicesLogicTest
             Model = "Model",
             DeviceType = DeviceType.Camera,
             Description = "Description",
-            Photo = "Photo",
+            Photo = "Photo.png",
             Company = _company
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
@@ -78,7 +78,7 @@ public class DevicesLogicTest
             Model = "Model",
             DeviceType = DeviceType.Camera,
             Description = "Description",
-            Photo = "Photo",
+            Photo = "Photo.png",
             Company = _company,
             Outdoors = true,
             Indoors = false,
@@ -153,7 +153,7 @@ public class DevicesLogicTest
             Model = "Model",
             DeviceType = DeviceType.Camera,
             Description = "Description",
-            Photo = "Photo",
+            Photo = "Photo.png",
             Company = _company
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
@@ -179,7 +179,7 @@ public class DevicesLogicTest
             Model = "Model",
             DeviceType = DeviceType.Camera,
             Description = "Description",
-            Photo = "Photo",
+            Photo = "Photo.png",
             Company = _company,
             Outdoors = true,
             Indoors = false,

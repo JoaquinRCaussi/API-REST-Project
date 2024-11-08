@@ -1,6 +1,6 @@
 using System.Net;
-using Domain;
-using IDataAccess;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

@@ -1,7 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Domain;
-using IBusinessLogic;
-using IDataAccess;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
+
 
 namespace BusinessLogic;
 
@@ -58,6 +59,10 @@ public class UserLogic : IUserLogic
         if (!IsCorrectUserFormat(user))
         {
             throw new NotValidDataException("User data is not valid");
+        }
+        if (!IsCorrectImagePath(user.ImagePath))
+        {
+            throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");
         }
         if (_userRepository.FindByMail(user.Email) != null)
         {
@@ -139,5 +144,13 @@ public class UserLogic : IUserLogic
     {
         var correctPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         return Regex.IsMatch(email, correctPattern);
+    }
+    public bool IsCorrectImagePath(string imagePath)
+    {
+        var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+        var fileExtension = Path.GetExtension(imagePath).ToLower();
+
+        return validExtensions.Contains(fileExtension);
     }
 }

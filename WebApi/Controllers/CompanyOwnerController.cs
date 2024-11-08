@@ -1,8 +1,8 @@
-using Domain;
-using IBusinessLogic;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using WebApi.Filters;
+using WebApi.Models.In;
 
 namespace WebApi.Controllers;
 

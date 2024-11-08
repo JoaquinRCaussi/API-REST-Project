@@ -1,6 +1,6 @@
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
 using DataAccess.Data;
-using Domain;
-using IDataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
@@ -141,19 +141,29 @@ public class HomeRepository : IHomeRepository
         return homeDevice;
     }
 
-    public List<HomeDevice> GetHomeDevices(Guid homeId)
+    public List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null)
     {
         var home = _dbContext.Homes?
             .Include(h => h.Devices)
-                .ThenInclude(Device => Device.Device)
+            .ThenInclude(Device => Device.Device)
+            .Include(h => h.Rooms)
+            .ThenInclude(r => r.Devices)
             .FirstOrDefault(x => x.Id == homeId);
 
         if (home == null)
         {
-            return [];
+            return null;
         }
 
-        return home.Devices;
+        var homeDevices = home.Devices ?? [];
+
+        if (roomId != null && home.Rooms != null)
+        {
+            var room = home.Rooms?.FirstOrDefault(x => x.Id == roomId);
+            homeDevices = room?.Devices ?? [];
+        }
+
+        return homeDevices;
     }
 
     public HomeDevice ChangeHomeDeviceStatus(Guid homeId, Guid hardwareId, bool state)
@@ -171,5 +181,59 @@ public class HomeRepository : IHomeRepository
         homeDevice.State = state;
         _dbContext.SaveChanges();
         return homeDevice;
+    }
+
+    public Room AddRoom(Guid homeId, string name)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+
+        if (home == null)
+        {
+            return new()
+            {
+            };
+        }
+
+        var room = new Room
+        {
+            Name = name
+        };
+
+        _dbContext.Rooms?.Add(room);
+        home.Rooms?.Add(room);
+        _dbContext.SaveChanges();
+        return room;
+    }
+
+    public List<Room> GetRooms(Guid homeId)
+    {
+        var home = _dbContext.Homes?
+            .Include(h => h.Rooms)
+            .FirstOrDefault(x => x.Id == homeId);
+
+        if (home == null)
+        {
+            return [];
+        }
+
+        return home.Rooms;
+    }
+
+    public Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+        var room = home?.Rooms?.FirstOrDefault(x => x.Id == roomId);
+        var homeDevice = home?.Devices?.FirstOrDefault(x => x.HardwareId == hardwareId);
+
+        if (home == null || room == null || homeDevice == null)
+        {
+            return new()
+            {
+            };
+        }
+
+        room.Devices?.Add(homeDevice);
+        _dbContext.SaveChanges();
+        return room;
     }
 }

@@ -1,7 +1,6 @@
-﻿using Domain;
-using IBusinessLogic;
-using IDataAccess;
-
+﻿using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 
 namespace BusinessLogic;
 
@@ -22,6 +21,11 @@ public class DeviceLogic : IDeviceLogic
             throw new NotValidDataException("The User must have a Company registered");
         }
 
+        if (!IsCorrectImagePath(device.Photo))
+        {
+            throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");
+        }
+
         if (_deviceRepository.ExistsDevice(device.Name, device.Company.Id))
         {
             throw new ConflictException("The Device already exists");
@@ -39,6 +43,11 @@ public class DeviceLogic : IDeviceLogic
         if (camera.Company == null)
         {
             throw new NotValidDataException("The User must have a Company registered");
+        }
+
+        if (!IsCorrectImagePath(camera.Photo))
+        {
+            throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");
         }
         if (_deviceRepository.ExistsDevice(camera.Name, camera.Company.Id))
         {
@@ -86,5 +95,13 @@ public class DeviceLogic : IDeviceLogic
     public List<string> GetDevicesTypes()
     {
         return Enum.GetValues(typeof(DeviceType)).Cast<DeviceType>().Select(x => x.ToString()).ToList();
+    }
+    public bool IsCorrectImagePath(string imagePath)
+    {
+        var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+        var fileExtension = Path.GetExtension(imagePath).ToLower();
+
+        return validExtensions.Contains(fileExtension);
     }
 }

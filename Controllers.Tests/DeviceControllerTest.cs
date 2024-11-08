@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using BusinessLogic;
-using Domain;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
-using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,6 +11,8 @@ using Models;
 using Moq;
 using WebApi.Controllers;
 using WebApi.Filters;
+using WebApi.Models.In;
+using WebApi.Models.Out;
 
 namespace Controllers.Tests;
 

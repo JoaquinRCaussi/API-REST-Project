@@ -1,16 +1,17 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using BusinessLogic;
-using Domain;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
-using IBusinessLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Models;
 using Moq;
 using WebApi.Controllers;
 using WebApi.Filters;
+using WebApi.Models.In;
+using WebApi.Models.Out;
 
 namespace Controllers.Tests;
 
@@ -454,7 +455,7 @@ public class HomeControllerTest
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomeDevices(homeId)).Returns(home.Devices);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
@@ -467,200 +468,16 @@ public class HomeControllerTest
 
         okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
 
-        homeLogic.Verify(x => x.GetHomeDevices(homeId), Times.Once);
-    }
-
-    [TestMethod]
-    public void CreateNotificationOpenMovementSensor_WhenAllPropertiesOk()
-    {
-        var homeId = Guid.NewGuid();
-        var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "open"
-        };
-
-        var notification = new Notification
-        {
-            Id = Guid.NewGuid(),
-            Event = "Movement Sensor opened",
-            CreatedAt = DateTime.UtcNow,
-            IsRead = false,
-            HardwareId = hardwareId,
-            UserId = Guid.NewGuid()
-
-        };
-
-        var notifications = new List<Notification> { notification };
-
-        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
-            .Returns(notifications);
-
-        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-
-        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-
-        IActionResult act = controller.CreateNotificationOpenMovementSensor(homeId, hardwareId);
-
-        var expected = new CreatedAtActionResult(
-            nameof(controller.CreateNotificationOpenMovementSensor),
-            nameof(HomeController).Replace("Controller", ""),
-            new { id = notification.Id },
-            notifications
-        );
-
-        act.Should().BeEquivalentTo(expected, options => options
-            .ExcludingMissingMembers()
-            .Excluding(x => x.ControllerName)
-            .Excluding(x => x.RouteValues));
-    }
-
-    [TestMethod]
-    public void CreateNotificationCloseMovementSensor_WhenAllPropertiesOk()
-    {
-        var homeId = Guid.NewGuid();
-        var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "close"
-        };
-
-        var notification = new Notification
-        {
-            Id = Guid.NewGuid(),
-            Event = "Movement Sensor closed",
-            CreatedAt = DateTime.UtcNow,
-            IsRead = false,
-            HardwareId = hardwareId,
-            UserId = Guid.NewGuid()
-        };
-
-        var notifications = new List<Notification> { notification };
-
-        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
-            .Returns(notifications);
-
-        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-
-        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-
-        IActionResult act = controller.CreateNotificationCloseMovementSensor(homeId, hardwareId);
-
-        var expected = new CreatedAtActionResult(
-            nameof(controller.CreateNotificationCloseMovementSensor),
-            nameof(HomeController).Replace("Controller", ""),
-            new { id = notification.Id },
-            notifications
-        );
-
-        act.Should().BeEquivalentTo(expected, options => options
-            .ExcludingMissingMembers()
-            .Excluding(x => x.ControllerName)
-            .Excluding(x => x.RouteValues));
-    }
-
-    [TestMethod]
-    public void CreateNotificationTurnOnSmartLamp_WhenAllPropertiesOk()
-    {
-        var homeId = Guid.NewGuid();
-        var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "Turn on"
-        };
-
-        var notification = new Notification
-        {
-            Id = Guid.NewGuid(),
-            Event = "SmartLamp turned on",
-            CreatedAt = DateTime.UtcNow,
-            IsRead = false,
-            HardwareId = hardwareId,
-            UserId = Guid.NewGuid()
-
-        };
-
-        var notifications = new List<Notification> { notification };
-
-        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
-            .Returns(notifications);
-
-        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-
-        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-
-        IActionResult act = controller.CreateNotificationTurnOnSmartLamp(homeId, hardwareId);
-
-        var expected = new CreatedAtActionResult(
-            nameof(controller.CreateNotificationTurnOnSmartLamp),
-            nameof(HomeController).Replace("Controller", ""),
-            new { id = notification.Id },
-            notifications
-        );
-
-        act.Should().BeEquivalentTo(expected, options => options
-            .ExcludingMissingMembers()
-            .Excluding(x => x.ControllerName)
-            .Excluding(x => x.RouteValues));
-    }
-
-    [TestMethod]
-    public void CreateNotificationTurnOffSmartLamp_WhenAllPropertiesOk()
-    {
-        var homeId = Guid.NewGuid();
-        var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "Turn off"
-        };
-
-        var notification = new Notification
-        {
-            Id = Guid.NewGuid(),
-            Event = "SmartLamp turned off",
-            CreatedAt = DateTime.UtcNow,
-            IsRead = false,
-            HardwareId = hardwareId,
-            UserId = Guid.NewGuid()
-        };
-
-        var notifications = new List<Notification> { notification };
-
-        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
-            .Returns(notifications);
-
-        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-
-        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-
-        IActionResult act = controller.CreateNotificationTurnOffSmartLamp(homeId, hardwareId);
-
-        var expected = new CreatedAtActionResult(
-            nameof(controller.CreateNotificationTurnOffSmartLamp),
-            nameof(HomeController).Replace("Controller", ""),
-            new { id = notification.Id },
-            notifications
-        );
-
-        act.Should().BeEquivalentTo(expected, options => options
-            .ExcludingMissingMembers()
-            .Excluding(x => x.ControllerName)
-            .Excluding(x => x.RouteValues));
+        homeLogic.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
     }
 
     [TestMethod]
     public void CreateNotificationOpenSensor_WhenAllPropertiesOk()
     {
+        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "open"
-        };
+        var sensorEvent = "open";
 
         var notification = new Notification
         {
@@ -676,8 +493,7 @@ public class HomeControllerTest
         var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
-            .Returns(notifications);
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorEvent)).Returns(notifications);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
@@ -701,12 +517,10 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCloseSensor_WhenAllPropertiesOk()
     {
+        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "close"
-        };
+        var sensorEvent = "close";
 
         var notification = new Notification
         {
@@ -721,7 +535,7 @@ public class HomeControllerTest
         var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorEvent))
             .Returns(notifications);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
@@ -746,12 +560,10 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCameraPersonDetected_WhenAllPropertiesOk()
     {
+        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "person-detected"
-        };
+        var sensorEvent = "person-detected";
 
         var notification = new Notification
         {
@@ -767,7 +579,7 @@ public class HomeControllerTest
         var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, It.IsAny<SensorRequest>()))
+        homeLogic.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorEvent))
             .Returns(notifications);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
@@ -792,12 +604,10 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCameraMovementDetected_WhenAllPropertiesOk()
     {
+        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
-        var sensorRequest = new SensorRequest
-        {
-            Event = "movement-detected"
-        };
+        var sensorEvent = "movement-detected";
 
         var notification = new Notification
         {
@@ -813,7 +623,7 @@ public class HomeControllerTest
         var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, It.IsAny<SensorRequest>()))
+        homeLogic.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorEvent))
             .Returns(notifications);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
@@ -859,7 +669,7 @@ public class HomeControllerTest
         var notifications = new List<Notification> { notification };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, It.IsAny<SensorRequest>()))
+        homeLogic.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, "movement-detected"))
             .Returns(notifications);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
@@ -879,60 +689,6 @@ public class HomeControllerTest
             .ExcludingMissingMembers()
             .Excluding(x => x.ControllerName)
             .Excluding(x => x.RouteValues));
-    }
-
-    [TestMethod]
-    public void UpdatePermissions_WhenUserIsHomeOwner_ShouldReturnOk()
-    {
-        var homeId = Guid.NewGuid();
-        var userId = Guid.NewGuid();
-
-        var user = new User
-        {
-            Id = userId,
-            Name = "John",
-            LastName = "Doe",
-            Email = "mail@mail.com",
-            Password = "password@123"
-        };
-
-        var home = new Home
-        {
-            Id = homeId,
-            Location = "location",
-            Latitude = "123",
-            Longitude = "123",
-            MemberCount = 5,
-            HomeOwner = user.Id
-        };
-
-        var permissionRequest = new PermissionRequest
-        {
-            Value = "CanGetNotifications"
-        };
-
-        var httpContext = new DefaultHttpContext();
-        httpContext.Items[0] = user;
-
-        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.UpdatePermissions(homeId, userId, permissionRequest)).Returns(home);
-        homeLogic.Setup(x => x.GetHome(homeId)).Returns(home);
-
-        var controller = new HomeController(homeLogic.Object, null)
-        {
-            ControllerContext = new ControllerContext
-            {
-                HttpContext = httpContext
-            }
-        };
-
-        IActionResult act = controller.UpdatePermissions(homeId, userId, permissionRequest);
-
-        var okResult = act as OkObjectResult;
-        Assert.IsNotNull(okResult, "Expected OkObjectResult");
-
-        okResult.Value.Should().BeEquivalentTo(home);
-        homeLogic.Verify(x => x.UpdatePermissions(homeId, userId, permissionRequest), Times.Once);
     }
 
     [TestMethod]
@@ -1047,7 +803,7 @@ public class HomeControllerTest
     {
         var homeId = Guid.NewGuid();
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomeDevices(homeId))
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, null))
             .Throws(new EmptyException("No devices found for this home."));
 
         var controller = new HomeController(homeLogic.Object, null);
@@ -1123,5 +879,258 @@ public class HomeControllerTest
         var expected = new OkObjectResult(homeDevice);
 
         act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void AddRoomToHome_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomName = "Living Room";
+
+        var room = new Room
+        {
+            Id = Guid.NewGuid(),
+            Name = roomName
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid(),
+            Rooms = []
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.AddRoom(homeId, roomName)).Returns(room);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.AddRoomToHome(homeId, roomName);
+
+        var expected = new CreatedAtActionResult(
+            nameof(controller.AddRoomToHome),
+            nameof(HomeController).Replace("Controller", ""),
+            new { id = room.Id },
+            room
+        );
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
+    public void GetRooms_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomName = "Living Room";
+
+        var room = new Room
+        {
+            Id = Guid.NewGuid(),
+            Name = roomName
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid(),
+            Rooms = [room]
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetRooms(homeId)).Returns(home.Rooms);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.GetRooms(homeId);
+
+        var getRoomsResponse = new GetRoomsResponse(home.Rooms);
+        var expected = new OkObjectResult(getRoomsResponse.ToArgs());
+
+        act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void AddDeviceToRoom_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var device = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "XYZ",
+            DeviceType = DeviceType.Camera,
+            Description = "Outdoor camera",
+            Photo = "photo1.jpg"
+        };
+
+        var homeDevice = new HomeDevice { HardwareId = hardwareId, DeviceId = device.Id, Device = device, State = false, Name = device.Name };
+
+        var homeDevices = new List<HomeDevice> { homeDevice };
+
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Living Room",
+            Devices = homeDevices
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = homeDevices,
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var addDeviceToRoomReq = new AddDeviceToRoomRequest() { HardwareId = hardwareId };
+
+        var addDeviceToRoomRes = new DeviceRoomResponse()
+        {
+            HardwareId = homeDevice.HardwareId,
+            DeviceName = homeDevice.Device.Name,
+            RoomName = room.Name
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(room);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.AddDeviceToRoom(homeId, roomId, addDeviceToRoomReq);
+
+        var expected = new OkObjectResult(addDeviceToRoomRes);
+
+        act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void GetHomeDevicesByRoomId_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var device1 = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "XYZ",
+            DeviceType = DeviceType.Camera,
+            Description = "Outdoor camera",
+            Photo = "photo1.jpg"
+        };
+        var device2 = new Device
+        {
+            Company = _company,
+            Id = Guid.NewGuid(),
+            Name = "Thermostat",
+            Model = "ABC",
+            DeviceType = DeviceType.WindowSensor,
+            Description = "Smart thermostat",
+            Photo = "photo2.jpg"
+        };
+        var devices = new List<HomeDevice>
+        {
+            new HomeDevice { DeviceId = device1.Id, Device = device1 },
+            new HomeDevice { DeviceId = device2.Id, Device = device2 }
+        };
+
+        var room = new Room
+        {
+            Id = roomId,
+            Name = "Living Room",
+            Devices = devices
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 1,
+            Devices = devices,
+            Rooms = { room },
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, roomId)).Returns(home.Devices);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.GetHomeDevices(homeId, roomId);
+
+        var okResult = act as OkObjectResult;
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
+
+        okResult.Value.Should().BeEquivalentTo(devices, options => options.WithStrictOrdering());
+
+        homeLogic.Verify(x => x.GetHomeDevices(homeId, roomId), Times.Once);
+    }
+
+    [TestMethod]
+    public void GetHomeDevicesByRoomId_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.GetHomeDevices(homeId, roomId))
+            .Throws(new EmptyException("No devices found for this room."));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.GetHomeDevices(homeId, roomId);
+
+        act.Should().Throw<EmptyException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new EmptyException("No devices found for this room.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+        homeLogic.VerifyAll();
     }
 }

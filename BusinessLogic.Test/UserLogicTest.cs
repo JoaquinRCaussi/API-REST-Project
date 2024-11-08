@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
-using Domain;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
-using IBusinessLogic;
-using IDataAccess;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -88,7 +88,8 @@ public class UserLogicTest
             Name = "John",
             LastName = "Snow",
             Email = "mail@mail.com",
-            Password = "password@123"
+            Password = "password@123",
+            ImagePath = "profileImage.png"
         };
 
         _userRepositoryMock.Setup(x => x.CreateHomeOwner(user)).Returns(user);
@@ -102,6 +103,7 @@ public class UserLogicTest
         result.LastName.Should().Be(user.LastName);
         result.Email.Should().Be(user.Email);
         result.Password.Should().Be(user.Password);
+        result.ImagePath.Should().Be(user.ImagePath);
         result.Role.Should().Be(user.Role);
     }
 

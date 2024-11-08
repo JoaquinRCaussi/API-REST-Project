@@ -1,5 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
-using ServiceFactory;
+using BusinessLogic;
+using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.LogicInterfaces;
+using DataAccess;
+using DataAccess.Data;
+using DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Filters;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
@@ -9,8 +15,24 @@ builder.Services.AddControllers(
     {
         options.Filters.Add<ExceptionFilter>();
     });
-builder.Services.AddServices(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<HMDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IHomeRepository, HomeRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<IMemberSettingRepository, MemberSettingRepository>();
+builder.Services.AddScoped<IMemberSettingLogic, MemberSettingLogic>();
+builder.Services.AddScoped<IHomeLogic, HomeLogic>();
+builder.Services.AddScoped<IUserLogic, UserLogic>();
+builder.Services.AddScoped<ICompanyLogic, CompanyLogic>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IDeviceLogic, DeviceLogic>();
+builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 WebApplication? app = builder.Build();
 // Configure the HTTP request pipeline.
 

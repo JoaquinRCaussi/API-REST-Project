@@ -73,6 +73,7 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Photo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -138,6 +139,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("State")
                         .HasColumnType("bit");
 
@@ -146,6 +150,8 @@ namespace DataAccess.Migrations
                     b.HasIndex("DeviceId");
 
                     b.HasIndex("HomeId");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("HomeDevices");
                 });
@@ -342,6 +348,26 @@ namespace DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Room", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("HomeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeId");
+
+                    b.ToTable("Rooms");
+                });
+
             modelBuilder.Entity("Domain.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -531,6 +557,10 @@ namespace DataAccess.Migrations
                         .WithMany("Devices")
                         .HasForeignKey("HomeId");
 
+                    b.HasOne("Domain.Room", null)
+                        .WithMany("Devices")
+                        .HasForeignKey("RoomId");
+
                     b.Navigation("Device");
                 });
 
@@ -558,6 +588,13 @@ namespace DataAccess.Migrations
                     b.Navigation("HomeDevice");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Room", b =>
+                {
+                    b.HasOne("Domain.Home", null)
+                        .WithMany("Rooms")
+                        .HasForeignKey("HomeId");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
