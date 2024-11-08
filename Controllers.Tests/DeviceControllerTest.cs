@@ -80,6 +80,43 @@ public class DeviceControllerTest
     }
 
     [TestMethod]
+    public void CreateMovementSensor_WhenAllPropertiesOK_ShouldReturnCreated()
+    {
+        _user.Company = _company;
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = _user;
+        _controller!.ControllerContext.HttpContext = httpContext;
+        var device = CreateValidDevice();
+        var movementSensorRequest = new MovementSensorRequest()
+        {
+            Name = "Sensor de movimiento genérica",
+            Description = "Descripción genérica",
+            DeviceType = DeviceType.MovementSensor,
+            Model = "Model X",
+            Photo = "photo1.jpg",
+        };
+        var expectedResponse = new DeviceResponse(device);
+
+        _deviceLogicMock!
+            .Setup(logic => logic.CreateDevice(It.IsAny<Device>()))
+            .Returns(device);
+
+        IActionResult result = _controller!.CreateMovementSensor(movementSensorRequest);
+
+        var expected = new CreatedAtActionResult(
+            nameof(_controller.CreateMovementSensor),
+            nameof(DevicesController).Replace("Controller", ""),
+            new { id = device.Id },
+            expectedResponse
+        );
+
+        result.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers()
+            .Excluding(x => x.ControllerName)
+            .Excluding(x => x.RouteValues));
+    }
+
+    [TestMethod]
     public void CreateWindowSensor_WhenAllPropertiesOK_ShouldReturnCreated()
     {
         _user.Company = _company;
