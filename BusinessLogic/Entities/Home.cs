@@ -10,7 +10,7 @@ public class Home
     public required int MemberCount { get; set; }
     public List<HomeDevice>? Devices { get; set; }
     public Guid HomeOwner { get; set; }
-    public User? Owner { get; set; } 
+    public User? Owner { get; set; }
     public List<User>? Members { get; set; } = [];
     public List<Room>? Rooms { get; set; } = [];
 

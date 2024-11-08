@@ -212,7 +212,7 @@ public class HomeController : ControllerBase
     {
         var hardwareId = addDeviceToRoomRequest.HardwareId;
         var room = _homeLogic.AddDeviceToRoom(homeId, hardwareId, roomId);
-        
+
         var homeDevice = room.Devices.FirstOrDefault(x => x.HardwareId == hardwareId);
 
         var response = new DeviceRoomResponse

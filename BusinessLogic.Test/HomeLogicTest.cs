@@ -3,7 +3,6 @@ using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
-using WebApi.Models.Out;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -319,7 +318,7 @@ public class HomeLogicTest
             Members = [],
             MemberCount = 5
         };
-        
+
         var permission = "CanAddMembers";
         var permission2 = "CanAsociateDevices";
         var addPermission = true;
@@ -792,7 +791,7 @@ public class HomeLogicTest
         var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" };
 
         var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
-        
+
         var homeDevices = new List<HomeDevice> { homeDevice };
 
         var room = new Room { Id = roomId, Name = "room" };
@@ -815,7 +814,7 @@ public class HomeLogicTest
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
         _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(roomWithDevice);
 
-        var expectedResponse = new Room() { Id = roomId, Name = "room", Devices = homeDevices};
+        var expectedResponse = new Room() { Id = roomId, Name = "room", Devices = homeDevices };
 
         var result = _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
 

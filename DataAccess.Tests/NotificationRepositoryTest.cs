@@ -3,7 +3,6 @@ using BusinessLogic.Entities;
 using DataAccess.Data;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Models.In;
 
 namespace DataAccess.Tests;
 

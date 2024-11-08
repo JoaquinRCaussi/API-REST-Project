@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using BusinessLogic;
-using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
@@ -939,10 +938,10 @@ public class HomeControllerTest
             Photo = "photo1.jpg"
         };
 
-        var homeDevice = new HomeDevice { HardwareId = hardwareId, DeviceId = device.Id, Device = device, State = false, Name = device.Name};
+        var homeDevice = new HomeDevice { HardwareId = hardwareId, DeviceId = device.Id, Device = device, State = false, Name = device.Name };
 
         var homeDevices = new List<HomeDevice> { homeDevice };
-        
+
         var room = new Room
         {
             Id = roomId,
