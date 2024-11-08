@@ -20,6 +20,18 @@ public class DevicesController : ControllerBase
     }
 
     [HttpPost]
+    [Route("movementSensor")]
+    [AuthorizationFilter("CanCreateADevice")]
+    public IActionResult CreateMovementSensor([FromBody] MovementSensorRequest device)
+    {
+        var user = HttpContext.Items[0] as User;
+        Device deviceToCreate = device.ToArgs(user.Company);
+        Device createdDevice = _deviceLogic.CreateDevice(deviceToCreate);
+        var response = new DeviceResponse(createdDevice);
+        return CreatedAtAction(nameof(CreateMovementSensor), new { id = createdDevice.Id }, response);
+    }
+
+    [HttpPost]
     [Route("windowSensor")]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
