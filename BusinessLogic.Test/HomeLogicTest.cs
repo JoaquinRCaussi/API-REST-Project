@@ -3,6 +3,7 @@ using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
+using WebApi.Models.Out;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -318,17 +319,17 @@ public class HomeLogicTest
             Members = [],
             MemberCount = 5
         };
-
-        var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = true };
+        
+        var permission = "CanAddMembers";
+        var permission2 = "CanAsociateDevices";
+        var addPermission = true;
 
         // Act
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
-
-        var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = true };
+        _homeLogic?.UpdatePermissions(homeId, userId, permission, addPermission);
 
         // Act
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest2);
+        _homeLogic?.UpdatePermissions(homeId, userId, permission2, addPermission);
 
         // Assert
         _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAddMembers"), Times.Once);
@@ -353,9 +354,9 @@ public class HomeLogicTest
             MemberCount = 5
         };
 
-        var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = false };
-
-        var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = false };
+        var permission = "CanAddMembers";
+        var permission2 = "CanAsociateDevices";
+        var addPermission = false;
 
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
@@ -363,8 +364,8 @@ public class HomeLogicTest
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAddMembers")).Returns(true);
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAsociateDevices")).Returns(true);
 
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest2);
+        _homeLogic?.UpdatePermissions(homeId, userId, permission, addPermission);
+        _homeLogic?.UpdatePermissions(homeId, userId, permission2, addPermission);
 
         // Assert
         _memberSettingRepositoryMock?.Verify(r => r.RemovePermission(homeId, userId, "CanAddMembers"), Times.Once);
@@ -390,14 +391,14 @@ public class HomeLogicTest
             MemberCount = 5
         };
 
-        var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = true };
-
-        var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = true };
+        var permission = "CanAddMembers";
+        var permission2 = "CanAsociateDevices";
+        var addPermission = true;
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
 
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest2);
+        _homeLogic?.UpdatePermissions(homeId, userId, permission, addPermission);
+        _homeLogic?.UpdatePermissions(homeId, userId, permission2, addPermission);
 
         _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAddMembers"), Times.Once);
         _memberSettingRepositoryMock?.Verify(r => r.AddPermission(homeId, userId, "CanAsociateDevices"), Times.Once);
@@ -421,14 +422,14 @@ public class HomeLogicTest
             MemberCount = 5
         };
 
-        var permissionRequest = new PermissionRequest { Value = "CanAddMembers", Enable = false };
-
-        var permissionRequest2 = new PermissionRequest { Value = "CanAsociateDevices", Enable = false };
+        var permission = "CanAddMembers";
+        var permission2 = "CanAsociateDevices";
+        var addPermission = false;
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
 
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest);
-        _homeLogic?.UpdatePermissions(homeId, userId, permissionRequest2);
+        _homeLogic?.UpdatePermissions(homeId, userId, permission, addPermission);
+        _homeLogic?.UpdatePermissions(homeId, userId, permission2, addPermission);
 
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAddMembers")).Returns(true);
         _memberSettingRepositoryMock?.Setup(r => r.HasPermission(homeId, userId, "CanAsociateDevices")).Returns(true);
@@ -562,19 +563,19 @@ public class HomeLogicTest
             MemberCount = 5
         };
 
-        var sensorRequest = new SensorRequest { Event = "open" };
+        var sensorEvent = "open";
         var notifications = new List<Notification> { new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
-        _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest)).Returns(notifications);
+        _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorEvent)).Returns(notifications);
 
         // Act
-        var result = _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        var result = _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
 
         // Assert
         result.Should().BeEquivalentTo(notifications);
-        _notificationRepositoryMock?.Verify(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest), Times.Once);
+        _notificationRepositoryMock?.Verify(x => x.CreateNotificationSensor(homeId, hardwareId, sensorEvent), Times.Once);
     }
 
     [TestMethod]
@@ -600,20 +601,20 @@ public class HomeLogicTest
             MemberCount = 5
         };
 
-        var sensorRequest = new SensorRequest { Event = "person-detected" };
+        var sensorEvent = "person-detected";
         var notifications = new List<Notification> { new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId } };
 
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
-        _notificationRepositoryMock?.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest)).Returns(notifications);
+        _notificationRepositoryMock?.Setup(x => x.CreateNotificationCamera(homeId, hardwareId, sensorEvent)).Returns(notifications);
 
         // Act
-        var result = _homeLogic?.CreateNotificationCamera(homeId, hardwareId, sensorRequest);
+        var result = _homeLogic?.CreateNotificationCamera(homeId, hardwareId, sensorEvent);
 
         // Assert
         result.Should().BeEquivalentTo(notifications);
-        _notificationRepositoryMock?.Verify(x => x.CreateNotificationCamera(homeId, hardwareId, sensorRequest), Times.Once);
+        _notificationRepositoryMock?.Verify(x => x.CreateNotificationCamera(homeId, hardwareId, sensorEvent), Times.Once);
     }
 
     [TestMethod]
@@ -633,16 +634,16 @@ public class HomeLogicTest
             MemberCount = 5
         };
 
-        var sensorRequest = new SensorRequest { Event = "notAValidEvent" };
+        var sensorEvent = "notValidEvent";
         var notifications = new List<Notification>
         {
             new Notification { Id = Guid.NewGuid(), HardwareId = hardwareId }
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorRequest)).Returns(notifications);
+        _notificationRepositoryMock?.Setup(x => x.CreateNotificationSensor(homeId, hardwareId, sensorEvent)).Returns(notifications);
 
-        Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorRequest);
+        Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
 
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Event must be open or close");
@@ -791,8 +792,11 @@ public class HomeLogicTest
         var device = new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" };
 
         var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
+        
+        var homeDevices = new List<HomeDevice> { homeDevice };
 
         var room = new Room { Id = roomId, Name = "room" };
+        var roomWithDevice = new Room { Id = roomId, Name = "room", Devices = homeDevices };
 
         var home = new Home
         {
@@ -809,14 +813,9 @@ public class HomeLogicTest
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
         _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([room]);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
-        _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(room);
+        _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns(roomWithDevice);
 
-        var expectedResponse = new DeviceRoomResponse
-        {
-            HardwareId = hardwareId,
-            DeviceName = device.Name,
-            RoomName = room.Name
-        };
+        var expectedResponse = new Room() { Id = roomId, Name = "room", Devices = homeDevices};
 
         var result = _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
 

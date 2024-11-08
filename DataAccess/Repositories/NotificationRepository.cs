@@ -17,7 +17,7 @@ public class NotificationRepository : INotificationRepository
         _context = context;
     }
 
-    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    public List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, string anEvent)
     {
         var listOfNotifications = new List<Notification>();
         var home = _context.Homes?
@@ -47,7 +47,7 @@ public class NotificationRepository : INotificationRepository
                     var notification = new Notification
                     {
                         UserId = member.Id,
-                        Event = sensor.Event,
+                        Event = anEvent,
                         CreatedAt = DateTime.Now,
                         HardwareId = hardwareId,
                         HomeDevice = homeDevice,
@@ -64,7 +64,7 @@ public class NotificationRepository : INotificationRepository
         return listOfNotifications;
     }
 
-    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensor)
+    public List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, string anEvent)
     {
         var listOfNotifications = new List<Notification>();
         var home = _context.Homes?
@@ -94,7 +94,7 @@ public class NotificationRepository : INotificationRepository
                     var notification = new Notification
                     {
                         UserId = member.Id,
-                        Event = sensor.Event,
+                        Event = anEvent,
                         CreatedAt = DateTime.Now,
                         HardwareId = hardwareId,
                         HomeDevice = homeDevice,

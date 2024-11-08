@@ -16,7 +16,7 @@ public interface IHomeLogic
 
     Home AddMember(Guid homeId, Guid userId);
 
-    Home UpdatePermissions(Guid homeId, Guid userId, PermissionRequest permission);
+    Home UpdatePermissions(Guid homeId, Guid userId, string permission, bool addPermission);
 
     HomeDevice AddDevice(Guid homeId, Guid deviceId);
 
@@ -24,13 +24,13 @@ public interface IHomeLogic
 
     List<HomeDevice> GetHomeDevices(Guid homeId, Guid? roomId = null);
 
-    List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
+    List<Notification> CreateNotificationSensor(Guid homeId, Guid hardwareId, string anEvent);
 
-    List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, SensorRequest sensorRequest);
+    List<Notification> CreateNotificationCamera(Guid homeId, Guid hardwareId, string anEvent);
 
     Room AddRoom(Guid homeId, string name);
 
     List<Room> GetRooms(Guid homeId);
 
-    DeviceRoomResponse AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId);
+    Room AddDeviceToRoom(Guid homeId, Guid? hardwareId, Guid roomId);
 }

@@ -116,12 +116,9 @@ public class NotificationRepositoryTest
         var home = context.Homes?.First();
         var homeDevice = context.HomeDevices?.First();
 
-        var sensorRequest = new SensorRequest
-        {
-            Event = "open"
-        };
+        var sensorEvent = "open";
 
-        var notifications = repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorRequest);
+        var notifications = repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorEvent);
 
         var notificationsInDb = context.Notifications?.ToList();
 
@@ -145,12 +142,9 @@ public class NotificationRepositoryTest
         var home = context.Homes?.First();
         var homeDevice = context.HomeDevices?.First();
 
-        var sensorRequest = new SensorRequest
-        {
-            Event = "open"
-        };
+        var sensorEvent = "open";
 
-        repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorRequest);
+        repository.CreateNotificationSensor(home.Id, homeDevice.HardwareId, sensorEvent);
 
         var notificationsInDb = context.Notifications?.ToList();
         notificationsInDb.Should().NotBeNull();
@@ -167,12 +161,9 @@ public class NotificationRepositoryTest
         var home = context.Homes?.First();
         var homeDevice = context.HomeDevices?.First();
 
-        var sensorRequest = new SensorRequest
-        {
-            Event = "personDetected"
-        };
+        var sensorEvent = "personDetected";
 
-        var notifications = repository.CreateNotificationCamera(home.Id, homeDevice.HardwareId, sensorRequest);
+        var notifications = repository.CreateNotificationCamera(home.Id, homeDevice.HardwareId, sensorEvent);
 
         var notificationsInDb = context.Notifications?.ToList();
 
@@ -195,12 +186,9 @@ public class NotificationRepositoryTest
         var nonExistentHomeId = Guid.NewGuid();
         var homeDevice = context.HomeDevices?.First();
 
-        var sensorRequest = new SensorRequest
-        {
-            Event = "personDetected"
-        };
+        var sensorEvent = "personDetected";
 
-        repository.CreateNotificationCamera(nonExistentHomeId, homeDevice.HardwareId, sensorRequest);
+        repository.CreateNotificationCamera(nonExistentHomeId, homeDevice.HardwareId, sensorEvent);
     }
 
     [TestMethod]
@@ -213,12 +201,9 @@ public class NotificationRepositoryTest
         var home = context.Homes?.First();
         var homeDevice = context.HomeDevices?.First();
 
-        var sensorRequest = new SensorRequest
-        {
-            Event = "personDetected"
-        };
+        var sensorEvent = "personDetected";
 
-        repository.CreateNotificationCamera(home.Id, homeDevice.HardwareId, sensorRequest);
+        repository.CreateNotificationCamera(home.Id, homeDevice.HardwareId, sensorEvent);
 
         var notificationsInDb = context.Notifications?.ToList();
         notificationsInDb.Should().NotBeNull();
