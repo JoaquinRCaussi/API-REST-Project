@@ -19,8 +19,8 @@ public class DevicesController : ControllerBase
 
     }
 
-
     [HttpPost]
+    [Route("windowSensor")]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateDevice([FromBody] DeviceRequest device)
     {
