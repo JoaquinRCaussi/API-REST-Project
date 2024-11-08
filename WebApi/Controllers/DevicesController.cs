@@ -56,7 +56,7 @@ public class DevicesController : ControllerBase
     }
 
     [HttpPost]
-    [Route("cameras")]
+    [Route("camera")]
     [AuthorizationFilter("CanCreateADevice")]
     public IActionResult CreateCamera([FromBody] CameraRequest camera)
     {
