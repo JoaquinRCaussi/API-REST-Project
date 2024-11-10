@@ -15,11 +15,11 @@ public class ValidatorServiceTests
     {
         _tempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         Directory.CreateDirectory(_tempDirectory);
-        
+
         var assembly = CreateMockValidatorAssembly();
         
         _validatorService = new ValidatorService();
-        
+
         foreach (var type in assembly.GetTypes())
         {
             if (typeof(IModeloValidador).IsAssignableFrom(type))
@@ -35,9 +35,9 @@ public class ValidatorServiceTests
     public void ChargeValidators_ShouldLoadValidators()
     {
         var loadedValidators = _validatorService.ChargeValidators();
-        
-        loadedValidators.Should().ContainSingle("se esperaba que se cargara exactamente un validador simulado")
-            .And.Contain("MockValidator", "el tipo simulado debería llamarse MockValidator");
+
+        loadedValidators.Should().ContainSingle()
+            .And.Contain("MockValidator");
     }
 
     [TestMethod]
@@ -47,8 +47,8 @@ public class ValidatorServiceTests
 
         var validatorInstance = _validatorService.GetValidator(0);
 
-        validatorInstance.Should().NotBeNull("se esperaba una instancia de IModeloValidador");
-        validatorInstance.GetType().Name.Should().Be("MockValidator", "la instancia debe ser del tipo MockValidator");
+        validatorInstance.Should().NotBeNull();
+        validatorInstance.GetType().Name.Should().Be("MockValidator");
     }
 
     [TestMethod]
@@ -58,8 +58,8 @@ public class ValidatorServiceTests
 
         var validatorInstance = _validatorService.GetValidatorByName("MockValidator");
 
-        validatorInstance.Should().NotBeNull("se esperaba una instancia de IModeloValidador");
-        validatorInstance.GetType().Name.Should().Be("MockValidator", "la instancia debe ser del tipo MockValidator");
+        validatorInstance.Should().NotBeNull();
+        validatorInstance.GetType().Name.Should().Be("MockValidator");
     }
 
     [TestMethod]
@@ -78,6 +78,21 @@ public class ValidatorServiceTests
         var typeBuilder = moduleBuilder.DefineType("MockValidator", TypeAttributes.Public, null, new[] { typeof(IModeloValidador) });
 
         typeBuilder.DefineDefaultConstructor(MethodAttributes.Public);
+
+        // Define the method "EsValido" with correct implementation
+        var esValidoMethodBuilder = typeBuilder.DefineMethod(
+            nameof(IModeloValidador.EsValido),
+            MethodAttributes.Public | MethodAttributes.Virtual,
+            typeof(bool),
+            new[] { typeof(Modelo) }
+        );
+
+        var ilGenerator = esValidoMethodBuilder.GetILGenerator();
+        ilGenerator.Emit(OpCodes.Ldc_I4_1);
+        ilGenerator.Emit(OpCodes.Ret);
+
+        // Implement the interface method explicitly
+        typeBuilder.DefineMethodOverride(esValidoMethodBuilder, typeof(IModeloValidador).GetMethod(nameof(IModeloValidador.EsValido)) ?? throw new InvalidOperationException());
 
         typeBuilder.CreateType();
 
