@@ -363,6 +363,44 @@ public class DevicesLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("The company does not have a validator");
     }
+    
+    [TestMethod]
+    public void CreateCameraTest_WhenModelIsNull_ShouldThrowException()
+    {
+        var camera = new Camera
+        {
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "InvalidModel",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo.png",
+            Company = _company,
+            Outdoors = true,
+            Indoors = false,
+            SupportMovementDetection = true,
+            SupportPersonDetection = false
+        };
+
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
+
+        _companyRepository.Setup(x => x.ExistsCompany(camera.Company.Id)).Returns(true);
+        _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
+        _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
+
+        var mockValidator = new Mock<IModeloValidador>();
+        _validatorService.Setup(v => v.GetValidatorByName(camera.Company.ValidatorModelName))
+            .Returns(mockValidator.Object);
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
+
+        Action act = () => deviceLogic.CreateCamera(camera);
+
+        act.Should().Throw<NotValidDataException>()
+            .WithMessage("The model is required");
+    }
 
     [TestMethod]
     public void GetDevicesTest_WhenFilterByName()
