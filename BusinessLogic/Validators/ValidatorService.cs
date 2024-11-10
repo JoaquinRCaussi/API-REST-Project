@@ -12,6 +12,11 @@ public class ValidatorService
     public ValidatorService()
     {
         _pluginsPath = Path.Combine(Directory.GetCurrentDirectory(), "Validators");
+        
+        if (!Directory.Exists(_pluginsPath))
+        {
+            Directory.CreateDirectory(_pluginsPath);
+        }
     }
 
     public List<string> ChargeValidators()
