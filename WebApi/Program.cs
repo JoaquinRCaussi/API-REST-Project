@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using BusinessLogic;
 using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.LogicInterfaces;
+using BusinessLogic.Validators;
 using DataAccess;
 using DataAccess.Data;
 using DataAccess.Repositories;
@@ -42,8 +43,23 @@ builder.Services.AddScoped<ICompanyLogic, CompanyLogic>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDeviceLogic, DeviceLogic>();
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+builder.Services.AddSingleton<ValidatorService>();
 
 WebApplication? app = builder.Build();
+
+//Charging validator constantly
+var validatorService = app.Services.GetRequiredService<ValidatorService>();
+validatorService.ChargeValidators();
+
+var watcher = new FileSystemWatcher(Path.Combine(Directory.GetCurrentDirectory(), "Validators"))
+{
+    NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
+    Filter = "*.dll"
+};
+
+watcher.Created += (sender, e) => validatorService.ChargeValidators();
+watcher.Changed += (sender, e) => validatorService.ChargeValidators();
+watcher.EnableRaisingEvents = true;
 
 app.UseHttpsRedirection();
 
