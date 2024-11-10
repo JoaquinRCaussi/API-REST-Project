@@ -107,7 +107,7 @@ public class DevicesLogicTest
         _validatorService.Setup(v => v.GetValidatorByName(_device.Company.ValidatorModelName))
             .Returns(mockValidator.Object);
 
-        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(false);
+        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(true);
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
