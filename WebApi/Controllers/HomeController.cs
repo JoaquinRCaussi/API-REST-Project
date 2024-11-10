@@ -36,7 +36,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHomes()
     {
         List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse {Name = x.Name, Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount, Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
+        var response = homes.Select(x => new HomeResponse { Name = x.Name, Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount, Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
         return Ok(response);
     }
 
@@ -45,7 +45,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHome(Guid homeId)
     {
         var home = _homeLogic.GetHome(homeId);
-        var response = new HomeResponse {Name = home.Name, Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner, Latitude = home.Latitude, Longitude = home.Longitude };
+        var response = new HomeResponse { Name = home.Name, Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner, Latitude = home.Latitude, Longitude = home.Longitude };
         return Ok(response);
     }
 
@@ -64,7 +64,7 @@ public class HomeController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{homeId}")]
+    [Route("{homeId}/members")]
     [AuthorizationFilter("CanAddMembers")]
     public IActionResult AddMemberToHome(Guid homeId, [FromBody] AddMemberRequest addMemberRequest)
     {
@@ -291,7 +291,7 @@ public class HomeController : ControllerBase
     {
         var name = changeHomeNameRequest;
         var home = _homeLogic.ChangeHomeName(homeId, name);
-        
+
         var homeResponse = new HomeResponse
         {
             Name = home.Name,
@@ -300,8 +300,8 @@ public class HomeController : ControllerBase
             HomeOwner = home.HomeOwner,
             Latitude = home.Latitude,
             Longitude = home.Longitude
-        }; 
-        
+        };
+
         return Ok(homeResponse);
     }
 }

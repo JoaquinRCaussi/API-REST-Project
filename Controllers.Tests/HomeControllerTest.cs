@@ -1172,7 +1172,7 @@ public class HomeControllerTest
             Devices = [],
             HomeOwner = Guid.NewGuid()
         };
-        
+
         var homeResponse = new HomeResponse
         {
             Name = home.Name,
