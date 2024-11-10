@@ -947,18 +947,8 @@ public class HomeLogicTest
         var homeId = Guid.NewGuid();
         var oldName = "Home";
 
-        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home?) new Home
-        {
-            Id = homeId,
-            Name = oldName,
-            Location = "Home",
-            Latitude = "123",
-            Longitude = "123",
-            HomeOwner = Guid.NewGuid(),
-            Members = [],
-            MemberCount = 5
-        } ?? throw new InvalidOperationException());
-        
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home?)null);
+
         Action act = () => _homeLogic?.ChangeHomeName(homeId, oldName);
 
         act.Should().Throw<NotValidDataException>()
