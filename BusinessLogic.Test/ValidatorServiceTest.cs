@@ -1,8 +1,8 @@
+using System.Reflection;
+using System.Reflection.Emit;
 using BusinessLogic.Validators;
 using FluentAssertions;
 using ModeloValidador.Abstracciones;
-using System.Reflection;
-using System.Reflection.Emit;
 
 [TestClass]
 public class ValidatorServiceTests
@@ -17,7 +17,7 @@ public class ValidatorServiceTests
         Directory.CreateDirectory(_tempDirectory);
 
         var assembly = CreateMockValidatorAssembly();
-        
+
         _validatorService = new ValidatorService();
 
         foreach (var type in assembly.GetTypes())
@@ -75,7 +75,7 @@ public class ValidatorServiceTests
         var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
         var moduleBuilder = assemblyBuilder.DefineDynamicModule("MainModule");
 
-        var typeBuilder = moduleBuilder.DefineType("MockValidator", TypeAttributes.Public, null, new[] { typeof(IModeloValidador) });
+        var typeBuilder = moduleBuilder.DefineType("MockValidator", TypeAttributes.Public, null, [typeof(IModeloValidador)]);
 
         typeBuilder.DefineDefaultConstructor(MethodAttributes.Public);
 
@@ -84,7 +84,7 @@ public class ValidatorServiceTests
             nameof(IModeloValidador.EsValido),
             MethodAttributes.Public | MethodAttributes.Virtual,
             typeof(bool),
-            new[] { typeof(Modelo) }
+            [typeof(Modelo)]
         );
 
         var ilGenerator = esValidoMethodBuilder.GetILGenerator();

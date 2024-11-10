@@ -27,7 +27,7 @@ public class CompanyRequest
             Owner = user,
             OwnerId = user?.Id ?? Guid.Empty,
             ValidatorModelName = ValidatorModelName
-            
+
         };
     }
 }
