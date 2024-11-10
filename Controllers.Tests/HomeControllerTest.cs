@@ -1182,4 +1182,41 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
+    
+    [TestMethod]
+    public void ChangeHomeName_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var newName = "NewName";
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.ChangeHomeName(homeId, newName))
+            .Throws(new NotValidDataException("Home not found."));
+
+        var controller = new HomeController(homeLogic.Object, null);
+
+        Action act = () => controller.ChangeHomeName(homeId, newName);
+
+        act.Should().Throw<NotValidDataException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new NotValidDataException("Home not found.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
+        homeLogic.VerifyAll();
+    }
 }
