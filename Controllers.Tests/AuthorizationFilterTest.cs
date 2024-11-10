@@ -141,6 +141,7 @@ public class AuthorizationFilterAttributeTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "123",
             Latitude = "123",
             Longitude = "123",
@@ -173,6 +174,7 @@ public class AuthorizationFilterAttributeTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "123",
             Latitude = "123",
             Longitude = "123",
@@ -194,6 +196,7 @@ public class AuthorizationFilterAttributeTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "123",
             Latitude = "123",
             Longitude = "123",
@@ -213,6 +216,7 @@ public class AuthorizationFilterAttributeTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "123",
             Latitude = "123",
             Longitude = "123",
@@ -236,6 +240,7 @@ public class AuthorizationFilterAttributeTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "123",
             Latitude = "123",
             Longitude = "123",
@@ -259,6 +264,7 @@ public class AuthorizationFilterAttributeTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "123",
             Latitude = "123",
             Longitude = "123",

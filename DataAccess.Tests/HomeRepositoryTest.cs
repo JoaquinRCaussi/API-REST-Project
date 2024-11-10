@@ -40,7 +40,7 @@ public class HomeRepositoryTest
         };
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
-        var home = new Home { Id = Guid.NewGuid(), HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = homeDevices, Latitude = "123", Longitude = "123" };
+        var home = new Home { Id = Guid.NewGuid(), Name = "Home", HomeOwner = Guid.NewGuid(), Location = "Home", MemberCount = 5, Devices = homeDevices, Latitude = "123", Longitude = "123" };
         context.Homes?.Add(home);
         context.SaveChanges();
     }
@@ -77,6 +77,7 @@ public class HomeRepositoryTest
         var expected = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -103,6 +104,7 @@ public class HomeRepositoryTest
         var expected = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -113,6 +115,7 @@ public class HomeRepositoryTest
         var otherHome = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home2",
             Latitude = "123",
@@ -156,6 +159,7 @@ public class HomeRepositoryTest
         {
             Id = Guid.NewGuid(),
             HomeOwner = user.Id,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -165,6 +169,7 @@ public class HomeRepositoryTest
         var otherHome = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home2",
             Latitude = "123",
@@ -223,6 +228,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = user.Id,
             Location = "Home",
             Latitude = "123",
@@ -258,6 +264,7 @@ public class HomeRepositoryTest
         var expected = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -300,6 +307,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = user.Id,
             Location = "Home",
             Latitude = "123",
@@ -354,6 +362,7 @@ public class HomeRepositoryTest
         var homeWithNoMembers = new Home
         {
             Id = homeIdWithNoMembers,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -436,6 +445,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             MemberCount = 4,
             Location = "Home",
@@ -468,6 +478,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             MemberCount = 4,
             Location = "Home",
@@ -540,6 +551,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             MemberCount = 4,
             Location = "Home",
@@ -585,6 +597,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             MemberCount = 4,
             Location = "Home",
@@ -641,6 +654,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -717,6 +731,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -783,6 +798,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -883,6 +899,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -923,6 +940,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -997,6 +1015,7 @@ public class HomeRepositoryTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",
@@ -1018,5 +1037,63 @@ public class HomeRepositoryTest
         result.Should().NotBeNull();
         result.Id.Should().Be(roomId);
         result.Devices.Should().Contain(homeDevice);
+    }
+
+    [TestMethod]
+    public void ChangeHomeName_ShouldChangeHomeName_WhenHomeExists()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeNameHomeExists");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var homeName = "Home";
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = homeName,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            Rooms = []
+        };
+
+        context.Homes.Add(home);
+        context.SaveChanges();
+
+        var result = repository.ChangeHomeName(homeId, "New Name");
+
+        result.Should().NotBeNull();
+        result.Name.Should().Be("New Name");
+    }
+
+    [TestMethod]
+    public void ChangeHomeName_ShouldReturnDefaultHome_WhenHomeDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeNameHomeNull");
+        var repository = new HomeRepository(context);
+
+        var nonExistentHomeId = Guid.NewGuid();
+
+        var result = repository.ChangeHomeName(nonExistentHomeId, "New Name");
+
+        result.Should().NotBeNull();
+        result.Name.Should().BeNull();
+        result.Location.Should().BeNull();
+        result.Latitude.Should().BeNull();
+        result.Longitude.Should().BeNull();
+        result.MemberCount.Should().Be(0);
     }
 }
