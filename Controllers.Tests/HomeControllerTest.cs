@@ -1170,7 +1170,7 @@ public class HomeControllerTest
         };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.ChangeHomeName(homeId, oldName)).Returns(home);
+        homeLogic.Setup(x => x.ChangeHomeName(homeId, newName)).Returns(home);
 
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
