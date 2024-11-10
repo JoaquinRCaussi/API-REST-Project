@@ -1078,4 +1078,22 @@ public class HomeRepositoryTest
         result.Should().NotBeNull();
         result.Name.Should().Be("New Name");
     }
+    
+    [TestMethod]
+    public void ChangeHomeName_ShouldReturnDefaultHome_WhenHomeDoesNotExist()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeNameHomeNull");
+        var repository = new HomeRepository(context);
+
+        var nonExistentHomeId = Guid.NewGuid();
+
+        var result = repository.ChangeHomeName(nonExistentHomeId, "New Name");
+
+        result.Should().NotBeNull();
+        result.Name.Should().BeNull();
+        result.Location.Should().BeNull();
+        result.Latitude.Should().BeNull();
+        result.Longitude.Should().BeNull();
+        result.MemberCount.Should().Be(0);
+    }
 }
