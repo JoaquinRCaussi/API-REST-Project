@@ -53,7 +53,7 @@ public class SessionService : ISessionService
             throw new UnauthorizedAccessException("Invalid email or password");
         }
 
-        var token = Guid.NewGuid().ToString(); // Genera un token único
+        var token = Guid.NewGuid().ToString(); // Creates unique Token
         var session = new Session
         {
             User = user,
@@ -63,6 +63,6 @@ public class SessionService : ISessionService
 
         AddSession(session);
 
-        return session; // Devuelve la sesión creada
+        return session; // Returns created session
     }
 }
