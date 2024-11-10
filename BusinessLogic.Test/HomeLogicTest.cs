@@ -933,7 +933,7 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.ChangeHomeName(homeId, oldName)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.ChangeHomeName(homeId, oldName)).Returns(homeExpected);
 
         var result = _homeLogic?.ChangeHomeName(homeId, oldName);
 
