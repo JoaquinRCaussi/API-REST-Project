@@ -3,7 +3,7 @@ using ModeloValidador.Abstracciones;
 
 namespace ValidatorModelFormat3;
 
-public class ValidatorModelFormat3: IModeloValidador
+public class ValidatorModelFormat33: IModeloValidador
 {
     public bool EsValido(Modelo modelo)
     {
