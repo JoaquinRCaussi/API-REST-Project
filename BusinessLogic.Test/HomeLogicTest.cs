@@ -941,4 +941,27 @@ public class HomeLogicTest
         _homeRepositoryMock?.Verify(x => x.ChangeHomeName(homeId, oldName), Times.Once);
     }
 
+    [TestMethod]
+    public void ChangeHomeName_ShouldThrowNotValidDataException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var oldName = "Home";
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home?) new Home
+        {
+            Id = homeId,
+            Name = oldName,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        } ?? throw new InvalidOperationException());
+        
+        Action act = () => _homeLogic?.ChangeHomeName(homeId, oldName);
+
+        act.Should().Throw<NotValidDataException>()
+            .WithMessage("Home not found");
+    }
 }
