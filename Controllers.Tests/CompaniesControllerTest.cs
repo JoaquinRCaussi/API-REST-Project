@@ -35,7 +35,7 @@ public class CompaniesControllerTest
         var httpContext = new DefaultHttpContext();
         httpContext.Items[0] = owner;
 
-        var companyRequest = new CompanyRequest("name", "aRUT", "apath");
+        var companyRequest = new CompanyRequest("name", "aRUT", "apath", "modelo");
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
 
