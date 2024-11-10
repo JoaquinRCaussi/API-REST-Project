@@ -371,7 +371,7 @@ public class DevicesLogicTest
         {
             Id = Guid.NewGuid(),
             Name = "Camera",
-            Model = "InvalidModel",
+            Model = null,
             DeviceType = DeviceType.Camera,
             Description = "Description",
             Photo = "Photo.png",
