@@ -1038,4 +1038,44 @@ public class HomeRepositoryTest
         result.Id.Should().Be(roomId);
         result.Devices.Should().Contain(homeDevice);
     }
+
+    [TestMethod]
+    public void ChangeHomeName_ShouldChangeHomeName_WhenHomeExists()
+    {
+        using var context = CreateInMemoryDbContext("TestChangeHomeNameHomeExists");
+        var repository = new HomeRepository(context);
+
+        var homeId = Guid.NewGuid();
+        var homeName = "Home";
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.com",
+            Password = "password@123"
+        };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = homeName,
+            HomeOwner = Guid.NewGuid(),
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            Rooms = []
+        };
+        
+        context.Homes.Add(home);
+        context.SaveChanges();
+        
+        var result = repository.ChangeHomeName(homeId, "New  Name");
+        
+        result.Should().NotBeNull();
+        result.Name.Should().Be("New Name");
+    }
 }
