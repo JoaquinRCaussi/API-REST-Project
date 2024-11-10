@@ -238,10 +238,17 @@ public class DevicesLogicTest
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
-        
+
+        _companyRepository.Setup(x => x.ExistsCompany(camera.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
+    
+        var mockValidator = new Mock<IModeloValidador>();
+        _validatorService.Setup(v => v.GetValidatorByName(camera.Company.ValidatorModelName))
+            .Returns(mockValidator.Object);
 
+        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(true);
+        
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.CreateCamera(camera);
@@ -500,6 +507,7 @@ public class DevicesLogicTest
             SupportMovementDetection = true,
             SupportPersonDetection = false
         };
+    
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
@@ -507,12 +515,19 @@ public class DevicesLogicTest
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
 
+        var mockValidator = new Mock<IModeloValidador>();
+        _validatorService.Setup(v => v.GetValidatorByName(camera.Company.ValidatorModelName))
+            .Returns(mockValidator.Object);
+
+        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(true);
+
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         Action act = () => deviceLogic.CreateCamera(camera);
 
         act.Should().Throw<ConflictException>().WithMessage("The Device already exists");
     }
+
 
     [TestMethod]
     public void GetDevicesTest_WhenFilterByCompanyName()
