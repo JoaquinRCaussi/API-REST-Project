@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.Entities;
+using BusinessLogic.Validators;
 using FluentAssertions;
+using ModeloValidador.Abstracciones;
 using Moq;
 
 namespace BusinessLogic.Test;
@@ -12,6 +14,7 @@ public class DevicesLogicTest
 {
     private Mock<IDeviceRepository>? _deviceRepository;
     private Mock<ICompanyRepository>? _companyRepository;
+    private Mock<ValidatorService>? _validatorService;
     private User? _user;
     private Company? _company;
     private Device? _device;
@@ -21,6 +24,7 @@ public class DevicesLogicTest
     {
         _deviceRepository = new Mock<IDeviceRepository>();
         _companyRepository = new Mock<ICompanyRepository>();
+        _validatorService = new Mock<ValidatorService>();
 
         _user = new User
         {
@@ -37,7 +41,8 @@ public class DevicesLogicTest
             Name = "Company",
             RUT = "Address",
             Logo = "Logo",
-            Owner = _user
+            Owner = _user,
+            ValidatorModelName = "ModeloValidadorFormato3"
         };
     }
 
@@ -54,14 +59,22 @@ public class DevicesLogicTest
             Photo = "Photo.png",
             Company = _company
         };
+
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
         _companyRepository.Setup(x => x.ExistsCompany(_device.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
+    
+        var mockValidator = new Mock<IModeloValidador>();
+        _validatorService.Setup(v => v.GetValidatorByName(_device.Company.ValidatorModelName))
+            .Returns(mockValidator.Object);
+    
+        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(true);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.CreateDevice(_device);
 
@@ -87,11 +100,12 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
+        
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.CreateCamera(camera);
 
@@ -117,10 +131,11 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
         _deviceRepository.Setup(x => x.GetDevices("Device", "", "", It.IsAny<DeviceType>())).Returns(devices);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.GetDevices("Device", "", "", DeviceType.Camera);
 
@@ -133,10 +148,11 @@ public class DevicesLogicTest
     {
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
+        
         _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns([]);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         Action act = () => deviceLogic.GetDevices("", "", "", DeviceType.Camera);
 
@@ -156,13 +172,21 @@ public class DevicesLogicTest
             Photo = "Photo.png",
             Company = _company
         };
+    
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
         _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
-
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+    
+        var mockValidator = new Mock<IModeloValidador>();
+        _validatorService.Setup(v => v.GetValidatorByName(_device.Company.ValidatorModelName))
+            .Returns(mockValidator.Object);
+    
+        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(true);
+    
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         Action act = () => deviceLogic.CreateDevice(_device);
 
@@ -188,11 +212,12 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
         _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(true);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         Action act = () => deviceLogic.CreateCamera(camera);
 
@@ -218,10 +243,11 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
-
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
+        
         _deviceRepository.Setup(x => x.GetDevices("", "", "Company", DeviceType.Camera)).Returns(devices);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.GetDevices("", "", "Company", DeviceType.Camera);
 
@@ -248,10 +274,11 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
         _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns(devices);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.GetDevices("", "", "", DeviceType.Camera);
 
@@ -271,8 +298,9 @@ public class DevicesLogicTest
         };
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.GetDevicesTypes();
 
@@ -292,7 +320,7 @@ public class DevicesLogicTest
 
         _deviceRepository.Setup(x => x.GetDevicesNoType("", "", "")).Returns(devices);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.GetDevices(null, null, null, null);
 
@@ -311,7 +339,7 @@ public class DevicesLogicTest
 
         _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns(devices);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.GetDevices(null, null, null, DeviceType.Camera);
 
@@ -330,7 +358,7 @@ public class DevicesLogicTest
 
         _deviceRepository.Setup(x => x.GetDevices("", "Model1", "Company", It.IsAny<DeviceType>())).Returns(devices);
 
-        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object);
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
         var result = deviceLogic.GetDevices(null, "Model1", "Company", DeviceType.Camera);
 

@@ -1,6 +1,9 @@
-﻿using BusinessLogic.DataAccess.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
+using BusinessLogic.Validators;
+using ModeloValidador.Abstracciones;
 
 namespace BusinessLogic;
 
@@ -8,19 +11,45 @@ public class DeviceLogic : IDeviceLogic
 {
     private readonly IDeviceRepository _deviceRepository;
     private readonly ICompanyRepository _companyRepository;
+    private readonly ValidatorService _validatorService;
 
-    public DeviceLogic(IDeviceRepository deviceRepository, ICompanyRepository companyRepository)
+    public DeviceLogic(IDeviceRepository deviceRepository, ICompanyRepository companyRepository, ValidatorService validatorService)
     {
         _deviceRepository = deviceRepository;
         _companyRepository = companyRepository;
+        _validatorService = validatorService;
     }
+
     public Device CreateDevice(Device device)
     {
         if (device.Company == null)
         {
             throw new NotValidDataException("The User must have a Company registered");
         }
-
+        
+        var company = device.Company;
+        if (company.ValidatorModelName.Length > 0)
+        {
+            var validator = _validatorService.GetValidatorByName(company.ValidatorModelName);
+            
+            if(device.Model == null)
+            {
+                throw new NotValidDataException("The model is required");
+            }
+            
+            Modelo model = new Modelo()
+            {
+                Value = device.Model
+            };
+            
+            if (!validator.EsValido(model))
+            {
+                throw new NotValidDataException("The model is not valid");
+            }
+        }else{
+            throw new NotValidDataException("The company does not have a validator");
+        }
+        
         if (!IsCorrectImagePath(device.Photo))
         {
             throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");

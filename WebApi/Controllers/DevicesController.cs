@@ -9,7 +9,7 @@ using WebApi.Models.Out;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/devices")]
 [AuthenticationFilter]
 public class DevicesController : ControllerBase
 {

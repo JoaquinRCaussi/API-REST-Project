@@ -29,7 +29,7 @@ public class ValidatorService
             // Buscar y crear instancias de IModeloValidador en el DLL cargado
             var types = assembly.GetTypes().Where(t => typeof(IModeloValidador).IsAssignableFrom(t) && t.IsClass);
             
-            if(types.Any())
+            if(!types.Any())
             {
                 Console.WriteLine($"No classes found that implement IModeloValidador in {dllPath}");
                 continue;
@@ -51,7 +51,7 @@ public class ValidatorService
     }
     
     //Todavia no se cual de los dos vamos a usar, dejo este por aca tambien
-    public IModeloValidador GetValidatorByName(string name, params object[] args)
+    public virtual IModeloValidador GetValidatorByName(string name, params object[] args)
     {
         var type = implementations.FirstOrDefault(t => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
     
