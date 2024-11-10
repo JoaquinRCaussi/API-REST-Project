@@ -44,7 +44,7 @@ public sealed class AuthenticationFilterAttribute
             return;
         }
 
-        var isAuthorizationExpired = IsAuthorizationExpired(); 
+        var isAuthorizationExpired = IsAuthorizationExpired();
         if (isAuthorizationExpired)
         {
             context.Result = new ObjectResult(

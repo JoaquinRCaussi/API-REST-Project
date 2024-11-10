@@ -39,7 +39,7 @@ public class CompaniesControllerTest
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
 
-        var createdCompany = companyRequest.ToArgs(owner); 
+        var createdCompany = companyRequest.ToArgs(owner);
         companyLogic.Setup(x => x.CreateCompany(It.IsAny<Company>())).Returns(createdCompany);
 
         var controller = new CompanyController(companyLogic.Object)
