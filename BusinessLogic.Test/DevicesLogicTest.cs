@@ -272,20 +272,20 @@ public class DevicesLogicTest
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
         _companyRepository.Setup(x => x.ExistsCompany(camera.Company.Id)).Returns(true);
-        _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, _device.Company.Id)).Returns(false);
+        _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
         _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
 
         var mockValidator = new Mock<IModeloValidador>();
-        _validatorService.Setup(v => v.GetValidatorByName(_device.Company.ValidatorModelName))
+        _validatorService.Setup(v => v.GetValidatorByName(camera.Company.ValidatorModelName))
             .Returns(mockValidator.Object);
 
         mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(true);
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.CreateDevice(camera);
+        var result = deviceLogic.CreateCamera(camera);
 
-        result.Should().BeEquivalentTo(_device);
+        result.Should().BeEquivalentTo(camera);
     }
 
     [TestMethod]
