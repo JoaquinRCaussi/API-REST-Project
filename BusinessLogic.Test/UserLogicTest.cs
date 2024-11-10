@@ -242,15 +242,12 @@ public class UserLogicTest
     [TestMethod]
     public void ExistUserTest()
     {
-        // Arrange
         var userId = Guid.NewGuid();
 
         _userRepositoryMock.Setup(x => x.ExistUser(userId)).Returns(true);
 
-        // Act
         var result = _userLogic.ExistUser(userId);
 
-        // Assert
         result.Should().BeTrue();
 
         _userRepositoryMock.Verify(x => x.ExistUser(userId), Times.Once);
