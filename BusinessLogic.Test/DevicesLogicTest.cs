@@ -80,6 +80,41 @@ public class DevicesLogicTest
 
         result.Should().BeEquivalentTo(_device);
     }
+    
+    [TestMethod]
+    public void CreateDeviceTest_WhenValidatorIsValid_ShouldCreateDevice()
+    {
+        _device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Name = "Device",
+            Model = "ValidModel",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo.png",
+            Company = _company
+        };
+
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
+
+        _companyRepository.Setup(x => x.ExistsCompany(_device.Company.Id)).Returns(true);
+        _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(false);
+        _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(_device);
+
+        var mockValidator = new Mock<IModeloValidador>();
+        _validatorService.Setup(v => v.GetValidatorByName(_device.Company.ValidatorModelName))
+            .Returns(mockValidator.Object);
+
+        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(false);
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
+
+        var result = deviceLogic.CreateDevice(_device);
+
+        result.Should().BeEquivalentTo(_device);
+    }
 
     [TestMethod]
     public void CreateCameraTest_WhenAllPropertiesAreOk()

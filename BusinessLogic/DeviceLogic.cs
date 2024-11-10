@@ -26,6 +26,30 @@ public class DeviceLogic : IDeviceLogic
         {
             throw new NotValidDataException("The User must have a Company registered");
         }
+        
+        var company = device.Company;
+        if (company.ValidatorModelName.Length > 0)
+        {
+            var validator = _validatorService.GetValidatorByName(company.ValidatorModelName);
+            
+            if(device.Model == null)
+            {
+                throw new NotValidDataException("The model is required");
+            }
+            
+            Modelo model = new Modelo()
+            {
+                Value = device.Model
+            };
+            
+            if (!validator.EsValido(model))
+            {
+                throw new NotValidDataException("The model is not valid");
+            }
+        }else{
+            throw new NotValidDataException("The company does not have a validator");
+        }
+        
         if (!IsCorrectImagePath(device.Photo))
         {
             throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");
