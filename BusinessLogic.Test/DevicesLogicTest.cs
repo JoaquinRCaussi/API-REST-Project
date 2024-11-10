@@ -287,6 +287,46 @@ public class DevicesLogicTest
 
         result.Should().BeEquivalentTo(camera);
     }
+    
+    [TestMethod]
+    public void CreateCameraTest_WhenValidatorIsInvalid_ShouldThrowException()
+    {
+        var camera = new Camera
+        {
+            Id = Guid.NewGuid(),
+            Name = "Camera",
+            Model = "InvalidModel",
+            DeviceType = DeviceType.Camera,
+            Description = "Description",
+            Photo = "Photo.png",
+            Company = _company,
+            Outdoors = true,
+            Indoors = false,
+            SupportMovementDetection = true,
+            SupportPersonDetection = false
+        };
+
+        _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
+        _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
+        _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
+
+        _companyRepository.Setup(x => x.ExistsCompany(_device.Company.Id)).Returns(true);
+        _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(false);
+        _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(camera);
+
+        var mockValidator = new Mock<IModeloValidador>();
+        _validatorService.Setup(v => v.GetValidatorByName(_device.Company.ValidatorModelName))
+            .Returns(mockValidator.Object);
+
+        mockValidator.Setup(v => v.EsValido(It.IsAny<Modelo>())).Returns(false);
+
+        var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
+
+        Action act = () => deviceLogic.CreateDevice(camera);
+
+        act.Should().Throw<NotValidDataException>()
+            .WithMessage("The model is not valid");
+    }
 
     [TestMethod]
     public void GetDevicesTest_WhenFilterByName()
