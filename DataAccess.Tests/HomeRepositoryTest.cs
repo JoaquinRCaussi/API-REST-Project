@@ -1073,7 +1073,7 @@ public class HomeRepositoryTest
         context.Homes.Add(home);
         context.SaveChanges();
         
-        var result = repository.ChangeHomeName(homeId, "New  Name");
+        var result = repository.ChangeHomeName(homeId, "New Name");
         
         result.Should().NotBeNull();
         result.Name.Should().Be("New Name");
