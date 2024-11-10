@@ -237,7 +237,7 @@ public class HomeRepository : IHomeRepository
         _dbContext.SaveChanges();
         return room;
     }
-    
+
     public Home ChangeHomeName(Guid homeId, string name)
     {
         var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);

@@ -68,7 +68,7 @@ public class HomeControllerTest
             HomeOwner = user.Id
         };
 
-        
+
         var homeRequest = new HomeRequest
         {
             Name = home.Name,
@@ -1149,7 +1149,7 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
-    
+
     [TestMethod]
     public void ChangeHomeName_WhenAllPropertiesOk()
     {
@@ -1182,7 +1182,7 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void ChangeHomeName_ShouldReturnNoContent()
     {

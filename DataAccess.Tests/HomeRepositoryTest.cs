@@ -594,7 +594,7 @@ public class HomeRepositoryTest
             Devices = []
         };
 
-               var home = new Home
+        var home = new Home
         {
             Id = homeId,
             Name = "Home",
@@ -1069,16 +1069,16 @@ public class HomeRepositoryTest
             Devices = [],
             Rooms = []
         };
-        
+
         context.Homes.Add(home);
         context.SaveChanges();
-        
+
         var result = repository.ChangeHomeName(homeId, "New Name");
-        
+
         result.Should().NotBeNull();
         result.Name.Should().Be("New Name");
     }
-    
+
     [TestMethod]
     public void ChangeHomeName_ShouldReturnDefaultHome_WhenHomeDoesNotExist()
     {

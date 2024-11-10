@@ -285,7 +285,7 @@ public class HomeLogic : IHomeLogic
 
         return roomd;
     }
-    
+
     public Home ChangeHomeName(Guid homeId, string name)
     {
         var home = _homeRepository.GetHome(homeId);

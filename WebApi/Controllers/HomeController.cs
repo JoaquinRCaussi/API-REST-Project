@@ -283,7 +283,7 @@ public class HomeController : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpPut]
     [Route("{homeId}")]
     [AuthorizationFilter("CanChangeHomeName")]

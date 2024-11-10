@@ -7,7 +7,7 @@ public interface IHomeRepository
     public Home CreateHome(Home home);
 
     public Home ChangeHomeName(Guid homeId, string name);
-    
+
     public List<Home> GetHomes();
 
     public List<Home> GetHomesByUser(Guid userId);

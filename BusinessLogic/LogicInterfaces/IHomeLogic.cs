@@ -5,7 +5,7 @@ namespace BusinessLogic.LogicInterfaces;
 public interface IHomeLogic
 {
     Home CreateHome(Home home);
-    
+
     Home ChangeHomeName(Guid homeId, string name);
 
     List<Home> GetHomes();

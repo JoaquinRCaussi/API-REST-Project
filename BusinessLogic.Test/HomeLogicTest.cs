@@ -900,7 +900,7 @@ public class HomeLogicTest
             .WithMessage("No devices found for this home.");
 
     }
-    
+
     [TestMethod]
     public void ChangeHomeName_ShouldChangeName_WhenCalled()
     {
