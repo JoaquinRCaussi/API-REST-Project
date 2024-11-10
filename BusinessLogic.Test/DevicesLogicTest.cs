@@ -149,7 +149,7 @@ public class DevicesLogicTest
         Action act = () => deviceLogic.CreateDevice(_device);
 
         act.Should().Throw<NotValidDataException>()
-            .WithMessage("The modelo  is not valid");
+            .WithMessage("The model is not valid");
     }
 
     [TestMethod]
