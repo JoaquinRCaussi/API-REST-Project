@@ -52,10 +52,8 @@ public class LoginControllerTest
             HttpContext = httpContext
         };
 
-        // Act
         var actionResult = _loginController.Login(loginRequest);
 
-        // Assert
         actionResult.Should().BeOfType<CreatedAtActionResult>();
         var result = actionResult as CreatedAtActionResult;
 

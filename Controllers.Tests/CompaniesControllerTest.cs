@@ -23,7 +23,6 @@ public class CompaniesControllerTest
     [TestMethod]
     public void CreateCompany_WhenAllPropertiesOk()
     {
-        // Arrange
         var owner = new User()
         {
             Id = Guid.NewGuid(),
@@ -40,7 +39,7 @@ public class CompaniesControllerTest
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
 
-        var createdCompany = companyRequest.ToArgs(owner); // Suponiendo que ToArgs retorna el objeto Company.
+        var createdCompany = companyRequest.ToArgs(owner); 
         companyLogic.Setup(x => x.CreateCompany(It.IsAny<Company>())).Returns(createdCompany);
 
         var controller = new CompanyController(companyLogic.Object)
@@ -51,7 +50,6 @@ public class CompaniesControllerTest
             }
         };
 
-        // Act
         IActionResult act = controller.CreateCompany(companyRequest);
 
         var expected = new CreatedAtActionResult(
@@ -61,7 +59,6 @@ public class CompaniesControllerTest
             new CompanyResponse(createdCompany)
         );
 
-        // Assert
         act.Should().BeEquivalentTo(expected, options => options
             .ExcludingMissingMembers()
             .Excluding(x => x.ControllerName)

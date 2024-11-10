@@ -24,7 +24,6 @@ public class UserControllerTest
     [TestMethod]
     public void CreateAdmin_WhenAllPropertiesOk()
     {
-        // Arrange
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -45,7 +44,6 @@ public class UserControllerTest
         var logic = new Mock<IUserLogic>(MockBehavior.Strict);
         logic.Setup(l => l.CreateAdmin(It.IsAny<User>())).Returns(user);
 
-        // Act 
         var controller = new AdminController(logic.Object);
         IActionResult act = controller.CreateAdmin(admin);
 
@@ -58,7 +56,6 @@ public class UserControllerTest
             adminResponse
         );
 
-        // Assert
         act.Should().BeEquivalentTo(expected, options => options
             .ExcludingMissingMembers()
             .Excluding(x => x.ControllerName)
@@ -71,7 +68,6 @@ public class UserControllerTest
     [TestMethod]
     public void GetUsers_WhenAllPropertiesOk()
     {
-        // Arrange
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 
@@ -448,7 +444,6 @@ public class UserControllerTest
     [TestMethod]
     public void GetUserNotifications_WhenNotificationsExist()
     {
-        // Arrange
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 

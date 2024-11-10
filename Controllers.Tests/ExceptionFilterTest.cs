@@ -47,11 +47,9 @@ public class ExceptionFilterTest
     [TestMethod]
     public void OnException_WhenExceptionIsThrown_ShouldReturnInternalServerError()
     {
-        // Arrange
         var exception = new Exception("Test exception");
         _context.Exception = exception;
 
-        // Act
         _attribute.OnException(_context);
 
         var response = _context.Result;
@@ -67,11 +65,9 @@ public class ExceptionFilterTest
     [TestMethod]
     public void OnConflictException_WhenExceptionIsThrown_ShouldReturnConflict()
     {
-        // Arrange
         var exception = new ConflictException("Test exception");
         _context.Exception = exception;
 
-        // Act
         _attribute.OnException(_context);
 
         var response = _context.Result;
@@ -87,11 +83,9 @@ public class ExceptionFilterTest
     [TestMethod]
     public void OnNotValidDataException_WhenExceptionIsThrown_ShouldReturnBadRequest()
     {
-        // Arrange
         var exception = new NotValidDataException("Test exception");
         _context.Exception = exception;
 
-        // Act
         _attribute.OnException(_context);
 
         var response = _context.Result;

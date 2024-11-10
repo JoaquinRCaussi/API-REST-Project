@@ -73,7 +73,6 @@ public class NotificationRepositoryTest
             Members = [user1, user2]
         };
 
-        // Crear permisos
         var permission = new Permission
         {
             Id = Guid.NewGuid(),
@@ -82,19 +81,18 @@ public class NotificationRepositoryTest
 
         context.Permissions.Add(permission);
 
-        // Configurar MemberSettings
         var memberSetting1 = new MemberSetting
         {
             HomeId = home.Id,
             UserId = user1.Id,
-            Permissions = [permission] // Tiene el permiso
+            Permissions = [permission] // Has permission
         };
 
         var memberSetting2 = new MemberSetting
         {
             HomeId = home.Id,
             UserId = user2.Id,
-            Permissions = [] // No tiene el permiso
+            Permissions = [] // Does not have permission
         };
 
         context.Users?.AddRange(user1, user2);
@@ -122,9 +120,9 @@ public class NotificationRepositoryTest
         var notificationsInDb = context.Notifications?.ToList();
 
         notifications.Should().NotBeNull();
-        notifications.Should().HaveCount(1); // Solo 1 miembro tiene el permiso
+        notifications.Should().HaveCount(1); // Only one member has permission
 
-        // Verificar que el usuario con permiso (user1) recibió la notificación
+        // Verify that the user with permission (user1), got the notification
         notificationsInDb.Should().ContainSingle(n => home.Members != null && n.UserId == home.Members.First().Id);
         notificationsInDb.Should().OnlyContain(n => n.Event == "open");
         notificationsInDb.Should().OnlyContain(n => n.HardwareId == homeDevice.HardwareId);
