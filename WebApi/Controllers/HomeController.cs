@@ -283,4 +283,14 @@ public class HomeController : ControllerBase
 
         return Ok(response);
     }
+    
+    [HttpPut]
+    [Route("{homeId}")]
+    [AuthorizationFilter("CanChangeHomeName")]
+    public IActionResult ChangeHomeName(Guid homeId, [FromBody] string changeHomeNameRequest)
+    {
+        var name = changeHomeNameRequest;
+        var home = _homeLogic.ChangeHomeName(homeId, name);
+        return Ok(home);
+    }
 }

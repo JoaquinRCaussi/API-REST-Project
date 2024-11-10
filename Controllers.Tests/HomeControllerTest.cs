@@ -60,6 +60,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "location",
             Latitude = "123",
             Longitude = "123",
@@ -67,8 +68,10 @@ public class HomeControllerTest
             HomeOwner = user.Id
         };
 
+        
         var homeRequest = new HomeRequest
         {
+            Name = home.Name,
             Location = home.Location,
             MemberCount = home.MemberCount,
             HomeOwner = home.HomeOwner,
@@ -136,6 +139,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "location",
             Latitude = "123",
             Longitude = "123",
@@ -147,6 +151,7 @@ public class HomeControllerTest
 
         var homeRequest = new HomeRequest
         {
+            Name = home.Name,
             Location = home.Location,
             Latitude = home.Latitude,
             Longitude = home.Longitude,
@@ -196,6 +201,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "location",
             Latitude = "123",
             Longitude = "123",
@@ -205,6 +211,7 @@ public class HomeControllerTest
 
         var homeRequest = new HomeRequest
         {
+            Name = home.Name,
             Location = home.Location,
             Latitude = home.Latitude,
             Longitude = home.Longitude,
@@ -256,6 +263,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "location",
             Latitude = "123",
             Longitude = "123",
@@ -305,6 +313,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -371,6 +380,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -446,6 +456,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -859,6 +870,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -896,6 +908,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -942,6 +955,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -998,6 +1012,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -1071,6 +1086,7 @@ public class HomeControllerTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "TestLocation",
             Latitude = "123",
             Longitude = "123",
@@ -1132,5 +1148,38 @@ public class HomeControllerTest
         result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
 
         homeLogic.VerifyAll();
+    }
+    
+    [TestMethod]
+    public void ChangeHomeName_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var oldName = "OldName";
+        var newName = "NewName";
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = oldName,
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid()
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        homeLogic.Setup(x => x.ChangeHomeName(homeId, oldName)).Returns(home);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.ChangeHomeName(homeId, newName);
+
+        var expected = new OkObjectResult(home);
+
+        act.Should().BeEquivalentTo(expected);
     }
 }

@@ -67,6 +67,7 @@ public class HomeLogicTest
             new Home
             {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -103,6 +104,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -178,6 +180,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -219,6 +222,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -270,6 +274,7 @@ public class HomeLogicTest
             new Home
             {
                 Id = Guid.NewGuid(),
+                Name = "Home",
                 Location = "Home",
                 Latitude = "123",
                 Longitude = "123",
@@ -311,6 +316,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -345,6 +351,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -382,6 +389,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -413,6 +421,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -457,6 +466,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -553,6 +563,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -591,6 +602,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -625,6 +637,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -663,6 +676,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -707,6 +721,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -733,6 +748,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -764,6 +780,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -800,6 +817,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",

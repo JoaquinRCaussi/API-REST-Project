@@ -64,6 +64,7 @@ public class NotificationRepositoryTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = user1.Id,
             Location = "Home Location",
             Latitude = "123",
