@@ -97,6 +97,7 @@ public class HomeControllerTest
         var homeRequestObject = homeRequest.ToArgs();
         var homeResponse = new HomeResponse
         {
+            Name = homeRequestObject.Name,
             Location = homeRequestObject.Location,
             Latitude = homeRequestObject.Latitude,
             Longitude = homeRequestObject.Longitude,
@@ -110,6 +111,7 @@ public class HomeControllerTest
             new { id = homeRequestObject.Id },
             new HomeResponse
             {
+                Name = homeRequestObject.Name,
                 Location = homeRequestObject.Location,
                 Latitude = homeRequestObject.Latitude,
                 Longitude = homeRequestObject.Longitude,
@@ -173,6 +175,7 @@ public class HomeControllerTest
 
         var homeResponse = new HomeResponse
         {
+            Name = homeRequestObject.Name,
             Location = homeRequestObject.Location,
             Latitude = homeRequestObject.Latitude,
             Longitude = homeRequestObject.Longitude,
@@ -233,6 +236,7 @@ public class HomeControllerTest
 
         var homeResponse = new HomeResponse
         {
+            Name = homeRequestObject.Name,
             Location = homeRequestObject.Location,
             Latitude = homeRequestObject.Latitude,
             Longitude = homeRequestObject.Longitude,
@@ -1168,6 +1172,16 @@ public class HomeControllerTest
             Devices = [],
             HomeOwner = Guid.NewGuid()
         };
+        
+        var homeResponse = new HomeResponse
+        {
+            Name = home.Name,
+            Location = home.Location,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude,
+            MemberCount = home.MemberCount,
+            HomeOwner = home.HomeOwner
+        };
 
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         homeLogic.Setup(x => x.ChangeHomeName(homeId, newName)).Returns(home);
@@ -1178,7 +1192,7 @@ public class HomeControllerTest
 
         IActionResult act = controller.ChangeHomeName(homeId, newName);
 
-        var expected = new OkObjectResult(home);
+        var expected = new OkObjectResult(homeResponse);
 
         act.Should().BeEquivalentTo(expected);
     }

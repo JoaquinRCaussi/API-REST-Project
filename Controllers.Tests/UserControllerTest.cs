@@ -332,6 +332,7 @@ public class UserControllerTest
 
         var homeResponses = expectedHomes.Select(h => new HomeResponse
         {
+            Name = h.Name,
             Location = h.Location,
             HomeOwner = h.HomeOwner,
             Devices = h.Devices,
@@ -436,6 +437,7 @@ public class UserControllerTest
 
         var homeResponses = expectedHomes.Select(h => new HomeResponse
         {
+            Name = h.Name,
             Location = h.Location,
             HomeOwner = h.HomeOwner,
             Devices = h.Devices,

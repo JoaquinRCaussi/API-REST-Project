@@ -28,7 +28,7 @@ public class HomeController : ControllerBase
         Home homeToCreate = home.ToArgs();
         homeToCreate.HomeOwner = user.Id;
         Home createdHome = _homeLogic.CreateHome(homeToCreate);
-        var response = new HomeResponse { Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner, Latitude = createdHome.Latitude, Longitude = createdHome.Longitude };
+        var response = new HomeResponse { Name = createdHome.Name, Location = createdHome.Location, MemberCount = createdHome.MemberCount, HomeOwner = createdHome.HomeOwner, Latitude = createdHome.Latitude, Longitude = createdHome.Longitude };
         return CreatedAtAction(nameof(CreateHome), new { id = createdHome.Id }, response);
     }
 
@@ -36,7 +36,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHomes()
     {
         List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse { Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount, Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
+        var response = homes.Select(x => new HomeResponse {Name = x.Name, Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount, Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
         return Ok(response);
     }
 
@@ -45,7 +45,7 @@ public class HomeController : ControllerBase
     public IActionResult GetHome(Guid homeId)
     {
         var home = _homeLogic.GetHome(homeId);
-        var response = new HomeResponse { Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner, Latitude = home.Latitude, Longitude = home.Longitude };
+        var response = new HomeResponse {Name = home.Name, Location = home.Location, MemberCount = home.MemberCount, Devices = home.Devices, HomeOwner = home.HomeOwner, Latitude = home.Latitude, Longitude = home.Longitude };
         return Ok(response);
     }
 
@@ -291,6 +291,17 @@ public class HomeController : ControllerBase
     {
         var name = changeHomeNameRequest;
         var home = _homeLogic.ChangeHomeName(homeId, name);
-        return Ok(home);
+        
+        var homeResponse = new HomeResponse
+        {
+            Name = home.Name,
+            Location = home.Location,
+            MemberCount = home.MemberCount,
+            HomeOwner = home.HomeOwner,
+            Latitude = home.Latitude,
+            Longitude = home.Longitude
+        }; 
+        
+        return Ok(homeResponse);
     }
 }
