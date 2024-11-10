@@ -350,15 +350,15 @@ public class DevicesLogicTest
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        _companyRepository.Setup(x => x.ExistsCompany(_device.Company.Id)).Returns(true);
-        _deviceRepository.Setup(x => x.ExistsDevice(_device.Name, _device.Company.Id)).Returns(false);
-        _deviceRepository.Setup(x => x.CreateDevice(It.IsAny<Device>())).Returns(camera);
+        _companyRepository.Setup(x => x.ExistsCompany(camera.Company.Id)).Returns(true);
+        _deviceRepository.Setup(x => x.ExistsDevice(camera.Name, camera.Company.Id)).Returns(false);
+        _deviceRepository.Setup(x => x.CreateCamera(It.IsAny<Camera>())).Returns(camera);
 
         _company.ValidatorModelName = string.Empty;
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        Action act = () => deviceLogic.CreateDevice(camera);
+        Action act = () => deviceLogic.CreateCamera(camera);
 
         act.Should().Throw<NotValidDataException>()
             .WithMessage("The company does not have a validator");
