@@ -87,6 +87,7 @@ public class HomeRepository : IHomeRepository
             return new()
             {
                 Location = null,
+                Name = null,
                 Latitude = null,
                 Longitude = null,
                 MemberCount = 0,
@@ -235,5 +236,26 @@ public class HomeRepository : IHomeRepository
         room.Devices?.Add(homeDevice);
         _dbContext.SaveChanges();
         return room;
+    }
+
+    public Home ChangeHomeName(Guid homeId, string name)
+    {
+        var home = _dbContext.Homes?.FirstOrDefault(x => x.Id == homeId);
+
+        if (home == null)
+        {
+            return new()
+            {
+                Name = null,
+                Location = null,
+                Latitude = null,
+                Longitude = null,
+                MemberCount = 0
+            };
+        }
+
+        home.Name = name;
+        _dbContext.SaveChanges();
+        return home;
     }
 }

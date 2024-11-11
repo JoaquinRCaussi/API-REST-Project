@@ -6,6 +6,8 @@ public interface IHomeLogic
 {
     Home CreateHome(Home home);
 
+    Home ChangeHomeName(Guid homeId, string name);
+
     List<Home> GetHomes();
 
     List<Home> GetHomesByUser(Guid userId);

@@ -298,6 +298,7 @@ public class UserControllerTest
             {
                 Id = Guid.NewGuid(),
                 Location = "Home",
+                Name = "Home",
                 HomeOwner = userId,
                 Devices = [],
                 Members = [],
@@ -309,6 +310,7 @@ public class UserControllerTest
             {
                 Id = Guid.NewGuid(),
                 Location = "Home",
+                Name = "Home",
                 HomeOwner = userId,
                 Devices = [],
                 Members = [],
@@ -326,6 +328,7 @@ public class UserControllerTest
 
         var homeResponses = expectedHomes.Select(h => new HomeResponse
         {
+            Name = h.Name,
             Location = h.Location,
             HomeOwner = h.HomeOwner,
             Devices = h.Devices,
@@ -393,6 +396,7 @@ public class UserControllerTest
             new()
             {
                 Id = Guid.NewGuid(),
+                Name = "Home",
                 Location = "Home 1",
                 HomeOwner = otherOwnerId,
                 Devices = [],
@@ -407,6 +411,7 @@ public class UserControllerTest
             new()
             {
                 Id = Guid.NewGuid(),
+                Name = "Home",
                 Location = "Home 2",
                 HomeOwner = otherOwnerId,
                 Devices = [],
@@ -428,6 +433,7 @@ public class UserControllerTest
 
         var homeResponses = expectedHomes.Select(h => new HomeResponse
         {
+            Name = h.Name,
             Location = h.Location,
             HomeOwner = h.HomeOwner,
             Devices = h.Devices,

@@ -67,6 +67,7 @@ public class HomeLogicTest
             new Home
             {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -103,6 +104,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -178,6 +180,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -219,6 +222,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -270,6 +274,7 @@ public class HomeLogicTest
             new Home
             {
                 Id = Guid.NewGuid(),
+                Name = "Home",
                 Location = "Home",
                 Latitude = "123",
                 Longitude = "123",
@@ -310,6 +315,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -340,6 +346,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -375,6 +382,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -405,6 +413,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -449,6 +458,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -538,6 +548,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -573,6 +584,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -605,6 +617,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -643,6 +656,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -687,6 +701,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -713,6 +728,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -744,6 +760,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -780,6 +797,7 @@ public class HomeLogicTest
         var home = new Home
         {
             Id = homeId,
+            Name = "Home",
             Location = "Home",
             Latitude = "123",
             Longitude = "123",
@@ -863,4 +881,57 @@ public class HomeLogicTest
 
     }
 
+    [TestMethod]
+    public void ChangeHomeName_ShouldChangeName_WhenCalled()
+    {
+        var homeId = Guid.NewGuid();
+        var oldName = "Home";
+        var newName = "New Home";
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = oldName,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
+
+        var homeExpected = new Home
+        {
+            Id = homeId,
+            Name = newName,
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.ChangeHomeName(homeId, oldName)).Returns(homeExpected);
+
+        var result = _homeLogic?.ChangeHomeName(homeId, oldName);
+
+        result.Should().BeEquivalentTo(homeExpected);
+        _homeRepositoryMock?.Verify(x => x.ChangeHomeName(homeId, oldName), Times.Once);
+    }
+
+    [TestMethod]
+    public void ChangeHomeName_ShouldThrowNotValidDataException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var oldName = "Home";
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home?)null);
+
+        Action act = () => _homeLogic?.ChangeHomeName(homeId, oldName);
+
+        act.Should().Throw<NotValidDataException>()
+            .WithMessage("Home not found");
+    }
 }

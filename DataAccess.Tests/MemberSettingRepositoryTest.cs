@@ -42,6 +42,7 @@ public class MemberSettingRepositoryTest
         var home = new Home
         {
             Id = Guid.NewGuid(),
+            Name = "Home",
             HomeOwner = Guid.NewGuid(),
             Location = "Home",
             Latitude = "123",

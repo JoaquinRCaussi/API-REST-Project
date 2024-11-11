@@ -285,4 +285,23 @@ public class HomeLogic : IHomeLogic
 
         return roomd;
     }
+
+    public Home ChangeHomeName(Guid homeId, string name)
+    {
+        var home = _homeRepository.GetHome(homeId);
+
+        if (home == null)
+        {
+            throw new NotValidDataException("Home not found");
+        }
+
+        var result = _homeRepository.ChangeHomeName(homeId, name);
+
+        if (result == null)
+        {
+            throw new NotValidDataException("Home name could not be changed");
+        }
+
+        return result;
+    }
 }
