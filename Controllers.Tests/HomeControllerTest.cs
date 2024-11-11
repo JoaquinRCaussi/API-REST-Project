@@ -489,7 +489,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationOpenSensor_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorEvent = "open";
@@ -532,7 +531,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCloseSensor_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorEvent = "close";
@@ -575,7 +573,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCameraPersonDetected_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorEvent = "person-detected";
@@ -619,7 +616,6 @@ public class HomeControllerTest
     [TestMethod]
     public void CreateNotificationCameraMovementDetected_WhenAllPropertiesOk()
     {
-        // Arrange
         var homeId = Guid.NewGuid();
         var hardwareId = Guid.NewGuid();
         var sensorEvent = "movement-detected";

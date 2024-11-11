@@ -21,7 +21,7 @@ public class MemberSettingRepository : IMemberSettingRepository
         var permission = _dbContext.Permissions?.FirstOrDefault(x => x.Value == "CanGetNotifications");
 
         var memberSetting = _dbContext.MemberSettings?
-            .Include(ms => ms.Permissions) // Incluye las relaciones de permisos
+            .Include(ms => ms.Permissions) // Includes the Permissions relationship
             .FirstOrDefault(ms => ms.HomeId == homeId && ms.UserId == userId);
 
         if (memberSetting == null)
@@ -34,7 +34,7 @@ public class MemberSettingRepository : IMemberSettingRepository
             _dbContext.MemberSettings?.Add(memberSetting);
         }
 
-        // Solo agregar el permiso si no existe en la lista de permisos del MemberSetting
+        // Only add the Permission if it does not exist in the MemberSetting Permission list
         if (permission != null && memberSetting.Permissions.All(p => p.Id != permission.Id))
         {
             memberSetting.Permissions.Add(permission);
@@ -93,7 +93,7 @@ public class MemberSettingRepository : IMemberSettingRepository
             return null;
         }
 
-        // Verifica si el permiso ya está asociado al MemberSetting
+        // Verifies that the Permission is linked to the MemberSetting
         if (!memberSetting.Permissions.Any(p => p.Id == permit.Id))
         {
             memberSetting.Permissions.Add(permit);

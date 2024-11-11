@@ -28,7 +28,6 @@ public class AuthorizationFilterAttributeTest
     [TestMethod]
     public void OnAuthorization_UserWithoutPermission_ReturnsForbidden()
     {
-        // Arrange
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -44,10 +43,8 @@ public class AuthorizationFilterAttributeTest
         var context = CreateAuthorizationFilterContext(user);
         _filter = new AuthorizationFilterAttribute("required-permission");
 
-        // Act
         _filter.OnAuthorization(context);
 
-        // Assert
         context.Result.Should().BeOfType<ObjectResult>()
             .Which.StatusCode.Should().Be((int)HttpStatusCode.Forbidden);
         context.Result.Should().BeEquivalentTo(new ObjectResult(new
