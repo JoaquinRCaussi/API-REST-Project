@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './features/login/login.component';
-import { ContentAreaComponent } from './features/content-area/content-area.component';
+import { LoginComponent } from './layouts/login/login.component';
+import { ContentAreaComponent } from './components/content-area/content-area.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
