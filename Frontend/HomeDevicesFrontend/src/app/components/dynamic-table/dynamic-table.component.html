@@ -1,0 +1,26 @@
+<table class="table w-full bg-white rounded-lg">
+    <thead class="text-xl text-center">
+      <tr>
+        <th *ngFor="let column of columns" class="p-2">{{ column }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of rows">
+        <tr
+          *ngIf="interacts; else defaultRow"
+          (click)="actionToPerform(row)"
+          class="cursor-pointer text-center bg-[#666666] text-white hover:bg-[#333333] transition-all"
+        >
+          <td *ngFor="let column of columns" class="p-2">{{ row[column] }}</td>
+        </tr>
+        
+        <!-- Fila normal sin interacción -->
+        <ng-template #defaultRow>
+          <tr class="text-center">
+            <td *ngFor="let column of columns" class="p-2">{{ row[column] }}</td>
+          </tr>
+        </ng-template>
+      </ng-container>
+    </tbody>
+  </table>
+  

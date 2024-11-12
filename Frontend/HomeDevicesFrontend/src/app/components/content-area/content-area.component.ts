@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivationStart, Router } from '@angular/router';
 import { MainContentComponent } from '../main-content/main-content.component';
+import { HomesContentComponent } from '../homes-content/homes-content.component';
 
 @Component({
   selector: 'app-content-area',
   standalone: true,
-  imports: [MainContentComponent],
+  imports: [MainContentComponent, HomesContentComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })
