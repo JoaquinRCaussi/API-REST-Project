@@ -9,7 +9,7 @@
         <tr
           *ngIf="interacts; else defaultRow"
           (click)="actionToPerform(row)"
-          class="cursor-pointer text-center bg-[#666666] text-white hover:bg-[#333333] transition-all"
+          class="cursor-pointer text-center bg-[#333333] text-white hover:bg-[#666666] transition-all"
         >
           <td *ngFor="let column of columns" class="p-2">{{ row[column] }}</td>
         </tr>
