@@ -1,0 +1,1 @@
+export default { domovizApi: 'http://localhost:5242' };

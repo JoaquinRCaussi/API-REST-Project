@@ -1,20 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LoginRequest } from '../interface/login-request';
-import { LoginResponse } from '../interface/login-response';
+import { LoginRequest } from '../../app/interface/login-request';
+import { LoginResponse } from '../../app/interface/login-response';
+import { SessionApiRepositoryService } from '../repositories/session-api-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly _apiUrl = 'http://localhost:5242/api/login';
-
-  constructor(private http:HttpClient) {}
+  constructor(private sessionApiRepository: SessionApiRepositoryService) {}
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this._apiUrl, credentials).pipe(
+    return this.sessionApiRepository.login(credentials).pipe(
       tap((response) => {
         // Guarda el token en localStorage o sessionStorage
         localStorage.setItem('token', response.token);
