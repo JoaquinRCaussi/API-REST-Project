@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { DefaultButtonComponent } from '../../components/buttons/default-button/default-button.component';
-import { ClassicInputComponent } from '../../components/form/classic-input/classic-input.component';
+import { DefaultButtonComponent } from '../buttons/default-button/default-button.component';
+import { ClassicInputComponent } from '../form/classic-input/classic-input.component';
 
 @Component({
   selector: 'app-main-content',
