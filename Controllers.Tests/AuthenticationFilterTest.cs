@@ -29,13 +29,10 @@ public class AuthenticationFilterAttributeTest
     [TestMethod]
     public void OnAuthorization_WithoutAuthorizationHeader_ReturnsUnauthorized()
     {
-        // Arrange
         var context = CreateAuthorizationFilterContext(null);
 
-        // Act
         _filter.OnAuthorization(context);
 
-        // Assert
         context.Result.Should().BeOfType<ObjectResult>()
             .Which.StatusCode.Should().Be((int)HttpStatusCode.Unauthorized);
         context.Result.Should().BeEquivalentTo(new ObjectResult(new
@@ -51,13 +48,10 @@ public class AuthenticationFilterAttributeTest
     [TestMethod]
     public void OnAuthorization_WithInvalidAuthorizationFormat_ReturnsUnauthorized()
     {
-        // Arrange
         var context = CreateAuthorizationFilterContext("InvalidFormat");
 
-        // Act
         _filter.OnAuthorization(context);
 
-        // Assert
         context.Result.Should().BeOfType<ObjectResult>()
             .Which.StatusCode.Should().Be((int)HttpStatusCode.Unauthorized);
         context.Result.Should().BeEquivalentTo(new ObjectResult(new
@@ -73,7 +67,6 @@ public class AuthenticationFilterAttributeTest
     [TestMethod]
     public void OnAuthorization_WithValidToken_SetsUserInHttpContext()
     {
-        // Arrange
         var user = new User { Id = Guid.NewGuid(), Name = "John Doe" };
         var token = Guid.NewGuid();
         var stringToken = token.ToString();
@@ -82,10 +75,8 @@ public class AuthenticationFilterAttributeTest
         var context = CreateAuthorizationFilterContext("Bearer " + stringToken);
         context.HttpContext.RequestServices = CreateServiceProvider().BuildServiceProvider();
 
-        // Act
         _filter.OnAuthorization(context);
 
-        // Assert
         context.HttpContext.Items[0].Should().Be(user);
     }
 

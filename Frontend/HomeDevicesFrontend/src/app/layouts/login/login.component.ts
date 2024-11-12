@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DynamicFormComponent } from '../../components/form/dynamic-form/dynamic-form.component';
 import { FormField } from '../../interface/form-field';
 import { LoginRequest } from '../../interface/login-request';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../backend/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 

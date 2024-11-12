@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AsideMenuComponent } from "./features/aside-menu/aside-menu.component";
-import { ContentAreaComponent } from './features/content-area/content-area.component';
+import { AsideMenuComponent } from "./components/aside-menu/aside-menu.component";
+import { ContentAreaComponent } from './components/content-area/content-area.component';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';

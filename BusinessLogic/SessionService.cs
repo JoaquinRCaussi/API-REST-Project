@@ -55,6 +55,7 @@ public class SessionService : ISessionService
         }
 
         var token = Guid.NewGuid();
+
         var session = new Session
         {
             User = user,
@@ -63,7 +64,7 @@ public class SessionService : ISessionService
         };
 
         AddSession(session);
-
+        
         return session;
     }
     
@@ -75,7 +76,6 @@ public class SessionService : ISessionService
         {
             throw new UnauthorizedAccessException("Invalid token");
         }
-
         _sessionRepository.RemoveSession(session);
     }
 }

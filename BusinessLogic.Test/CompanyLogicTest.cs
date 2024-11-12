@@ -14,7 +14,6 @@ public class CompanyLogicTest
     [TestMethod]
     public void CreateCompanyTest_WhenAllPropertiesOk()
     {
-        // Arrange
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -53,7 +52,6 @@ public class CompanyLogicTest
     [TestMethod]
     public void CreateCompany_WhenTheOwnerHasAlreadyACompany()
     {
-        // Arrange
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -75,7 +73,6 @@ public class CompanyLogicTest
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
-        // Act
         Action act = () => companyLogic.CreateCompany(company);
 
         act.Should().Throw<ConflictException>().WithMessage("The owner already has a company");
@@ -84,7 +81,6 @@ public class CompanyLogicTest
     [TestMethod]
     public void GetCompaniesTest_WhenAllPropertiesOk()
     {
-        // Arrange
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
@@ -99,11 +95,9 @@ public class CompanyLogicTest
         mock.Setup(x => x.GetCompanies("", "")).Returns(companies);
 
 
-        // Act
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
         var result = companyLogic.GetCompanies(null, null);
 
-        // Assert
         result.Should().BeEquivalentTo(companies);
     }
 
@@ -150,10 +144,7 @@ public class CompanyLogicTest
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
-        // Act
         Action act = () => companyLogic.CreateCompany(company);
-
-        // Assert
 
         act.Should().Throw<NotValidDataException>().WithMessage("The name and RUT are required");
     }

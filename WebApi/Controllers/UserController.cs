@@ -13,7 +13,6 @@ public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
     private readonly IHomeLogic _homeLogic;
-    //PASAR RESPONSES
 
     public UserController(IUserLogic userLogic, IHomeLogic homeLogic)
     {
