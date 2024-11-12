@@ -89,7 +89,7 @@ public sealed class AuthenticationFilterAttribute
     {
         var sessionService = context.HttpContext.RequestServices.GetRequiredService<ISessionService>();
 
-        var user = sessionService.GetUserByToken(authorization);
+        var user = sessionService.GetUserByToken(Guid.Parse(authorization));
 
         return user;
     }

@@ -28,11 +28,13 @@ public class LoginController : ControllerBase
 
         var token = authResult.Token;
 
-        Response.Headers.Append("Authorization", token);
+        var strToken = token.ToString();
 
-        var response = new LoginResponse(authResult.Token ?? throw new InvalidOperationException(), authResult.RoleID.ToString() ?? throw new InvalidOperationException())
+        Response.Headers.Append("Authorization", strToken);
+
+        var response = new LoginResponse(strToken ?? throw new InvalidOperationException(), authResult.RoleID.ToString() ?? throw new InvalidOperationException())
         {
-            Token = token,
+            Token = strToken,
             UserRole = authResult.RoleID.ToString()
         };
 

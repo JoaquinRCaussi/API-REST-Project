@@ -39,7 +39,7 @@ public class LoginControllerTest
 
         var authResult = new Session
         {
-            Token = userId.ToString(),
+            Token = userId,
             RoleID = userRoleId,
             UserID = userId
         };
