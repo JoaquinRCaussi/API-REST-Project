@@ -8,21 +8,21 @@ namespace BusinessLogic;
 public class SessionService : ISessionService
 {
     private readonly IUserRepository _userRepository;
+    private readonly ISessionRepository _sessionRepository;
 
-    private static readonly List<Session> _sessions = [];
-
-    public SessionService(IUserRepository userRepository)
+    public SessionService(IUserRepository userRepository, ISessionRepository sessionRepository)
     {
         _userRepository = userRepository;
+        _sessionRepository = sessionRepository;
     }
 
-    public User GetUserByToken(string token)
+    public User GetUserByToken(Guid token)
     {
-        var session = _sessions.FirstOrDefault(s => s.Token == token);
+        var session = _sessionRepository.FindByToken(token);
 
         if (session == null)
         {
-            throw new Exception("Session not found");
+            throw new UnauthorizedAccessException("Invalid token or token not found");
         }
 
         return session.User;
@@ -35,12 +35,13 @@ public class SessionService : ISessionService
             throw new ArgumentNullException(nameof(session), "Session cannot be null");
         }
 
-        if (_sessions.Any(s => s.Token == session.Token))
+        if (_sessionRepository.FindByToken(session.Token) != null)
         {
-            throw new InvalidOperationException("A session with the same token already exists");
+            throw new UnauthorizedAccessException("A session with the same token already exists");
         }
 
-        _sessions.Add(session);
+        session.CreatedAt = DateTime.Now;
+        _sessionRepository.AddSession(session);
     }
 
     public Session Authenticate(string email, string password)
@@ -53,7 +54,8 @@ public class SessionService : ISessionService
             throw new UnauthorizedAccessException("Invalid email or password");
         }
 
-        var token = Guid.NewGuid().ToString(); // Creates unique Token
+        var token = Guid.NewGuid();
+
         var session = new Session
         {
             User = user,
@@ -63,6 +65,17 @@ public class SessionService : ISessionService
 
         AddSession(session);
 
-        return session; // Returns created session
+        return session;
+    }
+
+    public void Logout(Guid token)
+    {
+        var session = _sessionRepository.FindByToken(token);
+
+        if (session == null)
+        {
+            throw new UnauthorizedAccessException("Invalid token");
+        }
+        _sessionRepository.RemoveSession(session);
     }
 }
