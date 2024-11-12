@@ -34,6 +34,7 @@ builder.Services.AddDbContext<HMDbContext>(options =>
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IMemberSettingRepository, MemberSettingRepository>();
 builder.Services.AddScoped<IMemberSettingLogic, MemberSettingLogic>();
