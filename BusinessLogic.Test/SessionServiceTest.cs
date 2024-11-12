@@ -11,6 +11,7 @@ namespace BusinessLogic.Test;
 public class SessionServiceTests
 {
     private Mock<IUserRepository>? _userRepositoryMock;
+    private Mock<ISessionRepository>? _sessionRepositoryMock;
     private SessionService? _sessionService;
 
 
@@ -18,7 +19,8 @@ public class SessionServiceTests
     public void Initialize()
     {
         _userRepositoryMock = new Mock<IUserRepository>();
-        _sessionService = new SessionService(_userRepositoryMock.Object);
+        _sessionRepositoryMock = new Mock<ISessionRepository>();
+        _sessionService = new SessionService(_userRepositoryMock.Object, _sessionRepositoryMock.Object);
     }
 
     [TestMethod]
@@ -45,38 +47,36 @@ public class SessionServiceTests
         var user = new User { Id = Guid.NewGuid(), Email = email, RoleID = Guid.NewGuid() };
         _userRepositoryMock.Setup(repo => repo.FindByMail(email)).Returns(user);
 
-
         var session = _sessionService.Authenticate(email, password);
 
-
         session.User.Should().Be(user);
-        session.Token.Should().NotBeNullOrEmpty();
         session.RoleID.Should().Be(user.RoleID);
     }
 
     [TestMethod]
     public void GetUserByToken_ShouldReturnUser_WhenSessionExists()
     {
-
+        var token = Guid.NewGuid();
         var user = new User { Id = Guid.NewGuid(), Email = "test@example.com", RoleID = Guid.NewGuid() };
-        var session = new Session { User = user, Token = "valid_token", RoleID = Guid.NewGuid() };
+        var session = new Session { User = user, Token = token, RoleID = Guid.NewGuid() };
+
         _sessionService.AddSession(session);
-
-
-        var result = _sessionService.GetUserByToken("valid_token");
-
-
+        
+        _sessionRepositoryMock.Setup(repo => repo.FindByToken(token)).Returns(session);
+        var result = _sessionService.GetUserByToken(token);
+        
         result.Should().Be(user);
     }
 
     [TestMethod]
     public void GetUserByToken_ShouldThrowException_WhenSessionNotFound()
     {
+        var invalidToken = Guid.NewGuid();
+        _sessionRepositoryMock.Setup(repo => repo.FindByToken(invalidToken)).Returns((Session)null);
+        
+        Action act = () => _sessionService.GetUserByToken(invalidToken);
 
-        Action act = () => _sessionService.GetUserByToken("invalid_token");
-
-
-        act.Should().Throw<Exception>().WithMessage("Session not found");
+        act.Should().Throw<Exception>().WithMessage("Invalid token or token not found");
     }
 
     [TestMethod]
@@ -92,30 +92,27 @@ public class SessionServiceTests
     [TestMethod]
     public void AddSession_ShouldThrowException_WhenSessionWithSameTokenExists()
     {
-
+        var token = Guid.NewGuid();
         var user = new User { Id = Guid.NewGuid(), Email = "test@example.com", RoleID = Guid.NewGuid() };
-        var session = new Session { User = user, Token = "existing_token", RoleID = Guid.NewGuid() };
-        _sessionService.AddSession(session);
-
-
+        var session = new Session { User = user, Token = token, RoleID = Guid.NewGuid() };
+        _sessionRepositoryMock.Setup(repo => repo.FindByToken(token)).Returns(session);
+        
         Action act = () => _sessionService.AddSession(session);
 
-
-        act.Should().Throw<InvalidOperationException>().WithMessage("A session with the same token already exists");
+        act.Should().Throw<UnauthorizedAccessException>().WithMessage("A session with the same token already exists");
     }
 
     [TestMethod]
     public void AddSession_ShouldAddSession_WhenValidSessionProvided()
     {
-
+        var token = Guid.NewGuid();
         var user = new User { Id = Guid.NewGuid(), Email = "test@example.com", RoleID = Guid.NewGuid() };
-        var session = new Session { User = user, Token = "new_token", RoleID = Guid.NewGuid() };
-
+        var session = new Session { User = user, Token = token, RoleID = Guid.NewGuid() };
 
         _sessionService.AddSession(session);
 
-
-        var result = _sessionService.GetUserByToken("new_token");
+        _sessionRepositoryMock.Setup(repo => repo.FindByToken(token)).Returns(session);
+        var result = _sessionService.GetUserByToken(token);
         result.Should().Be(user);
     }
 }

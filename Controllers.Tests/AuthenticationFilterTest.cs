@@ -75,9 +75,11 @@ public class AuthenticationFilterAttributeTest
     {
         // Arrange
         var user = new User { Id = Guid.NewGuid(), Name = "John Doe" };
-        _sessionServiceMock.Setup(s => s.GetUserByToken("validToken")).Returns(user);
+        var token = Guid.NewGuid();
+        var stringToken = token.ToString();
+        _sessionServiceMock.Setup(s => s.GetUserByToken(token)).Returns(user);
 
-        var context = CreateAuthorizationFilterContext("Bearer validToken");
+        var context = CreateAuthorizationFilterContext("Bearer " + stringToken);
         context.HttpContext.RequestServices = CreateServiceProvider().BuildServiceProvider();
 
         // Act
