@@ -61,10 +61,10 @@ public class SessionServiceTests
         var session = new Session { User = user, Token = token, RoleID = Guid.NewGuid() };
 
         _sessionService.AddSession(session);
-        
+
         _sessionRepositoryMock.Setup(repo => repo.FindByToken(token)).Returns(session);
         var result = _sessionService.GetUserByToken(token);
-        
+
         result.Should().Be(user);
     }
 
@@ -73,7 +73,7 @@ public class SessionServiceTests
     {
         var invalidToken = Guid.NewGuid();
         _sessionRepositoryMock.Setup(repo => repo.FindByToken(invalidToken)).Returns((Session)null);
-        
+
         Action act = () => _sessionService.GetUserByToken(invalidToken);
 
         act.Should().Throw<Exception>().WithMessage("Invalid token or token not found");
@@ -96,7 +96,7 @@ public class SessionServiceTests
         var user = new User { Id = Guid.NewGuid(), Email = "test@example.com", RoleID = Guid.NewGuid() };
         var session = new Session { User = user, Token = token, RoleID = Guid.NewGuid() };
         _sessionRepositoryMock.Setup(repo => repo.FindByToken(token)).Returns(session);
-        
+
         Action act = () => _sessionService.AddSession(session);
 
         act.Should().Throw<UnauthorizedAccessException>().WithMessage("A session with the same token already exists");

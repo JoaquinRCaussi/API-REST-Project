@@ -39,7 +39,7 @@ public class SessionService : ISessionService
         {
             throw new UnauthorizedAccessException("A session with the same token already exists");
         }
-        
+
         session.CreatedAt = DateTime.Now;
         _sessionRepository.AddSession(session);
     }
@@ -64,10 +64,10 @@ public class SessionService : ISessionService
         };
 
         AddSession(session);
-        
+
         return session;
     }
-    
+
     public void Logout(Guid token)
     {
         var session = _sessionRepository.FindByToken(token);

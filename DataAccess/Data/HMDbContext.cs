@@ -23,7 +23,7 @@ public class HMDbContext : DbContext
     public DbSet<MemberSetting>? MemberSettings { get; set; }
     public DbSet<Permission>? Permissions { get; set; }
     public DbSet<PermissionKey>? PermissionKeys { get; set; }
-    
+
     public DbSet<Session>? Sessions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

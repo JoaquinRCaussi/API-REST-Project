@@ -22,12 +22,12 @@ public class SessionRepository : ISessionRepository
     public Session? FindByToken(Guid? token)
     {
         var sessions = _context.Sessions;
-        
+
         if (sessions == null)
         {
             return null;
-        }  
-        
+        }
+
         return sessions.FirstOrDefault(s => s.Token == token);
     }
 
