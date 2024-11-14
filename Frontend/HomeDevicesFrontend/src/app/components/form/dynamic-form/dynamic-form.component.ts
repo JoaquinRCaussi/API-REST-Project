@@ -33,6 +33,7 @@ export class DynamicFormComponent implements OnInit {
     if (this.form.valid && this.submitHandler) {
       this.submitHandler(this.form.value);
     } else {
+      window.alert('Formulario no válido');
       console.log('Formulario no válido');
     }
   }
