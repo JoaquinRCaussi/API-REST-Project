@@ -3,6 +3,7 @@ using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using BusinessLogic.Validators;
 using ModeloValidador.Abstracciones;
+using WebApi.Models.In;
 
 namespace BusinessLogic;
 
