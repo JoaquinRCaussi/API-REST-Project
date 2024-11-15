@@ -111,39 +111,30 @@ public class DeviceLogic : IDeviceLogic
     }
 
 
-    public List<Device> GetDevices(string? name, string? model, string? companyName, DeviceType? deviceType)
+    public (List<Device>, int) GetDevices(string? name, string? model, string? companyName, DeviceType? deviceType, int pageNumber = 1, int pageSize = 10)
     {
-        _ = new List<Device>();
-        if (name == null)
-        {
-            name = "";
-        }
-        if (companyName == null)
-        {
-            companyName = "";
-        }
+        name ??= string.Empty;
+        model ??= string.Empty;
+        companyName ??= string.Empty;
 
-        if (model == null)
+        List<Device> devices;
+        if (deviceType.HasValue)
         {
-            model = "";
-        }
-
-        List<Device> result;
-        if (deviceType == null)
-        {
-            result = _deviceRepository.GetDevicesNoType(name, model, companyName);
+            devices = _deviceRepository.GetDevices(name, model, companyName, deviceType.Value);
         }
         else
         {
-            result = _deviceRepository.GetDevices(name, model, companyName, (DeviceType)deviceType);
+            devices = _deviceRepository.GetDevicesNoType(name, model, companyName);
         }
 
-        if (result.Count == 0)
-        {
-            throw new EmptyException("No devices found.");
-        }
+        var totalResults = devices.Count;
 
-        return result;
+        var paginatedDevices = devices
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return (paginatedDevices, totalResults);
     }
 
     public List<string> GetDevicesTypes()
