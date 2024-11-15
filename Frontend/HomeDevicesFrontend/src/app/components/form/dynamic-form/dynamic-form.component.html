@@ -5,6 +5,7 @@
   
           <input *ngIf="field.type !== 'select'" 
                 [type]="field.type" 
+                [placeholder]="field.placeholder? field.placeholder : ''"
                 [formControlName]="field.name" 
                 [id]="field.name" 
                 [required]="field.required !== undefined ? field.required : false"
