@@ -70,10 +70,32 @@ public class DevicesController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetDevices([FromQuery] DeviceFilterRequest filterRequest)
+    public IActionResult GetDevices(
+    [FromQuery] string? name,
+    [FromQuery] string? model,
+    [FromQuery] string? companyName,
+    [FromQuery] DeviceType? deviceType,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 10)
     {
-        var response = _deviceLogic.GetDevices(filterRequest);
-        return Ok(response);
+        var devices = _deviceLogic.GetDevices(name, model, companyName, deviceType);
+
+        var totalResults = devices.Count;
+
+        var paginatedDevices = devices
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var response = paginatedDevices.Select(d => new DeviceResponse(d)).ToList();
+
+        return Ok(new
+        {
+            TotalResults = totalResults,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Devices = response
+        });
     }
 
     [HttpGet]

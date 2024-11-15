@@ -111,17 +111,33 @@ public class DeviceLogic : IDeviceLogic
     }
 
 
-    public List<Device> GetDevices(DeviceFilterRequest filter)
+    public List<Device> GetDevices(string? name, string? model, string? companyName, DeviceType? deviceType)
     {
-        // Validar si los campos son nulos y, de ser así, inicializarlos con valores por defecto.
-        filter.Name ??= "";
-        filter.Model ??= "";
-        filter.CompanyName ??= "";
+        _ = new List<Device>();
+        if (name == null)
+        {
+            name = "";
+        }
+        if (companyName == null)
+        {
+            companyName = "";
+        }
 
-        // Llamar al repositorio con el objeto de filtro.
-        var result = _deviceRepository.GetDevices(filter);
+        if (model == null)
+        {
+            model = "";
+        }
 
-        // Verificar si se encontraron dispositivos.
+        List<Device> result;
+        if (deviceType == null)
+        {
+            result = _deviceRepository.GetDevicesNoType(name, model, companyName);
+        }
+        else
+        {
+            result = _deviceRepository.GetDevices(name, model, companyName, (DeviceType)deviceType);
+        }
+
         if (result.Count == 0)
         {
             throw new EmptyException("No devices found.");
