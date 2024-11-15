@@ -72,7 +72,7 @@ public class AuthenticationFilterAttributeTest
         var stringToken = token.ToString();
         _sessionServiceMock.Setup(s => s.GetUserByToken(token)).Returns(user);
 
-        var context = CreateAuthorizationFilterContext("Bearer " + stringToken);
+        var context = CreateAuthorizationFilterContext(stringToken);
         context.HttpContext.RequestServices = CreateServiceProvider().BuildServiceProvider();
 
         _filter.OnAuthorization(context);

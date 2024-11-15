@@ -127,8 +127,9 @@ public class HomeControllerTest
     }
 
     [TestMethod]
-    public void GetHomes_WhenAllPropertiesOk()
+    public void GetHomes_WhenAllPropertiesOk_ShouldReturnOkWithHomeResponse()
     {
+        // Arrange
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -151,42 +152,50 @@ public class HomeControllerTest
 
         var homes = new List<Home> { home };
 
-        var homeRequest = new HomeRequest
-        {
-            Name = home.Name,
-            Location = home.Location,
-            Latitude = home.Latitude,
-            Longitude = home.Longitude,
-            MemberCount = home.MemberCount,
-            HomeOwner = home.HomeOwner
-        };
-
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
-        homeLogic.Setup(x => x.GetHomes()).Returns(homes);
+        homeLogic.Setup(x => x.GetHomesByUser(user.Id)).Returns(homes);
 
-        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = user;
 
-        IActionResult act = controller.GetHomes();
-
-        var homeRequestObject = homeRequest.ToArgs();
-        homeRequestObject.HomeOwner = user.Id;
-
-        var homeResponse = new HomeResponse
+        var controllerContext = new ControllerContext
         {
-            Name = homeRequestObject.Name,
-            Location = homeRequestObject.Location,
-            Latitude = homeRequestObject.Latitude,
-            Longitude = homeRequestObject.Longitude,
-            MemberCount = homeRequestObject.MemberCount,
-            HomeOwner = homeRequestObject.HomeOwner
+            HttpContext = httpContext
         };
 
-        var expected = new OkObjectResult(new List<HomeResponse> { homeResponse });
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object)
+        {
+            ControllerContext = controllerContext
+        };
 
-        act.Should().BeEquivalentTo(expected);
+        // Act
+        IActionResult result = controller.GetHomes();
+
+        // Assert
+        var expectedResponse = new List<HomeResponse>
+        {
+            new HomeResponse
+            {
+                Name = home.Name,
+                Location = home.Location,
+                Latitude = home.Latitude,
+                Longitude = home.Longitude,
+                MemberCount = home.MemberCount,
+                HomeOwner = home.HomeOwner
+            }
+        };
+
+        result.Should().BeOfType<OkObjectResult>();
+        var okResult = result as OkObjectResult;
+        okResult.Should().NotBeNull();
+        okResult!.Value.Should().BeEquivalentTo(expectedResponse);
+
+        homeLogic.Verify(x => x.GetHomesByUser(user.Id), Times.Once);
+        homeLogic.VerifyAll();
     }
+
 
 
     [TestMethod]
@@ -703,27 +712,41 @@ public class HomeControllerTest
     }
 
     [TestMethod]
-    public void GetHomes_ShouldReturnNoContent()
+    public void GetHomes_WhenNoHomesForUser_ShouldReturnNoContent()
     {
+        // Arrange
+        var userId = Guid.NewGuid();
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
-        homeLogic.Setup(x => x.GetHomes())
+        homeLogic.Setup(x => x.GetHomesByUser(userId))
             .Throws(new EmptyException("No homes found"));
 
-        var controller = new HomeController(homeLogic.Object, null);
+        var httpContext = new DefaultHttpContext();
+        httpContext.Items[0] = new User { Id = userId };
 
+        var controllerContext = new ControllerContext
+        {
+            HttpContext = httpContext
+        };
+
+        var controller = new HomeController(homeLogic.Object, null)
+        {
+            ControllerContext = controllerContext
+        };
+
+        // Act & Assert
         Action act = () => controller.GetHomes();
-
         act.Should().Throw<EmptyException>();
 
-        var context = new ActionContext
+        // Testing the ExceptionFilter behavior
+        var actionContext = new ActionContext
         {
-            HttpContext = new DefaultHttpContext(),
+            HttpContext = httpContext,
             RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
             ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
         };
 
         var exceptionFilter = new ExceptionFilter();
-        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        var exceptionContext = new ExceptionContext(actionContext, new List<IFilterMetadata>())
         {
             Exception = new EmptyException("No homes found")
         };
@@ -736,6 +759,7 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
+
 
     [TestMethod]
     public void GetHomeMembers_ShouldReturnNoContent()
