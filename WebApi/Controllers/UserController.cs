@@ -23,10 +23,10 @@ public class UserController : ControllerBase
     [HttpGet]
     [AuthorizationFilter("CanManageUsers")]
     public IActionResult GetUsers(
-     [FromQuery] string? role,
-     [FromQuery] string? fullName,
-     [FromQuery] int pageNumber = 1,
-     [FromQuery] int pageSize = 10)
+    [FromQuery] string? role,
+    [FromQuery] string? fullName,
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 10)
     {
         var (users, totalResults) = _userLogic.GetUsersFiltered(role, fullName, pageNumber, pageSize);
 

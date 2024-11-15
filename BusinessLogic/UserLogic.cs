@@ -121,14 +121,21 @@ public class UserLogic : IUserLogic
         return notifications;
     }
 
-    public List<User> GetUsersFiltered(string? role, string? fullName)
+    public (List<User> Users, int TotalResults) GetUsersFiltered(string? role, string? fullName, int pageNumber, int pageSize)
     {
+        // Llamar al UserRepository para obtener los usuarios filtrados
         var users = _userRepository.GetUsersFiltered(role, fullName);
-        if (users.Count == 0)
-        {
-            throw new EmptyException("No users found.");
-        }
-        return users;
+
+        // Total de resultados antes de paginar
+        var totalResults = users.Count;
+
+        // Lógica de paginación
+        var paginatedUsers = users
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return (paginatedUsers, totalResults);
     }
 
     private bool IsCorrectUserFormat(User user)

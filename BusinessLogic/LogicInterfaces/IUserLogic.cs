@@ -23,5 +23,5 @@ public interface IUserLogic
 
     public List<Notification> GetNotifications(Guid userId);
 
-    public List<User> GetUsersFiltered(string? role, string? fullName);
+    (List<User> Users, int TotalResults) GetUsersFiltered(string? role, string? fullName, int pageNumber, int pageSize);
 }
