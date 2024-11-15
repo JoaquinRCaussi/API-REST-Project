@@ -47,12 +47,29 @@ public class DeviceRepository : IDeviceRepository
     }
 
 
-    public List<Device> GetDevices(string name, string model, string companyName, DeviceType deviceType)
+    public List<Device> GetDevices(string name, string model, string companyName, DeviceType? deviceType, int pageNumber, int pageSize)
     {
-
-        return _dbContext.Devices?
+        var query = _dbContext.Devices?
             .Include(x => x.Company)
-            .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName) && x.DeviceType == deviceType).ToList()!;
+            .Where(x =>
+                x.Name.Contains(name) &&
+                x.Model.Contains(model) &&
+                x.Company.Name.Contains(companyName));
+
+        if (deviceType != null)
+        {
+            query = query?.Where(x => x.DeviceType == deviceType);
+        }
+
+        var totalResults = query?.Count() ?? 0;
+
+        var paginatedDevices = query?
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        // Puedes devolver un objeto que encapsule el resultado paginado, total de resultados, etc.
+        return paginatedDevices ?? new List<Device>();
     }
 
     public bool ExistsDevice(string? name, Guid companyId)

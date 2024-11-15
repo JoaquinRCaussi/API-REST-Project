@@ -6,6 +6,6 @@ public interface IDeviceLogic
 {
     public Device CreateDevice(Device device);
     public Camera CreateCamera(Camera camera);
-    public List<Device> GetDevices(string? name, string? model, string? companyName, DeviceType? deviceType);
+    List<Device> GetDevices(DeviceFilterRequest filter);
     public List<string> GetDevicesTypes();
 }
