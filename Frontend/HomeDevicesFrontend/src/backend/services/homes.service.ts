@@ -18,4 +18,14 @@ export class HomesService {
       }))
     );
   }
+
+  getHome(id: string): Observable<HomeResponse> {
+    return this.homesApiRepository.getHome(id).pipe(
+      map((home: any) => {
+        // filtering out memberSettings
+        const { memberSettings, ...filteredHome } = home;
+        return filteredHome;
+      })
+    );
+  }
 }

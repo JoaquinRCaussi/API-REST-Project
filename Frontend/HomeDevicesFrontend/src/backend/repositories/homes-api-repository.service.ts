@@ -17,5 +17,7 @@ export class HomesApiRepositoryService extends ApiRepository {
     return this.get();
   }
 
-  //every method here
+  public getHome(id: string): Observable<HomeResponse> {
+    return this.get(id);
+  }
 }
