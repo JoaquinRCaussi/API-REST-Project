@@ -1,30 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivationStart, Router } from '@angular/router';
+import { ActivatedRoute, ActivationStart, Router } from '@angular/router';
 import { MainContentComponent } from '../main-content/main-content.component';
+import { HomesContentComponent } from '../homes-content/homes-content.component';
+import { HomeDetailComponent } from '../home-detail/home-detail.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-content-area',
   standalone: true,
-  imports: [MainContentComponent],
+  imports: [MainContentComponent, HomesContentComponent, HomeDetailComponent,CommonModule],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })
-export class ContentAreaComponent implements OnInit{
-  private routeData: any;
-  route: string = 'main-option';
+export class ContentAreaComponent implements OnInit {
+  option: string | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {
-      this.router.events.subscribe(data => {
-        if (data instanceof ActivationStart) {
-          console.log(`Custom data`, data.snapshot.data);
-          this.routeData = data.snapshot.data;
-          console.log(this.routeData);
-          if (this.routeData) {
-            this.route = this.routeData.option;
-          }
-        }
+  ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.option = data['option'];
     });
   }
 }

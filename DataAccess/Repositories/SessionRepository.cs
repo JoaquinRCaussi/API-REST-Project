@@ -1,6 +1,7 @@
 using BusinessLogic.DataAccess.Interfaces;
 using BusinessLogic.Entities;
 using DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -28,7 +29,10 @@ public class SessionRepository : ISessionRepository
             return null;
         }
 
-        return sessions.FirstOrDefault(s => s.Token == token);
+        var filteredSessions = sessions.Where(s => s.Token == token)
+                .Include(s => s.User)
+            .ToList();
+        return filteredSessions.FirstOrDefault();
     }
 
     public void RemoveSession(Session session)

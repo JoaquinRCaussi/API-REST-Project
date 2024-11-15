@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LoginRequest } from '../../app/interface/login-request';
-import { LoginResponse } from '../../app/interface/login-response';
+import { LoginRequest } from '../models/login-request';
+import { LoginResponse } from '../models/login-response';
 import { SessionApiRepositoryService } from '../repositories/session-api-repository.service';
 
 enum UserRole {

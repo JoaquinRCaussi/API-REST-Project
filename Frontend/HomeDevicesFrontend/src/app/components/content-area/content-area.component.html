@@ -1,14 +1,9 @@
-<div class="flex justify-left w-[90%] bg-[#1C1C1C] rounded-xl h-[90vh] p-8">
-
-    @if (route === 'main-option') {
-        <!--   Aca va cada componente para cada ruta    -->
-        <app-main-content/>
-    }
-
-    @if (route === 'homes-option') {
-        <div class="flex flex-col gap-4">
-            <h1 class="text-4xl text-white">Your homes</h1>
-            <p class="text-white">This is the homes content area</p>
-        </div>
-    }
-</div>
+<div class="flex justify-left w-[70vw] bg-[#1C1C1C] rounded-xl h-[90vh] p-8" [ngSwitch]="option">
+    <app-main-content *ngSwitchCase="'main-option'"></app-main-content>
+    <app-homes-content *ngSwitchCase="'homes-option'" class="w-full"></app-homes-content>
+    <app-home-detail *ngSwitchCase="'home-detail-option'" class="w-full"></app-home-detail>
+  
+    <!-- Opción por defecto en caso de que no se reconozca el option -->
+    <div *ngSwitchDefault class="text-white">404 not found.</div>
+  </div>
+  

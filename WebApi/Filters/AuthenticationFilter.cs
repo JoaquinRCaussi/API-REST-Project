@@ -29,7 +29,7 @@ public sealed class AuthenticationFilterAttribute
             return;
         }
 
-        var isAuthorizationFormatNotValid = !IsAuthorizationFormatValid(authorizationHeader!);
+        var isAuthorizationFormatNotValid = !IsAuthorizationFormatNotValid(authorizationHeader);
         if (isAuthorizationFormatNotValid)
         {
             context.Result = new ObjectResult(
@@ -59,7 +59,7 @@ public sealed class AuthenticationFilterAttribute
             return;
         }
 
-        var token = authorizationHeader!.Split(" ")[1];
+        var token = authorizationHeader;
 
         try
         {
@@ -73,14 +73,14 @@ public sealed class AuthenticationFilterAttribute
         }
     }
 
-    private bool IsAuthorizationFormatValid(string authorization)
-    {
-        return authorization.StartsWith("Bearer ");
-    }
-
     private bool IsAuthorizationExpired()
     {
         return false;
+    }
+
+    private bool IsAuthorizationFormatNotValid(string token)
+    {
+        return Guid.TryParse(token, out _);
     }
 
     private User GetUserOfAuthorization(
