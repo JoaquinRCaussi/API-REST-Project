@@ -23,7 +23,8 @@ export class AppComponent {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event) => {
-      this.isLoginRoute = (event as NavigationEnd).urlAfterRedirects === '/login';
+      this.isLoginRoute = (event as NavigationEnd).urlAfterRedirects === '/login' || (event as NavigationEnd).urlAfterRedirects === '/signup';
+
     });
   }
 }
