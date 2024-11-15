@@ -123,16 +123,7 @@ public class UserLogic : IUserLogic
 
     public (List<User> Users, int TotalResults) GetUsersFiltered(string? role, string? fullName, int pageNumber, int pageSize)
     {
-        var users = _userRepository.GetUsersFiltered(role, fullName);
-
-        var totalResults = users.Count;
-
-        var paginatedUsers = users
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        return (paginatedUsers, totalResults);
+        return _userRepository.GetUsersFiltered(role, fullName, pageNumber, pageSize);
     }
 
     private bool IsCorrectUserFormat(User user)
