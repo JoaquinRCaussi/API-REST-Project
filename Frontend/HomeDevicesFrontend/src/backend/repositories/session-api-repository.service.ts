@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import ApiRepository from './api-repository';
 import { HttpClient } from '@angular/common/http';
 import domovizApi from '../../environments/environment.local';
-import { LoginRequest } from '../../app/interface/login-request';
-import { LoginResponse } from '../../app/interface/login-response';
+import { LoginRequest } from '../models/login-request';
+import { LoginResponse } from '../models/login-response';
 import { Observable } from 'rxjs';
 
 @Injectable({

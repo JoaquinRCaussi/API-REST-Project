@@ -32,12 +32,13 @@ public class HomeController : ControllerBase
         return CreatedAtAction(nameof(CreateHome), new { id = createdHome.Id }, response);
     }
 
+
     [HttpGet]
     public IActionResult GetHomes()
     {
-        List<Home> homes = _homeLogic.GetHomes();
-        var response = homes.Select(x => new HomeResponse { Name = x.Name, Location = x.Location, HomeOwner = x.HomeOwner, Devices = x.Devices, MemberCount = x.MemberCount, Latitude = x.Latitude, Longitude = x.Longitude }).ToList();
-        return Ok(response);
+        var user = (User)HttpContext.Items[0];
+        List<Home> homes = _homeLogic.GetHomesByUser(user.Id);
+        return Ok(homes);
     }
 
     [HttpGet]
