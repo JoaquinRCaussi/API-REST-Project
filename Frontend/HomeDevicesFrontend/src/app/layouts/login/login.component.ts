@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { DynamicFormComponent } from '../../components/form/dynamic-form/dynamic-form.component';
 import { FormField } from '../../interface/form-field';
 import { LoginRequest } from '../../interface/login-request';
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
 export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -34,7 +35,7 @@ export class LoginComponent {
     this.authService.login(loginRequest).subscribe(
       (response) => {
         window.alert('Login successful');
-        console.log('Login exitoso:', response);
+        console.log('Login exitoso:', response.userRole);
         this.router.navigate(['main']);
       },
       (error) => {
