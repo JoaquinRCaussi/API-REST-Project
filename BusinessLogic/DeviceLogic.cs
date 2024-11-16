@@ -117,7 +117,14 @@ public class DeviceLogic : IDeviceLogic
         model ??= string.Empty;
         companyName ??= string.Empty;
 
-        return _deviceRepository.GetDevices(name, model, companyName, deviceType, pageNumber, pageSize);
+        var (devices, totalResults) = _deviceRepository.GetDevices(name, model, companyName, deviceType, pageNumber, pageSize);
+
+        if (devices == null || !devices.Any())
+        {
+            throw new EmptyException("No devices found.");
+        }
+
+        return (devices, totalResults);
     }
 
     public List<string> GetDevicesTypes()
