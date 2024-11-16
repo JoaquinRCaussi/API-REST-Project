@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { HomeResponse } from '../models/home-response';
+import { HomeResponse } from '../models/out/home-response';
 import ApiRepository from './api-repository';
 import domovizApi from '../../environments/environment.local';
 import { HomeRequest } from '../models/in/home-request';
+import { HomeMemberResponse } from '../models/out/home-member-response';
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +27,7 @@ export class HomesApiRepositoryService extends ApiRepository {
     return this.post(home);
   }
 
+  public getHomeMembers(homeId: string): Observable<HomeMemberResponse[]> {
+    return this.get(homeId + '/members');
+  }
 }
