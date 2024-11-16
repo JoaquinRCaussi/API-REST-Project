@@ -246,8 +246,8 @@ public class DeviceControllerTest
         var listOfDevicesResponse = listOfDevices.Select(d => new DeviceResponse(d)).ToList();
 
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor))
-            .Returns(listOfDevices);
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10))
+            .Returns((listOfDevices, listOfDevices.Count));
 
         IActionResult result = _controller!.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10);
 
