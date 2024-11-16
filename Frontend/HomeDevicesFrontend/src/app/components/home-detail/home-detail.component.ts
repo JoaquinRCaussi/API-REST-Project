@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { HomesService } from '../../../backend/services/homes.service';
 import { HomeResponse } from '../../../backend/models/home-response';
 import { CommonModule } from '@angular/common';
+import { SimpleCardComponent } from '../simple-card/simple-card.component';
 
 @Component({
   selector: 'app-home-detail',
   templateUrl: './home-detail.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule,SimpleCardComponent],
   standalone: true,
   styleUrls: ['./home-detail.component.css']
 })

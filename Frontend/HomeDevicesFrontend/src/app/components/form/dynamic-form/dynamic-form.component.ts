@@ -32,9 +32,15 @@ export class DynamicFormComponent implements OnInit {
   onSubmit() {
     if (this.form.valid && this.submitHandler) {
       this.submitHandler(this.form.value);
+      this.clearForm();
+
     } else {
       window.alert('Formulario no válido');
       console.log('Formulario no válido');
     }
+  }
+
+  clearForm() {
+    this.form.reset();
   }
 }

@@ -1,0 +1,9 @@
+
+<a class="flex w-[20vw] bg-[#333333] h-52 justify-center items-center hover:bg-[#555454] transition-all rounded-lg" [routerLink]="routerLink">
+    <div class="flex flex-col gap-4 w-full p-8 justify-center">
+        <h1 class="text-4xl text-white w-full text-center font-bold">{{title}}</h1>
+        @if(description.length > 0){
+            <p class="text-[#afadad] text-center text-s">{{description}}</p>
+        }
+    </div>
+</a>
