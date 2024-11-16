@@ -123,7 +123,14 @@ public class UserLogic : IUserLogic
 
     public (List<User> Users, int TotalResults) GetUsersFiltered(string? role, string? fullName, int pageNumber, int pageSize)
     {
-        return _userRepository.GetUsersFiltered(role, fullName, pageNumber, pageSize);
+        var (users, totalResults) = _userRepository.GetUsersFiltered(role, fullName, pageNumber, pageSize);
+
+        if (users == null || !users.Any())
+        {
+            throw new EmptyException("No users found.");
+        }
+
+        return (users, totalResults);
     }
 
     private bool IsCorrectUserFormat(User user)
