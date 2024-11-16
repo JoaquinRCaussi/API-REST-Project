@@ -106,4 +106,21 @@ public class UserController : ControllerBase
         List<Notification> notifications = _userLogic.GetNotifications(userId);
         return Ok(notifications);
     }
+    
+    [HttpGet]
+    [Route("{userMail}")]
+    public IActionResult GetUserByEmail([FromRoute] string userMail)
+    {
+        User user = _userLogic.FindByMail(userMail);
+        var response = new GetUserResponse
+        {
+            Id = user.Id.ToString(),
+            Name = user.Name,
+            LastName = user.LastName,
+            CreatedAt = user.CreatedAt,
+            Email = user.Email,
+            Role = user.Role
+        };
+        return Ok(response);
+    }
 }

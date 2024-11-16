@@ -532,4 +532,36 @@ public class UserControllerTest
         userLogicMock.VerifyAll();
     }
 
+    [TestMethod]
+    public void GetUserByMail_WhenUserExists_ReturnsOkWithUserResponse()
+    {
+        var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
+        var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
+        var userController = new UserController(userLogicMock.Object, homeLogicMock.Object);
+
+        var email = "mail@mail.com";
+        
+        var expectedUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John",
+            LastName = "Doe",
+            Email = "mail@mail.con"
+        };
+        
+        userLogicMock.Setup(logic => logic.FindByMail(email)).Returns(expectedUser);
+        
+        IActionResult result = userController.GetUserByEmail(email);
+        
+        var okResult = result as OkObjectResult;
+        
+        okResult.Should().NotBeNull();
+        okResult.Value.Should().BeOfType<GetUserResponse>();
+        okResult.Value.As<GetUserResponse>().Name.Should().Be(expectedUser.Name);
+        okResult.Value.As<GetUserResponse>().LastName.Should().Be(expectedUser.LastName);
+        okResult.Value.As<GetUserResponse>().Email.Should().Be(email);
+        
+        userLogicMock.VerifyAll();
+    }
+
 }
