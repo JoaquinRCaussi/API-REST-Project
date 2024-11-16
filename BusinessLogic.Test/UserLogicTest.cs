@@ -397,21 +397,23 @@ public class UserLogicTest
     public void GetUsersFilteredTest()
     {
         var users = new List<User>
+    {
+        new User
         {
-            new User
-            {
-                Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "mauil@mail.com",
-                Password = "password@123"
-            }
-        };
+            Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "mauil@mail.com",
+            Password = "password@123"
+        }
+    };
 
-        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns(users);
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "", 1, 10))
+                           .Returns((users, users.Count));
 
-        var result = _userLogic.GetUsersFiltered("John", "");
+        var (result, totalResults) = _userLogic.GetUsersFiltered("John", "", 1, 10);
 
         result.Should().BeEquivalentTo(users);
+        totalResults.Should().Be(users.Count);
 
-        _userRepositoryMock.Verify(x => x.GetUsersFiltered("John", ""), Times.Once);
+        _userRepositoryMock.Verify(x => x.GetUsersFiltered("John", "", 1, 10), Times.Once);
     }
 
     [TestMethod]
