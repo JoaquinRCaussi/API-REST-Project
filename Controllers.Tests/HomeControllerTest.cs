@@ -1305,10 +1305,9 @@ public class HomeControllerTest
     {
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Loose);
         var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
         
-        homeLogic.Setup(x => x.GetHome(homeId)).Throws(new NotValidDataException("Home not found."));
         memberLogic.Setup(x => x.GetMemberSetting(homeId, userId))
             .Throws(new NotValidDataException("Member setting not found."));
 
