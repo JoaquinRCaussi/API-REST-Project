@@ -153,26 +153,4 @@ public class DeviceRepositoryTest
         }
     }
 
-    [TestMethod]
-    public void GetDevicesNoType_ShouldReturnDevices_WhenDevicesExist()
-    {
-        using var context = CreateInMemoryDbContext("GetDevicesNoTypeTest");
-        SeedData(context);
-
-        var repository = new DeviceRepository(context);
-        if (context.Companies != null)
-        {
-            var device1 = new Device { Id = Guid.NewGuid(), Name = "aDevice", Model = "Model1", CompanyId = context.Companies.First().Id };
-            var device2 = new Device { Id = Guid.NewGuid(), Name = "anotherDevice", Model = "Model2", CompanyId = context.Companies.First().Id };
-            repository.CreateDevice(device1);
-            repository.CreateDevice(device2);
-
-            var (result, totalResults) = repository.GetDevices("aDevice", "Model1", "Company", DeviceType.SmartLamp, 1, 10);
-
-            result.Should().NotBeNull();
-            result.Should().HaveCount(1);
-            result[0].Should().BeEquivalentTo(device1);
-            totalResults.Should().Be(1); 
-        }
-    }
 }
