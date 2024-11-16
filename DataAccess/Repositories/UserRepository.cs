@@ -162,8 +162,8 @@ public class UserRepository : IUserRepository
             .Include(u => u.Role)
             .Include(u => u.Company)
             .Where(u => (role == null || u.Role.Name == role) && (fullName == null || u.Name.Contains(fullName) || u.LastName.Contains(fullName)));
-        
-        var totalResults = users == null ? 0: users.Count();
+
+        var totalResults = users == null ? 0 : users.Count();
 
         users = users?.Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)

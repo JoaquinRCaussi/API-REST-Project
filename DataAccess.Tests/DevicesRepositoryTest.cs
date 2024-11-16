@@ -149,7 +149,7 @@ public class DeviceRepositoryTest
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
             result[0].Should().BeEquivalentTo(device1);
-            totalResults.Should().Be(1); 
+            totalResults.Should().Be(1);
         }
     }
 
