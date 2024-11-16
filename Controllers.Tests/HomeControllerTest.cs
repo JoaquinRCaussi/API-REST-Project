@@ -1253,4 +1253,32 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
+    
+    [TestMethod]
+    public void GetHomeMemberSetting_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+
+        var memberSetting = new MemberSetting
+        {
+            HomeId = homeId,
+            UserId = userId,
+            Permissions = []
+        };
+        
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+        memberLogic.Setup(x => x.GetMemberSetting(homeId, userId)).Returns(memberSetting);
+
+        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+
+        IActionResult act = controller.GetMemberSetting(homeId, userId);
+
+        var expected = new OkObjectResult(memberSetting);
+
+        act.Should().BeEquivalentTo(expected);
+    }
 }

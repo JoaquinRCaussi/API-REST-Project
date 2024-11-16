@@ -103,6 +103,20 @@ public class HomeController : ControllerBase
             return BadRequest(new { Message = "You are not the owner of this home" });
         }
     }
+    
+    [HttpGet]
+    [Route("{homeId}/members/{userId}")]
+    public IActionResult GetMemberSetting(Guid homeId, Guid userId)
+    {
+        var memberSetting = _memberSettingLogic.GetMemberSetting(homeId, userId);
+
+        var response = new GetMemberSettingResponse()
+        {
+            PermissionsValue = memberSetting.Permissions.Select(p => p.Value).ToList()
+        };
+        
+        return Ok(response);
+    }
 
     [HttpPost]
     [AuthorizationFilter("CanAsociateDevices")]
