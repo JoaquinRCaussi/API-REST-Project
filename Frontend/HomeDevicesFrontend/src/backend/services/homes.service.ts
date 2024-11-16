@@ -4,6 +4,7 @@ import { HomesApiRepositoryService } from '../repositories/homes-api-repository.
 import { HomeResponse } from '../models/out/home-response';
 import { HomeRequest } from '../models/in/home-request';
 import { HomeMemberResponse } from '../models/out/home-member-response';
+import { MemberSettingsResponse } from '../models/out/member-settings-response';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,9 @@ export class HomesService {
 
   getHomeMembers(homeId: string): Observable<HomeMemberResponse[]> {
     return this.homesApiRepository.getHomeMembers(homeId);
+  }
+
+  getMemberSettings(homeId: string, userId: string): Observable<MemberSettingsResponse[]> {
+    return this.homesApiRepository.getMemberSettings(homeId, userId);
   }
 }

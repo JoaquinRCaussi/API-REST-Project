@@ -6,6 +6,7 @@ import ApiRepository from './api-repository';
 import domovizApi from '../../environments/environment.local';
 import { HomeRequest } from '../models/in/home-request';
 import { HomeMemberResponse } from '../models/out/home-member-response';
+import { MemberSettingsResponse } from '../models/out/member-settings-response';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,9 @@ export class HomesApiRepositoryService extends ApiRepository {
 
   public getHomeMembers(homeId: string): Observable<HomeMemberResponse[]> {
     return this.get(homeId + '/members');
+  }
+
+  public getMemberSettings(homeId: string, userId: string): Observable<MemberSettingsResponse[]> {
+    return this.get(homeId + '/members/' + userId);
   }
 }
