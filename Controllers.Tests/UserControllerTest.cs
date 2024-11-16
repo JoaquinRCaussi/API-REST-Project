@@ -546,7 +546,7 @@ public class UserControllerTest
             Id = Guid.NewGuid(),
             Name = "John",
             LastName = "Doe",
-            Email = "mail@mail.con"
+            Email = email
         };
         
         userLogicMock.Setup(logic => logic.FindByMail(email)).Returns(expectedUser);
