@@ -622,20 +622,22 @@ public class DevicesLogicTest
     public void GetDevicesTest_WhenAllParametersAreNull()
     {
         var devices = new List<Device>
-        {
-            new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company },
-            new Device { Id = Guid.NewGuid(), Name = "Device2", Model = "Model2", DeviceType = DeviceType.Camera, Company = _company }
-        };
+    {
+        new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company },
+        new Device { Id = Guid.NewGuid(), Name = "Device2", Model = "Model2", DeviceType = DeviceType.Camera, Company = _company }
+    };
 
-        _deviceRepository.Setup(x => x.GetDevicesNoType("", "", "")).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", null, 1, 10))
+                         .Returns((devices, devices.Count));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices(null, null, null, null);
+        var (result, totalResults) = deviceLogic.GetDevices(null, null, null, null, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo(devices);
+        totalResults.Should().Be(2);
     }
 
     [TestMethod]
