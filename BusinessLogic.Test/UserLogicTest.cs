@@ -419,9 +419,10 @@ public class UserLogicTest
     [TestMethod]
     public void GetUsersFilteredTest_WhenNoUsers()
     {
-        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns([]);
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "", 1, 10))
+                           .Returns((new List<User>(), 0));
 
-        var act = () => _userLogic.GetUsersFiltered("John", "");
+        var act = () => _userLogic.GetUsersFiltered("John", "", 1, 10);
 
         act.Should().Throw<EmptyException>().WithMessage("No users found.");
     }
