@@ -1260,6 +1260,19 @@ public class HomeControllerTest
         var homeId = Guid.NewGuid();
         var userId = Guid.NewGuid();
 
+        var home = new Home()
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid(),
+            Members = []
+        };
+        
         var memberSetting = new MemberSetting
         {
             HomeId = homeId,
@@ -1269,15 +1282,20 @@ public class HomeControllerTest
         
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+        
+        homeLogic.Setup(x => x.GetHome(homeId)).Returns(home);
         memberLogic.Setup(x => x.GetMemberSetting(homeId, userId)).Returns(memberSetting);
 
-        var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+        var controller = new HomeController(homeLogic.Object, memberLogic.Object);
 
-        var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-
+        var response = new GetMemberSettingResponse()
+        {
+            PermissionsValue = memberSetting.Permissions.Select(x => x.Value).ToList()
+        };
+        
         IActionResult act = controller.GetMemberSetting(homeId, userId);
 
-        var expected = new OkObjectResult(memberSetting);
+        var expected = new OkObjectResult(response);
 
         act.Should().BeEquivalentTo(expected);
     }
