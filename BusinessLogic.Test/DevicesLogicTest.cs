@@ -422,22 +422,23 @@ public class DevicesLogicTest
             Photo = "Photo",
             Company = _company
         };
-        var devices = new List<Device>
-        {
-            device
-        };
+        var devices = new List<Device> { device };
+        var totalResults = devices.Count;
+
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        _deviceRepository.Setup(x => x.GetDevices("Device", "", "", It.IsAny<DeviceType>())).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("Device", "", "", DeviceType.Camera, 1, 10))
+                         .Returns((devices, totalResults));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices("Device", "", "", DeviceType.Camera);
+        var (result, count) = deviceLogic.GetDevices("Device", "", "", DeviceType.Camera, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
+        count.Should().Be(1);
     }
 
     [TestMethod]
