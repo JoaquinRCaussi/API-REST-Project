@@ -69,6 +69,6 @@ public class DeviceRepository : IDeviceRepository
             .Take(pageSize)
             .ToList();
 
-        return (paginatedDevices ?? new List<Device>(), totalResults);
+        return (paginatedDevices ?? [], totalResults);
     }
 }
