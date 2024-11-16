@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HomeResponse } from '../models/home-response';
 import ApiRepository from './api-repository';
 import domovizApi from '../../environments/environment.local';
+import { HomeRequest } from '../models/in/home-request';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +21,9 @@ export class HomesApiRepositoryService extends ApiRepository {
   public getHome(id: string): Observable<HomeResponse> {
     return this.get(id);
   }
+
+  public createHome(home: HomeRequest): Observable<HomeResponse> {
+    return this.post(home);
+  }
+
 }
