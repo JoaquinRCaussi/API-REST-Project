@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HomesApiRepositoryService } from '../repositories/homes-api-repository.service';
 import { HomeResponse } from '../models/home-response';
+import { HomeRequest } from '../models/in/home-request';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,10 @@ export class HomesService {
         return filteredHome;
       })
     );
+  }
+
+  createHome(home: HomeRequest): Observable<HomeResponse> {
+    console.log('Sending home creation request:', home);
+    return this.homesApiRepository.createHome(home);
   }
 }
