@@ -167,11 +167,12 @@ public class DeviceRepositoryTest
             repository.CreateDevice(device1);
             repository.CreateDevice(device2);
 
-            var result = repository.GetDevicesNoType("aDevice", "Model1", "Company");
+            var (result, totalResults) = repository.GetDevices("aDevice", "Model1", "Company", DeviceType.SmartLamp, 1, 10);
 
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
             result[0].Should().BeEquivalentTo(device1);
+            totalResults.Should().Be(1); 
         }
     }
 }
