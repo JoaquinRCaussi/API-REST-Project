@@ -448,11 +448,12 @@ public class DevicesLogicTest
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns([]);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera, 1, 10))
+                         .Returns((new List<Device>(), 0));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        Action act = () => deviceLogic.GetDevices("", "", "", DeviceType.Camera);
+        Action act = () => deviceLogic.GetDevices("", "", "", DeviceType.Camera, 1, 10);
 
         act.Should().Throw<EmptyException>().WithMessage("No devices found.");
     }
