@@ -1299,4 +1299,44 @@ public class HomeControllerTest
 
         act.Should().BeEquivalentTo(expected);
     }
+    
+    [TestMethod]
+    public void GetHomeMemberSetting_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+        
+        homeLogic.Setup(x => x.GetHome(homeId)).Throws(new NotValidDataException("Home not found."));
+        memberLogic.Setup(x => x.GetMemberSetting(homeId, userId))
+            .Throws(new NotValidDataException("Member setting not found."));
+
+        var controller = new HomeController(homeLogic.Object, memberLogic.Object);
+
+        Action act = () => controller.GetMemberSetting(homeId, userId);
+
+        act.Should().Throw<NotValidDataException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new NotValidDataException("Member setting not found.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
+        homeLogic.VerifyAll();
+    }
 }
