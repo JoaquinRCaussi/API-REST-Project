@@ -117,24 +117,7 @@ public class DeviceLogic : IDeviceLogic
         model ??= string.Empty;
         companyName ??= string.Empty;
 
-        List<Device> devices;
-        if (deviceType.HasValue)
-        {
-            devices = _deviceRepository.GetDevices(name, model, companyName, deviceType.Value);
-        }
-        else
-        {
-            devices = _deviceRepository.GetDevicesNoType(name, model, companyName);
-        }
-
-        var totalResults = devices.Count;
-
-        var paginatedDevices = devices
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        return (paginatedDevices, totalResults);
+        return _deviceRepository.GetDevices(name, model, companyName, deviceType, pageNumber, pageSize);
     }
 
     public List<string> GetDevicesTypes()

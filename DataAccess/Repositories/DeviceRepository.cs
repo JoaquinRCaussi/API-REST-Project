@@ -46,25 +46,29 @@ public class DeviceRepository : IDeviceRepository
         return camera;
     }
 
-
-    public List<Device> GetDevices(string name, string model, string companyName, DeviceType deviceType)
-    {
-
-        return _dbContext.Devices?
-            .Include(x => x.Company)
-            .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName) && x.DeviceType == deviceType).ToList()!;
-    }
-
     public bool ExistsDevice(string? name, Guid companyId)
     {
         return _dbContext.Devices?.Any(x => x.Name == name && x.CompanyId == companyId) ?? false;
     }
 
-    public List<Device> GetDevicesNoType(string name, string model, string companyName)
+    public (List<Device> Devices, int TotalResults) GetDevices(string name, string model, string companyName, DeviceType? deviceType, int pageNumber, int pageSize)
     {
-        return _dbContext.Devices?
+        var query = _dbContext.Devices?
             .Include(x => x.Company)
-            .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName))
-            .ToList()!;
+            .Where(x => x.Name.Contains(name) && x.Model.Contains(model) && x.Company.Name.Contains(companyName));
+
+        if (deviceType.HasValue)
+        {
+            query = query?.Where(x => x.DeviceType == deviceType.Value);
+        }
+
+        var totalResults = query == null ? 0 : query.Count();
+
+        var paginatedDevices = query?
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return (paginatedDevices ?? new List<Device>(), totalResults);
     }
 }
