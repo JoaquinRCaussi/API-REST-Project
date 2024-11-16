@@ -144,11 +144,12 @@ public class DeviceRepositoryTest
             repository.CreateDevice(device1);
             repository.CreateDevice(device2);
 
-            var result = repository.GetDevices("aDevice", "", "Company", DeviceType.WindowSensor);
+            var (result, totalResults) = repository.GetDevices("aDevice", "", "Company", DeviceType.WindowSensor, 1, 10);
 
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
             result[0].Should().BeEquivalentTo(device1);
+            totalResults.Should().Be(1); 
         }
     }
 
