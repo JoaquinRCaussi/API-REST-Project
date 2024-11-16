@@ -48,7 +48,7 @@ public class UserLogicTest
     {
         _userRepositoryMock.Setup(x => x.GetUsers()).Returns([]);
 
-        var act = () => _userLogic.GetUsers();
+        var act = _userLogic.GetUsers;
 
         act.Should().Throw<EmptyException>().WithMessage("No users found.");
     }
