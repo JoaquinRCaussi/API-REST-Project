@@ -948,7 +948,7 @@ public class HomeControllerTest
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
-        
+
         var roomRequest = new AddRoomRequest()
         {
             RoomName = roomName
