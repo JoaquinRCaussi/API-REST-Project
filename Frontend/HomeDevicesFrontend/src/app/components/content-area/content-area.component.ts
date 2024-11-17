@@ -8,6 +8,8 @@ import { NewHomeComponent } from '../new-home/new-home.component';
 import { HomeMembersComponent } from '../home-members/home-members.component';
 import { HomeMemberPermissionsComponent } from '../home-member-permissions/home-member-permissions.component';
 import { NewMemberComponent } from '../new-member/new-member.component';
+import { HomeRoomsComponent } from '../home-rooms/home-rooms.component';
+import { NewRoomComponent } from '../new-room/new-room.component';
 
 @Component({
   selector: 'app-content-area',
@@ -19,7 +21,9 @@ import { NewMemberComponent } from '../new-member/new-member.component';
             NewHomeComponent,
             HomeMembersComponent,
             HomeMemberPermissionsComponent,
-            NewMemberComponent],
+            NewMemberComponent,
+            HomeRoomsComponent,
+            NewRoomComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })

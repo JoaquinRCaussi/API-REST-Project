@@ -8,6 +8,9 @@ import { MemberSettingsResponse } from '../models/out/member-settings-response';
 import { PermissionRequest } from '../models/in/permission-request';
 import { AddMemberRequest } from '../models/in/add-member-request';
 import { AddMemberResponse } from '../models/out/add-member-response';
+import { RoomResponse } from '../models/out/rooms-response';
+import { NewRoomRequest } from '../models/in/new-room-request';
+import { NewRoomResponse } from '../models/out/new-room-response';
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +56,13 @@ export class HomesService {
 
   addMember(homeId: string, addMemberRequest:AddMemberRequest): Observable<AddMemberResponse> {
     return this.homesApiRepository.addMember(homeId, addMemberRequest);
+  }
+
+  getRooms(homeId: string): Observable<RoomResponse[]> {
+    return this.homesApiRepository.getRooms(homeId);
+  }
+
+  addRoom(homeId: string, roomRequest:NewRoomRequest): Observable<NewRoomResponse> {
+    return this.homesApiRepository.addRoom(homeId, roomRequest);
   }
 }
