@@ -105,7 +105,7 @@ public class UserController : ControllerBase
         List<Notification> notifications = _userLogic.GetNotifications(userId);
         return Ok(notifications);
     }
-    
+
     [HttpGet]
     [Route("by-email/{userMail}")]
     public IActionResult GetUserByEmail([FromRoute] string userMail)

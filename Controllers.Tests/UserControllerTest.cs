@@ -540,7 +540,7 @@ public class UserControllerTest
         var userController = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
         var email = "mail@mail.com";
-        
+
         var expectedUser = new User
         {
             Id = Guid.NewGuid(),
@@ -548,19 +548,19 @@ public class UserControllerTest
             LastName = "Doe",
             Email = email
         };
-        
+
         userLogicMock.Setup(logic => logic.FindByMail(email)).Returns(expectedUser);
-        
+
         IActionResult result = userController.GetUserByEmail(email);
-        
+
         var okResult = result as OkObjectResult;
-        
+
         okResult.Should().NotBeNull();
         okResult.Value.Should().BeOfType<GetUserResponse>();
         okResult.Value.As<GetUserResponse>().Name.Should().Be(expectedUser.Name);
         okResult.Value.As<GetUserResponse>().LastName.Should().Be(expectedUser.LastName);
         okResult.Value.As<GetUserResponse>().Email.Should().Be(email);
-        
+
         userLogicMock.VerifyAll();
     }
 

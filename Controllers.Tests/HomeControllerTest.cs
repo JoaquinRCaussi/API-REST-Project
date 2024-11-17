@@ -1253,7 +1253,7 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
-    
+
     [TestMethod]
     public void GetHomeMemberSetting_WhenAllPropertiesOk()
     {
@@ -1272,17 +1272,17 @@ public class HomeControllerTest
             HomeOwner = Guid.NewGuid(),
             Members = []
         };
-        
+
         var memberSetting = new MemberSetting
         {
             HomeId = homeId,
             UserId = userId,
             Permissions = []
         };
-        
+
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-        
+
         homeLogic.Setup(x => x.GetHome(homeId)).Returns(home);
         memberLogic.Setup(x => x.GetMemberSetting(homeId, userId)).Returns(memberSetting);
 
@@ -1292,14 +1292,14 @@ public class HomeControllerTest
         {
             PermissionsValue = memberSetting.Permissions.Select(x => x.Value).ToList()
         };
-        
+
         IActionResult act = controller.GetMemberSetting(homeId, userId);
 
         var expected = new OkObjectResult(response);
 
         act.Should().BeEquivalentTo(expected);
     }
-    
+
     [TestMethod]
     public void GetHomeMemberSetting_ShouldReturnNoContent()
     {
@@ -1307,7 +1307,7 @@ public class HomeControllerTest
         var userId = Guid.NewGuid();
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Loose);
         var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
-        
+
         memberLogic.Setup(x => x.GetMemberSetting(homeId, userId))
             .Throws(new NotValidDataException("Member setting not found."));
 

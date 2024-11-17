@@ -103,7 +103,7 @@ public class HomeController : ControllerBase
             return BadRequest(new { Message = "You are not the owner of this home" });
         }
     }
-    
+
     [HttpGet]
     [Route("{homeId}/members/{userId}")]
     public IActionResult GetMemberSetting(Guid homeId, Guid userId)
@@ -114,7 +114,7 @@ public class HomeController : ControllerBase
         {
             PermissionsValue = memberSetting.Permissions.Select(p => p.Value).ToList()
         };
-        
+
         return Ok(response);
     }
 
