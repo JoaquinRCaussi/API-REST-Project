@@ -59,7 +59,8 @@ public sealed class AuthenticationFilterAttribute
             return;
         }
 
-        var token = authorizationHeader;
+        var authorizationhasBearer = authorizationHeader.Contains("Bearer ");
+        var token = authorizationhasBearer ? authorizationHeader.Replace("Bearer ", "") : authorizationHeader;
 
         try
         {
@@ -80,6 +81,10 @@ public sealed class AuthenticationFilterAttribute
 
     private bool IsAuthorizationFormatNotValid(string token)
     {
+        if (token.Contains("Bearer "))
+        {
+            token = token.Replace("Bearer ", "");
+        }
         return Guid.TryParse(token, out _);
     }
 
