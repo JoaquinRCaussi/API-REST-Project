@@ -948,8 +948,13 @@ public class HomeControllerTest
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        
+        var roomRequest = new AddRoomRequest()
+        {
+            RoomName = roomName
+        };
 
-        IActionResult act = controller.AddRoomToHome(homeId, roomName);
+        IActionResult act = controller.AddRoomToHome(homeId, roomRequest);
 
         var expected = new CreatedAtActionResult(
             nameof(controller.AddRoomToHome),

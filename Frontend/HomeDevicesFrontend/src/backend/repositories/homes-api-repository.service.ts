@@ -9,6 +9,9 @@ import { HomeMemberResponse } from '../models/out/home-member-response';
 import { MemberSettingsResponse } from '../models/out/member-settings-response';
 import { AddMemberRequest } from '../models/in/add-member-request';
 import { AddMemberResponse } from '../models/out/add-member-response';
+import { RoomResponse } from '../models/out/rooms-response';
+import { NewRoomRequest } from '../models/in/new-room-request';
+import { NewRoomResponse } from '../models/out/new-room-response';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +49,12 @@ export class HomesApiRepositoryService extends ApiRepository {
     return this.putById(`${homeId}/members`, addMemberRequest);
   }
   
+  public getRooms(homeId: string): Observable<RoomResponse[]> {
+    return this.get(homeId + '/rooms');
+  }
 
+  public addRoom(homeId: string, roomRequest: NewRoomRequest): Observable<NewRoomResponse> {
+    return this.post(roomRequest,`${homeId}/rooms`);
+  }
 
 }
