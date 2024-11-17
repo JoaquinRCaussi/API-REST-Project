@@ -11,6 +11,7 @@ import { NewMemberComponent } from '../new-member/new-member.component';
 import { HomeRoomsComponent } from '../home-rooms/home-rooms.component';
 import { NewRoomComponent } from '../new-room/new-room.component';
 import { CompanyDetailComponent } from '../company-detail/company-detail.component';
+import { NewCompanyComponent } from '../new-company/new-company.component';
 
 @Component({
   selector: 'app-content-area',
@@ -25,7 +26,8 @@ import { CompanyDetailComponent } from '../company-detail/company-detail.compone
             NewMemberComponent,
             HomeRoomsComponent,
             NewRoomComponent,
-            CompanyDetailComponent],
+            CompanyDetailComponent,
+            NewCompanyComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })
