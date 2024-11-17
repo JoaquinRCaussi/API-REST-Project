@@ -16,7 +16,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowLocalhost",
         policy => policy.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+            .AllowCredentials());
 });
 
 // Add services to the container.

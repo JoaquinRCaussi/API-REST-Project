@@ -1,13 +1,15 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
 import { HomesService } from '../../../backend/services/homes.service';
-import { HomeResponse } from '../../../backend/models/home-response';
+import { HomeResponse } from '../../../backend/models/out/home-response';
 import { CommonModule } from '@angular/common';
+import { SimpleCardComponent } from '../simple-card/simple-card.component';
+import { SignUpComponent } from "../../layouts/sign-up/sign-up.component";
 
 @Component({
   selector: 'app-home-detail',
   templateUrl: './home-detail.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, SimpleCardComponent, SignUpComponent],
   standalone: true,
   styleUrls: ['./home-detail.component.css']
 })
@@ -23,8 +25,8 @@ export class HomeDetailComponent {
     if (this.homeId) {
       this.homesService.getHome(this.homeId).subscribe((home) => {
         //TODO: Check what is returned here, maybe we need yo check Rooms in Repo at Backend
-        console.log('Home:', home);
         this.home = home;
+        console.log(home);
       });
     }
   }

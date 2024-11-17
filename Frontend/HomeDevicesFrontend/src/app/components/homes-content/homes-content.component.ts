@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class HomesContentComponent {
   homes: any[] = [DynamicTableComponent];
   rows: { [key: string]: string }[] = [];  // Assuring that the rows are of type string
-  columns = [ 'Name', 'Location', 'Members', 'Owner', 'Devices' ];
+  columns = [ 'Name', 'Location', 'Members', 'Owner', 'Devices', 'Rooms' ];
 
   constructor(private homesService: HomesService, private router: Router) {}
 
@@ -27,7 +27,8 @@ export class HomesContentComponent {
         Location: home.location.toString(),
         Members: home.members?.length?.toString() || '',
         Owner: home.owner.name.toString(),
-        Devices: home.devices?.length?.toString() || ''
+        Devices: home.devices?.length?.toString() || '',
+        Rooms: home.rooms?.length?.toString() || ''
       }));
 
       console.log(this.rows);

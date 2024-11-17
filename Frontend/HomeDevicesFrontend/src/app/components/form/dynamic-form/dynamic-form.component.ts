@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class DynamicFormComponent implements OnInit {
   @Input() fields: FormField[] = [];
   @Input() submitHandler: (formData: any) => void = () => {}; // handler para metodo de submit
+  @Input() buttonText: string = 'Submit';
 
   form: FormGroup = new FormGroup({});
 
@@ -32,9 +33,15 @@ export class DynamicFormComponent implements OnInit {
   onSubmit() {
     if (this.form.valid && this.submitHandler) {
       this.submitHandler(this.form.value);
+      this.clearForm();
+
     } else {
       window.alert('Formulario no válido');
       console.log('Formulario no válido');
     }
+  }
+
+  clearForm() {
+    this.form.reset();
   }
 }

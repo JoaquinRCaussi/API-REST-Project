@@ -50,7 +50,6 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("{userId}")]
-    [AuthorizationFilter("CanManageUsers")]
     public IActionResult GetUser([FromRoute] Guid userId)
     {
         User user = _userLogic.GetUser(userId);
@@ -98,5 +97,21 @@ public class UserController : ControllerBase
     {
         List<Notification> notifications = _userLogic.GetNotifications(userId);
         return Ok(notifications);
+    }
+
+    [HttpGet]
+    [Route("by-email/{userMail}")]
+    public IActionResult GetUserByEmail([FromRoute] string userMail)
+    {
+        User user = _userLogic.FindByMail(userMail);
+        var response = new GetUserResponse
+        {
+            Id = user.Id.ToString(),
+            Name = user.Name,
+            LastName = user.LastName,
+            CreatedAt = user.CreatedAt,
+            Email = user.Email
+        };
+        return Ok(response);
     }
 }

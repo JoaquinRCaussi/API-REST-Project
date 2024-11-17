@@ -1,0 +1,14 @@
+<div class="flex flex-col gap-8 justify-center items-center">
+    <h1 class="w-full text-4xl text-white font-bold text-center">Add a new member to the home</h1>
+    <p class="text-[#666666] text-xl w-1/2 text-center">Please insert here the email of the user you want to add as a member of your home.</p>
+    <div class="form-search">
+        <app-dynamic-form [fields]="formFields" buttonText="Search" [submitHandler]="onSearch" class="w-1/2"/>
+    </div>
+    @if(user){
+        <div class="result w-1/2 justify-center flex flex-col items-center gap-8">
+            <app-dynamic-table [columns]="columns" [rows]="rows" [interacts]="true" class="w-full"/>
+            <p class="text-[#666666] text-xl w-full text-center">If this is the user you want to add, please press Accept.</p>
+            <app-default-button text="Accept" [onClick]="onAccept" />
+        </div>
+    }
+</div>

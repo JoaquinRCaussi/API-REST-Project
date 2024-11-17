@@ -44,6 +44,7 @@ public class HomeRepository : IHomeRepository
             .Include(h => h.Devices)
             .Include(h => h.Members)
             .Include(h => h.Owner)
+            .Include(h => h.Rooms)
             .ToList()!;
     }
 
@@ -55,6 +56,7 @@ public class HomeRepository : IHomeRepository
             .Include(x => x.Owner)
             .Include(x => x.MemberSettings)
                 .ThenInclude(x => x.Permissions)
+            .Include(x => x.Rooms)
             .FirstOrDefault(x => x.Id == homeId)!;
     }
 
@@ -62,6 +64,7 @@ public class HomeRepository : IHomeRepository
     {
         var members = _dbContext.Homes?
             .Where(x => x.Id == homeId)
+            .Include(x => x.Members)
             .Select(x => x.Members)
             .FirstOrDefault();
 
