@@ -104,6 +104,20 @@ public class HomeController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("{homeId}/members/{userId}")]
+    public IActionResult GetMemberSetting(Guid homeId, Guid userId)
+    {
+        var memberSetting = _memberSettingLogic.GetMemberSetting(homeId, userId);
+
+        var response = new GetMemberSettingResponse()
+        {
+            PermissionsValue = memberSetting.Permissions.Select(p => p.Value).ToList()
+        };
+
+        return Ok(response);
+    }
+
     [HttpPost]
     [AuthorizationFilter("CanAsociateDevices")]
     [Route("{homeId}/devices")]

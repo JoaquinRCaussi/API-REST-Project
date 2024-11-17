@@ -1253,4 +1253,89 @@ public class HomeControllerTest
 
         homeLogic.VerifyAll();
     }
+
+    [TestMethod]
+    public void GetHomeMemberSetting_WhenAllPropertiesOk()
+    {
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+
+        var home = new Home()
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "TestLocation",
+            Latitude = "123",
+            Longitude = "123",
+            MemberCount = 5,
+            Devices = [],
+            HomeOwner = Guid.NewGuid(),
+            Members = []
+        };
+
+        var memberSetting = new MemberSetting
+        {
+            HomeId = homeId,
+            UserId = userId,
+            Permissions = []
+        };
+
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
+        var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        homeLogic.Setup(x => x.GetHome(homeId)).Returns(home);
+        memberLogic.Setup(x => x.GetMemberSetting(homeId, userId)).Returns(memberSetting);
+
+        var controller = new HomeController(homeLogic.Object, memberLogic.Object);
+
+        var response = new GetMemberSettingResponse()
+        {
+            PermissionsValue = memberSetting.Permissions.Select(x => x.Value).ToList()
+        };
+
+        IActionResult act = controller.GetMemberSetting(homeId, userId);
+
+        var expected = new OkObjectResult(response);
+
+        act.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void GetHomeMemberSetting_ShouldReturnNoContent()
+    {
+        var homeId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var homeLogic = new Mock<IHomeLogic>(MockBehavior.Loose);
+        var memberLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
+
+        memberLogic.Setup(x => x.GetMemberSetting(homeId, userId))
+            .Throws(new NotValidDataException("Member setting not found."));
+
+        var controller = new HomeController(homeLogic.Object, memberLogic.Object);
+
+        Action act = () => controller.GetMemberSetting(homeId, userId);
+
+        act.Should().Throw<NotValidDataException>();
+
+        var context = new ActionContext
+        {
+            HttpContext = new DefaultHttpContext(),
+            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+        };
+
+        var exceptionFilter = new ExceptionFilter();
+        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        {
+            Exception = new NotValidDataException("Member setting not found.")
+        };
+
+        exceptionFilter.OnException(exceptionContext);
+
+        var result = exceptionContext.Result as ObjectResult;
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
+        homeLogic.VerifyAll();
+    }
 }

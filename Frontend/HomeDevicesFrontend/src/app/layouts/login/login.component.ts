@@ -1,7 +1,7 @@
 import { Component, output } from '@angular/core';
 import { DynamicFormComponent } from '../../components/form/dynamic-form/dynamic-form.component';
 import { FormField } from '../../interface/form-field';
-import { LoginRequest } from '../../../backend/models/login-request';
+import { LoginRequest } from '../../../backend/models/in/login-request';
 import { AuthService } from '../../../backend/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { DefaultButtonComponent } from '../../components/buttons/default-button/default-button.component';

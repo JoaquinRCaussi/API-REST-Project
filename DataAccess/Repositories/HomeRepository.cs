@@ -62,6 +62,7 @@ public class HomeRepository : IHomeRepository
     {
         var members = _dbContext.Homes?
             .Where(x => x.Id == homeId)
+            .Include(x => x.Members)
             .Select(x => x.Members)
             .FirstOrDefault();
 

@@ -52,7 +52,9 @@ public class MemberSettingRepository : IMemberSettingRepository
 
     public MemberSetting GetMemberSetting(Guid homeId, Guid userId)
     {
-        return _dbContext.MemberSettings?.FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId) ?? throw new InvalidOperationException();
+        return _dbContext.MemberSettings?
+            .Include(ms => ms.Permissions)
+            .FirstOrDefault(x => x.HomeId == homeId && x.UserId == userId) ?? throw new InvalidOperationException();
     }
 
     public MemberSetting UpdateMemberSetting(MemberSetting memberSetting)
