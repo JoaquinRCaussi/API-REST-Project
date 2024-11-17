@@ -3,7 +3,7 @@ import { DynamicFormComponent } from '../form/dynamic-form/dynamic-form.componen
 import { FormField } from '../../interface/form-field';
 import { CommonModule } from '@angular/common';
 import { AdminRequest } from '../../../backend/models/in/admin-request';
-import { UserService } from '../../../backend/services/users.service';
+import { AdminService } from '../../../backend/services/admin.service';
 
 @Component({
   selector: 'app-new-admin',
@@ -45,7 +45,7 @@ export class NewAdminComponent {
     }
   ];
 
-  constructor(private usersService: UserService) { }
+  constructor(private adminsService: AdminService) { }
 
   submitHandler = (formData : any) => {
 
@@ -56,7 +56,7 @@ export class NewAdminComponent {
       password: formData.password
     };
 
-    this.usersService.createAdmin(adminRequest).subscribe({
+    this.adminsService.createAdmin(adminRequest).subscribe({
       next: (response) => window.alert("Admin " + adminRequest.name + " created successfully"),
       error: (err) => window.alert("Error creating admin")
     });
