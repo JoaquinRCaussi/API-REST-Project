@@ -9,6 +9,7 @@ import { HomeMembersComponent } from '../home-members/home-members.component';
 import { HomeMemberPermissionsComponent } from '../home-member-permissions/home-member-permissions.component';
 import { NewMemberComponent } from '../new-member/new-member.component';
 import { NewAdminComponent } from '../new-admin/new-admin.component';
+import { NewCompanyOwnerComponent } from "../new-company-owner/new-company-owner.component";
 
 
 @Component({
@@ -22,7 +23,7 @@ import { NewAdminComponent } from '../new-admin/new-admin.component';
     HomeMembersComponent,
     HomeMemberPermissionsComponent,
     NewMemberComponent,
-    NewAdminComponent],
+    NewAdminComponent, NewCompanyOwnerComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })

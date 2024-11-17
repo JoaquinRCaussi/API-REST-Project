@@ -25,7 +25,7 @@ export class NewAdminComponent {
     {
       type: 'text',
       name: 'lastName',
-      label: 'lastName',
+      label: 'Last name',
       placeholder: 'Enter your last name',
       required: true
     },
