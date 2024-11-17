@@ -10,6 +10,7 @@ import { HomeMemberPermissionsComponent } from '../home-member-permissions/home-
 import { NewMemberComponent } from '../new-member/new-member.component';
 import { HomeRoomsComponent } from '../home-rooms/home-rooms.component';
 import { NewRoomComponent } from '../new-room/new-room.component';
+import { CompanyDetailComponent } from '../company-detail/company-detail.component';
 
 @Component({
   selector: 'app-content-area',
@@ -23,7 +24,8 @@ import { NewRoomComponent } from '../new-room/new-room.component';
             HomeMemberPermissionsComponent,
             NewMemberComponent,
             HomeRoomsComponent,
-            NewRoomComponent],
+            NewRoomComponent,
+            CompanyDetailComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })
