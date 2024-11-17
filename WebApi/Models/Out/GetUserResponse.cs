@@ -9,5 +9,5 @@ public class GetUserResponse
     public required string Email { get; set; }
     public required string LastName { get; set; }
     public required DateTime CreatedAt { get; set; }
-    public required Role Role { get; set; }
+    public Role? Role { get; set; }
 }

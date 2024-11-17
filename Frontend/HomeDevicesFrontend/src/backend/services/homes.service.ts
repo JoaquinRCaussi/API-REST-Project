@@ -5,6 +5,9 @@ import { HomeResponse } from '../models/out/home-response';
 import { HomeRequest } from '../models/in/home-request';
 import { HomeMemberResponse } from '../models/out/home-member-response';
 import { MemberSettingsResponse } from '../models/out/member-settings-response';
+import { PermissionRequest } from '../models/in/permission-request';
+import { AddMemberRequest } from '../models/in/add-member-request';
+import { AddMemberResponse } from '../models/out/add-member-response';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +36,6 @@ export class HomesService {
   }
 
   createHome(home: HomeRequest): Observable<HomeResponse> {
-    console.log('Sending home creation request:', home);
     return this.homesApiRepository.createHome(home);
   }
 
@@ -43,5 +45,13 @@ export class HomesService {
 
   getMemberSettings(homeId: string, userId: string): Observable<MemberSettingsResponse[]> {
     return this.homesApiRepository.getMemberSettings(homeId, userId);
+  }
+
+  updatePermission(homeId: string, userId: string, permissionRequest: PermissionRequest): Observable<any> {
+    return this.homesApiRepository.updatePermission(homeId, userId, permissionRequest);
+  }
+
+  addMember(homeId: string, addMemberRequest:AddMemberRequest): Observable<AddMemberResponse> {
+    return this.homesApiRepository.addMember(homeId, addMemberRequest);
   }
 }

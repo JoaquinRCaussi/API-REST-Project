@@ -5,13 +5,6 @@ import { LoginRequest } from '../models/in/login-request';
 import { LoginResponse } from '../models/out/login-response';
 import { SessionApiRepositoryService } from '../repositories/session-api-repository.service';
 
-enum UserRole {
-  ADMIN = 'ADMIN',
-  HomeOwner =  'HomeOwner',
-  Company = 'Company'
-};
-
-
 @Injectable({
   providedIn: 'root'
 })

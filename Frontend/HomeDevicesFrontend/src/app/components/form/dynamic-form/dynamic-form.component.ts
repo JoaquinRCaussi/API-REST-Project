@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class DynamicFormComponent implements OnInit {
   @Input() fields: FormField[] = [];
   @Input() submitHandler: (formData: any) => void = () => {}; // handler para metodo de submit
+  @Input() buttonText: string = 'Submit';
 
   form: FormGroup = new FormGroup({});
 

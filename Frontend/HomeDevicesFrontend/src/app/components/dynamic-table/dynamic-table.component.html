@@ -1,4 +1,4 @@
-<table class="table w-full bg-[#333333] rounded-lg text-white">
+<table class="table w-full bg-[#202020] rounded-lg text-white">
     <thead class="text-xl text-center">
       <tr>
         <th *ngFor="let column of columns" class="p-2">{{ column }}</th>
@@ -9,7 +9,7 @@
         <tr
           *ngIf="interacts; else defaultRow"
           (click)="actionToPerform(row)"
-          class="cursor-pointer text-center bg-[#666666] text-white hover:bg-[#202020] transition-all"
+          class="cursor-pointer text-center bg-[#202020] text-[#666666] hover:text-white transition-all"
         >
           <td *ngFor="let column of columns" class="p-2">{{ row[column] }}</td>
         </tr>

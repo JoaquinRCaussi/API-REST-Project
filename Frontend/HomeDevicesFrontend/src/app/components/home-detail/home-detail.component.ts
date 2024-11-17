@@ -29,8 +29,4 @@ export class HomeDetailComponent {
       });
     }
   }
-
-  onAddRoomClick(): void {
-    console.log('Add room clicked');
-  }
 }
