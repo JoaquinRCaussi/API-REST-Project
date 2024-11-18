@@ -39,7 +39,8 @@ public class CompanyLogicTest
 
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
 
-        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>())).Returns([]);
+        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+            .Returns((new List<Company>(), 0));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
         var result = companyLogic.CreateCompany(company);
