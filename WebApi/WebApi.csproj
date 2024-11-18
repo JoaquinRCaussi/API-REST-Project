@@ -27,4 +27,10 @@
       <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="ModeloValidador.Abstracciones">
+        <HintPath>..\ModeloValidador.Abstracciones.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

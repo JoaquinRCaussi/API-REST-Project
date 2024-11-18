@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using BusinessLogic.Validators;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using ModeloValidador.Abstracciones;
 using Moq;
 using WebApi.Controllers;
 

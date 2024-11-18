@@ -7,7 +7,7 @@ public class ValidatorService
 {
     private readonly string _pluginsPath;
 
-    private readonly List<Type> implementations = [];
+    protected readonly List<Type> implementations = [];
 
     public ValidatorService()
     {
