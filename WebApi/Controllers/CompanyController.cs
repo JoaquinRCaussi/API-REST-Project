@@ -1,3 +1,4 @@
+using BusinessLogic;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -32,16 +33,9 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
     [FromQuery] int pageNumber = 1,
     [FromQuery] int pageSize = 10)
     {
-        List<Company> companies = companyLogic.GetCompanies(name, ownerName);
+        var (companies, totalResults) = companyLogic.GetCompanies(name, ownerName, pageNumber, pageSize);
 
-        var totalResults = companies.Count;
-
-        var paginatedCompanies = companies
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        var response = paginatedCompanies.Select(x => new CompanyResponse(x)).ToList();
+        var response = companies.Select(c => new CompanyResponse(c)).ToList();
 
         return Ok(new
         {

@@ -43,25 +43,16 @@ public class CompanyLogic : ICompanyLogic
         return _companyRepository.CreateCompany(companyToCreate);
     }
 
-    public List<Company> GetCompanies(string? name, string? ownerName)
+    public (List<Company> Companies, int TotalResults) GetCompanies(string? name, string? ownerName, int pageNumber, int pageSize)
     {
-        if (name == null)
-        {
-            name = "";
-        }
+        var (companies, totalResults) = _companyRepository.GetCompanies(name, ownerName, pageNumber, pageSize);
 
-        if (ownerName == null)
-        {
-            ownerName = "";
-        }
-
-        List<Company> companies = _companyRepository.GetCompanies(name, ownerName);
-        if (companies.Count == 0)
+        if (companies == null || !companies.Any())
         {
             throw new EmptyException("No companies found.");
         }
 
-        return companies;
+        return (companies, totalResults);
     }
 
     private bool IsFormatNotCorrect(Company company)

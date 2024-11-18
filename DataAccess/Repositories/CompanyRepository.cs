@@ -31,16 +31,21 @@ public class CompanyRepository : ICompanyRepository
         return company;
     }
 
-    public List<Company> GetCompanies(string name, string ownerName)
+    public (List<Company> Companies, int TotalResults) GetCompanies(string? name, string? ownerName, int pageNumber, int pageSize)
     {
-
         var companies = _dbContext.Companies?
-            .Include(x => x.Owner)
-            .ToList();
+            .Include(c => c.Owner)
+            .Where(c => (string.IsNullOrEmpty(name) || c.Name.Contains(name)) &&
+                        (string.IsNullOrEmpty(ownerName) || c.Owner.Name.Contains(ownerName)));
 
-        var filteredCompanies = companies?.Where(c => c.Name.Contains(name) && c.Owner.Name.Contains(ownerName)).ToList();
+        var totalResults = companies == null ? 0 : companies.Count();
 
-        return filteredCompanies;
+        companies = companies?
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize);
+
+        var companyList = companies == null ? new List<Company>() : companies.ToList();
+        return (companyList, totalResults);
     }
 
     public bool ExistsCompany(Guid companyId)
