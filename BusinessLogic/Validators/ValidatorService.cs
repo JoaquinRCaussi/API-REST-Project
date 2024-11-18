@@ -7,7 +7,7 @@ public class ValidatorService
 {
     private readonly string _pluginsPath;
 
-    private readonly List<Type> implementations = [];
+    protected readonly List<Type> implementations = [];
 
     public ValidatorService()
     {
@@ -19,7 +19,7 @@ public class ValidatorService
         }
     }
 
-    public List<string> ChargeValidators()
+    public virtual List<string> ChargeValidators()
     {
         // Cargar cada DLL que esté en la carpeta Validators
         foreach (var dllPath in Directory.GetFiles(_pluginsPath, "*.dll"))
