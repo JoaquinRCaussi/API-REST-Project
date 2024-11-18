@@ -28,4 +28,22 @@ public class ValidatorControllerTest
         act.Should().BeEquivalentTo(expected, options => options
             .ExcludingMissingMembers());
     }
+    
+    [TestMethod]
+    public void LoadValidators_WhenNoValidatorsFound_ShouldReturnOkWithEmptyList()
+    {
+        var validators = new List<string>();
+
+        var validatorServiceMock = new Mock<ValidatorService>();
+        validatorServiceMock.Setup(v => v.ChargeValidators()).Returns(validators);
+
+        var controller = new ValidatorController(validatorServiceMock.Object);
+
+        IActionResult act = controller.LoadValidators();
+
+        var expected = new OkObjectResult(validators);
+
+        act.Should().BeEquivalentTo(expected, options => options
+            .ExcludingMissingMembers());
+    }
 }
