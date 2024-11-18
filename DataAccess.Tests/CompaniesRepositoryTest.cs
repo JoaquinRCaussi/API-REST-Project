@@ -98,7 +98,7 @@ public class CompaniesRepositoryTest
         var repository = new CompanyRepository(context);
         var expected = new List<Company>();
 
-        var result = repository.GetCompanies("Company", "AnotherOwner");
+        var (result, totalResults) = repository.GetCompanies("Company", "AnotherOwner", 1, 10);
         result.Should().HaveCount(0);
         result.Should().BeEquivalentTo(expected);
     }
