@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GetUserByMailResponse } from '../models/out/get-user-by-mail-response';
 import { UserApiRepository } from '../repositories/user-api-repository.service';
-import { UserResponse } from "../models/out/user-response";
+import { UsersResponse } from "../models/out/users-response";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class UserService {
     return this.userApiRepository.getUser(userId);
   }
 
-  getUsers(): Observable<UserResponse[]> {
+  getUsers(): Observable<UsersResponse> {
     return this.userApiRepository.getUsers();
   }
 

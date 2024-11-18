@@ -12,19 +12,18 @@ import { Router } from '@angular/router';
 })
 export class UsersContentComponent {
   users: any[] = [DynamicTableComponent];
-  rows: { [key: string]: string }[] = [];  // Assuring that the rows are of type string
+  rows: { [key: string]: string }[] = [];
   columns = [ 'Name', 'LastName', 'Role', 'CreatedAt' ];
 
   constructor(private usersService: UserService, private router: Router) {}
 
   ngOnInit() {
-    this.usersService.getUsers().subscribe(users => {
-      this.users = users;
-      // Mapping the users to the rows
-      this.rows = users.map(user => ({
+    this.usersService.getUsers().subscribe(response => {
+      this.users = response.users;
+      this.rows = this.users.map(user => ({
         Name: user.name.toString(),
         LastName: user.lastName.toString(),
-        Role: user.role.toString() || '',
+        Role: user.role.name.toString(),
         CreatedAt: user.createdAt.toString()
       }));
 
