@@ -949,7 +949,12 @@ public class HomeControllerTest
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
-        IActionResult act = controller.AddRoomToHome(homeId, roomName);
+        var roomRequest = new AddRoomRequest()
+        {
+            RoomName = roomName
+        };
+
+        IActionResult act = controller.AddRoomToHome(homeId, roomRequest);
 
         var expected = new CreatedAtActionResult(
             nameof(controller.AddRoomToHome),

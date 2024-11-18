@@ -59,7 +59,8 @@ public sealed class AuthenticationFilterAttribute
             return;
         }
 
-        var token = authorizationHeader;
+        var authorizationhasBearer = authorizationHeader.Contains("Bearer ");
+        var token = authorizationhasBearer ? authorizationHeader.Replace("Bearer ", "") : authorizationHeader;
 
         try
         {
@@ -80,6 +81,10 @@ public sealed class AuthenticationFilterAttribute
 
     private bool IsAuthorizationFormatNotValid(string token)
     {
+        if (token.Contains("Bearer "))
+        {
+            token = token.Replace("Bearer ", "");
+        }
         return Guid.TryParse(token, out _);
     }
 
@@ -89,7 +94,9 @@ public sealed class AuthenticationFilterAttribute
     {
         var sessionService = context.HttpContext.RequestServices.GetRequiredService<ISessionService>();
 
-        var user = sessionService.GetUserByToken(Guid.Parse(authorization));
+        var token = Guid.Parse(authorization);
+
+        var user = sessionService.GetUserByToken(token);
 
         return user;
     }

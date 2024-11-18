@@ -21,4 +21,9 @@
     <ItemGroup>
         <ProjectReference Include="..\WebApi\WebApi.csproj"/>
     </ItemGroup>
+    <ItemGroup>
+      <Reference Include="ModeloValidador.Abstracciones">
+        <HintPath>..\ModeloValidador.Abstracciones.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

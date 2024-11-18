@@ -31,6 +31,9 @@ public class SessionRepository : ISessionRepository
 
         var filteredSessions = sessions.Where(s => s.Token == token)
                 .Include(s => s.User)
+                .Include(c => c.User.Company)
+                .Include(s => s.User.Role)
+                    .ThenInclude(r => r.PermissionKeys)
             .ToList();
         return filteredSessions.FirstOrDefault();
     }

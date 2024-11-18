@@ -75,6 +75,7 @@ public class HMDbContext : DbContext
                 new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("22222222-2222-2222-2222-222222222222") },        // Admin -> CanCreateCompanyOwner
                 new { RolesId = adminRoleId, PermissionKeysId = Guid.Parse("77777777-7777-7777-7777-777777777777") },        // Admin -> CanGetCompanies
                 new { RolesId = companyOwnerRoleId, PermissionKeysId = Guid.Parse("44444444-4444-4444-4444-444444444444") }, // CompanyOwner -> CanCreateCompanyOwner
+                new { RolesId = companyOwnerRoleId, PermissionKeysId = Guid.Parse("77777777-7777-7777-7777-777777777777") },        // CompanyOwner -> CanGetCompanies
                 new { RolesId = companyOwnerRoleId, PermissionKeysId = Guid.Parse("55555555-5555-5555-5555-555555555555") }, // CompanyOwner -> CanCreateADevice
                 new { RolesId = homeOwnerRoleId, PermissionKeysId = Guid.Parse("33333333-3333-3333-3333-333333333333") }     // HomeOwner -> CanCreateHomeOwner
             ));

@@ -3,7 +3,11 @@
     <div class="flex flex-col text-2xl">
     </div>
     <div class="flex gap-8 w-full justify-center flex-wrap">
-        <app-simple-card title="Rooms" description="Here number of rooms"/>
+        <app-simple-card 
+            title="Rooms"
+            description="Here number of rooms"
+            [routerLink]="'/homes/' + homeId + '/rooms'"
+            />
         <app-simple-card 
             title="Members" 
             description="Max members {{home?.memberCount}}" 

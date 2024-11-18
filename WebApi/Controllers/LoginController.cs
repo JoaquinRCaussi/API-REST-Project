@@ -35,7 +35,8 @@ public class LoginController : ControllerBase
         var response = new LoginResponse(strToken ?? throw new InvalidOperationException(), authResult.RoleID.ToString() ?? throw new InvalidOperationException())
         {
             Token = strToken,
-            UserRole = authResult.RoleID.ToString()
+            UserRole = authResult.RoleID.ToString(),
+            UserId = authResult.UserID
         };
 
         return CreatedAtAction(nameof(Login), response);
