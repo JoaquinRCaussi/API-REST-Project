@@ -1,15 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
 using BusinessLogic;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Moq;
 using WebApi.Controllers;
-using WebApi.Filters;
 using WebApi.Models.In;
 using WebApi.Models.Out;
 
@@ -94,13 +91,18 @@ public class CompaniesControllerTest
 
         IActionResult act = controller.GetCompanies("name", aCompany.Owner.Name, 1, 10);
 
-        var expected = new OkObjectResult(companies.Select(x => new CompanyResponse(x)
-        {
-            OwnerName = x.Owner.Name,
-            OwnerEmail = x.Owner.Email
-        }).ToList());
+        var okResult = act as OkObjectResult;
+        okResult.Should().NotBeNull();
 
-        act.Should().BeEquivalentTo(expected);
+        var expectedResponse = new
+        {
+            TotalResults = totalResults,
+            PageNumber = 1,
+            PageSize = 10,
+            Companies = companies.Select(c => new CompanyResponse(c)).ToList()
+        };
+
+        okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.ComparingByMembers<object>());
     }
 
     [TestMethod]
@@ -122,7 +124,7 @@ public class CompaniesControllerTest
         };
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company> { };
+        var companies = new List<Company>();
         var totalResults = 0;
 
         companyLogic.Setup(x => x.GetCompanies("name", "John", 1, 10))
@@ -132,7 +134,19 @@ public class CompaniesControllerTest
 
         IActionResult act = controller.GetCompanies("name", "John", 1, 10);
 
-        act.Should().BeOfType<NoContentResult>();
+        // Verificar que el resultado sea un OkObjectResult con una lista vacía
+        var okResult = act as OkObjectResult;
+        okResult.Should().NotBeNull();
+
+        var expectedResponse = new
+        {
+            totalResults = 0,
+            pageNumber = 1,
+            pageSize = 10,
+            companies = new List<CompanyResponse>()
+        };
+
+        okResult.Value.Should().BeEquivalentTo(expectedResponse);
     }
 
     [TestMethod]
@@ -140,11 +154,13 @@ public class CompaniesControllerTest
     {
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
 
+        // Configurar para lanzar la excepción si no se encuentran compañías
         companyLogic.Setup(x => x.GetCompanies(null, null, 1, 10))
                     .Throws(new EmptyException("No companies found"));
 
         var controller = new CompanyController(companyLogic.Object);
 
+        // Verificar que el resultado sea NoContent cuando no hay compañías
         IActionResult result = controller.GetCompanies(null, null, 1, 10);
 
         result.Should().BeOfType<NoContentResult>();
