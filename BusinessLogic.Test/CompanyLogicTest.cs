@@ -110,7 +110,8 @@ public class CompanyLogicTest
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
-        mock.Setup(x => x.GetCompanies("", "", 1, 10)).Returns((new List<Company>(), 0));
+        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>(), 1, 10))
+            .Returns((new List<Company>(), 0));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
