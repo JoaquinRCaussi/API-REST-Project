@@ -1,9 +1,21 @@
 <div class="home-details text-white w-full flex flex-col gap-8 h-full">
-    <h1 class="text-4xl text-white w-full text-center font-bold">Company - </h1>
-    <p class="w-full text-center text-xl text-[#666666] ">There is no company. Please create one</p>
-    <div class="flex gap-8 w-full justify-center flex-wrap items-center">
-        <app-simple-card title="Create" description="Click here to create your company" [routerLink]="'/new-company'"/>
-        <app-simple-card title="Devices" description="Here number of devices"/>
-        <app-simple-card title="Configuration" description="Change permissions"/>
-    </div>
+    
+    @if(company)
+    {
+        <h1 class="text-4xl text-white w-full text-center font-bold">Company - {{company.name}} </h1>
+        <div class="flex gap-8 w-full justify-center flex-wrap items-center">
+            <app-simple-card title="Create" description="You already have a company" [routerLink]="'/companies'"/>
+            <app-simple-card title="Devices" description="Here number of devices" [routerLink]="'/companies'"/>
+            <app-simple-card title="Configuration" description="Change things"/>
+        </div>
+    }
+    @else {
+        <h1 class="text-4xl text-white w-full text-center font-bold">No company </h1>
+        <p class="w-full text-center text-xl text-[#666666] ">There is no company. Please create one</p>
+        <div class="flex gap-8 w-full justify-center flex-wrap items-center">
+            <app-simple-card title="Create" description="Click here to create your company" [routerLink]="'/new-company'"/>
+            <app-simple-card title="Devices" description="Here number of devices" [routerLink]="'/companies'"/>
+            <app-simple-card title="Configuration" description="Change things"/>
+        </div>
+    }
 </div>
