@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using BusinessLogic.Validators;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using ModeloValidador.Abstracciones;
 using Moq;
 using WebApi.Controllers;
 
@@ -21,15 +20,15 @@ public class ValidatorControllerTest
         validatorServiceMock.Setup(v => v.ChargeValidators()).Returns(validators);
 
         var controller = new ValidatorController(validatorServiceMock.Object);
-        
+
         IActionResult act = controller.LoadValidators();
-        
+
         var expected = new OkObjectResult(validators);
 
         act.Should().BeEquivalentTo(expected, options => options
             .ExcludingMissingMembers());
     }
-    
+
     [TestMethod]
     public void LoadValidators_WhenNoValidatorsFound_ShouldReturnOkWithEmptyList()
     {

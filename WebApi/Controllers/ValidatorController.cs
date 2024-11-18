@@ -20,7 +20,7 @@ public class ValidatorController : ControllerBase
         var validators = _validatorService.ChargeValidators();
         return Ok(validators);
     }
-    
+
     [HttpGet("get-validator/{index}")]
     public IActionResult GetValidator(int index)
     {
