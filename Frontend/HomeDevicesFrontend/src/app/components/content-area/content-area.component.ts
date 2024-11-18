@@ -10,6 +10,7 @@ import { HomeMemberPermissionsComponent } from '../home-member-permissions/home-
 import { NewMemberComponent } from '../new-member/new-member.component';
 import { NewAdminComponent } from '../new-admin/new-admin.component';
 import { NewCompanyOwnerComponent } from "../new-company-owner/new-company-owner.component";
+import { UsersContentComponent } from "../users-content/users-content.component";
 
 
 @Component({
@@ -23,7 +24,7 @@ import { NewCompanyOwnerComponent } from "../new-company-owner/new-company-owner
     HomeMembersComponent,
     HomeMemberPermissionsComponent,
     NewMemberComponent,
-    NewAdminComponent, NewCompanyOwnerComponent],
+    NewAdminComponent, NewCompanyOwnerComponent, UsersContentComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })

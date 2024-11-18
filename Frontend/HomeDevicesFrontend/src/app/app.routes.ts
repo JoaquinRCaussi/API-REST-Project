@@ -17,6 +17,7 @@ export const routes: Routes = [
   { path: 'homes/:id/members/:userId', component: ContentAreaComponent, data: { option: 'member-permissions-option' }, canActivate: [AuthGuard] },
   { path: 'homes/:id/new-member', component: ContentAreaComponent, data: { option: 'new-member-option' }, canActivate: [AuthGuard] },
   { path: 'new-admin', component: ContentAreaComponent, data: { option: 'new-admin-option' }, canActivate: [AuthGuard] },
-  { path: 'new-company-owner', component: ContentAreaComponent, data: { option: 'new-company-owner-option' }, canActivate: [AuthGuard] }
+  { path: 'new-company-owner', component: ContentAreaComponent, data: { option: 'new-company-owner-option' }, canActivate: [AuthGuard] },
+  { path: 'users', component: ContentAreaComponent, data: { option: 'users-option' }, canActivate: [AuthGuard] }
 ];
 
