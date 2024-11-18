@@ -28,6 +28,9 @@ public class HMDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
+        
+        
         // Define GUIDs manually
         var userId = Guid.Parse("d84722d7-8b0a-4ae6-aedd-111111111111");
         var companyId = Guid.Parse("8b02a6f7-6a7e-45c8-899e-222222222222");
@@ -96,8 +99,8 @@ public class HMDbContext : DbContext
 
         modelBuilder.Entity<Device>()
             .HasDiscriminator<DeviceType>("DeviceType")
-            .HasValue<Device>(DeviceType.SmartLamp)
-            .HasValue<Device>(DeviceType.MovementSensor)
+            .HasValue<SmartLamp>(DeviceType.SmartLamp)
+            .HasValue<MovementSensor>(DeviceType.MovementSensor)
             .HasValue<Device>(DeviceType.WindowSensor)
             .HasValue<Camera>(DeviceType.Camera);
 

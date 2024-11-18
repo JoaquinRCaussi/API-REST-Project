@@ -150,6 +150,7 @@ public class DeviceLogic : IDeviceLogic
     {
         return Enum.GetValues(typeof(DeviceType)).Cast<DeviceType>().Select(x => x.ToString()).ToList();
     }
+
     public bool IsCorrectImagePath(string imagePath)
     {
         var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
