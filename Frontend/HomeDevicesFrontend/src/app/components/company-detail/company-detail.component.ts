@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SimpleCardComponent } from '../simple-card/simple-card.component';
 import { CompaniesService } from '../../../backend/services/companies.service';
+import { UserService } from '../../../backend/services/users.service';
 
 @Component({
   selector: 'app-company-detail',
@@ -10,18 +11,23 @@ import { CompaniesService } from '../../../backend/services/companies.service';
   styleUrl: './company-detail.component.css'
 })
 export class CompanyDetailComponent {
-  userToken: any;
+  userId: any;
   company: any;
   user: any;
   
-  constructor(private companiesService:CompaniesService) {}
+  constructor(private companiesService:CompaniesService, private userService:UserService) {}
 
   ngOnInit() {
 
-    this.userToken = localStorage.getItem('token');
-
-    this.companiesService.getCompanyByOwner('ownerName').subscribe((data) => {
-      console.log(data);
+    this.userId = localStorage.getItem('userId');
+  
+    this.userService.getUser(this.userId).subscribe((data) => {
+      this.user = data;
+      this.companiesService.getCompanyByOwner(this.user.name).subscribe((data) => {
+        this.company = data;
+        console.log('User:', this.user);
+        console.log('Company:', this.company);
+      });
     });
   }
 
