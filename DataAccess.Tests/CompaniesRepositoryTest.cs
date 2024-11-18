@@ -71,7 +71,7 @@ public class CompaniesRepositoryTest
         SeedData(context);
         var repository = new CompanyRepository(context);
 
-        var result = repository.GetCompanies("Company", "John");
+        var (result, totalResults) = repository.GetCompanies("Company", "John", 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
