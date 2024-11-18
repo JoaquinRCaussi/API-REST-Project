@@ -13,6 +13,7 @@ import { NewRoomComponent } from '../new-room/new-room.component';
 import { CompanyDetailComponent } from '../company-detail/company-detail.component';
 import { NewCompanyComponent } from '../new-company/new-company.component';
 import { CompanyDevicesComponent } from '../company-devices/company-devices.component';
+import { NewDeviceComponent } from '../new-device/new-device.component';
 
 @Component({
   selector: 'app-content-area',
@@ -29,7 +30,8 @@ import { CompanyDevicesComponent } from '../company-devices/company-devices.comp
             NewRoomComponent,
             CompanyDetailComponent,
             NewCompanyComponent,
-            CompanyDevicesComponent],
+            CompanyDevicesComponent,
+            NewDeviceComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })

@@ -20,6 +20,6 @@ export class CompaniesApiRepository extends ApiRepository {
     }
 
     getCompanyByOwner(ownerName: string): Observable<any> {
-        return this.get(undefined,ownerName);
+        return this.get(undefined,"ownerName="+ownerName);
     }
 }
