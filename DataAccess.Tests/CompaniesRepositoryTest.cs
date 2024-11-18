@@ -130,8 +130,7 @@ public class CompaniesRepositoryTest
         repository.CreateCompany(anotherCompany);
         context.SaveChanges();
 
-
-        var result = repository.GetCompanies("", "");
+        var (result, totalResults) = repository.GetCompanies("", "", 1, 10);
         result.Should().HaveCount(2);
         result.Should().Contain(anotherCompany);
     }
