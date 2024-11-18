@@ -35,7 +35,7 @@ import {
     protected post<T>(body: any, extraResource = ''): Observable<T> {
       extraResource = extraResource ? `/${extraResource}` : '';
 
-      console.log(this.fullEndpoint);
+      console.log
   
       return this._http
         .post<T>(`${this.fullEndpoint}${extraResource}`, body, this.headers)
