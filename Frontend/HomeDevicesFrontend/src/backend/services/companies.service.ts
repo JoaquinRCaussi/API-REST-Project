@@ -14,4 +14,8 @@ export class CompaniesService {
   createCompany(company: NewCompanyRequest) : Observable<NewCompanyResponse>{
     return this.companiesApiRepository.createCompany(company);
   }
+
+  getCompanyByOwner(ownerName: string): Observable<any> {
+    return this.companiesApiRepository.getCompanyByOwner(ownerName);
+  }
 }

@@ -17,6 +17,7 @@ export class AuthService {
         localStorage.setItem('userRole', response.userRole);
         // Guarda el token en localStorage o sessionStorage
         localStorage.setItem('token', response.token);
+        localStorage.setItem('userId', response.userId);
       })
     );
   }

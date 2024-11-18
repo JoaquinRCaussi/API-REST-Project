@@ -60,6 +60,16 @@ export class NewCompanyComponent {
   }
 
   onSubmit = (formData: any) => {
-    console.log(formData);
+
+    const newCompanyRequest = {
+      name: formData.name,
+      rut: formData.rut,
+      logo: formData.logo,
+      validatorModelName: formData.validatorModelName
+    };
+
+    this.companiesService.createCompany(newCompanyRequest).subscribe((data) => {
+      console.log(data);
+    });
   }
 }

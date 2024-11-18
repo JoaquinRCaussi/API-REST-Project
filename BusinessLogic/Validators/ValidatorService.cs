@@ -37,7 +37,10 @@ public class ValidatorService
 
             foreach (var tipo in types)
             {
-                implementations.Add(tipo);
+                if (!implementations.Contains(tipo))
+                {
+                    implementations.Add(tipo);
+                }
             }
         }
 
