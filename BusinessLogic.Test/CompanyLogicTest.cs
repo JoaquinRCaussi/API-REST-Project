@@ -108,11 +108,11 @@ public class CompanyLogicTest
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
-        mock.Setup(x => x.GetCompanies("", "")).Returns([]);
+        mock.Setup(x => x.GetCompanies("", "", 1, 10)).Returns((new List<Company>(), 0));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
-        Action act = () => companyLogic.GetCompanies(null, null);
+        Action act = () => companyLogic.GetCompanies(null, null, 1, 10);
 
         act.Should().Throw<EmptyException>().WithMessage("No companies found.");
     }
