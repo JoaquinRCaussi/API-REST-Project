@@ -92,13 +92,14 @@ public class CompanyLogicTest
             Owner = new User { Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "Asa@gmail.com" }
         };
         var companies = new List<Company> { company };
-        mock.Setup(x => x.GetCompanies("", "")).Returns(companies);
 
+        mock.Setup(x => x.GetCompanies("", "", 1, 10)).Returns((companies, companies.Count));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
-        var result = companyLogic.GetCompanies(null, null);
+        var (result, totalResults) = companyLogic.GetCompanies(null, null, 1, 10);
 
         result.Should().BeEquivalentTo(companies);
+        totalResults.Should().Be(companies.Count);
     }
 
     [TestMethod]
