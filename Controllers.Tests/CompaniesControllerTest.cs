@@ -85,12 +85,14 @@ public class CompaniesControllerTest
         };
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
         var companies = new List<Company> { aCompany };
+        var totalResults = 1;
 
-        companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
+        companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name, 1, 10))
+                    .Returns((companies, totalResults));
 
         var controller = new CompanyController(companyLogic.Object);
 
-        IActionResult act = controller.GetCompanies("name", aCompany.Owner.Name);
+        IActionResult act = controller.GetCompanies("name", aCompany.Owner.Name, 1, 10);
 
         var expected = new OkObjectResult(companies.Select(x => new CompanyResponse(x)
         {
@@ -98,6 +100,7 @@ public class CompaniesControllerTest
             OwnerEmail = x.Owner.Email
         }).ToList());
 
+        act.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
@@ -119,10 +122,17 @@ public class CompaniesControllerTest
         };
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company>
-        {
-        };
-        companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
+        var companies = new List<Company> { };
+        var totalResults = 0;
+
+        companyLogic.Setup(x => x.GetCompanies("name", "John", 1, 10))
+                    .Returns((companies, totalResults));
+
+        var controller = new CompanyController(companyLogic.Object);
+
+        IActionResult act = controller.GetCompanies("name", "John", 1, 10);
+
+        act.Should().BeOfType<NoContentResult>();
     }
 
     [TestMethod]
