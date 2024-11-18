@@ -94,12 +94,13 @@ public class CompanyLogicTest
         };
         var companies = new List<Company> { company };
 
-        mock.Setup(x => x.GetCompanies("", "", 1, 10)).Returns((companies, companies.Count));
+        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>(), 1, 10))
+            .Returns((companies, companies.Count));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
-        var (result, totalResults) = companyLogic.GetCompanies(null, null, 1, 10);
+        var (resultCompanies, totalResults) = companyLogic.GetCompanies(null, null, 1, 10);
 
-        result.Should().BeEquivalentTo(companies);
+        resultCompanies.Should().BeEquivalentTo(companies);
         totalResults.Should().Be(companies.Count);
     }
 
