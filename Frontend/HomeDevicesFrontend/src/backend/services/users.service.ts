@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GetUserByMailResponse } from '../models/out/get-user-by-mail-response';
 import { UserApiRepository } from '../repositories/user-api-repository.service';
-import { AdminRequest } from '../models/in/admin-request';
-import { AdminResponse } from '../models/out/admin-response';
+import { UserResponse } from "../models/out/user-response";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +18,8 @@ export class UserService {
     return this.userApiRepository.getUser(userId);
   }
 
-  createAdmin(admin: AdminRequest): Observable<AdminResponse> {
-    return this.userApiRepository.createAdmin(admin);
+  getUsers(): Observable<UserResponse[]> {
+    return this.userApiRepository.getUsers();
   }
 
 }
