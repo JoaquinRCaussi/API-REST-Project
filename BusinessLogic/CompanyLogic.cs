@@ -34,8 +34,12 @@ public class CompanyLogic : ICompanyLogic
             throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");
         }
 
-        var companies = _companyRepository.GetCompanies(companyToCreate.Name, companyToCreate.Owner.Name);
-        if (companies.Count > 0)
+        var companyExists = _companyRepository
+            .GetCompanies(companyToCreate.Name, companyToCreate.Owner.Name, 1, 1)
+            .Companies
+            .Any();
+
+        if (companyExists)
         {
             throw new ConflictException("The company already exists");
         }
