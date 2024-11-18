@@ -5,7 +5,7 @@
         <h1 class="text-4xl text-white w-full text-center font-bold">Company - {{company.name}} </h1>
         <div class="flex gap-8 w-full justify-center flex-wrap items-center">
             <app-simple-card title="Create" description="You already have a company" [routerLink]="'/companies'"/>
-            <app-simple-card title="Devices" description="Here number of devices" [routerLink]="'/companies'"/>
+            <app-simple-card title="Devices" description="Here number of devices" [routerLink]="'/companies/' + company.id + '/devices' "/>
             <app-simple-card title="Configuration" description="Change things"/>
         </div>
     }
