@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HMDbContext))]
-    partial class HMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118034419_CompanyOwnersCanGetCompanies")]
+    partial class CompanyOwnersCanGetCompanies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +89,7 @@ namespace DataAccess.Migrations
 
                     b.ToTable("Devices");
 
-                    b.HasDiscriminator<int>("DeviceType").HasValue(3);
+                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
 
                     b.UseTphMappingStrategy();
                 });
@@ -451,7 +454,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 11, 18, 3, 3, 50, 772, DateTimeKind.Local).AddTicks(738),
+                            CreatedAt = new DateTime(2024, 11, 18, 0, 44, 19, 197, DateTimeKind.Local).AddTicks(5349),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",

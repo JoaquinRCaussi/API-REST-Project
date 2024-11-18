@@ -35,7 +35,7 @@ export class LoginComponent {
     this.authService.login(loginRequest).subscribe(
       (response) => {
         window.alert('Login successful');
-        console.log('Login exitoso:', response.userRole);
+        console.log('Login exitoso:', response.userId);
         this.router.navigate(['main']);
       },
       (error) => {

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { DynamicFormComponent } from '../form/dynamic-form/dynamic-form.component';
 import { FormField } from '../../interface/form-field';
+import { ValidatorsService } from '../../../backend/services/validator-service.service';
+import { CompaniesService } from '../../../backend/services/companies.service';
 
 @Component({
   selector: 'app-new-company',
@@ -10,6 +12,8 @@ import { FormField } from '../../interface/form-field';
   styleUrl: './new-company.component.css'
 })
 export class NewCompanyComponent {
+
+  validators: string[] = [];
 
   //call controller / make controller for validatorService
   formFields: FormField[] = [
@@ -38,13 +42,34 @@ export class NewCompanyComponent {
       name: 'validatorModelName',
       type: 'select',
       label: 'Validator Model',
-      options: [{
-        label: 'Validator Model Name',
-        value: 'Validator Model Name'
-      }],
+      options: this.validators.map(validator => ({ label: validator, value: validator })),
       required: true
     }
-  ]
+  ];
 
-  constructor() {}
+  constructor(private validatorsService: ValidatorsService, private companiesService: CompaniesService) {}
+
+  ngOnInit() {
+    this.validatorsService.getValidatorModels().subscribe((data) => {
+      this.validators = data;
+      this.formFields[3].options = this.validators.map(validator => ({
+        label: validator,
+        value: validator
+      }));
+    });
+  }
+
+  onSubmit = (formData: any) => {
+
+    const newCompanyRequest = {
+      name: formData.name,
+      rut: formData.rut,
+      logo: formData.logo,
+      validatorModelName: formData.validatorModelName
+    };
+
+    this.companiesService.createCompany(newCompanyRequest).subscribe((data) => {
+      console.log(data);
+    });
+  }
 }
