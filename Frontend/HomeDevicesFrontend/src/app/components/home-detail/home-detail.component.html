@@ -13,8 +13,8 @@
             description="Max members {{home?.memberCount}}" 
             [routerLink]="'/homes/' + homeId + '/members'"
             />
-        <app-simple-card title="Devices" description="Here number of devices"/>
-        <app-simple-card title="Configuration" description="Change permissions"/>
+        <app-simple-card title="Devices" description="Here number of devices" [routerLink]="'/homes/' + homeId + '/devices'"/>
+        <app-simple-card title="Configuration" description="Change home name" [routerLink]="'/homes/' + homeId + '/config'"/>
         <app-simple-card title="Delete" description="Delete this home"/>
     </div>
 </div>

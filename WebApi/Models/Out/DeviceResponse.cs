@@ -5,6 +5,7 @@ namespace WebApi.Models.Out;
 
 public class DeviceResponse
 {
+    public Guid? Id { get; set; }
     public string? Name { get; set; }
     public string? Model { get; set; }
     public DeviceType DeviceType { get; set; }
@@ -15,6 +16,7 @@ public class DeviceResponse
 
     public DeviceResponse(Device device)
     {
+        Id = device.Id;
         Name = device.Name;
         Model = device.Model;
         DeviceType = device.DeviceType;

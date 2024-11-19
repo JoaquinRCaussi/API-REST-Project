@@ -4,16 +4,24 @@ namespace WebApi.Models.Out;
 
 public class GetRoomsResponse
 {
-    public List<Room> Rooms { get; set; }
+    public List<RoomResponse> Rooms { get; set; }
 
     public GetRoomsResponse(List<Room> rooms)
     {
-        Rooms = rooms;
+        Rooms = rooms.Select(r => new RoomResponse(r)).ToList();
     }
+}
 
-    public List<string> ToArgs()
+public class RoomResponse
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public List<HomeDevice> Devices { get; set; }
+
+    public RoomResponse(Room room)
     {
-        var roomNames = Rooms.Select(x => x.Name).ToList();
-        return roomNames;
+        Id = room.Id;
+        Name = room.Name;
+        Devices = room.Devices;
     }
 }

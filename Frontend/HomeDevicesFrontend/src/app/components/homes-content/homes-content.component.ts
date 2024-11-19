@@ -20,7 +20,7 @@ export class HomesContentComponent {
   ngOnInit() {
     this.homesService.getHomes().subscribe(homes => {
       this.homes = homes;
-      // Mapping the homes to the rows
+      
       this.rows = homes.map(home => ({
         Id: home.id.toString(),
         Name: home.name.toString(),

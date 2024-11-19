@@ -1,5 +1,5 @@
 <div class="flex flex-col items-end justify-center gap-8">
     <h1 class="w-full text-4xl font-bold text-white text-center">Rooms</h1>
-    <app-dynamic-table [columns]="columns" [rows]="rows" [interacts]="true" class="w-full"/>
+    <app-dynamic-table [columns]="columns" [rows]="rows" [interacts]="true" class="w-full" [actionToPerform]="onClickRoom"/>
     <app-default-button text="Add Room" [onClick]="onAddRoom" />
 </div>
