@@ -1,0 +1,15 @@
+<div class="flex flex-col gap-44 h-full items-center">
+    <div class="info flex flex-col gap-8">
+        <h1 class="font-bold text-white w-full text-center text-4xl ">Home configuration</h1>
+    <p class="text-[#666666] w-full text-center">Here you can change the name of your home</p>
+    </div>
+    <div class="flex flex-col gap-8">
+        <div class="actualName flex w-full justify-start gap-4 pl-8">
+            <p class="text-white font-bold text-2xl text-center">Actual name: </p>
+            @if(home){
+                <p class="text-white text-2xl text-center">{{home.name}}</p>
+            }
+        </div>
+        <app-dynamic-form [fields]="formFields" buttonText="Change name" [submitHandler]="onChangeName"></app-dynamic-form>
+    </div>
+</div>

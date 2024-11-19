@@ -14,6 +14,10 @@ import { CompanyDetailComponent } from '../company-detail/company-detail.compone
 import { NewCompanyComponent } from '../new-company/new-company.component';
 import { CompanyDevicesComponent } from '../company-devices/company-devices.component';
 import { NewDeviceComponent } from '../new-device/new-device.component';
+import { HomeDevicesComponent } from '../home-devices/home-devices.component';
+import { NewHomeDeviceComponent } from '../new-home-device/new-home-device.component';
+import { RoomDetailComponent } from '../room-detail/room-detail.component';
+import { HomeConfigComponent } from '../home-config/home-config.component';
 
 @Component({
   selector: 'app-content-area',
@@ -31,7 +35,11 @@ import { NewDeviceComponent } from '../new-device/new-device.component';
             CompanyDetailComponent,
             NewCompanyComponent,
             CompanyDevicesComponent,
-            NewDeviceComponent],
+            NewDeviceComponent,
+            HomeDevicesComponent,
+            NewHomeDeviceComponent,
+            RoomDetailComponent,
+            HomeConfigComponent],
   templateUrl: './content-area.component.html',
   styleUrl: './content-area.component.css'
 })

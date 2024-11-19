@@ -24,9 +24,7 @@ export class HomeDetailComponent {
 
     if (this.homeId) {
       this.homesService.getHome(this.homeId).subscribe((home) => {
-        //TODO: Check what is returned here, maybe we need yo check Rooms in Repo at Backend
         this.home = home;
-        console.log(home);
       });
     }
   }

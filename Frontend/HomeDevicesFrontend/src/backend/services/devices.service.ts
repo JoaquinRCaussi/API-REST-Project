@@ -28,4 +28,8 @@ export class DevicesService {
   createCamera(device: NewDeviceRequest){
     return this.devicesApiRepository.createCamera(device);
   }
+  
+  getDevicesByCompanyAndModel(companyName: string, model: string){
+    return this.devicesApiRepository.getDevicesByCompanyAndModel(companyName, model);
+  }
 }
