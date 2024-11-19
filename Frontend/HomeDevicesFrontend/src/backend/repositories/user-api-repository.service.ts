@@ -31,4 +31,8 @@ export class UserApiRepository extends ApiRepository {
         return this.get(userId + '/notifications');
     }
 
+    public deleteUser(userId: string): Observable<void> {
+      return this.delete(userId);
+  }
+
 }
