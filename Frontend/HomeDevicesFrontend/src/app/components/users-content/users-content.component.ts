@@ -20,25 +20,28 @@ export class UsersContentComponent {
   ngOnInit() {
     this.usersService.getUsers().subscribe(response => {
       this.users = response.users;
+      console.log(response.users);
       this.rows = this.users.map(user => ({
         Id: user.id,
         Name: user.name.toString(),
         LastName: user.lastName.toString(),
         Role: user.role.name.toString(),
         CreatedAt: user.createdAt.toString(),
-        Actions: 'delete' // Indica que esta fila tendrá acciones (botón)
+        Actions: 'delete'
       }));
     });
   }
 
   onRowClick(row: any): void {
-    // Aquí verificamos si el clic es sobre el botón de acciones (p.ej., eliminar)
-    if (row.Actions !== 'delete') {
+    if (row.Actions === 'delete') {
+      this.deleteUser(row.Id);
+    } else {
       this.router.navigate(['users', row.Id]);
     }
   }
 
   deleteUser(userId: string): void {
+    console.log('Intentando eliminar usuario con ID:', userId); // Línea de verificación
     if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
       this.usersService.deleteUser(userId).subscribe(
         () => {

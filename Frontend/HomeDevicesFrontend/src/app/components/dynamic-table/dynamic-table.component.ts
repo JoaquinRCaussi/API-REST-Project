@@ -20,6 +20,6 @@ export class DynamicTableComponent {
   handleDelete(userId: string, event: MouseEvent): void {
     event.stopPropagation(); // Evita que se dispare el evento de clic en la fila
     console.log('Botón eliminar clickeado para userId:', userId); // Añade esta línea
-    this.actionToPerform({ Id: userId, Actions: 'delete' });
+    this.actionToPerform(userId);
   }
 }
