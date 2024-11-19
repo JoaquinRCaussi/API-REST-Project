@@ -71,7 +71,7 @@ public class CompaniesRepositoryTest
         SeedData(context);
         var repository = new CompanyRepository(context);
 
-        var result = repository.GetCompanies("Company", "John");
+        var (result, totalResults) = repository.GetCompanies("Company", "John", 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
@@ -85,7 +85,7 @@ public class CompaniesRepositoryTest
         var repository = new CompanyRepository(context);
         var expected = new List<Company>();
 
-        var result = repository.GetCompanies("AnotherCompany", "");
+        var (result, totalResults) = repository.GetCompanies("AnotherCompany", "", 1, 10);
         result.Should().HaveCount(0);
         result.Should().BeEquivalentTo(expected);
     }
@@ -98,7 +98,7 @@ public class CompaniesRepositoryTest
         var repository = new CompanyRepository(context);
         var expected = new List<Company>();
 
-        var result = repository.GetCompanies("Company", "AnotherOwner");
+        var (result, totalResults) = repository.GetCompanies("Company", "AnotherOwner", 1, 10);
         result.Should().HaveCount(0);
         result.Should().BeEquivalentTo(expected);
     }
@@ -130,8 +130,7 @@ public class CompaniesRepositoryTest
         repository.CreateCompany(anotherCompany);
         context.SaveChanges();
 
-
-        var result = repository.GetCompanies("", "");
+        var (result, totalResults) = repository.GetCompanies("", "", 1, 10);
         result.Should().HaveCount(2);
         result.Should().Contain(anotherCompany);
     }

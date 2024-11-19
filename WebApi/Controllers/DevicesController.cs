@@ -78,16 +78,9 @@ public class DevicesController : ControllerBase
     [FromQuery] int pageNumber = 1,
     [FromQuery] int pageSize = 10)
     {
-        var devices = _deviceLogic.GetDevices(name, model, companyName, deviceType);
+        var (devices, totalResults) = _deviceLogic.GetDevices(name, model, companyName, deviceType, pageNumber, pageSize);
 
-        var totalResults = devices.Count;
-
-        var paginatedDevices = devices
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        var response = paginatedDevices.Select(d => new DeviceResponse(d)).ToList();
+        var response = devices.Select(d => new DeviceResponse(d)).ToList();
 
         return Ok(new
         {

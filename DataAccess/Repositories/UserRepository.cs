@@ -156,19 +156,19 @@ public class UserRepository : IUserRepository
         return notifications;
     }
 
-    public List<User> GetUsersFiltered(string? role, string? fullName)
+    public (List<User> Users, int TotalResults) GetUsersFiltered(string? role, string? fullName, int pageNumber, int pageSize)
     {
         var users = _context.Users?
             .Include(u => u.Role)
             .Include(u => u.Company)
-            .Where(u => (role == null || u.Role.Name == role) && (fullName == null || u.Name.Contains(fullName) || u.LastName.Contains(fullName)))
-            .ToList();
+            .Where(u => (role == null || u.Role.Name == role) && (fullName == null || u.Name.Contains(fullName) || u.LastName.Contains(fullName)));
 
-        if (users == null || users.Count == 0)
-        {
-            return [];
-        }
+        var totalResults = users == null ? 0 : users.Count();
 
-        return users;
+        users = users?.Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .Where(u => (role == null || u.Role.Name == role) && (fullName == null || u.Name.Contains(fullName) || u.LastName.Contains(fullName)));
+        var userList = users == null ? [] : users.ToList();
+        return (userList, totalResults);
     }
 }

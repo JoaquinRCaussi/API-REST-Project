@@ -1,15 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using BusinessLogic;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Moq;
 using WebApi.Controllers;
-using WebApi.Filters;
 using WebApi.Models.In;
 using WebApi.Models.Out;
 
@@ -85,19 +81,27 @@ public class CompaniesControllerTest
         };
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
         var companies = new List<Company> { aCompany };
+        var totalResults = 1;
 
-        companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
+        companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name, 1, 10))
+                    .Returns((companies, totalResults));
 
         var controller = new CompanyController(companyLogic.Object);
 
-        IActionResult act = controller.GetCompanies("name", aCompany.Owner.Name);
+        IActionResult act = controller.GetCompanies("name", aCompany.Owner.Name, 1, 10);
 
-        var expected = new OkObjectResult(companies.Select(x => new CompanyResponse(x)
+        var okResult = act as OkObjectResult;
+        okResult.Should().NotBeNull();
+
+        var expectedResponse = new
         {
-            OwnerName = x.Owner.Name,
-            OwnerEmail = x.Owner.Email
-        }).ToList());
+            TotalResults = totalResults,
+            PageNumber = 1,
+            PageSize = 10,
+            Companies = companies.Select(c => new CompanyResponse(c)).ToList()
+        };
 
+        okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.ComparingByMembers<object>());
     }
 
     [TestMethod]
@@ -119,43 +123,54 @@ public class CompaniesControllerTest
         };
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company>
+        var companies = new List<Company>();
+        var totalResults = 0;
+
+        companyLogic.Setup(x => x.GetCompanies("name", "John", 1, 10))
+                    .Returns((companies, totalResults));
+
+        var controller = new CompanyController(companyLogic.Object);
+
+        IActionResult act = controller.GetCompanies("name", "John", 1, 10);
+
+        var okResult = act as OkObjectResult;
+        okResult.Should().NotBeNull();
+
+        var expectedResponse = new
         {
+            TotalResults = totalResults,
+            PageNumber = 1,
+            PageSize = 10,
+            Companies = new List<CompanyResponse>()
         };
-        companyLogic.Setup(x => x.GetCompanies(aCompany.Name, aCompany.Owner.Name)).Returns(companies);
+
+        okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.ComparingByMembers<object>());
     }
 
     [TestMethod]
     public void GetCompanies_ShouldReturnNoContentWhenNoCompaniesFound()
     {
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        companyLogic.Setup(x => x.GetCompanies(null, null))
-            .Throws(new EmptyException("No companies found"));
+
+        companyLogic.Setup(x => x.GetCompanies(null, null, 1, 10))
+                    .Returns((new List<Company>(), 0));
 
         var controller = new CompanyController(companyLogic.Object);
 
-        var context = new ActionContext
+        IActionResult result = controller.GetCompanies(null, null, 1, 10);
+
+        var okResult = result as OkObjectResult;
+        okResult.Should().NotBeNull();
+
+        var expectedResponse = new
         {
-            HttpContext = new DefaultHttpContext(),
-            RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
-            ActionDescriptor = new Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor()
+            TotalResults = 0,
+            PageNumber = 1,
+            PageSize = 10,
+            Companies = new List<CompanyResponse>()
         };
 
-        var exceptionFilter = new ExceptionFilter();
-        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
-        {
-            Exception = new EmptyException("No companies found")
-        };
-
-        Action act = () => controller.GetCompanies(null, null);
-
-        act.Should().Throw<EmptyException>();
-
-        exceptionFilter.OnException(exceptionContext);
-
-        var result = exceptionContext.Result as ObjectResult;
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+        okResult.Value.Should().BeEquivalentTo(expectedResponse);
 
         companyLogic.VerifyAll();
     }

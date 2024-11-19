@@ -34,8 +34,12 @@ public class CompanyLogic : ICompanyLogic
             throw new NotValidDataException("Image path must be one of these (.jpg, .jpeg, .png, .gif).");
         }
 
-        var companies = _companyRepository.GetCompanies(companyToCreate.Name, companyToCreate.Owner.Name);
-        if (companies.Count > 0)
+        var companyExists = _companyRepository
+            .GetCompanies(companyToCreate.Name, companyToCreate.Owner.Name, 1, 1)
+            .Companies
+            .Any();
+
+        if (companyExists)
         {
             throw new ConflictException("The company already exists");
         }
@@ -43,25 +47,16 @@ public class CompanyLogic : ICompanyLogic
         return _companyRepository.CreateCompany(companyToCreate);
     }
 
-    public List<Company> GetCompanies(string? name, string? ownerName)
+    public (List<Company> Companies, int TotalResults) GetCompanies(string? name, string? ownerName, int pageNumber, int pageSize)
     {
-        if (name == null)
-        {
-            name = "";
-        }
+        var (companies, totalResults) = _companyRepository.GetCompanies(name, ownerName, pageNumber, pageSize);
 
-        if (ownerName == null)
-        {
-            ownerName = "";
-        }
-
-        List<Company> companies = _companyRepository.GetCompanies(name, ownerName);
-        if (companies.Count == 0)
+        if (companies == null || !companies.Any())
         {
             throw new EmptyException("No companies found.");
         }
 
-        return companies;
+        return (companies, totalResults);
     }
 
     private bool IsFormatNotCorrect(Company company)

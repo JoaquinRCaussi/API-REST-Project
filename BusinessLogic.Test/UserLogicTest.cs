@@ -48,7 +48,7 @@ public class UserLogicTest
     {
         _userRepositoryMock.Setup(x => x.GetUsers()).Returns([]);
 
-        var act = () => _userLogic.GetUsers();
+        var act = _userLogic.GetUsers;
 
         act.Should().Throw<EmptyException>().WithMessage("No users found.");
     }
@@ -397,29 +397,32 @@ public class UserLogicTest
     public void GetUsersFilteredTest()
     {
         var users = new List<User>
+    {
+        new User
         {
-            new User
-            {
-                Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "mauil@mail.com",
-                Password = "password@123"
-            }
-        };
+            Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "mauil@mail.com",
+            Password = "password@123"
+        }
+    };
 
-        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns(users);
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "", 1, 10))
+                           .Returns((users, users.Count));
 
-        var result = _userLogic.GetUsersFiltered("John", "");
+        var (result, totalResults) = _userLogic.GetUsersFiltered("John", "", 1, 10);
 
         result.Should().BeEquivalentTo(users);
+        totalResults.Should().Be(users.Count);
 
-        _userRepositoryMock.Verify(x => x.GetUsersFiltered("John", ""), Times.Once);
+        _userRepositoryMock.Verify(x => x.GetUsersFiltered("John", "", 1, 10), Times.Once);
     }
 
     [TestMethod]
     public void GetUsersFilteredTest_WhenNoUsers()
     {
-        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "")).Returns([]);
+        _userRepositoryMock.Setup(x => x.GetUsersFiltered("John", "", 1, 10))
+                           .Returns((new List<User>(), 0));
 
-        var act = () => _userLogic.GetUsersFiltered("John", "");
+        var act = () => _userLogic.GetUsersFiltered("John", "", 1, 10);
 
         act.Should().Throw<EmptyException>().WithMessage("No users found.");
     }
