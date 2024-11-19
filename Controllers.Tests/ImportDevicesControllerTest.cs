@@ -59,4 +59,23 @@ public class ImportDevicesControllerTest
         badRequestResult.Should().NotBeNull();
         badRequestResult!.Value.Should().Be("Company Name and Assembly Path are required");
     }
+    
+    [TestMethod]
+    public void ImportDevices_ShouldReturnBadRequest_WhenAssemblyPathIsNull()
+    {
+        // Arrange
+        var request = new ImportDevicesRequest
+        {
+            CompanyName = "Valid Company",
+            AssemblyPath = null
+        };
+
+        // Act
+        var result = _controller.ImportDevices(request);
+
+        // Assert
+        var badRequestResult = result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
+        badRequestResult!.Value.Should().Be("Company Name and Assembly Path are required");
+    }
 }
