@@ -21,6 +21,7 @@ import { HomeDevicesComponent } from '../home-devices/home-devices.component';
 import { NewHomeDeviceComponent } from '../new-home-device/new-home-device.component';
 import { RoomDetailComponent } from '../room-detail/room-detail.component';
 import { HomeConfigComponent } from '../home-config/home-config.component';
+import { UserNotifComponent } from '../user-notif/user-notif.component';
 
 @Component({
   selector: 'app-content-area',
@@ -46,8 +47,9 @@ import { HomeConfigComponent } from '../home-config/home-config.component';
     HomeDevicesComponent,
     NewHomeDeviceComponent,
     RoomDetailComponent,
-    HomeConfigComponent
-  ],
+    HomeConfigComponent,
+    UserNotifComponent,
+],
   templateUrl: './content-area.component.html',
   styleUrls: ['./content-area.component.css']
 })

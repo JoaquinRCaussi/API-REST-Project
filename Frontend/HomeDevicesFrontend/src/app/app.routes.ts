@@ -20,6 +20,7 @@ export const routes: Routes = [
   { path: 'new-admin', component: ContentAreaComponent, data: { option: 'new-admin-option' }, canActivate: [AuthGuard] },
   { path: 'new-company-owner', component: ContentAreaComponent, data: { option: 'new-company-owner-option' }, canActivate: [AuthGuard] },
   { path: 'users', component: ContentAreaComponent, data: { option: 'users-option' }, canActivate: [AuthGuard] },
+  { path: 'users/:userId/notifications', component: ContentAreaComponent, data: { option: 'user-notifications-option' }, canActivate: [AuthGuard] },
   { path: 'homes/:id/rooms', component: ContentAreaComponent, data: { option: 'rooms-option' }, canActivate: [AuthGuard] },
   { path: 'homes/:id/new-room', component: ContentAreaComponent, data: { option: 'new-room-option' }, canActivate: [AuthGuard] },
   { path: 'homes/:homeId/devices', component: ContentAreaComponent, data: { option: 'home-devices-option' }, canActivate: [AuthGuard] },

@@ -22,4 +22,8 @@ export class UserService {
     return this.userApiRepository.getUsers();
   }
 
+  getUserNotifications(userId: string): Observable<any> {
+    return this.userApiRepository.getUserNotifications(userId);
+  }
+
 }
