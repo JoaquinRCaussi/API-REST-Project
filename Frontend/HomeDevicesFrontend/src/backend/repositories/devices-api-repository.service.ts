@@ -34,4 +34,8 @@ export class DevicesApiRepositoryService extends ApiRepository{
     return this.post(device, 'camera');
   }
 
+  getDevicesByCompanyAndModel(companyName: string, model: string) : Observable<any>{
+    return this.get(undefined, "companyName=" + companyName + "&model=" + model);
+  }
+
 }

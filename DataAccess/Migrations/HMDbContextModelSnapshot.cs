@@ -86,7 +86,7 @@ namespace DataAccess.Migrations
 
                     b.ToTable("Devices");
 
-                    b.HasDiscriminator<int>("DeviceType").HasValue(3);
+                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
 
                     b.UseTphMappingStrategy();
                 });
@@ -451,7 +451,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 11, 18, 3, 3, 50, 772, DateTimeKind.Local).AddTicks(738),
+                            CreatedAt = new DateTime(2024, 11, 18, 13, 36, 14, 488, DateTimeKind.Local).AddTicks(3900),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",

@@ -134,7 +134,7 @@ public class HomeController : ControllerBase
     [HttpGet]
     [Route("{homeId}/devices")]
     [AuthorizationFilter("CanListDevices")]
-    public IActionResult GetHomeDevices(Guid homeId, Guid? roomId = null)
+    public IActionResult GetHomeDevices(Guid homeId, [FromQuery] Guid? roomId = null)
     {
         var devices = _homeLogic.GetHomeDevices(homeId, roomId);
         return Ok(devices);
@@ -250,11 +250,14 @@ public class HomeController : ControllerBase
 
     [HttpPut]
     [Route("{homeId}/devices/{hardwareId}")]
-    [AuthorizationFilter("CanChangeDeviceName")]
-    public IActionResult ChangeHomeDeviceName(Guid homeId, Guid hardwareId, [FromBody] string changeDeviceNameRequest)
+    [AuthorizationFilter("CanChangeHomeDevicesNames")]
+    public IActionResult ChangeHomeDeviceName(Guid homeId, Guid hardwareId, [FromBody] HomeDeviceNameRequest changeDeviceNameRequest)
     {
-        var name = changeDeviceNameRequest;
-        var homeDevice = _homeLogic.ChangeHomeDeviceName(homeId, hardwareId, name);
+        var name = changeDeviceNameRequest.ChangeDeviceNameRequest;
+
+        var request = new HomeDeviceNameRequest() { ChangeDeviceNameRequest = name };
+
+        var homeDevice = _homeLogic.ChangeHomeDeviceName(homeId, hardwareId, request.ChangeDeviceNameRequest!);
         return Ok(homeDevice);
     }
 
@@ -283,7 +286,7 @@ public class HomeController : ControllerBase
 
         var getRoomsResponse = new GetRoomsResponse(rooms);
 
-        return Ok(getRoomsResponse.ToArgs());
+        return Ok(getRoomsResponse);
     }
 
     [HttpPut]
@@ -309,10 +312,13 @@ public class HomeController : ControllerBase
     [HttpPut]
     [Route("{homeId}")]
     [AuthorizationFilter("CanChangeHomeName")]
-    public IActionResult ChangeHomeName(Guid homeId, [FromBody] string changeHomeNameRequest)
+    public IActionResult ChangeHomeName(Guid homeId, [FromBody] HomeNameRequest changeHomeNameRequest)
     {
-        var name = changeHomeNameRequest;
-        var home = _homeLogic.ChangeHomeName(homeId, name);
+        var name = changeHomeNameRequest.HomeName;
+
+        var request = new HomeNameRequest() { HomeName = name };
+
+        var home = _homeLogic.ChangeHomeName(homeId, request.HomeName!);
 
         var homeResponse = new HomeResponse
         {

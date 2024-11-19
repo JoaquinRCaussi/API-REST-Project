@@ -1,0 +1,27 @@
+<div class="flex flex-col justify-center items-center gap-8">
+    @if(room){
+        <h1 class="text-white text-4xl w-full text-center font-bold">Room - {{room.name}} </h1>
+    }@else{
+        <h1 class="text-white text-4xl w-full text-center font-bold">Loading </h1>
+    }
+    <h2 class="w-full text-start text-4xl text-white font-bold">Room devices</h2>
+    <app-dynamic-table [columns]="columns" [rows]="homeDevicesRows" [interacts]="true" class="w-full max-h-52 overflow-y-auto"></app-dynamic-table>
+    <app-default-button text="Add Device to Room" [onClick]="onAddDevice"></app-default-button>
+
+    @if (addDevice) {
+        <div class="result w-1/2 justify-center flex flex-col items-center gap-8">
+            <app-dynamic-table [columns]="columns" [rows]="rows" [interacts]="true" class="w-full max-h-52 overflow-y-auto" [actionToPerform]="onClickRow"/>
+            <p class="text-[#666666] text-xl w-full text-center">Please select one</p>
+            @if(selectedDevice){
+                <div class="flex text-[#666666] text-xl w-full text-center justify-center gap-4">
+                    <p><strong>Selected: </strong></p>
+                    <p>{{selectedDevice.Model}}</p>
+                </div>
+            }
+            <div class="flex gap-8">
+                <app-default-button text="Accept" [onClick]="onAccept" />
+                <app-default-button text="Cancel" [onClick]="onCancel" />
+            </div>
+        </div>
+    }
+</div>

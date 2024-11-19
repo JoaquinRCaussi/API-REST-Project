@@ -1,0 +1,21 @@
+<div class="flex flex-col gap-8 justify-center items-center">
+    <h1 class="w-full text-center text-white text-4xl font-bold">Add device to Home</h1>
+    <p class="text-[#666666] text-xl w-full text-center">You can search for company name or per model.</p>
+    <app-dynamic-form [fields]="formFields" buttonText="Search" [submitHandler]="onSearch"></app-dynamic-form>
+
+    @if(devices){
+        <div class="result w-1/2 justify-center flex flex-col items-center gap-8">
+            <app-dynamic-table [columns]="columns" [rows]="rows" [interacts]="true" class="w-full" [actionToPerform]="onClickRow"/>
+            <p class="text-[#666666] text-xl w-full text-center">If this is the device you want to add, please press Accept.</p>
+            @if(selectedDevice){
+                <div class="flex text-[#666666] text-xl w-full text-center justify-center gap-4">
+                    <p><strong>Selected: </strong></p>
+                    <p>{{selectedDevice.name}}</p>
+                </div>
+            }
+            <app-default-button text="Accept" [onClick]="onAccept" />
+        </div>
+    }
+
+
+</div>

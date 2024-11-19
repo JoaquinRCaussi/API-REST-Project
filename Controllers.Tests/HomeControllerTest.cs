@@ -910,7 +910,12 @@ public class HomeControllerTest
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
-        IActionResult act = controller.ChangeHomeDeviceName(homeId, hardwareId, name);
+        var homeDeviceNameRequest = new HomeDeviceNameRequest
+        {
+            ChangeDeviceNameRequest = name
+        };
+
+        IActionResult act = controller.ChangeHomeDeviceName(homeId, hardwareId, homeDeviceNameRequest);
 
         var expected = new OkObjectResult(homeDevice);
 
@@ -1004,7 +1009,7 @@ public class HomeControllerTest
         IActionResult act = controller.GetRooms(homeId);
 
         var getRoomsResponse = new GetRoomsResponse(home.Rooms);
-        var expected = new OkObjectResult(getRoomsResponse.ToArgs());
+        var expected = new OkObjectResult(getRoomsResponse);
 
         act.Should().BeEquivalentTo(expected);
     }
@@ -1215,7 +1220,12 @@ public class HomeControllerTest
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
 
-        IActionResult act = controller.ChangeHomeName(homeId, newName);
+        var request = new HomeNameRequest
+        {
+            HomeName = newName
+        };
+
+        IActionResult act = controller.ChangeHomeName(homeId, request);
 
         var expected = new OkObjectResult(homeResponse);
 
@@ -1233,7 +1243,13 @@ public class HomeControllerTest
 
         var controller = new HomeController(homeLogic.Object, null);
 
-        Action act = () => controller.ChangeHomeName(homeId, newName);
+        var request = new HomeNameRequest
+        {
+            HomeName = newName
+        };
+
+
+        Action act = () => controller.ChangeHomeName(homeId, request);
 
         act.Should().Throw<NotValidDataException>();
 

@@ -1,3 +1,3 @@
 export interface RoomResponse {
-    roomName: string;
+    room:any
 }
