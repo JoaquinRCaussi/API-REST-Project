@@ -28,16 +28,9 @@ public class UserController : ControllerBase
     [FromQuery] int pageNumber = 1,
     [FromQuery] int pageSize = 10)
     {
-        List<User> users = _userLogic.GetUsersFiltered(role, fullName);
+        var (users, totalResults) = _userLogic.GetUsersFiltered(role, fullName, pageNumber, pageSize);
 
-        var totalResults = users.Count;
-
-        var paginatedUsers = users
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        var response = paginatedUsers.Select(x => new GetUserResponse
+        var response = users.Select(x => new GetUserResponse
         {
             Id = x.Id,
             Name = x.Name,

@@ -39,7 +39,8 @@ public class CompanyLogicTest
 
         mock.Setup(x => x.CreateCompany(company)).Returns(company);
 
-        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>())).Returns([]);
+        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+            .Returns((new List<Company>(), 0));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
         var result = companyLogic.CreateCompany(company);
@@ -92,13 +93,15 @@ public class CompanyLogicTest
             Owner = new User { Id = Guid.NewGuid(), Name = "John", LastName = "Snow", Email = "Asa@gmail.com" }
         };
         var companies = new List<Company> { company };
-        mock.Setup(x => x.GetCompanies("", "")).Returns(companies);
 
+        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>(), 1, 10))
+            .Returns((companies, companies.Count));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
-        var result = companyLogic.GetCompanies(null, null);
+        var (resultCompanies, totalResults) = companyLogic.GetCompanies(null, null, 1, 10);
 
-        result.Should().BeEquivalentTo(companies);
+        resultCompanies.Should().BeEquivalentTo(companies);
+        totalResults.Should().Be(companies.Count);
     }
 
     [TestMethod]
@@ -107,11 +110,12 @@ public class CompanyLogicTest
         var mock = new Mock<ICompanyRepository>(MockBehavior.Strict);
         var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
-        mock.Setup(x => x.GetCompanies("", "")).Returns([]);
+        mock.Setup(x => x.GetCompanies(It.IsAny<string>(), It.IsAny<string>(), 1, 10))
+            .Returns((new List<Company>(), 0));
 
         var companyLogic = new CompanyLogic(mock.Object, userRepositoryMock.Object);
 
-        Action act = () => companyLogic.GetCompanies(null, null);
+        Action act = () => companyLogic.GetCompanies(null, null, 1, 10);
 
         act.Should().Throw<EmptyException>().WithMessage("No companies found.");
     }

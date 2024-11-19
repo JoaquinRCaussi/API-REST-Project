@@ -16,6 +16,7 @@ export class CompanyDevicesComponent {
   companyName: any;
 
   columns = ['Name', 'Type', 'Model', 'Description'];
+  devicesType = ['Camera', 'WindowSensor', 'MovementSensor', 'SmartLamp'];
   rows: { [key: string]: string }[] = [];
 
   constructor(private devicesService:DevicesService, private route:ActivatedRoute, private router:Router) {}
@@ -23,8 +24,15 @@ export class CompanyDevicesComponent {
   ngOnInit() {
     this.companyName = this.route.snapshot.paramMap.get('companyName');
     this.devicesService.getDevicesByCompanyName(this.companyName).subscribe((data) => {
-      this.devices = data;
+      this.devices = data.devices;
       if(this.devices){
+        this.rows = this.devices.map((device:any) => ({
+          Name: device.name,
+          Type: this.devicesType[device.deviceType],
+          Model: device.model,
+          Description: device.description
+        }));
+
         console.log(this.devices);
       }else{
         this.rows = [];

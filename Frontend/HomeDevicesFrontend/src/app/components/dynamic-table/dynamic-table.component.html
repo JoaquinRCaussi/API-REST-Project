@@ -1,26 +1,38 @@
 <table class="table w-full bg-[#202020] rounded-lg text-white">
-    <thead class="text-xl text-center">
-      <tr>
-        <th *ngFor="let column of columns" class="p-2">{{ column }}</th>
+  <thead class="text-xl text-center">
+    <tr>
+      <th *ngFor="let column of columns" class="p-2">{{ column }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let row of rows">
+      <tr
+        *ngIf="interacts; else defaultRow"
+        (click)="actionToPerform(row)"
+        class="cursor-pointer text-center bg-[#202020] text-[#666666] hover:text-white transition-all"
+      >
+        <td *ngFor="let column of columns" class="p-2">
+          <!-- Mostrar botón de eliminar si la columna es 'Actions' -->
+          <ng-container *ngIf="column === 'Actions'; else defaultCell">
+            <button
+              (click)="handleDelete(row['Id'], $event)"
+              class="bg-red-600 text-white rounded px-2 py-1 hover:bg-red-700"
+            >
+              Eliminar
+            </button>
+          </ng-container>
+          <ng-template #defaultCell>
+            {{ row[column] }}
+          </ng-template>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let row of rows">
-        <tr
-          *ngIf="interacts; else defaultRow"
-          (click)="actionToPerform(row)"
-          class="cursor-pointer text-center bg-[#202020] text-[#666666] hover:text-white transition-all"
-        >
+
+      <!-- Fila normal sin interacción -->
+      <ng-template #defaultRow>
+        <tr class="text-center">
           <td *ngFor="let column of columns" class="p-2">{{ row[column] }}</td>
         </tr>
-        
-        <!-- Fila normal sin interacción -->
-        <ng-template #defaultRow>
-          <tr class="text-center">
-            <td *ngFor="let column of columns" class="p-2">{{ row[column] }}</td>
-          </tr>
-        </ng-template>
-      </ng-container>
-    </tbody>
-  </table>
-  
+      </ng-template>
+    </ng-container>
+  </tbody>
+</table>

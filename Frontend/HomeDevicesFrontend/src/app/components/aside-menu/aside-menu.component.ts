@@ -15,12 +15,17 @@ export class AsideMenuComponent {
   UserRole = UserRole;
   activeButton: string = '';
   userRole: string | null = '' ;
+  userId: string | null = '';
+  
+  isActiveSvg: boolean = false;
+
+  constructor() {
+  }
 
   setActiveButton(button: string) {
     this.activeButton = button;
   }
 
-  isActiveSvg: boolean = false;
 
   changeColor(): void {
     this.isActiveSvg = !this.isActiveSvg;
@@ -29,5 +34,6 @@ export class AsideMenuComponent {
   ngOnInit() {
     this.setActiveButton('main');
     this.userRole = localStorage.getItem('userRole');
+    this.userId = localStorage.getItem('userId');
   }
 }

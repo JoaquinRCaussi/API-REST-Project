@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import ApiRepository from "./api-repository";
 import domovizApi from "../../environments/environment.local";
 import { GetUserByMailResponse } from "../models/out/get-user-by-mail-response";
+import { UsersResponse } from "../models/out/users-response";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -21,5 +22,17 @@ export class UserApiRepository extends ApiRepository {
     public getUser(userId: string): Observable<GetUserByMailResponse> {
         return this.get(userId);
     }
+
+    public getUsers(): Observable<UsersResponse> {
+        return this.get();
+    }
+
+    public getUserNotifications(userId: string): Observable<any> {
+        return this.get(userId + '/notifications');
+    }
+
+    public deleteUser(userId: string): Observable<void> {
+      return this.delete(userId);
+  }
 
 }

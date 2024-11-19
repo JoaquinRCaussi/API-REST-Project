@@ -5,7 +5,7 @@ namespace BusinessLogic.DataAccess.Interfaces;
 public interface ICompanyRepository
 {
     public Company CreateCompany(Company company);
-    public List<Company> GetCompanies(string name, string ownerName);
+    (List<Company> Companies, int TotalResults) GetCompanies(string? name, string? ownerName, int pageNumber, int pageSize);
 
     public bool ExistsCompany(Guid companyId);
 }

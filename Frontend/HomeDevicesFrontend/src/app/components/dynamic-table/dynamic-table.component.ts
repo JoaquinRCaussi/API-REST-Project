@@ -16,4 +16,10 @@ export class DynamicTableComponent {
   @Input() actionToPerform: (row: any) => void = () => {};
 
   constructor(private router : Router) {}
+
+  handleDelete(userId: string, event: MouseEvent): void {
+    event.stopPropagation(); // Evita que se dispare el evento de clic en la fila
+    console.log('Botón eliminar clickeado para userId:', userId); // Añade esta línea
+    this.actionToPerform(userId);
+  }
 }

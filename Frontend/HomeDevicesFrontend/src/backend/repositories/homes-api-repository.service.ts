@@ -12,6 +12,10 @@ import { AddMemberResponse } from '../models/out/add-member-response';
 import { RoomResponse } from '../models/out/rooms-response';
 import { NewRoomRequest } from '../models/in/new-room-request';
 import { NewRoomResponse } from '../models/out/new-room-response';
+import { AddHomeDeviceRequest } from '../models/in/add-home-device-request';
+import { AddDeviceToRoomRequest } from '../models/in/add-device-to-room-request';
+import { HomeDeviceNameRequest } from '../models/in/change-hdevice-name.request';
+import { HomeNameRequest } from '../models/in/change-home-name-request';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +59,26 @@ export class HomesApiRepositoryService extends ApiRepository {
 
   public addRoom(homeId: string, roomRequest: NewRoomRequest): Observable<NewRoomResponse> {
     return this.post(roomRequest,`${homeId}/rooms`);
+  }
+
+  public getHomeDevices(homeId: string, roomId?:string): Observable<any> {
+    return this.get(`${homeId}/devices`, roomId ? `roomId=${roomId}` : '');
+  }
+
+  public addDeviceToHome(addDeviceRequest: AddHomeDeviceRequest, homeId: string): Observable<any> {
+    return this.post(addDeviceRequest, `${homeId}/devices`);
+  }
+
+  public addDeviceToRoom(addDeviceRequest: AddDeviceToRoomRequest, homeId: string, roomId: string): Observable<any> {
+    return this.putById(`${homeId}/rooms/${roomId}`, addDeviceRequest);
+  }
+
+  public changeHomeDeviceName(homeId: string, hardwareId: string, changeDeviceNameRequest: HomeDeviceNameRequest): Observable<any> {
+    return this.putById(`${homeId}/devices/${hardwareId}`, changeDeviceNameRequest );
+  }
+
+  public changeHomeName(homeId: string, HomeNameRequest: HomeNameRequest): Observable<any> {
+    return this.putById(homeId, HomeNameRequest);
   }
 
 }

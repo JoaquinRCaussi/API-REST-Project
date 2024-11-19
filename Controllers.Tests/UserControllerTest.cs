@@ -91,7 +91,7 @@ public class UserControllerTest
         }
     };
 
-        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null)).Returns(expectedUsers);
+        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null, 1, 10)).Returns((expectedUsers, expectedUsers.Count));
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);
 
@@ -128,7 +128,7 @@ public class UserControllerTest
         var userLogicMock = new Mock<IUserLogic>(MockBehavior.Strict);
         var homeLogicMock = new Mock<IHomeLogic>(MockBehavior.Strict);
 
-        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null))
+        userLogicMock.Setup(logic => logic.GetUsersFiltered(null, null, 1, 10))
             .Throws(new EmptyException("No users found"));
 
         var controller = new UserController(userLogicMock.Object, homeLogicMock.Object);

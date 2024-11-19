@@ -16,6 +16,7 @@ export class HomeRoomsComponent {
   homeId: string | null = null;
   columns = ['Name', 'Devices'];
   rows: { [key: string]: string }[] = [];
+  selectedRoom: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,20 +30,25 @@ export class HomeRoomsComponent {
     if (this.homeId) {
       this.homesService.getRooms(this.homeId).subscribe(rooms => {
         this.rooms = rooms;
-        console.log(rooms);
-        this.rows = rooms.map((room: any) => (
-          console.log(room),
-          {
-          Name: room,
-          Devices: room
-        }));
+        this.rows = this.rooms.rooms.map((room: any) => {
+          return {
+            Id : room.id,
+            Name: room.name,
+            Devices: room.devices.length.toString()
+          };
+        });
 
-        console.log(this.rows);
+        console.log(this.rooms);
       });
     }
   }
 
   onAddRoom = () => {
     this.router.navigate(['homes', this.homeId, 'new-room']);
+  }
+
+  onClickRoom = (row: any) => {
+    this.selectedRoom = row;
+    this.router.navigate(['homes', this.homeId, 'rooms', row.Id]);
   }
 }

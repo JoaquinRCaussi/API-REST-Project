@@ -246,8 +246,8 @@ public class DeviceControllerTest
         var listOfDevicesResponse = listOfDevices.Select(d => new DeviceResponse(d)).ToList();
 
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor))
-            .Returns(listOfDevices);
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10))
+            .Returns((listOfDevices, listOfDevices.Count));
 
         IActionResult result = _controller!.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10);
 
@@ -284,7 +284,7 @@ public class DeviceControllerTest
     public void GetDevices_ShouldReturnNoContent()
     {
         _deviceLogicMock!
-            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor))
+            .Setup(logic => logic.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10))
             .Throws(new EmptyException("No devices found"));
 
         Action act = () => _controller!.GetDevices("", "", "", DeviceType.WindowSensor, 1, 10);
@@ -299,7 +299,7 @@ public class DeviceControllerTest
         };
 
         var exceptionFilter = new ExceptionFilter();
-        var exceptionContext = new ExceptionContext(context, new List<IFilterMetadata>())
+        var exceptionContext = new ExceptionContext(context, [])
         {
             Exception = new EmptyException("No devices found")
         };

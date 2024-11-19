@@ -422,22 +422,23 @@ public class DevicesLogicTest
             Photo = "Photo",
             Company = _company
         };
-        var devices = new List<Device>
-        {
-            device
-        };
+        var devices = new List<Device> { device };
+        var totalResults = devices.Count;
+
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        _deviceRepository.Setup(x => x.GetDevices("Device", "", "", It.IsAny<DeviceType>())).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("Device", "", "", DeviceType.Camera, 1, 10))
+                         .Returns((devices, totalResults));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices("Device", "", "", DeviceType.Camera);
+        var (result, count) = deviceLogic.GetDevices("Device", "", "", DeviceType.Camera, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
+        count.Should().Be(1);
     }
 
     [TestMethod]
@@ -447,11 +448,12 @@ public class DevicesLogicTest
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns([]);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera, 1, 10))
+                         .Returns((new List<Device>(), 0));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        Action act = () => deviceLogic.GetDevices("", "", "", DeviceType.Camera);
+        Action act = () => deviceLogic.GetDevices("", "", "", DeviceType.Camera, 1, 10);
 
         act.Should().Throw<EmptyException>().WithMessage("No devices found.");
     }
@@ -542,22 +544,23 @@ public class DevicesLogicTest
             Photo = "Photo",
             Company = _company
         };
-        var devices = new List<Device>
-        {
-            device
-        };
+        var devices = new List<Device> { device };
+        var totalResults = devices.Count;
+
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        _deviceRepository.Setup(x => x.GetDevices("", "", "Company", DeviceType.Camera)).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "Company", DeviceType.Camera, 1, 10))
+                         .Returns((devices, totalResults));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices("", "", "Company", DeviceType.Camera);
+        var (result, count) = deviceLogic.GetDevices("", "", "Company", DeviceType.Camera, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
+        count.Should().Be(1);
     }
 
     [TestMethod]
@@ -573,22 +576,23 @@ public class DevicesLogicTest
             Photo = "Photo",
             Company = _company
         };
-        var devices = new List<Device>
-        {
-            device
-        };
+        var devices = new List<Device> { device };
+        var totalResults = devices.Count;
+
         _deviceRepository = new Mock<IDeviceRepository>(MockBehavior.Strict);
         _companyRepository = new Mock<ICompanyRepository>(MockBehavior.Strict);
         _validatorService = new Mock<ValidatorService>(MockBehavior.Strict);
 
-        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera, 1, 10))
+                         .Returns((devices, totalResults));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices("", "", "", DeviceType.Camera);
+        var (result, count) = deviceLogic.GetDevices("", "", "", DeviceType.Camera, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
+        count.Should().Be(1);
     }
 
     [TestMethod]
@@ -618,39 +622,43 @@ public class DevicesLogicTest
     public void GetDevicesTest_WhenAllParametersAreNull()
     {
         var devices = new List<Device>
-        {
-            new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company },
-            new Device { Id = Guid.NewGuid(), Name = "Device2", Model = "Model2", DeviceType = DeviceType.Camera, Company = _company }
-        };
+    {
+        new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company },
+        new Device { Id = Guid.NewGuid(), Name = "Device2", Model = "Model2", DeviceType = DeviceType.Camera, Company = _company }
+    };
 
-        _deviceRepository.Setup(x => x.GetDevicesNoType("", "", "")).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", null, 1, 10))
+                         .Returns((devices, devices.Count));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices(null, null, null, null);
+        var (result, totalResults) = deviceLogic.GetDevices(null, null, null, null, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo(devices);
+        totalResults.Should().Be(2);
     }
 
     [TestMethod]
     public void GetDevicesTest_WhenOnlyDeviceTypeIsProvided()
     {
         var devices = new List<Device>
-        {
-            new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company }
-        };
+    {
+        new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company }
+    };
 
-        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera)).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("", "", "", DeviceType.Camera, 1, 10))
+                         .Returns((devices, devices.Count));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices(null, null, null, DeviceType.Camera);
+        var (result, totalResults) = deviceLogic.GetDevices(null, null, null, DeviceType.Camera, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
         result.Should().BeEquivalentTo(devices);
+        totalResults.Should().Be(1);
     }
 
     [TestMethod]
@@ -661,14 +669,16 @@ public class DevicesLogicTest
         new Device { Id = Guid.NewGuid(), Name = "Device1", Model = "Model1", DeviceType = DeviceType.Camera, Company = _company }
     };
 
-        _deviceRepository.Setup(x => x.GetDevices("", "Model1", "Company", It.IsAny<DeviceType>())).Returns(devices);
+        _deviceRepository.Setup(x => x.GetDevices("", "Model1", "Company", DeviceType.Camera, 1, 10))
+                         .Returns((devices, devices.Count));
 
         var deviceLogic = new DeviceLogic(_deviceRepository.Object, _companyRepository.Object, _validatorService.Object);
 
-        var result = deviceLogic.GetDevices(null, "Model1", "Company", DeviceType.Camera);
+        var (result, totalResults) = deviceLogic.GetDevices(null, "Model1", "Company", DeviceType.Camera, 1, 10);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
         result.Should().BeEquivalentTo(devices);
+        totalResults.Should().Be(1);
     }
 }

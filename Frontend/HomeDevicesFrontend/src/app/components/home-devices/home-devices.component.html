@@ -1,0 +1,12 @@
+<div class="flex flex-col gap-8 items-end">
+    <h1 class="text-4xl text-white font-bold w-full text-center">Home devices</h1>
+    <p class="text-[#666666] text-xl w-full text-start">Select one if you want to change home device name</p>
+    <app-dynamic-table [columns]="columns" [rows]="rows" class="w-full max-h-52 overflow-y-auto" [actionToPerform]="onClickDevice"></app-dynamic-table>
+    <app-default-button text="Add device" [onClick]="onAddDevice"/>
+    @if(changeHomeDeviceName && selectedHomeDevice){
+        <div class="self-start bg-[#202020] p-8 rounded-lg flex flex-col gap-4">
+            <h2 class="text-white font-bold w-full text-center text-2xl">Change name - {{selectedHomeDevice.Name}}</h2>
+            <app-dynamic-form [fields]="formFields" buttonText="Change name" [submitHandler]="onChangeName"></app-dynamic-form>
+        </div>
+    }
+</div>
