@@ -32,6 +32,7 @@ public class UserController : ControllerBase
 
         var response = users.Select(x => new GetUserResponse
         {
+            Id = x.Id,
             Name = x.Name,
             LastName = x.LastName,
             CreatedAt = x.CreatedAt,
@@ -73,6 +74,7 @@ public class UserController : ControllerBase
 
         var response = new GetUserResponse
         {
+
             Name = user.Name,
             LastName = user.LastName,
             CreatedAt = user.CreatedAt,
@@ -106,7 +108,7 @@ public class UserController : ControllerBase
         User user = _userLogic.FindByMail(userMail);
         var response = new GetUserResponse
         {
-            Id = user.Id.ToString(),
+            Id = user.Id,
             Name = user.Name,
             LastName = user.LastName,
             CreatedAt = user.CreatedAt,
