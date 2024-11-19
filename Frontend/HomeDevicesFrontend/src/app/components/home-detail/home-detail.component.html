@@ -1,6 +1,20 @@
-<div class="home-details text-white">
-    <h1 class="text-4xl text-white">Home details</h1>
-    <p>{{home?.name}}</p>
-    <p>{{home?.location}}</p>
-    <p>{{home?.memberCount}}</p>
+<div class="home-details text-white w-full flex flex-col gap-8">
+    <h1 class="text-4xl text-white w-full text-center font-bold">Home - {{home?.name}}</h1>
+    <div class="flex flex-col text-2xl">
+    </div>
+    <div class="flex gap-8 w-full justify-center flex-wrap">
+        <app-simple-card 
+            title="Rooms"
+            description="Here number of rooms"
+            [routerLink]="'/homes/' + homeId + '/rooms'"
+            />
+        <app-simple-card 
+            title="Members" 
+            description="Max members {{home?.memberCount}}" 
+            [routerLink]="'/homes/' + homeId + '/members'"
+            />
+        <app-simple-card title="Devices" description="Here number of devices"/>
+        <app-simple-card title="Configuration" description="Change permissions"/>
+        <app-simple-card title="Delete" description="Delete this home"/>
+    </div>
 </div>

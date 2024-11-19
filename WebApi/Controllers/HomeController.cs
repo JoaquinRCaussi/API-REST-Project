@@ -104,6 +104,20 @@ public class HomeController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("{homeId}/members/{userId}")]
+    public IActionResult GetMemberSetting(Guid homeId, Guid userId)
+    {
+        var memberSetting = _memberSettingLogic.GetMemberSetting(homeId, userId);
+
+        var response = new GetMemberSettingResponse()
+        {
+            PermissionsValue = memberSetting.Permissions.Select(p => p.Value).ToList()
+        };
+
+        return Ok(response);
+    }
+
     [HttpPost]
     [AuthorizationFilter("CanAsociateDevices")]
     [Route("{homeId}/devices")]
@@ -246,11 +260,18 @@ public class HomeController : ControllerBase
 
     [HttpPost]
     [Route("{homeId}/rooms")]
-    [AuthorizationFilter("CanAddRooms")]
-    public IActionResult AddRoomToHome(Guid homeId, string roomName)
+    [AuthorizationFilter("CanCreateRoom")]
+    public IActionResult AddRoomToHome([FromRoute] Guid homeId, [FromBody] AddRoomRequest roomReq)
     {
+        var roomName = roomReq.RoomName;
         var createdRoom = _homeLogic.AddRoom(homeId, roomName);
-        return CreatedAtAction(nameof(AddRoomToHome), new { id = createdRoom.Id }, createdRoom);
+
+        var response = new NewRoomResponse()
+        {
+            Id = createdRoom.Id,
+            Name = createdRoom.Name
+        };
+        return CreatedAtAction(nameof(AddRoomToHome), response);
     }
 
     [HttpGet]
