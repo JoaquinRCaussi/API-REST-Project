@@ -44,7 +44,7 @@ public class CompanyRepository : ICompanyRepository
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize);
 
-        var companyList = companies == null ? new List<Company>() : companies.ToList();
+        var companyList = companies == null ? [] : companies.ToList();
         return (companyList, totalResults);
     }
 

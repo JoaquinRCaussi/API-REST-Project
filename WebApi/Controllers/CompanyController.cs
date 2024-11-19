@@ -1,4 +1,3 @@
-using BusinessLogic;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;

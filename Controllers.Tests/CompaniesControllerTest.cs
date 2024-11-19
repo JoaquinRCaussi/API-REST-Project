@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using BusinessLogic;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
@@ -124,7 +123,7 @@ public class CompaniesControllerTest
         };
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company>(); 
+        var companies = new List<Company>();
         var totalResults = 0;
 
         companyLogic.Setup(x => x.GetCompanies("name", "John", 1, 10))
@@ -142,7 +141,7 @@ public class CompaniesControllerTest
             TotalResults = totalResults,
             PageNumber = 1,
             PageSize = 10,
-            Companies = new List<CompanyResponse>() 
+            Companies = new List<CompanyResponse>()
         };
 
         okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.ComparingByMembers<object>());
