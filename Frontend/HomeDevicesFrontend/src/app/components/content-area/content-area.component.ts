@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ActivationStart, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MainContentComponent } from '../main-content/main-content.component';
 import { HomesContentComponent } from '../homes-content/homes-content.component';
 import { HomeDetailComponent } from '../home-detail/home-detail.component';
@@ -8,6 +8,9 @@ import { NewHomeComponent } from '../new-home/new-home.component';
 import { HomeMembersComponent } from '../home-members/home-members.component';
 import { HomeMemberPermissionsComponent } from '../home-member-permissions/home-member-permissions.component';
 import { NewMemberComponent } from '../new-member/new-member.component';
+import { NewAdminComponent } from '../new-admin/new-admin.component';
+import { NewCompanyOwnerComponent } from "../new-company-owner/new-company-owner.component";
+import { UsersContentComponent } from "../users-content/users-content.component";
 import { HomeRoomsComponent } from '../home-rooms/home-rooms.component';
 import { NewRoomComponent } from '../new-room/new-room.component';
 import { CompanyDetailComponent } from '../company-detail/company-detail.component';
@@ -22,26 +25,31 @@ import { HomeConfigComponent } from '../home-config/home-config.component';
 @Component({
   selector: 'app-content-area',
   standalone: true,
-  imports: [MainContentComponent,
-            HomesContentComponent,
-            HomeDetailComponent,
-            CommonModule,
-            NewHomeComponent,
-            HomeMembersComponent,
-            HomeMemberPermissionsComponent,
-            NewMemberComponent,
-            HomeRoomsComponent,
-            NewRoomComponent,
-            CompanyDetailComponent,
-            NewCompanyComponent,
-            CompanyDevicesComponent,
-            NewDeviceComponent,
-            HomeDevicesComponent,
-            NewHomeDeviceComponent,
-            RoomDetailComponent,
-            HomeConfigComponent],
+  imports: [
+    MainContentComponent,
+    HomesContentComponent,
+    HomeDetailComponent,
+    CommonModule,
+    NewHomeComponent,
+    HomeMembersComponent,
+    HomeMemberPermissionsComponent,
+    NewMemberComponent,
+    NewAdminComponent,
+    NewCompanyOwnerComponent,
+    UsersContentComponent,
+    HomeRoomsComponent,
+    NewRoomComponent,
+    CompanyDetailComponent,
+    NewCompanyComponent,
+    CompanyDevicesComponent,
+    NewDeviceComponent,
+    HomeDevicesComponent,
+    NewHomeDeviceComponent,
+    RoomDetailComponent,
+    HomeConfigComponent
+  ],
   templateUrl: './content-area.component.html',
-  styleUrl: './content-area.component.css'
+  styleUrls: ['./content-area.component.css']
 })
 export class ContentAreaComponent implements OnInit {
   option: string | null = null;
