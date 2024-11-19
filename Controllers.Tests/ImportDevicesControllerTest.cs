@@ -40,4 +40,23 @@ public class ImportDevicesControllerTest
         createdResult!.ActionName.Should().Be(nameof(_controller.ImportDevices));
         createdResult.Value.Should().Be("Devices Imported");
     }
+    
+    [TestMethod]
+    public void ImportDevices_ShouldReturnBadRequest_WhenCompanyNameIsNull()
+    {
+        // Arrange
+        var request = new ImportDevicesRequest
+        {
+            CompanyName = null,
+            AssemblyPath = "valid/path"
+        };
+
+        // Act
+        var result = _controller.ImportDevices(request);
+
+        // Assert
+        var badRequestResult = result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
+        badRequestResult!.Value.Should().Be("Company Name and Assembly Path are required");
+    }
 }
