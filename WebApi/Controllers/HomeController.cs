@@ -312,10 +312,13 @@ public class HomeController : ControllerBase
     [HttpPut]
     [Route("{homeId}")]
     [AuthorizationFilter("CanChangeHomeName")]
-    public IActionResult ChangeHomeName(Guid homeId, [FromBody] string changeHomeNameRequest)
+    public IActionResult ChangeHomeName(Guid homeId, [FromBody] HomeNameRequest changeHomeNameRequest)
     {
-        var name = changeHomeNameRequest;
-        var home = _homeLogic.ChangeHomeName(homeId, name);
+        var name = changeHomeNameRequest.HomeName;
+        
+        var request = new HomeNameRequest() { HomeName = name };
+        
+        var home = _homeLogic.ChangeHomeName(homeId, request.HomeName!);
 
         var homeResponse = new HomeResponse
         {

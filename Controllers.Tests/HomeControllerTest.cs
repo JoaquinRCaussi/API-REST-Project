@@ -1219,8 +1219,13 @@ public class HomeControllerTest
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        
+        var request = new HomeNameRequest
+        {
+            HomeName = newName
+        };
 
-        IActionResult act = controller.ChangeHomeName(homeId, newName);
+        IActionResult act = controller.ChangeHomeName(homeId, request);
 
         var expected = new OkObjectResult(homeResponse);
 
@@ -1238,7 +1243,13 @@ public class HomeControllerTest
 
         var controller = new HomeController(homeLogic.Object, null);
 
-        Action act = () => controller.ChangeHomeName(homeId, newName);
+        var request = new HomeNameRequest
+        {
+            HomeName = newName
+        };
+
+        
+        Action act = () => controller.ChangeHomeName(homeId, request);
 
         act.Should().Throw<NotValidDataException>();
 
