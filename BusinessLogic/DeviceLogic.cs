@@ -134,7 +134,7 @@ public class DeviceLogic : IDeviceLogic
 
     public bool IsCorrectImagePath(string imagePath)
     {
-        var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var validExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
 
         var fileExtension = Path.GetExtension(imagePath).ToLower();
 
