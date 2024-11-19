@@ -1,10 +1,9 @@
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using ImporterInterface;
-
-namespace BusinessLogic;
 using System.Reflection;
 
+namespace BusinessLogic;
 public class DeviceImportLogic : IDeviceImportLogic
 {
     private readonly IDeviceLogic _deviceLogic;
@@ -18,7 +17,7 @@ public class DeviceImportLogic : IDeviceImportLogic
 
     private Device CreateDevice(string companyName, DeviceDTO deviceDto)
     {
-        var company = _companyLogic.GetCompanies(companyName,null, 1, 1).Companies.FirstOrDefault();
+        var company = _companyLogic.GetCompanies(companyName, null, 1, 1).Companies.FirstOrDefault();
         return new Device
         {
             CompanyId = company.Id,
@@ -30,17 +29,17 @@ public class DeviceImportLogic : IDeviceImportLogic
                 "camera" => DeviceType.Camera,
                 "sensor-movement" => DeviceType.MovementSensor,
                 "sensor-open-close" => DeviceType.WindowSensor,
-                 _ => DeviceType.SmartLamp
+                _ => DeviceType.SmartLamp
             },
             Description = string.Empty,
             Photo = deviceDto.Fotos.FirstOrDefault() ?? string.Empty,
         };
-        
+
     }
-    
+
     private Camera CreateCamera(string companyName, DeviceDTO deviceDto)
     {
-        var company = _companyLogic.GetCompanies(companyName,null, 1, 1).Companies.FirstOrDefault();
+        var company = _companyLogic.GetCompanies(companyName, null, 1, 1).Companies.FirstOrDefault();
         return new Camera
         {
             CompanyId = company.Id,
@@ -61,7 +60,7 @@ public class DeviceImportLogic : IDeviceImportLogic
     {
         var importer = LoadImporter(assemblyPath);
         var request = importer.ImportDevices();
-        
+
         foreach (var deviceDto in request)
         {
             try
@@ -83,10 +82,10 @@ public class DeviceImportLogic : IDeviceImportLogic
             }
         }
     }
-    
+
     private IDeviceImporter LoadImporter(string assemblyPath)
     {
-        Assembly assembly = Assembly.LoadFrom(assemblyPath);
+        var assembly = Assembly.LoadFrom(assemblyPath);
 
         foreach (Type type in assembly.GetTypes())
         {
@@ -98,5 +97,5 @@ public class DeviceImportLogic : IDeviceImportLogic
 
         throw new InvalidOperationException("No valid importer found in assembly.");
     }
-    
+
 }

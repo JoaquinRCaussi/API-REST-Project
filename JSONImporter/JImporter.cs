@@ -3,13 +3,13 @@ using ImporterInterface;
 
 namespace JSONImporter;
 
-public class JImporter: IDeviceImporter
+public class JImporter : IDeviceImporter
 {
     public List<DeviceDTO> ImportDevices()
     {
         var path = @"D:\Ort\";
         var fileName = "devices-to-import.json";
-        List<DeviceDTO> devices = new();
+        List<DeviceDTO> devices = [];
 
         try
         {
@@ -19,17 +19,17 @@ public class JImporter: IDeviceImporter
                 PropertyNameCaseInsensitive = true,
                 AllowTrailingCommas = true
             };
-            
+
             var rootObject = JsonSerializer.Deserialize<Root>(jsonString, options);
-            
+
             if (rootObject != null && rootObject.Dispositivos != null)
             {
                 Console.WriteLine("Deserialización exitosa!");
-                
+
                 foreach (var device in rootObject.Dispositivos)
                 {
                     Console.WriteLine($"Nombre del dispositivo: {device.Nombre}");
-                    
+
                     DeviceDTO deviceDto = new()
                     {
                         Id = device.Id,
@@ -40,7 +40,7 @@ public class JImporter: IDeviceImporter
                         PersonDetection = device.PersonDetection,
                         MovementDetection = device.MovementDetection
                     };
-                    
+
                     devices.Add(deviceDto);
                 }
             }
@@ -57,7 +57,7 @@ public class JImporter: IDeviceImporter
         {
             Console.WriteLine($"Error al leer archivo: {e.Message}");
         }
-        
+
         return devices;
 
     }

@@ -19,7 +19,7 @@ public class ImportDevicesControllerTest
         _deviceImportLogicMock = new Mock<IDeviceImportLogic>();
         _controller = new ImportDevicesController(_deviceImportLogicMock.Object);
     }
-    
+
     [TestMethod]
     public void ImportDevices_ShouldCallLogicAndReturnCreated_WhenRequestIsValid()
     {
@@ -40,7 +40,7 @@ public class ImportDevicesControllerTest
         createdResult!.ActionName.Should().Be(nameof(_controller.ImportDevices));
         createdResult.Value.Should().Be("Devices Imported");
     }
-    
+
     [TestMethod]
     public void ImportDevices_ShouldReturnBadRequest_WhenCompanyNameIsNull()
     {
@@ -59,7 +59,7 @@ public class ImportDevicesControllerTest
         badRequestResult.Should().NotBeNull();
         badRequestResult!.Value.Should().Be("Company Name and Assembly Path are required");
     }
-    
+
     [TestMethod]
     public void ImportDevices_ShouldReturnBadRequest_WhenAssemblyPathIsNull()
     {
