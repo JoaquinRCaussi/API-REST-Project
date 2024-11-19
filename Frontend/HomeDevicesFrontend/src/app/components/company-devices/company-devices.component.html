@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-8 items-end">
     <h1 class="text-4xl text-white font-bold w-full text-center">Company devices</h1>
-    <app-dynamic-table [columns]="columns" [rows]="rows" class="w-full"></app-dynamic-table>
+    <app-dynamic-table [columns]="columns" [rows]="rows" class="w-full max-h-80 overflow-y-auto"></app-dynamic-table>
     <app-default-button text="Add device" [onClick]="onAddDevice"/>
 </div>

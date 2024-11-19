@@ -24,7 +24,11 @@ export class UserApiRepository extends ApiRepository {
     }
 
     public getUsers(): Observable<UsersResponse> {
-      return this.get();
+        return this.get();
+    }
+
+    public getUserNotifications(userId: string): Observable<any> {
+        return this.get(userId + '/notifications');
     }
 
 }
