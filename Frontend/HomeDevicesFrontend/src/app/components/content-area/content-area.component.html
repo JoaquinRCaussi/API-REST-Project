@@ -6,10 +6,17 @@
     <app-home-members *ngSwitchCase="'members-option'" class="w-full"></app-home-members>
     <app-home-member-permissions *ngSwitchCase="'member-permissions-option'" class="w-full"></app-home-member-permissions>
     <app-new-member *ngSwitchCase="'new-member-option'" class="w-full"></app-new-member>
+    <app-new-admin *ngSwitchCase="'new-admin-option'" class="w-full"></app-new-admin>
+    <app-new-company-owner *ngSwitchCase="'new-company-owner-option'" class="w-full"></app-new-company-owner>
+    <app-users-content *ngSwitchCase="'users-option'" class="w-full"></app-users-content>
     <app-home-rooms *ngSwitchCase="'rooms-option'" class="w-full"></app-home-rooms>
     <app-new-room *ngSwitchCase="'new-room-option'" class="w-full"></app-new-room>
+    <app-company-detail *ngSwitchCase="'companies-option'" class="w-full"></app-company-detail>
+    <app-new-company *ngSwitchCase="'new-company-option'" class="w-full"></app-new-company>
+    <app-company-devices *ngSwitchCase="'company-devices-option'" class="w-full"></app-company-devices>
+    <app-new-device *ngSwitchCase="'new-device-option'" class="w-full"></app-new-device>
+
 
     <!-- Default -->
     <div *ngSwitchDefault class="text-white w-full justify-center">404 not found.</div>
   </div>
-  

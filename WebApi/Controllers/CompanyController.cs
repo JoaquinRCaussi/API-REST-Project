@@ -44,4 +44,5 @@ public sealed class CompanyController(ICompanyLogic companyLogic) : ControllerBa
             Companies = response
         });
     }
+
 }

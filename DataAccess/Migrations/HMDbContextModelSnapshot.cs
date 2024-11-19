@@ -86,7 +86,7 @@ namespace DataAccess.Migrations
 
                     b.ToTable("Devices");
 
-                    b.HasDiscriminator<int>("DeviceType").HasValue(1);
+                    b.HasDiscriminator<int>("DeviceType").HasValue(3);
 
                     b.UseTphMappingStrategy();
                 });
@@ -451,7 +451,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("b4a6e6cd-856e-4ad1-a87e-9f1b24d40a74"),
-                            CreatedAt = new DateTime(2024, 11, 16, 0, 45, 39, 111, DateTimeKind.Local).AddTicks(1316),
+                            CreatedAt = new DateTime(2024, 11, 18, 3, 3, 50, 772, DateTimeKind.Local).AddTicks(738),
                             Email = "admin@admin.com",
                             ImagePath = "",
                             LastName = "Admin",
@@ -514,6 +514,11 @@ namespace DataAccess.Migrations
                         new
                         {
                             PermissionKeysId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            RolesId = new Guid("78947c68-f0aa-49d3-8f47-444444444444")
+                        },
+                        new
+                        {
+                            PermissionKeysId = new Guid("77777777-7777-7777-7777-777777777777"),
                             RolesId = new Guid("78947c68-f0aa-49d3-8f47-444444444444")
                         },
                         new
