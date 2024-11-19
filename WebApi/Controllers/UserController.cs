@@ -81,7 +81,7 @@ public class UserController : ControllerBase
 
         var response = new GetUserResponse
         {
-           
+
             Name = user.Name,
             LastName = user.LastName,
             CreatedAt = user.CreatedAt,
