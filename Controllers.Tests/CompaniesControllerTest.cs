@@ -124,7 +124,7 @@ public class CompaniesControllerTest
         };
 
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
-        var companies = new List<Company>();
+        var companies = new List<Company>(); 
         var totalResults = 0;
 
         companyLogic.Setup(x => x.GetCompanies("name", "John", 1, 10))
@@ -134,19 +134,18 @@ public class CompaniesControllerTest
 
         IActionResult act = controller.GetCompanies("name", "John", 1, 10);
 
-        // Verificar que el resultado sea un OkObjectResult con una lista vacía
         var okResult = act as OkObjectResult;
         okResult.Should().NotBeNull();
 
         var expectedResponse = new
         {
-            totalResults = 0,
-            pageNumber = 1,
-            pageSize = 10,
-            companies = new List<CompanyResponse>()
+            TotalResults = totalResults,
+            PageNumber = 1,
+            PageSize = 10,
+            Companies = new List<CompanyResponse>() 
         };
 
-        okResult.Value.Should().BeEquivalentTo(expectedResponse);
+        okResult.Value.Should().BeEquivalentTo(expectedResponse, options => options.ComparingByMembers<object>());
     }
 
     [TestMethod]
