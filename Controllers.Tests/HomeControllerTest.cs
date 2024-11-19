@@ -909,8 +909,13 @@ public class HomeControllerTest
         var memberSettingLogic = new Mock<IMemberSettingLogic>(MockBehavior.Strict);
 
         var controller = new HomeController(homeLogic.Object, memberSettingLogic.Object);
+        
+        var homeDeviceNameRequest = new HomeDeviceNameRequest
+        {
+            ChangeDeviceNameRequest = name
+        };
 
-        IActionResult act = controller.ChangeHomeDeviceName(homeId, hardwareId, name);
+        IActionResult act = controller.ChangeHomeDeviceName(homeId, hardwareId, homeDeviceNameRequest);
 
         var expected = new OkObjectResult(homeDevice);
 
@@ -1004,7 +1009,7 @@ public class HomeControllerTest
         IActionResult act = controller.GetRooms(homeId);
 
         var getRoomsResponse = new GetRoomsResponse(home.Rooms);
-        var expected = new OkObjectResult(getRoomsResponse.ToArgs());
+        var expected = new OkObjectResult(getRoomsResponse);
 
         act.Should().BeEquivalentTo(expected);
     }
