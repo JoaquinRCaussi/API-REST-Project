@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class UsersContentComponent {
   users: any[] = [DynamicTableComponent];
   rows: { [key: string]: string }[] = [];
-  columns = [ 'Name', 'LastName', 'Role', 'CreatedAt' ];
+  columns = ['Name', 'LastName', 'Role', 'CreatedAt', 'Actions'];
 
   constructor(private usersService: UserService, private router: Router) {}
 
@@ -21,18 +21,36 @@ export class UsersContentComponent {
     this.usersService.getUsers().subscribe(response => {
       this.users = response.users;
       this.rows = this.users.map(user => ({
+        Id: user.id,
         Name: user.name.toString(),
         LastName: user.lastName.toString(),
         Role: user.role.name.toString(),
-        CreatedAt: user.createdAt.toString()
+        CreatedAt: user.createdAt.toString(),
+        Actions: 'delete' // Indica que esta fila tendrá acciones (botón)
       }));
-
-      console.log(this.rows);
     });
   }
 
-  // Function to handle the click event
   onRowClick(row: any): void {
-    this.router.navigate(['homes', row.Id]);
+    // Aquí verificamos si el clic es sobre el botón de acciones (p.ej., eliminar)
+    if (row.Actions !== 'delete') {
+      this.router.navigate(['users', row.Id]);
+    }
+  }
+
+  deleteUser(userId: string): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+      this.usersService.deleteUser(userId).subscribe(
+        () => {
+          this.rows = this.rows.filter(user => user['Id'] !== userId);
+          alert('Usuario eliminado con éxito');
+        },
+        error => {
+          console.error('Error eliminando usuario:', error);
+          alert('Ocurrió un error al intentar eliminar el usuario');
+        }
+      );
+    }
   }
 }
+
