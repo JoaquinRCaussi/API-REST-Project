@@ -153,16 +153,25 @@ public class CompaniesControllerTest
     {
         var companyLogic = new Mock<ICompanyLogic>(MockBehavior.Strict);
 
-        // Configurar para lanzar la excepción si no se encuentran compañías
         companyLogic.Setup(x => x.GetCompanies(null, null, 1, 10))
-                    .Throws(new EmptyException("No companies found"));
+                    .Returns((new List<Company>(), 0));
 
         var controller = new CompanyController(companyLogic.Object);
 
-        // Verificar que el resultado sea NoContent cuando no hay compañías
         IActionResult result = controller.GetCompanies(null, null, 1, 10);
 
-        result.Should().BeOfType<NoContentResult>();
+        var okResult = result as OkObjectResult;
+        okResult.Should().NotBeNull();
+
+        var expectedResponse = new
+        {
+            TotalResults = 0,
+            PageNumber = 1,
+            PageSize = 10,
+            Companies = new List<CompanyResponse>()
+        };
+
+        okResult.Value.Should().BeEquivalentTo(expectedResponse);
 
         companyLogic.VerifyAll();
     }
