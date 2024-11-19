@@ -28,9 +28,9 @@ public class HMDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
-        
-        
+
+
+
         // Define GUIDs manually
         var userId = Guid.Parse("d84722d7-8b0a-4ae6-aedd-111111111111");
         var companyId = Guid.Parse("8b02a6f7-6a7e-45c8-899e-222222222222");

@@ -256,7 +256,7 @@ public class HomeController : ControllerBase
         var name = changeDeviceNameRequest.ChangeDeviceNameRequest;
 
         var request = new HomeDeviceNameRequest() { ChangeDeviceNameRequest = name };
-        
+
         var homeDevice = _homeLogic.ChangeHomeDeviceName(homeId, hardwareId, request.ChangeDeviceNameRequest!);
         return Ok(homeDevice);
     }
@@ -315,9 +315,9 @@ public class HomeController : ControllerBase
     public IActionResult ChangeHomeName(Guid homeId, [FromBody] HomeNameRequest changeHomeNameRequest)
     {
         var name = changeHomeNameRequest.HomeName;
-        
+
         var request = new HomeNameRequest() { HomeName = name };
-        
+
         var home = _homeLogic.ChangeHomeName(homeId, request.HomeName!);
 
         var homeResponse = new HomeResponse
