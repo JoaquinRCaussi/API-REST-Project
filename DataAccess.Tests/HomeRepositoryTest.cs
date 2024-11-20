@@ -291,7 +291,7 @@ public class HomeRepositoryTest
 
         var devices = new List<Device> { new Device { Id = Guid.NewGuid(), Company = _company, Name = "device", Model = "model", DeviceType = DeviceType.Camera, Description = "description", Photo = "photo" } };
         var homeDevices = new List<HomeDevice> { new HomeDevice { Id = Guid.NewGuid(), DeviceId = devices[0].Id } };
-        var memberSetting = new MemberSetting { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), HomeId = Guid.NewGuid()};
+        var memberSetting = new MemberSetting { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), HomeId = Guid.NewGuid() };
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -302,7 +302,7 @@ public class HomeRepositoryTest
         };
 
         context.Users?.Add(user);
-        
+
         context.MemberSettings?.Add(memberSetting);
         context.SaveChanges();
 

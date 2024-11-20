@@ -101,7 +101,7 @@ public class HomeRepository : IHomeRepository
                 HomeOwner = default
             };
         }
-        
+
         home.Members?.Add(user);
         _dbContext.SaveChanges();
         return home;

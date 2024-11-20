@@ -19,12 +19,12 @@ public class HomeLogic : IHomeLogic
     public Home CreateHome(Home home)
     {
         var homeResult = _homeRepository.CreateHome(home);
-        
+
         if (homeResult == null)
         {
             throw new NotValidDataException("Home could not be created");
         }
-        
+
         return homeResult;
     }
 
@@ -84,16 +84,16 @@ public class HomeLogic : IHomeLogic
         {
             throw new ConflictException("House is full. Member limit has been reached.");
         }
-        
+
         var member = _homeRepository.AddMember(homeId, userId);
-        
+
         var permissions = UpdatePermissions(homeId, userId, "CanGetNotifications", true);
-        
+
         if (member == null || permissions == null)
         {
             throw new NotValidDataException("Member could not be added");
         }
-        
+
         return home;
     }
 

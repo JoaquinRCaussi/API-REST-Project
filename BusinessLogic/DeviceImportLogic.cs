@@ -1,7 +1,7 @@
+using System.Reflection;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using ImporterInterface;
-using System.Reflection;
 
 namespace BusinessLogic;
 public class DeviceImportLogic : IDeviceImportLogic
