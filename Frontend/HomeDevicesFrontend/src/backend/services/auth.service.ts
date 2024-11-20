@@ -15,7 +15,6 @@ export class AuthService {
     return this.sessionApiRepository.login(credentials).pipe(
       tap((response) => {
         localStorage.setItem('userRole', response.userRole);
-        // Guarda el token en localStorage o sessionStorage
         localStorage.setItem('token', response.token);
         localStorage.setItem('userId', response.userId);
       })
@@ -23,7 +22,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.clear();
   }
 
   isAuthenticated(): boolean {
