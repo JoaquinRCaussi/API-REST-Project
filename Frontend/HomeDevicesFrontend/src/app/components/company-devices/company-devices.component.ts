@@ -3,15 +3,28 @@ import { DevicesService } from '../../../backend/services/devices.service';
 import { ActivatedRoute,Router } from '@angular/router';
 import { DynamicTableComponent } from '../dynamic-table/dynamic-table.component';
 import { DefaultButtonComponent } from '../buttons/default-button/default-button.component';
+import { FormField } from '../../interface/form-field';
+import { DynamicFormComponent } from "../form/dynamic-form/dynamic-form.component";
+import { ImporterService } from '../../../backend/services/importer.service';
+import { ImportDevicesRequest } from '../../../backend/models/in/import-devices-request';
 
 @Component({
   selector: 'app-company-devices',
   standalone: true,
-  imports: [DynamicTableComponent, DefaultButtonComponent],
+  imports: [DynamicTableComponent, DefaultButtonComponent, DynamicFormComponent],
   templateUrl: './company-devices.component.html',
   styleUrl: './company-devices.component.css'
 })
 export class CompanyDevicesComponent {
+  formFields : FormField[] = [
+    {
+      name: 'file',
+      label: 'Path (.dll)',
+      type: 'text',
+      required: true,
+      placeholder: "Please enter the correct path here",
+    }
+  ];
   devices: any;
   companyName: any;
 
@@ -19,7 +32,13 @@ export class CompanyDevicesComponent {
   devicesType = ['Camera', 'WindowSensor', 'MovementSensor', 'SmartLamp'];
   rows: { [key: string]: string }[] = [];
 
-  constructor(private devicesService:DevicesService, private route:ActivatedRoute, private router:Router) {}
+  showImporter = false;
+
+  constructor(
+    private devicesService:DevicesService,
+    private route:ActivatedRoute,
+    private router:Router,
+    private importerService:ImporterService) {}
 
   ngOnInit() {
     this.companyName = this.route.snapshot.paramMap.get('companyName');
@@ -43,4 +62,25 @@ export class CompanyDevicesComponent {
   onAddDevice = () => {
     this.router.navigate(['companies', this.companyName, 'new-device']);
   }
+
+  onClickSeeImport = () => { 
+    this.showImporter = !this.showImporter;
+  }
+
+  onSubmitted = (formData:any) => {
+
+    console.log(formData);
+
+    let importDevicesRequest:ImportDevicesRequest= {
+      companyName: this.companyName,
+      assemblyPath: formData.file
+    };
+  
+    this.importerService.importDevices(importDevicesRequest).subscribe((data) => {
+      console.log(data);
+      window.alert('Devices imported successfully');
+      window.location.reload();
+    });
+  }
+  
 }

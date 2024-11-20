@@ -10,5 +10,6 @@ export interface HomeResponse {
     owner?: any;
     members?: any[];
     rooms?: any[]; 
+    memberSettings: any[];
   }
   
