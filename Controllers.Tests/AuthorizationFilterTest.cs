@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using BusinessLogic.DataAccessInterfaces;
 using BusinessLogic.Entities;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
