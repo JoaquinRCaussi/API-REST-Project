@@ -20,8 +20,6 @@ export class HomesContentComponent {
   ngOnInit() {
     this.homesService.getHomes().subscribe(homes => {
       this.homes = homes;
-      console.log(homes);
-
       this.rows = homes.map(home => ({
         Id: home.id.toString(),
         Name: home.name.toString(),

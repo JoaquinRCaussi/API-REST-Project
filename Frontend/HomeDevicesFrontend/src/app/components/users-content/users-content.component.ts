@@ -20,7 +20,6 @@ export class UsersContentComponent {
   ngOnInit() {
     this.usersService.getUsers().subscribe(response => {
       this.users = response.users;
-      console.log(response.users);
       this.rows = this.users.map(user => ({
         Id: user.id,
         Name: user.name.toString(),

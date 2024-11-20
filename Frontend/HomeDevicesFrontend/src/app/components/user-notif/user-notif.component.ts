@@ -36,7 +36,6 @@ export class UserNotifComponent {
           Event: notification.event.toString(),
           Read: notification.isRead.toString()
         }));
-        console.log(this.rows);
       });
     }
   }

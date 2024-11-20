@@ -37,8 +37,6 @@ export class HomeRoomsComponent {
             Devices: room.devices.length.toString()
           };
         });
-
-        console.log(this.rooms);
       });
     }
   }

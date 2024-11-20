@@ -19,7 +19,6 @@ export class DynamicTableComponent {
 
   handleDelete(userId: string, event: MouseEvent): void {
     event.stopPropagation();
-    console.log('Botón eliminar clickeado para userId:', userId);
     this.actionToPerform(userId);
   }
 }
