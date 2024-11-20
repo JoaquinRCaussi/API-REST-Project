@@ -20,32 +20,4 @@ public class ValidatorController : ControllerBase
         var validators = _validatorService.ChargeValidators();
         return Ok(validators);
     }
-
-    [HttpGet("get-validator/{index}")]
-    public IActionResult GetValidator(int index)
-    {
-        try
-        {
-            var validator = _validatorService.GetValidator(index);
-            return Ok(validator);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("get-validator-by-name/{name}")]
-    public IActionResult GetValidatorByName(string name)
-    {
-        try
-        {
-            var validator = _validatorService.GetValidatorByName(name);
-            return Ok(validator);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 }

@@ -53,7 +53,6 @@ public class ValidatorService
         return Activator.CreateInstance(type, args) as IModeloValidador;
     }
 
-    //Todavia no se cual de los dos vamos a usar, dejo este por aca tambien
     public virtual IModeloValidador GetValidatorByName(string name, params object[] args)
     {
         var type = implementations.FirstOrDefault(t => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase));

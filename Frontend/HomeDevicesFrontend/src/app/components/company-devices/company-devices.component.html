@@ -1,5 +1,13 @@
-<div class="flex flex-col gap-8 items-end">
+<div class="flex flex-col gap-8">
     <h1 class="text-4xl text-white font-bold w-full text-center">Company devices</h1>
     <app-dynamic-table [columns]="columns" [rows]="rows" class="w-full max-h-80 overflow-y-auto"></app-dynamic-table>
-    <app-default-button text="Add device" [onClick]="onAddDevice"/>
+    <div class="buttons w-full flex justify-between">
+        <app-default-button text="See Import" [onClick]="onClickSeeImport" class="self-start"/>
+        <app-default-button text="Add device" [onClick]="onAddDevice" class="self-end"/>
+    </div>
+    @if(showImporter){
+        <div class="bg-[#202020] w-full p-8 flex justify-center items-center">
+            <app-dynamic-form [fields]="formFields" class="w-full" buttonText="Import" [submitHandler]="onSubmitted"/>
+        </div>
+    }
 </div>

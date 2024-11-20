@@ -23,23 +23,11 @@ export class HomesService {
   constructor(private homesApiRepository: HomesApiRepositoryService) {}
 
   getHomes(): Observable<HomeResponse[]> {
-    return this.homesApiRepository.getHomes().pipe(
-      map((homes: any[]) => homes.map(home => {
-        // filtering out memberSettings
-        const { memberSettings, ...filteredHome } = home;
-        return filteredHome;
-      }))
-    );
+    return this.homesApiRepository.getHomes();
   }
 
   getHome(id: string): Observable<HomeResponse> {
-    return this.homesApiRepository.getHome(id).pipe(
-      map((home: any) => {
-        // filtering out memberSettings
-        const { memberSettings, ...filteredHome } = home;
-        return filteredHome;
-      })
-    );
+    return this.homesApiRepository.getHome(id);
   }
 
   public createHome(home: HomeRequest): Observable<HomeResponse> {
