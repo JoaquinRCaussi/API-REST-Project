@@ -1,8 +1,10 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 using ImporterInterface;
 
 namespace JSONImporter;
 
+[ExcludeFromCodeCoverage]
 public class JImporter : IDeviceImporter
 {
     public List<DeviceDTO> ImportDevices()

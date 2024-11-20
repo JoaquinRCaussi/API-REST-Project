@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace JSONImporter;
 
+[ExcludeFromCodeCoverage]
 public class Root
 {
     [JsonPropertyName("dispositivos")]

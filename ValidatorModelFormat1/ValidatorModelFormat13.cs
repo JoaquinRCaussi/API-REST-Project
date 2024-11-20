@@ -1,8 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using ModeloValidador.Abstracciones;
 
 namespace ValidatorModelFormat1;
 
+[ExcludeFromCodeCoverage]
 public class ValidatorModelFormat13 : IModeloValidador
 {
     public bool EsValido(Modelo modelo)

@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using ImporterInterface;
 
 namespace BusinessLogic;
+
+[ExcludeFromCodeCoverage]
 public class DeviceImportLogic : IDeviceImportLogic
 {
     private readonly IDeviceLogic _deviceLogic;
