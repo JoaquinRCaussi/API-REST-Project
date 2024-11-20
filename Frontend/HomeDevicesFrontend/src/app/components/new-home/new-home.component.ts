@@ -4,15 +4,25 @@ import { FormField } from '../../interface/form-field';
 import { CommonModule } from '@angular/common';
 import { HomesService } from '../../../backend/services/homes.service';
 import { HomeRequest } from '../../../backend/models/in/home-request';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-new-home',
   standalone: true,
-  imports: [DynamicFormComponent],
+  imports: [DynamicFormComponent, AlertComponent],
   templateUrl: './new-home.component.html',
   styleUrl: './new-home.component.css'
 })
 export class NewHomeComponent {
+
+  alert: AlertInterface = {
+    message: 'Home created successfully',
+    type: 'success',
+    title: 'Success'
+  };
+  
+  showAlert : boolean = false;
 
   fields : FormField[] = [
     {
@@ -65,8 +75,19 @@ export class NewHomeComponent {
     };
 
     this.homesService.createHome(homeRequest).subscribe({
-      next: (response) => window.alert("Home " + homeRequest.name + " created successfully"),
-      error: (err) => window.alert("Error creating home")
+      next: (response) => this.handleCallAlert('Home created successfully', 'Success', 'success'),
+      error: (err) => this.handleCallAlert('Error creating home', 'Error', 'error'),
     });
+  }
+
+  cancelHandler = () => {
+    this.showAlert = false;
+  }
+
+  handleCallAlert = (message:string, title:string, type:string) => {
+    this.alert.message = message;
+    this.alert.title = title;
+    this.alert.type = type;
+    this.showAlert = true;
   }
 }

@@ -1,0 +1,35 @@
+@if(show){
+    @if(alert.type == 'error')
+    {
+        <div class="top-0 left-0 absolute w-screen h-screen blur-2xl bg-[#20202094] flex justify-center items-center">
+        
+        </div>
+        <div class="absolute top-[42vh] left-[45vw] w-[20vw] min-h-32 bg-white rounded-lg pb-2">
+            <div class="w-full bg-[#925c5c] flex justify-center items-center font-bold rounded-t-lg p-4">
+                <p class="text-white text-2xl">{{ alert.title }}</p>
+            </div>
+            <div class="w-full flex justify-center items-center min-h-20 p-2">
+                <p class="text-black text-xl text-center">{{ alert.message }}</p>
+            </div>
+            <div class="w-full flex justify-center items-center">
+                <app-default-button text="Ok" [onClick]="onCloseClick"></app-default-button>
+            </div>
+        </div>
+    }
+    @else{
+            <div class="top-0 left-0 absolute w-screen h-screen blur-2xl bg-[#20202094] flex justify-center items-center">
+            
+            </div>
+            <div class="absolute top-[42vh] left-[45vw] w-[20vw] min-h-32 bg-white rounded-lg pb-2">
+                <div class="w-full bg-[#5c9263] flex justify-center items-center font-bold rounded-t-lg p-4">
+                    <p class="text-white text-2xl">{{ alert.title }}</p>
+                </div>
+                <div class="w-full flex justify-center items-center min-h-20 p-2">
+                    <p class="text-black text-xl text-center">{{ alert.message }}</p>
+                </div>
+                <div class="w-full flex justify-center items-center">
+                    <app-default-button text="Ok" [onClick]="onCloseClick"></app-default-button>
+                </div>
+            </div>
+    }
+}

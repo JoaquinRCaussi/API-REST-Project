@@ -4,3 +4,6 @@
         <app-dynamic-form [fields]="fields" [submitHandler]="submitHandler"/>
     </div>
 </div>
+@if(showAlert){
+    <app-alert [onCloseClick]="cancelHandler" [alert]="alert"/>
+}

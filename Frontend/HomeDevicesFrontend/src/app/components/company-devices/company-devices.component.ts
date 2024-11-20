@@ -7,15 +7,26 @@ import { FormField } from '../../interface/form-field';
 import { DynamicFormComponent } from "../form/dynamic-form/dynamic-form.component";
 import { ImporterService } from '../../../backend/services/importer.service';
 import { ImportDevicesRequest } from '../../../backend/models/in/import-devices-request';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-company-devices',
   standalone: true,
-  imports: [DynamicTableComponent, DefaultButtonComponent, DynamicFormComponent],
+  imports: [DynamicTableComponent, DefaultButtonComponent, DynamicFormComponent, AlertComponent],
   templateUrl: './company-devices.component.html',
   styleUrl: './company-devices.component.css'
 })
 export class CompanyDevicesComponent {
+
+  alert: AlertInterface = {
+    message: 'Devices imported successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
+
   formFields : FormField[] = [
     {
       name: 'file',
@@ -77,10 +88,22 @@ export class CompanyDevicesComponent {
     };
   
     this.importerService.importDevices(importDevicesRequest).subscribe((data) => {
-      console.log(data);
-      window.alert('Devices imported successfully');
-      window.location.reload();
+      this.openAlert('Devices imported successfully', 'Devices - Success', 'success');
     });
+  }
+  
+  cancelAlert = () => {
+    this.showAlert = false;
+    window.location.reload();
+  }
+
+  openAlert = (message:string, title:string, type:string) => {
+    this.alert.message = message;
+    this.alert.title = title;
+    this.alert.type = type;
+
+    this.showAlert = true;
+
   }
   
 }

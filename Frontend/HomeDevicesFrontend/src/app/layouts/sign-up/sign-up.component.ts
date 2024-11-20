@@ -4,16 +4,26 @@ import { Router } from '@angular/router';
 import { HomeOwnerService } from '../../../backend/services/home-owner.service';
 import { DynamicFormComponent } from "../../components/form/dynamic-form/dynamic-form.component";
 import { DefaultButtonComponent } from "../../components/buttons/default-button/default-button.component";
+import { AlertComponent } from '../../components/alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [DynamicFormComponent, DefaultButtonComponent],
+  imports: [DynamicFormComponent, DefaultButtonComponent, AlertComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })
 export class SignUpComponent {
+
+  alert: AlertInterface = {
+    message: 'Sign up successful',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert: boolean = false;
   
   constructor(private homeOwnerService: HomeOwnerService,private router: Router) {}
 
@@ -39,11 +49,16 @@ export class SignUpComponent {
     this.homeOwnerService.signup(signUpRequest).subscribe(
       (response) => {
         console.log('Sign up exitoso:', response);
-        window.alert('Sign up successful');
-        this.router.navigate(['login']);
+        this.alert.message = 'Sign up successful';
+        this.alert.type = 'success';
+        this.alert.title = 'Success - Sign up';
+        this.openAlert();
       },
       (error) => {
-        window.alert(error);
+        this.alert.message = 'Sign up failed';
+        this.alert.type = 'error';
+        this.alert.title = 'Error - Sign up';
+        this.openAlert();
         console.error('Error in sign up:', error);
       }
     );
@@ -52,6 +67,18 @@ export class SignUpComponent {
 
   goToLogin = () => {
     this.router.navigate(['login']);
+  }
+
+  closeAlert = () => {
+    if(this.alert.type === 'success') {
+      this.showAlert = false;
+      this.router.navigate(['login']);
+    }
+    this.showAlert = false;
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
   }
 
 }

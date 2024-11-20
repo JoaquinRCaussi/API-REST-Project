@@ -9,3 +9,7 @@
             [onClick]="goToLogin"/>
     </div>
 </main>
+
+@if(showAlert){
+    <app-alert [onCloseClick]="closeAlert" [alert]="alert"/>
+}

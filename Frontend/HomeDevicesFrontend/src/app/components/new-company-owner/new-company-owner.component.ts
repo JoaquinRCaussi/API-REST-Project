@@ -4,15 +4,25 @@ import { FormField } from '../../interface/form-field';
 import { CommonModule } from '@angular/common';
 import { CompanyOwnerRequest } from '../../../backend/models/in/company-owner-request';
 import { CompanyOwnerService } from '../../../backend/services/company-owner.service';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-new-company-owner',
   standalone: true,
-  imports: [DynamicFormComponent],
+  imports: [DynamicFormComponent, AlertComponent],
   templateUrl: './new-company-owner.component.html',
   styleUrl: './new-company-owner.component.css'
 })
 export class NewCompanyOwnerComponent {
+
+  alert: AlertInterface = {
+    message: 'CompanyOwner created successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
 
   fields : FormField[] = [
     {
@@ -57,8 +67,27 @@ export class NewCompanyOwnerComponent {
     };
 
     this.companyOwnerService.createCompanyOwner(companyOwnerRequest).subscribe({
-      next: (response) => window.alert("CompanyOwner " + companyOwnerRequest.name + " created successfully"),
-      error: (err) => window.alert("Error creating CompanyOwner")
+      next: (response) => {
+        this.alert.message = 'CompanyOwner created successfully.';
+        this.alert.type = 'success';
+        this.alert.title = 'Success - CompanyOwner';
+        this.openAlert();
+      },
+      error: (err) => {
+        console.error('Error creating company owner:', err);
+        this.alert.message = 'An error occurred while creating the company owner.';
+        this.alert.type = 'error';
+        this.alert.title = 'Error - CompanyOwner';
+        this.openAlert();
+      }
     });
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
   }
 }

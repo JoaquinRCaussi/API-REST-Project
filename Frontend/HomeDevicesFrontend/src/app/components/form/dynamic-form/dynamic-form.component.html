@@ -10,7 +10,7 @@
                 [id]="field.name" 
                 [required]="field.required !== undefined ? field.required : false"
                 class="border-solid border-4 border-slate-200 bg-[#E8F0FE] w-96 h-14 text-xl p-2 text-black rounded-lg" />
-      
+
           <select *ngIf="field.type === 'select'" 
                   [formControlName]="field.name" 
                   [id]="field.name"
@@ -27,4 +27,8 @@
     <app-default-button [text]="buttonText" button_type="submit"/>
   </div>
   </form>
+
+  @if(showAlert){
+    <app-alert [onCloseClick]="closeAlert" [alert]="alert"/>
+  }
   

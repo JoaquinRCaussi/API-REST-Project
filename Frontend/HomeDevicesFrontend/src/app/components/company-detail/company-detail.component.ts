@@ -25,7 +25,6 @@ export class CompanyDetailComponent {
       this.user = data;
       this.companiesService.getCompanyByOwner(this.user.name).subscribe((data) => {
         this.company = data.companies[0];
-        console.log(this.company);
       });
     });
   }

@@ -13,3 +13,7 @@
         <app-dynamic-form [fields]="formFields" buttonText="Change name" [submitHandler]="onChangeName"></app-dynamic-form>
     </div>
 </div>
+
+@if(showAlert){
+    <app-alert [onCloseClick]="closeAlert" [alert]="alert"/>
+}

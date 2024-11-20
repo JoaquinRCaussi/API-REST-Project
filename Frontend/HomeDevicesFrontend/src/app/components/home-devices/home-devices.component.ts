@@ -6,15 +6,26 @@ import { HomesService } from '../../../backend/services/homes.service';
 import { FormField } from '../../interface/form-field';
 import { DynamicFormComponent } from '../form/dynamic-form/dynamic-form.component';
 import { HomeDeviceNameRequest } from '../../../backend/models/in/change-hdevice-name.request';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-home-devices',
   standalone: true,
-  imports: [DynamicTableComponent, DefaultButtonComponent, DynamicFormComponent],
+  imports: [DynamicTableComponent, DefaultButtonComponent, DynamicFormComponent, AlertComponent],
   templateUrl: './home-devices.component.html',
   styleUrl: './home-devices.component.css'
 })
 export class HomeDevicesComponent {
+
+  alert: AlertInterface = {
+    message: 'Name updated successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
+
   changeHomeDeviceName: boolean = true;
 
   devices: any;
@@ -61,21 +72,47 @@ export class HomeDevicesComponent {
     this.router.navigate(['homes', this.homeId, 'new-home-device']);
   }
 
-  onChangeName = (formData:any) => {
-    if(this.homeId && this.selectedHomeDevice){
-      const changeDeviceNameRequest:HomeDeviceNameRequest = {
+  onChangeName = (formData: any) => {
+    if (this.homeId && this.selectedHomeDevice) {
+      const changeDeviceNameRequest: HomeDeviceNameRequest = {
         changeDeviceNameRequest: formData.name
       };
-      this.homesService.changeHomeDeviceName(this.homeId, this.selectedHomeDevice.HardwareId, changeDeviceNameRequest).subscribe((data) => {
-        window.alert("Name updated successfully");
-        this.changeHomeDeviceName = false;
-        window.location.reload();
+  
+      this.homesService.changeHomeDeviceName(
+        this.homeId,
+        this.selectedHomeDevice.HardwareId,
+        changeDeviceNameRequest
+      ).subscribe({
+        next: (data) => {
+          this.alert.message = 'Name updated successfully.';
+          this.alert.type = 'success';
+          this.alert.title = 'Success - HomeDevice name';
+          this.openAlert();
+          this.changeHomeDeviceName = false;
+        },
+        error: (err) => {
+          console.error('Error updating device name:', err);
+          this.alert.message = 'An error occurred while updating the device name.';
+          this.alert.type = 'error';
+          this.alert.title = 'Error - HomeDevice name';
+          this.openAlert();
+        }
       });
     }
-  }
+  };
+  
 
   onClickDevice = (row: any) => {
     this.selectedHomeDevice = row;
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
+    window.location.reload();
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
   }
 
 }

@@ -4,15 +4,26 @@ import { HomesService } from '../../../backend/services/homes.service';
 import { ActivatedRoute } from '@angular/router';
 import { DefaultButtonComponent } from "../buttons/default-button/default-button.component";
 import { AddDeviceToRoomRequest } from '../../../backend/models/in/add-device-to-room-request';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-room-detail',
   standalone: true,
-  imports: [DynamicTableComponent, DefaultButtonComponent],
+  imports: [DynamicTableComponent, DefaultButtonComponent, AlertComponent],
   templateUrl: './room-detail.component.html',
   styleUrl: './room-detail.component.css'
 })
 export class RoomDetailComponent {
+
+  alert: AlertInterface = {
+    message: 'Device added to room successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
+
   rooms: any = [];
   room: any;
 
@@ -90,7 +101,10 @@ export class RoomDetailComponent {
     this.addDevice = false;
 
     if(!this.selectedDevice){
-      window.alert("Please select a device to add");
+      this.alert.message = 'Please select a device';
+      this.alert.type = 'error';
+      this.alert.title = 'Select a device';
+      this.openAlert();
       return;
     }
 
@@ -100,10 +114,22 @@ export class RoomDetailComponent {
         hardwareId: this.selectedDevice.HardwareId
       };
 
-      this.homesService.addDeviceToRoom(addDeviceToRoomRequest, this.homeId, this.roomId).subscribe((data) => {
-        window.alert("Device added to room successfully");
-        window.location.reload();
+      this.homesService.addDeviceToRoom(addDeviceToRoomRequest, this.homeId, this.roomId).subscribe({
+        next: (data) => {
+          this.alert.message = 'Device added to room successfully.';
+          this.alert.type = 'success';
+          this.alert.title = 'Success - Device added';
+          this.openAlert();
+        },
+        error: (err) => {
+          console.error('Error adding device to room:', err);
+          this.alert.message = 'An error occurred while adding the device to the room.';
+          this.alert.type = 'error';
+          this.alert.title = 'Error - Device not added';
+          this.openAlert();
+        }
       });
+      
     }
 
   }
@@ -116,6 +142,15 @@ export class RoomDetailComponent {
   onClickRow = (row: any) => {
     this.selectedDevice = row;
     console.log(this.selectedDevice);
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
+    window.location.reload();
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
   }
 
 }

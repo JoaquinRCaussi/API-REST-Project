@@ -4,15 +4,25 @@ import { FormField } from '../../interface/form-field';
 import { HomesService } from '../../../backend/services/homes.service';
 import { ActivatedRoute } from '@angular/router';
 import { NewRoomRequest } from '../../../backend/models/in/new-room-request';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-new-room',
   standalone: true,
-  imports: [DynamicFormComponent],
+  imports: [DynamicFormComponent, AlertComponent],
   templateUrl: './new-room.component.html',
   styleUrl: './new-room.component.css'
 })
 export class NewRoomComponent {
+
+  alert: AlertInterface = {
+    message: 'Room created successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
   
   formFields: FormField[] = [
     {
@@ -35,11 +45,25 @@ export class NewRoomComponent {
     if(homeId)
     {
       this.homesService.addRoom(homeId,roomRequest).subscribe(() => {
-        window.alert('Room created');
+        this.alert.message = 'Room created successfully';
+        this.alert.type = 'success';
+        this.alert.title = 'Success - Room';
+        this.openAlert();
       }, () => {
-        window.alert('Error creating room');
+        this.alert.message = 'Error creating room';
+        this.alert.type = 'error';
+        this.alert.title = 'Error - Room';
+        this.openAlert();
       });
     }
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
   }
     
 }

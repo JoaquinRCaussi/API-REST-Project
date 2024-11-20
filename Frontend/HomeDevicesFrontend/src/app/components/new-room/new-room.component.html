@@ -2,3 +2,7 @@
     <h1 class="w-full text-center text-white text-4xl font-bold">Create Room</h1>
     <app-dynamic-form [fields]="formFields" buttonText="Create Room" [submitHandler]="onCreateRoom"/>
 </div>
+
+@if (showAlert) {
+    <app-alert [onCloseClick]="closeAlert" [alert]="alert"/>
+}
