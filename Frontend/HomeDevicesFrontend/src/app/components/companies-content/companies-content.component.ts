@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 })
 export class CompaniesContentComponent {
   companies: any[] = [];
-  rows: { [key: string]: string }[] = [];  // Assuring that the rows are of type string
-  columns = [ 'Name', 'Owner name', 'Owner email', 'RUT'];
+  rows: { [key: string]: string }[] = [];
+  columns = [ 'Name', 'OwnerName', 'OwnerEmail', 'Rut'];
 
   constructor(private companiesService: CompaniesService, private router: Router) {}
 
