@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { UserRole } from '../../../enum/UserRole';
+import { AuthService } from '../../../backend/services/auth.service';
 
 @Component({
   selector: 'app-aside-menu',
@@ -11,21 +12,17 @@ import { UserRole } from '../../../enum/UserRole';
   styleUrl: './aside-menu.component.css'
 })
 export class AsideMenuComponent {
-
   UserRole = UserRole;
   activeButton: string = '';
-  userRole: string | null = '' ;
+  userRole: string | null = '';
   userId: string | null = '';
-  
   isActiveSvg: boolean = false;
 
-  constructor() {
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   setActiveButton(button: string) {
     this.activeButton = button;
   }
-
 
   changeColor(): void {
     this.isActiveSvg = !this.isActiveSvg;
@@ -35,5 +32,10 @@ export class AsideMenuComponent {
     this.setActiveButton('main');
     this.userRole = localStorage.getItem('userRole');
     this.userId = localStorage.getItem('userId');
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

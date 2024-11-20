@@ -168,10 +168,9 @@
           </li>
 
           <li class="hover:text-white transition-all cursor-pointer">
-            <a routerLink="/logout"
-               (click)="setActiveButton('logout')"
-               [class.active]="activeButton === 'logout'"
-               class="hover:text-white transition-all cursor-pointer p-2 rounded-lg flex gap-4">
+            <a (click)="onLogout()"
+            [class.active]="activeButton === 'logout'"
+            class="hover:text-white transition-all cursor-pointer p-2 rounded-lg flex gap-4">
                <svg width="35px" height="35px" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g
                   [ngClass]="{ 'active-svg': activeButton === 'logout' }"
