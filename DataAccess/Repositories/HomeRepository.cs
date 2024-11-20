@@ -43,6 +43,7 @@ public class HomeRepository : IHomeRepository
             .Where(h => h.Members != null && (h.HomeOwner == userId || h.Members.Any(m => m.Id == userId)))
             .Include(h => h.Devices)
             .Include(h => h.Members)
+            .Include(h => h.MemberSettings)
             .Include(h => h.Owner)
             .Include(h => h.Rooms)
             .ToList()!;
@@ -64,9 +65,11 @@ public class HomeRepository : IHomeRepository
     {
         var members = _dbContext.Homes?
             .Where(x => x.Id == homeId)
-            .Include(x => x.Members)
-            .Select(x => x.Members)
-            .FirstOrDefault();
+            .Include(x => x.MemberSettings)
+            .ThenInclude(x => x.Permissions)
+            .SelectMany(x => x.MemberSettings)
+            .Select(x => x.UserId)
+            .ToList();
 
         if (members == null || members.Count == 0)
         {
@@ -74,7 +77,7 @@ public class HomeRepository : IHomeRepository
         }
 
         var users = _dbContext.Users?
-            .Where(x => members.Contains(x))
+            .Where(x => members.Contains(x.Id))
             .ToList();
 
         return users ?? [];
@@ -98,7 +101,7 @@ public class HomeRepository : IHomeRepository
                 HomeOwner = default
             };
         }
-
+        
         home.Members?.Add(user);
         _dbContext.SaveChanges();
         return home;
