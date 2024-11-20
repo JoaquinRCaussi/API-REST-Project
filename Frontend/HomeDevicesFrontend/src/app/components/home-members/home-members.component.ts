@@ -31,21 +31,20 @@ export class HomeMembersComponent {
 
     if (this.homeId) {
       this.homesService.getHomeMembers(this.homeId).subscribe((homeMembers) => {
-        //TODO: Check the creation of homes, some homes dont have any member
         this.homeMembers = homeMembers;
         this.rows = homeMembers.map((homeMember) => ({
           Name: homeMember.name,
           Email: homeMember.email
       }));
     });
-    }    
+    }
   }
 
   onRowClick= (row: any): void => {
 
     if (row.Email) {
       this.userService.getUserByMail(row.Email).subscribe((user) => {
-        this.userResponse = user; 
+        this.userResponse = user;
         this.userId = user.id;
         this.router.navigate(['/homes', this.homeId, 'members', this.userId]);
       }, error => {
@@ -55,7 +54,7 @@ export class HomeMembersComponent {
       console.error('No email found in row', row);
     }
   }
-  
+
 
   onAddMemberClick = (): void => {
     this.router.navigate(['/homes', this.homeId, 'new-member']);

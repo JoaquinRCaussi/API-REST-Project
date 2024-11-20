@@ -15,15 +15,15 @@ import { AlertComponent } from '../../alert/alert.component';
 })
 export class DynamicFormComponent implements OnInit {
   @Input() fields: FormField[] = [];
-  @Input() submitHandler: (formData: any) => void = () => {}; // handler para metodo de submit
+  @Input() submitHandler: (formData: any) => void = () => {};
   @Input() buttonText: string = 'Submit';
-  
+
   alert: AlertInterface = {
     message: 'Not valid form. Please check the fields',
     type: 'error',
     title: 'Form validation'
   };
-  
+
   showAlert : boolean = false;
 
   form: FormGroup = new FormGroup({});

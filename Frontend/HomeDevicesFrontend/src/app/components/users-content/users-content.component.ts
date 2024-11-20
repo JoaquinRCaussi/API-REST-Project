@@ -41,7 +41,6 @@ export class UsersContentComponent {
   }
 
   deleteUser(userId: string): void {
-    console.log('Intentando eliminar usuario con ID:', userId); // Línea de verificación
     if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
       this.usersService.deleteUser(userId).subscribe(
         () => {
