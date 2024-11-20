@@ -29,7 +29,7 @@ export class NewHomeDeviceComponent {
 
 
   homeId: string | null = null;
-  companyName:string | null = null; 
+  companyName:string | null = null;
   model: string | null = null;
   rows: { [key: string]: string }[] = [];
   columns:string[] = ['Name','Type', 'Model', 'Description']
@@ -84,7 +84,7 @@ export class NewHomeDeviceComponent {
             }
           });
         }
-        
+
       }
     });
 
@@ -99,7 +99,6 @@ export class NewHomeDeviceComponent {
     if(this.companyName && !this.model){
       this.devicesService.getDevicesByCompanyName(this.companyName).subscribe((data) => {
         this.devices = data.devices;
-        console.log(this.devices);
         if(this.devices){
           this.rows = this.devices.map((device:any) => ({
             Name: device.name,
@@ -108,7 +107,7 @@ export class NewHomeDeviceComponent {
             Description: device.description
           }));
         }else{
-          this.rows = []; 
+          this.rows = [];
         }
       });
     }
@@ -116,7 +115,6 @@ export class NewHomeDeviceComponent {
     if(this.companyName && this.model){
       this.devicesService.getDevicesByCompanyAndModel(this.companyName, this.model).subscribe((data) => {
         this.devices = data.devices;
-        console.log(this.devices);
         if(this.devices){
           this.rows = this.devices.map((device:any) => ({
             Name: device.name,

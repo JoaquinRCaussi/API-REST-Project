@@ -15,7 +15,6 @@ export class NewCompanyComponent {
 
   validators: string[] = [];
 
-  //call controller / make controller for validatorService
   formFields: FormField[] = [
     {
       name: 'name',

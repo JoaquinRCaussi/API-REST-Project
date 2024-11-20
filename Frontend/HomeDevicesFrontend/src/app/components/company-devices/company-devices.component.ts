@@ -62,8 +62,6 @@ export class CompanyDevicesComponent {
           Model: device.model,
           Description: device.description
         }));
-
-        console.log(this.devices);
       }else{
         this.rows = [];
       }
@@ -74,7 +72,7 @@ export class CompanyDevicesComponent {
     this.router.navigate(['companies', this.companyName, 'new-device']);
   }
 
-  onClickSeeImport = () => { 
+  onClickSeeImport = () => {
     this.showImporter = !this.showImporter;
   }
 
@@ -86,12 +84,12 @@ export class CompanyDevicesComponent {
       companyName: this.companyName,
       assemblyPath: formData.file
     };
-  
+
     this.importerService.importDevices(importDevicesRequest).subscribe((data) => {
       this.openAlert('Devices imported successfully', 'Devices - Success', 'success');
     });
   }
-  
+
   cancelAlert = () => {
     this.showAlert = false;
     window.location.reload();
@@ -105,5 +103,5 @@ export class CompanyDevicesComponent {
     this.showAlert = true;
 
   }
-  
+
 }

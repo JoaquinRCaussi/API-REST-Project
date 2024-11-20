@@ -20,7 +20,6 @@ export class CompaniesContentComponent {
   ngOnInit() {
     this.companiesService.getCompanies().subscribe(response => {
       this.companies = response.companies;
-      console.log(response.companies);
       this.rows = this.companies.map(company => ({
         Id: company.id,
         Name: company.name.toString(),
@@ -29,10 +28,5 @@ export class CompaniesContentComponent {
         Rut: company.rut.toString()
       }));
     });
-  }
-
-  // Function to handle the click event
-  onRowClick(row: any): void {
-    this.router.navigate(['homes', row.Id]);
   }
 }

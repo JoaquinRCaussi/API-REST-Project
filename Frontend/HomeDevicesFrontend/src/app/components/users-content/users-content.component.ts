@@ -20,7 +20,6 @@ export class UsersContentComponent {
   ngOnInit() {
     this.usersService.getUsers().subscribe(response => {
       this.users = response.users;
-      console.log(response.users);
       this.rows = this.users.map(user => ({
         Id: user.id,
         Name: user.name.toString(),
@@ -41,7 +40,6 @@ export class UsersContentComponent {
   }
 
   deleteUser(userId: string): void {
-    console.log('Intentando eliminar usuario con ID:', userId); // Línea de verificación
     if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
       this.usersService.deleteUser(userId).subscribe(
         () => {
