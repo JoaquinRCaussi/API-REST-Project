@@ -30,9 +30,4 @@ export class CompaniesContentComponent {
       }));
     });
   }
-
-  // Function to handle the click event
-  onRowClick(row: any): void {
-    this.router.navigate(['homes', row.Id]);
-  }
 }
