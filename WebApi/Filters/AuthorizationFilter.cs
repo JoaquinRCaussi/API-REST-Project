@@ -1,5 +1,5 @@
 using System.Net;
-using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.DataAccessInterfaces;
 using BusinessLogic.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

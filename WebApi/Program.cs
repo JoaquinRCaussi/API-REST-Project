@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using BusinessLogic;
-using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.DataAccessInterfaces;
 using BusinessLogic.LogicInterfaces;
 using BusinessLogic.Validators;
 using DataAccess;

@@ -1,4 +1,4 @@
-using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.DataAccessInterfaces;
 using BusinessLogic.Entities;
 using DataAccess.Data;
 using DataAccess.Repositories;

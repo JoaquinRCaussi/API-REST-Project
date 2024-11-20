@@ -1,6 +1,6 @@
 using BusinessLogic.Entities;
 
-namespace BusinessLogic.DataAccess.Interfaces;
+namespace BusinessLogic.DataAccessInterfaces;
 
 public interface ISessionRepository
 {

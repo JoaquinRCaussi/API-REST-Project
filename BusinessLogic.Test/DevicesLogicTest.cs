@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.DataAccessInterfaces;
 using BusinessLogic.Entities;
 using BusinessLogic.Validators;
 using FluentAssertions;
