@@ -3,18 +3,28 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormField } from '../../../interface/form-field';
 import { DefaultButtonComponent } from '../../buttons/default-button/default-button.component';
 import { CommonModule } from '@angular/common';
+import { AlertInterface } from '../../../interface/alert';
+import { AlertComponent } from '../../alert/alert.component';
 
 @Component({
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, DefaultButtonComponent, CommonModule]
+  imports: [ReactiveFormsModule, DefaultButtonComponent, CommonModule, AlertComponent]
 })
 export class DynamicFormComponent implements OnInit {
   @Input() fields: FormField[] = [];
   @Input() submitHandler: (formData: any) => void = () => {}; // handler para metodo de submit
   @Input() buttonText: string = 'Submit';
+  
+  alert: AlertInterface = {
+    message: 'Not valid form. Please check the fields',
+    type: 'error',
+    title: 'Form validation'
+  };
+  
+  showAlert : boolean = false;
 
   form: FormGroup = new FormGroup({});
 
@@ -36,12 +46,19 @@ export class DynamicFormComponent implements OnInit {
       this.clearForm();
 
     } else {
-      window.alert('Formulario no válido');
-      console.log('Formulario no válido');
+      this.openAlert();
     }
   }
 
   clearForm() {
     this.form.reset();
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
   }
 }

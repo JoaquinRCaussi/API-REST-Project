@@ -11,3 +11,7 @@
         </div>
     }
 </div>
+
+@if(showAlert){
+    <app-alert [onCloseClick]="cancelAlert" [alert]="alert"/>
+}

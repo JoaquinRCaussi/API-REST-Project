@@ -4,15 +4,25 @@ import { FormField } from '../../interface/form-field';
 import { CommonModule } from '@angular/common';
 import { AdminRequest } from '../../../backend/models/in/admin-request';
 import { AdminService } from '../../../backend/services/admin.service';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-new-admin',
   standalone: true,
-  imports: [DynamicFormComponent],
+  imports: [DynamicFormComponent, AlertComponent],
   templateUrl: './new-admin.component.html',
   styleUrl: './new-admin.component.css'
 })
 export class NewAdminComponent {
+
+  alert: AlertInterface = {
+    message: 'Admin created successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
 
   fields : FormField[] = [
     {
@@ -57,8 +67,27 @@ export class NewAdminComponent {
     };
 
     this.adminsService.createAdmin(adminRequest).subscribe({
-      next: (response) => window.alert("Admin " + adminRequest.name + " created successfully"),
-      error: (err) => window.alert("Error creating admin")
+      next: (response) => {
+        this.alert.message = 'Admin created successfully.';
+        this.alert.type = 'success';
+        this.alert.title = 'Success - Admin';
+        this.openAlert();
+      },
+      error: (err) => {
+        console.error('Error creating admin:', err);
+        this.alert.message = 'An error occurred while creating the admin.';
+        this.alert.type = 'error';
+        this.alert.title = 'Error - Admin';
+        this.openAlert();
+      }
     });
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
   }
 }

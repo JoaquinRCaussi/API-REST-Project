@@ -7,15 +7,27 @@ import { DevicesService } from '../../../backend/services/devices.service';
 import { HomesService } from '../../../backend/services/homes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddHomeDeviceRequest } from '../../../backend/models/in/add-home-device-request';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-new-home-device',
   standalone: true,
-  imports: [DynamicFormComponent, DynamicTableComponent, DefaultButtonComponent],
+  imports: [DynamicFormComponent, DynamicTableComponent, DefaultButtonComponent, AlertComponent],
   templateUrl: './new-home-device.component.html',
   styleUrl: './new-home-device.component.css'
 })
 export class NewHomeDeviceComponent {
+
+  alert: AlertInterface = {
+    message: 'Device added to home successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
+
+
   homeId: string | null = null;
   companyName:string | null = null; 
   model: string | null = null;
@@ -55,12 +67,24 @@ export class NewHomeDeviceComponent {
           deviceId: this.selectedDevice.id
         };
 
-        if(this.homeId)
-        {
-          this.homesService.addDeviceToHome(addDeviceToHomeRequest, this.homeId).subscribe((data) => {
-            window.alert("Device added to home successfully");
+        if (this.homeId) {
+          this.homesService.addDeviceToHome(addDeviceToHomeRequest, this.homeId).subscribe({
+            next: (data) => {
+              this.alert.message = 'Device added to home successfully.';
+              this.alert.type = 'success';
+              this.alert.title = 'Success - Device added';
+              this.openAlert();
+            },
+            error: (err) => {
+              console.error('Error adding device to home:', err);
+              this.alert.message = 'An error occurred while adding the device to the home.';
+              this.alert.type = 'error';
+              this.alert.title = 'Error - Device added';
+              this.openAlert();
+            }
           });
         }
+        
       }
     });
 
@@ -109,5 +133,13 @@ export class NewHomeDeviceComponent {
 
   onClickRow = (row: any) => {
     this.selectedDevice = this.devices.find((device:any) => device.model === row.Model && device.name === row.Name);
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
   }
 }

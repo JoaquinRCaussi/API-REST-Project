@@ -12,3 +12,7 @@
         </div>
     }
 </div>
+
+@if(showAlert){
+    <app-alert [onCloseClick]="closeAlert" [alert]="alert"/>
+}

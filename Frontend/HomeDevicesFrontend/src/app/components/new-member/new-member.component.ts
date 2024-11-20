@@ -8,15 +8,25 @@ import { DynamicTableComponent } from '../dynamic-table/dynamic-table.component'
 import { HomesService } from '../../../backend/services/homes.service';
 import { AddMemberRequest } from '../../../backend/models/in/add-member-request';
 import { ActivatedRoute } from '@angular/router';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertInterface } from '../../interface/alert';
 
 @Component({
   selector: 'app-new-member',
   standalone: true,
-  imports: [DynamicFormComponent,DefaultButtonComponent,DynamicTableComponent],
+  imports: [DynamicFormComponent,DefaultButtonComponent,DynamicTableComponent, AlertComponent],
   templateUrl: './new-member.component.html',
   styleUrl: './new-member.component.css'
 })
 export class NewMemberComponent {
+
+  alert: AlertInterface = {
+    message: 'User added to home successfully',
+    type: 'success',
+    title: 'Success'
+  };
+
+  showAlert : boolean = false;
 
   rows: { [key: string]: string }[] = [];
   columns = ['Name', 'Email'];
@@ -55,14 +65,29 @@ export class NewMemberComponent {
       };
       if (this.homeId) {
         this.homeService.addMember(this.homeId, addMemberRequest).subscribe(() => {
-          window.alert('User added to home');
+          this.alert.message = `User added to home successfully`;
+          this.alert.title = 'Success - Member';
+          this.alert.type = 'success';
+          this.openAlert();
         }, error => {
-          window.alert('Error adding user to home');
+          console.error('Error adding member to home', error);
+          this.alert.message = `Error adding user to home`;
+          this.alert.title = 'Error - Member';
+          this.alert.type = 'error';
+          this.openAlert();
         });
       } else {
         console.error('Home ID is null');
       }
     }
+  }
+
+  openAlert = () => {
+    this.showAlert = true;
+  }
+
+  closeAlert = () => {
+    this.showAlert = false;
   }
 
 }
