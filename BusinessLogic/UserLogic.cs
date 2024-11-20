@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using BusinessLogic.DataAccess.Interfaces;
+using BusinessLogic.DataAccessInterfaces;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 
