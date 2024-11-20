@@ -19,13 +19,13 @@ public class HomeLogic : IHomeLogic
     public Home CreateHome(Home home)
     {
         var homeResult = _homeRepository.CreateHome(home);
-        var homeWithMember = AddMember(homeResult.Id, homeResult.HomeOwner);
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (homeWithMember == null)
+
+        if (homeResult == null)
         {
-            return homeResult;
+            throw new NotValidDataException("Home could not be created");
         }
-        return homeWithMember;
+
+        return homeResult;
     }
 
     public List<Home> GetHomes()
@@ -84,7 +84,17 @@ public class HomeLogic : IHomeLogic
         {
             throw new ConflictException("House is full. Member limit has been reached.");
         }
-        return _homeRepository.AddMember(homeId, userId);
+
+        var member = _homeRepository.AddMember(homeId, userId);
+
+        var permissions = UpdatePermissions(homeId, userId, "CanGetNotifications", true);
+
+        if (member == null || permissions == null)
+        {
+            throw new NotValidDataException("Member could not be added");
+        }
+
+        return home;
     }
 
     public Home UpdatePermissions(Guid homeId, Guid userId, string permissions, bool addPermission)

@@ -2,13 +2,13 @@
 using System.Text.RegularExpressions;
 using ModeloValidador.Abstracciones;
 
-namespace ValidatorModelFormat3;
+namespace ValidatorModelFormat1;
 
 [ExcludeFromCodeCoverage]
-public class ValidatorModelFormat33 : IModeloValidador
+public class ValidatorModelFormat13 : IModeloValidador
 {
     public bool EsValido(Modelo modelo)
     {
-        return Regex.IsMatch(modelo.Value, @"^[A-Z]{3}\d{3}$");
+        return Regex.IsMatch(modelo.Value, @"^[A-Z]{1}\d{3}$");
     }
 }

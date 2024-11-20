@@ -12,8 +12,4 @@
       </Reference>
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\ImporterInterface\ImporterInterface.csproj" />
-    </ItemGroup>
-
 </Project>

@@ -21,6 +21,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatorModelFormat3", "Va
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatorModelFormat6", "ValidatorModelFormat6\ValidatorModelFormat6.csproj", "{53C4F68B-0112-499F-BFC9-A64C6A35E23B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSONImporter", "JSONImporter\JSONImporter.csproj", "{4B2534D0-197D-4A8D-9BAB-3F2276DF05F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImporterInterface", "ImporterInterface\ImporterInterface.csproj", "{32919C74-247E-4CF2-9EE0-37F93FB19FB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatorModelFormat1", "ValidatorModelFormat1\ValidatorModelFormat1.csproj", "{8BCC1797-086B-406D-B37A-3C8086B04AE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +68,18 @@ Global
 		{53C4F68B-0112-499F-BFC9-A64C6A35E23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53C4F68B-0112-499F-BFC9-A64C6A35E23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53C4F68B-0112-499F-BFC9-A64C6A35E23B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B2534D0-197D-4A8D-9BAB-3F2276DF05F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B2534D0-197D-4A8D-9BAB-3F2276DF05F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B2534D0-197D-4A8D-9BAB-3F2276DF05F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B2534D0-197D-4A8D-9BAB-3F2276DF05F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32919C74-247E-4CF2-9EE0-37F93FB19FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32919C74-247E-4CF2-9EE0-37F93FB19FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32919C74-247E-4CF2-9EE0-37F93FB19FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32919C74-247E-4CF2-9EE0-37F93FB19FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BCC1797-086B-406D-B37A-3C8086B04AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BCC1797-086B-406D-B37A-3C8086B04AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BCC1797-086B-406D-B37A-3C8086B04AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BCC1797-086B-406D-B37A-3C8086B04AE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{452AF43F-8F68-4BDB-A845-C82BE558A90B} = {FBBA1295-83A2-420E-BF5A-A6442393F2D1}

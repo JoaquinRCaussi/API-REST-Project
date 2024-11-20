@@ -39,6 +39,7 @@ builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IMemberSettingRepository, MemberSettingRepository>();
 builder.Services.AddScoped<IMemberSettingLogic, MemberSettingLogic>();
+builder.Services.AddScoped<IDeviceImportLogic, DeviceImportLogic>();
 builder.Services.AddScoped<IHomeLogic, HomeLogic>();
 builder.Services.AddScoped<IUserLogic, UserLogic>();
 builder.Services.AddScoped<ICompanyLogic, CompanyLogic>();

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./homes-content.component.css']
 })
 export class HomesContentComponent {
-  homes: any[] = [DynamicTableComponent];
+  homes: any[] = [];
   rows: { [key: string]: string }[] = [];  // Assuring that the rows are of type string
   columns = [ 'Name', 'Location', 'Members', 'Owner', 'Devices', 'Rooms' ];
 
@@ -20,18 +20,19 @@ export class HomesContentComponent {
   ngOnInit() {
     this.homesService.getHomes().subscribe(homes => {
       this.homes = homes;
-      
+      console.log(homes);
+
       this.rows = homes.map(home => ({
         Id: home.id.toString(),
         Name: home.name.toString(),
         Location: home.location.toString(),
-        Members: home.members?.length?.toString() || '',
+        Members: home.memberSettings?.length?.toString() || '',
         Owner: home.owner.name.toString(),
         Devices: home.devices?.length?.toString() || '',
         Rooms: home.rooms?.length?.toString() || ''
       }));
 
-      console.log(this.rows);
+      
     });
   }
 
