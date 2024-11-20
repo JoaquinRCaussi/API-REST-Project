@@ -26,4 +26,8 @@ export class UserService {
     return this.userApiRepository.getUserNotifications(userId);
   }
 
+  deleteUser(userId: string): Observable<void> {
+    return this.userApiRepository.deleteUser(userId);
+  }
+
 }

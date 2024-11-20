@@ -102,6 +102,7 @@ public class UserControllerTest
             .Take(10)
             .Select(u => new GetUserResponse
             {
+                Id = u.Id,
                 Email = u.Email,
                 Name = u.Name,
                 LastName = u.LastName,
