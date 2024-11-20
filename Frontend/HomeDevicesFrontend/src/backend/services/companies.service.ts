@@ -3,6 +3,8 @@ import { CompaniesApiRepository } from '../repositories/companies-api-repository
 import { NewCompanyRequest } from '../models/in/new-company-request';
 import { Observable } from 'rxjs';
 import { NewCompanyResponse } from '../models/out/new-company-response';
+import { CompaniesResponse } from '../models/out/companies-response';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +19,9 @@ export class CompaniesService {
 
   getCompanyByOwner(ownerName: string): Observable<any> {
     return this.companiesApiRepository.getCompanyByOwner(ownerName);
+  }
+
+  getCompanies(): Observable<CompaniesResponse> {
+    return this.companiesApiRepository.getCompanies();
   }
 }
