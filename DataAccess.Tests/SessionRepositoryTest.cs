@@ -94,4 +94,18 @@ public class SessionRepositoryTests
             options.IgnoringCyclicReferences());
     }
     
+    [TestMethod]
+    public void FindByToken_ShouldReturnNull_WhenTokenDoesNotExist()
+    {
+        using HMDbContext context = CreateInMemoryDbContext("TestFindByTokenNull");
+        SeedData(context);
+
+        var repository = new SessionRepository(context);
+        var nonExistentToken = Guid.NewGuid();
+
+        var result = repository.FindByToken(nonExistentToken);
+
+        result.Should().BeNull();
+    }
+    
 }
