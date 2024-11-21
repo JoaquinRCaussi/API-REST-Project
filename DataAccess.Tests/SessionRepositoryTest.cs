@@ -78,4 +78,20 @@ public class SessionRepositoryTests
         addedSession.Should().BeEquivalentTo(session);
     }
     
+    [TestMethod]
+    public void FindByToken_ShouldReturnSession_WhenTokenExists()
+    {
+        using HMDbContext context = CreateInMemoryDbContext("TestFindByToken");
+        SeedData(context);
+
+        var repository = new SessionRepository(context);
+        var existingSession = context.Sessions?.First();
+
+        var result = repository.FindByToken(existingSession?.Token);
+
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(existingSession, options =>
+            options.IgnoringCyclicReferences());
+    }
+    
 }
