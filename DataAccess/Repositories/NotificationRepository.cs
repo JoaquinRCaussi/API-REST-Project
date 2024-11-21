@@ -34,12 +34,12 @@ public class NotificationRepository : INotificationRepository
             throw new EntityNotFoundException("Home or device not found");
         }
 
-        foreach (var member in home.Members)
+        foreach (var member in home.MemberSettings)
         {
-            var memberSettings = home.MemberSettings?.FirstOrDefault(x => x.UserId == member.Id);
-            if (memberSettings != null)
+            var user = _context.Users?.FirstOrDefault(x => x.Id == member.UserId);
+            if (user != null)
             {
-                var hasPermission = memberSettings.Permissions
+                var hasPermission = member.Permissions
                     .Any(p => p.Value == "CanGetNotifications");
 
                 if (hasPermission)
@@ -51,7 +51,7 @@ public class NotificationRepository : INotificationRepository
                         CreatedAt = DateTime.Now,
                         HardwareId = hardwareId,
                         HomeDevice = homeDevice,
-                        User = member,
+                        User = user,
                         IsRead = false
                     };
 
