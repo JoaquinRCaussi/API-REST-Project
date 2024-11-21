@@ -979,6 +979,40 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
     }
+    
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldThrowException_WhenDeviceDoesNotExist()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var room = new Room { Id = roomId, Name = "room" };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5,
+            Devices = []
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room> { room });
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+
+        Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Device not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
+    }
+
 
 
 }
