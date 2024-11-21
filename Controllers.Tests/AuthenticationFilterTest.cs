@@ -96,6 +96,21 @@ public class AuthenticationFilterAttributeTest
 
         context.HttpContext.Items[0].Should().Be(user);
     }
+    
+    [TestMethod]
+    public void OnAuthorization_WithSessionServiceError_ThrowsException()
+    {
+        var token = Guid.NewGuid();
+        var stringToken = token.ToString();
+        _sessionServiceMock.Setup(s => s.GetUserByToken(token)).Throws(new Exception("Invalid Token"));
+
+        var context = CreateAuthorizationFilterContext(stringToken);
+        context.HttpContext.RequestServices = CreateServiceProvider().BuildServiceProvider();
+
+        Action act = () => _filter.OnAuthorization(context);
+
+        act.Should().Throw<Exception>().WithMessage("Invalid Token");
+    }
 
     private AuthorizationFilterContext CreateAuthorizationFilterContext(string? authorizationHeader)
     {
