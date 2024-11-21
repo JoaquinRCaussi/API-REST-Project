@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ImporterInterface;
 
+[ExcludeFromCodeCoverage]
 public class DeviceDTO
 {
     public string Id { get; set; }

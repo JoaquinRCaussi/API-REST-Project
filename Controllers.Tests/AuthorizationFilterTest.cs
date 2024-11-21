@@ -284,6 +284,31 @@ public class AuthorizationFilterAttributeTest
 
         result.Should().BeTrue();
     }
+    
+    [TestMethod]
+    public void OnAuthorization_HomeIdNotInRoute_AllowsAccess()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "UserWithoutHomeCheck",
+            Role = new Role
+            {
+                PermissionKeys =
+                [
+                    new PermissionKey { Value = "required-permission" }
+                ]
+            }
+        };
+
+        var context = CreateAuthorizationFilterContext(user);
+        context.RouteData.Values.Remove("homeId");
+        _filter = new AuthorizationFilterAttribute("required-permission");
+
+        _filter.OnAuthorization(context);
+
+        context.Result.Should().BeNull();
+    }
 
 
 
