@@ -337,6 +337,54 @@ public class AuthorizationFilterAttributeTest
 
         context.Result.Should().BeNull();
     }
+    
+    [TestMethod]
+    public void OnAuthorization_HomeIdInRoute_UserNotInHome_ReturnsForbidden()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "John Doe",
+            Role = new Role
+            {
+                PermissionKeys =
+                [
+                    new PermissionKey { Value = "required-permission" }
+                ]
+            }
+        };
+
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            Name = "Test Home",
+            MemberSettings = new List<MemberSetting>(),
+            Location = "asdasdasd",
+            Latitude = "asdasdas",
+            Longitude = "asdasdas",
+            MemberCount = 2
+        };
+
+        var homeRepositoryMock = new Mock<IHomeRepository>();
+        homeRepositoryMock.Setup(repo => repo.GetHome(It.IsAny<Guid>())).Returns(home);
+
+        var context = CreateAuthorizationFilterContext(user, homeRepositoryMock);
+        context.RouteData.Values["homeId"] = home.Id;
+        _filter = new AuthorizationFilterAttribute("required-permission");
+
+        _filter.OnAuthorization(context);
+
+        context.Result.Should().BeOfType<ObjectResult>()
+            .Which.StatusCode.Should().Be((int)HttpStatusCode.Forbidden);
+        context.Result.Should().BeEquivalentTo(new ObjectResult(new
+        {
+            InnerCode = "Forbidden",
+            Message = "Missing permission required-permission"
+        })
+        {
+            StatusCode = (int)HttpStatusCode.Forbidden
+        });
+    }
 
     public class MockServiceProvider : IServiceProvider
     {
