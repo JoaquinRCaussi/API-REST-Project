@@ -934,4 +934,372 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Home not found");
     }
+
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldThrowException_WhenHomeDoesNotExist()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+    }
+
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldThrowException_WhenRoomDoesNotExist()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([]);
+
+        Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Room not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
+    }
+
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldThrowException_WhenDeviceDoesNotExist()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var room = new Room { Id = roomId, Name = "room" };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5,
+            Devices = []
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([room]);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+
+        Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Device not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
+    }
+
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldThrowException_WhenDeviceCouldNotBeAdded()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Company = _company,
+            Name = "device",
+            Model = "model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+
+        var homeDevice = new HomeDevice
+        {
+            Id = Guid.NewGuid(),
+            HardwareId = hardwareId,
+            Device = device
+        };
+
+        var room = new Room { Id = roomId, Name = "room" };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5,
+            Devices = [homeDevice]
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([room]);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+        _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns((Room)null);
+
+        Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Device could not be added to room");
+
+        _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
+    }
+
+    [TestMethod]
+    public void CreateNotificationSensor_ShouldThrowException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorEvent = "open";
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found.");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+    }
+
+    [TestMethod]
+    public void CreateNotificationSensor_ShouldThrowException_WhenDeviceNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorEvent = "open";
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            Devices = [],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+
+        Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+
+        act.Should().Throw<EmptyException>().WithMessage("No devices found for this home.");
+    }
+
+
+    [TestMethod]
+    public void CreateNotificationSensor_ShouldThrowException_WhenDeviceIsNotSensor()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorEvent = "open";
+
+        var device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Company = _company,
+            Name = "device",
+            Model = "model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            Devices = [homeDevice],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+
+        Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Device is not a sensor");
+    }
+
+    [TestMethod]
+    public void CreateNotificationCamera_ShouldThrowException_WhenEventNotValid()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var invalidEvent = "invalid-event";
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+
+        Action act = () => _homeLogic?.CreateNotificationCamera(homeId, hardwareId, invalidEvent);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Event must be movement-detected or person-detected");
+    }
+
+    [TestMethod]
+    public void CreateNotificationCamera_ShouldThrowException_WhenDeviceIsNotCamera()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var cameraEvent = "person-detected";
+
+        var device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Company = _company,
+            Name = "device",
+            Model = "model",
+            DeviceType = DeviceType.WindowSensor,
+            Description = "description",
+            Photo = "photo"
+        };
+
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            Devices = [homeDevice],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+
+        Action act = () => _homeLogic?.CreateNotificationCamera(homeId, hardwareId, cameraEvent);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Device is not a camera");
+    }
+
+    [TestMethod]
+    public void AddRoom_ShouldThrowException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var name = "room";
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.AddRoom(homeId, name);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+        _homeRepositoryMock?.Verify(x => x.AddRoom(It.IsAny<Guid>(), It.IsAny<string>()), Times.Never);
+    }
+
+    [TestMethod]
+    public void GetRooms_ShouldThrowException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.GetRooms(homeId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+        _homeRepositoryMock?.Verify(x => x.GetRooms(It.IsAny<Guid>()), Times.Never);
+    }
+
+    [TestMethod]
+    public void GetRooms_ShouldThrowException_WhenNoRoomsFound()
+    {
+        var homeId = Guid.NewGuid();
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([]);
+
+        Action act = () => _homeLogic?.GetRooms(homeId);
+
+        act.Should().Throw<EmptyException>().WithMessage("No rooms found for this home.");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+        _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
+    }
+
+    [TestMethod]
+    public void CreateHome_ShouldThrowException_WhenHomeNotCreated()
+    {
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            Name = "Test Home",
+            Location = "Test Location",
+            Latitude = "45.0",
+            Longitude = "-75.0",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 0
+        };
+
+        _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.CreateHome(home);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home could not be created");
+
+        _homeRepositoryMock?.Verify(x => x.CreateHome(home), Times.Once);
+    }
+
+
 }
