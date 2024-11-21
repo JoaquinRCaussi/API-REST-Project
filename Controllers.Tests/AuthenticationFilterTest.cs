@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
-using BusinessLogic;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
@@ -80,7 +79,7 @@ public class AuthenticationFilterAttributeTest
 
         context.HttpContext.Items[0].Should().Be(user);
     }
-    
+
     [TestMethod]
     public void OnAuthorization_WithBearerToken_SetsUserInHttpContext()
     {
@@ -96,7 +95,7 @@ public class AuthenticationFilterAttributeTest
 
         context.HttpContext.Items[0].Should().Be(user);
     }
-    
+
     [TestMethod]
     public void OnAuthorization_WithSessionServiceError_ThrowsException()
     {
@@ -111,7 +110,7 @@ public class AuthenticationFilterAttributeTest
 
         act.Should().Throw<Exception>().WithMessage("Invalid Token");
     }
-    
+
     [TestMethod]
     public void OnAuthorization_MissingBearerPrefix_ParsesTokenCorrectly()
     {

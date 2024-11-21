@@ -14,8 +14,6 @@ public interface IUserRepository
 
     public User CreateHomeOwner(User user);
 
-    public User AddCompanyToCompanyOwner(User user, Company company);
-
     public User FindByMail(string mail);
 
     public User AuthenticateUser(string mail, string password);

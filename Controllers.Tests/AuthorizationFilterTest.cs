@@ -284,7 +284,7 @@ public class AuthorizationFilterAttributeTest
 
         result.Should().BeTrue();
     }
-    
+
     [TestMethod]
     public void OnAuthorization_HomeIdNotInRoute_AllowsAccess()
     {
@@ -309,7 +309,7 @@ public class AuthorizationFilterAttributeTest
 
         context.Result.Should().BeNull();
     }
-    
+
     [TestMethod]
     public void OnAuthorization_HomeIdInRoute_HomeDoesNotExist_AllowsAccess()
     {
@@ -337,7 +337,7 @@ public class AuthorizationFilterAttributeTest
 
         context.Result.Should().BeNull();
     }
-    
+
     [TestMethod]
     public void OnAuthorization_HomeIdInRoute_UserNotInHome_ReturnsForbidden()
     {
@@ -358,7 +358,7 @@ public class AuthorizationFilterAttributeTest
         {
             Id = Guid.NewGuid(),
             Name = "Test Home",
-            MemberSettings = new List<MemberSetting>(),
+            MemberSettings = [],
             Location = "asdasdasd",
             Latitude = "asdasdas",
             Longitude = "asdasdas",
@@ -385,7 +385,7 @@ public class AuthorizationFilterAttributeTest
             StatusCode = (int)HttpStatusCode.Forbidden
         });
     }
-    
+
     [TestMethod]
     public void OnAuthorization_HomeIdInRoute_UserHasPermission_AllowsAccess()
     {
@@ -411,17 +411,17 @@ public class AuthorizationFilterAttributeTest
             Latitude = "asdasd",
             Longitude = "asdasdasd",
             MemberCount = 2,
-            MemberSettings = new List<MemberSetting>
-            {
+            MemberSettings =
+            [
                 new MemberSetting
                 {
                     UserId = userId,
-                    Permissions = new List<Permission>
-                    {
+                    Permissions =
+                    [
                         new Permission { Value = "required-permission" }
-                    }
+                    ]
                 }
-            }
+            ]
         };
 
         var homeRepositoryMock = new Mock<IHomeRepository>();

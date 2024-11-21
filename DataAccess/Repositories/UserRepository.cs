@@ -56,13 +56,6 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public User AddCompanyToCompanyOwner(User user, Company company)
-    {
-        user.CompanyID = company.Id;
-        _context.SaveChanges();
-        return user;
-    }
-
     public List<User> GetUsers()
     {
         return _context.Set<User>()
