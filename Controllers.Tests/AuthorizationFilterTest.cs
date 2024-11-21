@@ -385,6 +385,56 @@ public class AuthorizationFilterAttributeTest
             StatusCode = (int)HttpStatusCode.Forbidden
         });
     }
+    
+    [TestMethod]
+    public void OnAuthorization_HomeIdInRoute_UserHasPermission_AllowsAccess()
+    {
+        var userId = Guid.NewGuid();
+        var user = new User
+        {
+            Id = userId,
+            Name = "Jane Doe",
+            Role = new Role
+            {
+                PermissionKeys =
+                [
+                    new PermissionKey { Value = "some-other-permission" }
+                ]
+            }
+        };
+
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            Name = "Authorized Home",
+            Location = "asdasdasd",
+            Latitude = "asdasd",
+            Longitude = "asdasdasd",
+            MemberCount = 2,
+            MemberSettings = new List<MemberSetting>
+            {
+                new MemberSetting
+                {
+                    UserId = userId,
+                    Permissions = new List<Permission>
+                    {
+                        new Permission { Value = "required-permission" }
+                    }
+                }
+            }
+        };
+
+        var homeRepositoryMock = new Mock<IHomeRepository>();
+        homeRepositoryMock.Setup(repo => repo.GetHome(It.IsAny<Guid>())).Returns(home);
+
+        var context = CreateAuthorizationFilterContext(user, homeRepositoryMock);
+        context.RouteData.Values["homeId"] = home.Id;
+        _filter = new AuthorizationFilterAttribute("required-permission");
+
+        _filter.OnAuthorization(context);
+
+        context.Result.Should().BeNull();
+    }
 
     public class MockServiceProvider : IServiceProvider
     {
