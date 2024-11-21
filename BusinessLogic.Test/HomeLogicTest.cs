@@ -1013,6 +1013,57 @@ public class HomeLogicTest
         _homeRepositoryMock?.Verify(x => x.GetHomeDevices(homeId, null), Times.Once);
     }
 
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldThrowException_WhenDeviceCouldNotBeAdded()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        var device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Company = _company,
+            Name = "device",
+            Model = "model",
+            DeviceType = DeviceType.Camera,
+            Description = "description",
+            Photo = "photo"
+        };
+
+        var homeDevice = new HomeDevice
+        {
+            Id = Guid.NewGuid(),
+            HardwareId = hardwareId,
+            Device = device
+        };
+
+        var room = new Room { Id = roomId, Name = "room" };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5,
+            Devices = [homeDevice]
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room> { room });
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+        _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns((Room)null);
+
+        Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Device could not be added to room");
+
+        _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
+    }
 
 
 }
