@@ -111,6 +111,21 @@ public class AuthenticationFilterAttributeTest
 
         act.Should().Throw<Exception>().WithMessage("Invalid Token");
     }
+    
+    [TestMethod]
+    public void OnAuthorization_MissingBearerPrefix_ParsesTokenCorrectly()
+    {
+        var user = new User { Id = Guid.NewGuid(), Name = "John Without Bearer" };
+        var token = Guid.NewGuid();
+        _sessionServiceMock.Setup(s => s.GetUserByToken(token)).Returns(user);
+
+        var context = CreateAuthorizationFilterContext(token.ToString());
+        context.HttpContext.RequestServices = CreateServiceProvider().BuildServiceProvider();
+
+        _filter.OnAuthorization(context);
+
+        context.HttpContext.Items[0].Should().Be(user);
+    }
 
     private AuthorizationFilterContext CreateAuthorizationFilterContext(string? authorizationHeader)
     {
