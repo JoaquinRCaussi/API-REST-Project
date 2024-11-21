@@ -934,4 +934,21 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Home not found");
     }
+    
+    [TestMethod]
+    public void AddDeviceToRoom_ShouldThrowException_WhenHomeDoesNotExist()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var roomId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+    }
+
 }
