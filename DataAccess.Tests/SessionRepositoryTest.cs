@@ -41,7 +41,7 @@ public class SessionRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Admin",
-            PermissionKeys = new List<PermissionKey> { new PermissionKey { Value = "MANAGE_USERS" } }
+            PermissionKeys = [new PermissionKey { Value = "MANAGE_USERS" }]
         };
 
         var session = new Session
@@ -77,7 +77,7 @@ public class SessionRepositoryTests
         addedSession.Should().NotBeNull();
         addedSession.Should().BeEquivalentTo(session);
     }
-    
+
     [TestMethod]
     public void FindByToken_ShouldReturnSession_WhenTokenExists()
     {
@@ -93,7 +93,7 @@ public class SessionRepositoryTests
         result.Should().BeEquivalentTo(existingSession, options =>
             options.IgnoringCyclicReferences());
     }
-    
+
     [TestMethod]
     public void FindByToken_ShouldReturnNull_WhenTokenDoesNotExist()
     {
@@ -107,7 +107,7 @@ public class SessionRepositoryTests
 
         result.Should().BeNull();
     }
-    
+
     [TestMethod]
     public void RemoveSession_ShouldRemoveSessionFromDatabase()
     {

@@ -934,7 +934,7 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>()
             .WithMessage("Home not found");
     }
-    
+
     [TestMethod]
     public void AddDeviceToRoom_ShouldThrowException_WhenHomeDoesNotExist()
     {
@@ -950,7 +950,7 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
     }
-    
+
     [TestMethod]
     public void AddDeviceToRoom_ShouldThrowException_WhenRoomDoesNotExist()
     {
@@ -971,7 +971,7 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room>());
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([]);
 
         Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
 
@@ -979,7 +979,7 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
     }
-    
+
     [TestMethod]
     public void AddDeviceToRoom_ShouldThrowException_WhenDeviceDoesNotExist()
     {
@@ -1003,7 +1003,7 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room> { room });
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([room]);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
 
         Action act = () => _homeLogic?.AddDeviceToRoom(homeId, hardwareId, roomId);
@@ -1054,7 +1054,7 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room> { room });
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([room]);
         _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
         _homeRepositoryMock?.Setup(x => x.AddDeviceToRoom(homeId, hardwareId, roomId)).Returns((Room)null);
 
@@ -1064,7 +1064,7 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
     }
-    
+
     [TestMethod]
     public void CreateNotificationSensor_ShouldThrowException_WhenHomeNotFound()
     {
@@ -1080,7 +1080,7 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
     }
-    
+
     [TestMethod]
     public void CreateNotificationSensor_ShouldThrowException_WhenDeviceNotFound()
     {
@@ -1150,7 +1150,7 @@ public class HomeLogicTest
 
         act.Should().Throw<NotValidDataException>().WithMessage("Device is not a sensor");
     }
-    
+
     [TestMethod]
     public void CreateNotificationCamera_ShouldThrowException_WhenEventNotValid()
     {
@@ -1176,7 +1176,7 @@ public class HomeLogicTest
 
         act.Should().Throw<NotValidDataException>().WithMessage("Event must be movement-detected or person-detected");
     }
-    
+
     [TestMethod]
     public void CreateNotificationCamera_ShouldThrowException_WhenDeviceIsNotCamera()
     {
@@ -1233,7 +1233,7 @@ public class HomeLogicTest
         _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
         _homeRepositoryMock?.Verify(x => x.AddRoom(It.IsAny<Guid>(), It.IsAny<string>()), Times.Never);
     }
-    
+
     [TestMethod]
     public void GetRooms_ShouldThrowException_WhenHomeNotFound()
     {
@@ -1248,7 +1248,7 @@ public class HomeLogicTest
         _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
         _homeRepositoryMock?.Verify(x => x.GetRooms(It.IsAny<Guid>()), Times.Never);
     }
-    
+
     [TestMethod]
     public void GetRooms_ShouldThrowException_WhenNoRoomsFound()
     {
@@ -1267,7 +1267,7 @@ public class HomeLogicTest
         };
 
         _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
-        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns(new List<Room>());
+        _homeRepositoryMock?.Setup(x => x.GetRooms(homeId)).Returns([]);
 
         Action act = () => _homeLogic?.GetRooms(homeId);
 
@@ -1288,18 +1288,18 @@ public class HomeLogicTest
             Latitude = "45.0",
             Longitude = "-75.0",
             HomeOwner = Guid.NewGuid(),
-            Members = new List<User>(),
+            Members = [],
             MemberCount = 0
         };
 
         _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns((Home)null);
-        
+
         Action act = () => _homeLogic?.CreateHome(home);
-        
+
         act.Should().Throw<NotValidDataException>().WithMessage("Home could not be created");
 
         _homeRepositoryMock?.Verify(x => x.CreateHome(home), Times.Once);
     }
 
-    
+
 }
