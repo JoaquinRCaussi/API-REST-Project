@@ -108,4 +108,21 @@ public class SessionRepositoryTests
         result.Should().BeNull();
     }
     
+    [TestMethod]
+    public void RemoveSession_ShouldRemoveSessionFromDatabase()
+    {
+        using HMDbContext context = CreateInMemoryDbContext("TestRemoveSession");
+        SeedData(context);
+
+        var repository = new SessionRepository(context);
+        var existingSession = context.Sessions?.First();
+
+        if (existingSession != null)
+        {
+            repository.RemoveSession(existingSession);
+
+            var removedSession = context.Sessions?.FirstOrDefault(s => s.Token == existingSession.Token);
+            removedSession.Should().BeNull();
+        }
+    }
 }
