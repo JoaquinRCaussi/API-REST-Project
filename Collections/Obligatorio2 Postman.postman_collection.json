@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "bf6a8435-30f0-403a-8f5e-758fc307cee4",
+		"name": "Obligatorio2 Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38823693",
+		"_collection_link": "https://obligatorio-da2-3183.postman.co/workspace/Obligatorio-DA2-Workspace~f7cab8de-21dd-49ef-84eb-ffbc04cd2a0e/collection/38823693-bf6a8435-30f0-403a-8f5e-758fc307cee4?action=share&source=collection_link&creator=38823693"
+	},
+	"item": [
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "movementSensor Notification - Open",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7b36be0d-92be-48f5-a764-1cae7d1b4d86",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/movementSensor/HARDWAREID/open",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"movementSensor",
+								"HARDWAREID",
+								"open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "movementSensor Notification - Close",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/movementSensor/HARDWAREID/close",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"movementSensor",
+								"HARDWAREID",
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "movementSensor Notification - Movement-detected",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7b36be0d-92be-48f5-a764-1cae7d1b4d86",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/movementSensor/HARDWAREID/movement-detected",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"movementSensor",
+								"HARDWAREID",
+								"movement-detected"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "camera Notification - Person-detected",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7b36be0d-92be-48f5-a764-1cae7d1b4d86",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/camera/HARDWAREID/person-detected",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"camera",
+								"HARDWAREID",
+								"person-detected"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "camera Notification - Movement-detected",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7b36be0d-92be-48f5-a764-1cae7d1b4d86",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/camera/HARDWAREID/movement-detected",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"camera",
+								"HARDWAREID",
+								"movement-detected"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "smartLamp Notification - On",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7b36be0d-92be-48f5-a764-1cae7d1b4d86",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/smartLamp/HARDWAREID/on",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"smartLamp",
+								"HARDWAREID",
+								"on"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "smartLamp Notification - Off",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/smartLamp/HARDWAREID/off",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"smartLamp",
+								"HARDWAREID",
+								"off"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "windowSensor Notification - Open",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7b36be0d-92be-48f5-a764-1cae7d1b4d86",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/windowSensor/HARDWAREID/open",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"windowSensor",
+								"HARDWAREID",
+								"open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "windowSensor Notification - Close",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5242/api/homes/HOMEID/windowSensor/HARDWAREID/close",
+							"host": [
+								"localhost"
+							],
+							"port": "5242",
+							"path": [
+								"api",
+								"homes",
+								"HOMEID",
+								"windowSensor",
+								"HARDWAREID",
+								"close"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
