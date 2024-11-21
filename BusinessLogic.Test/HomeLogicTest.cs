@@ -1218,4 +1218,20 @@ public class HomeLogicTest
         act.Should().Throw<NotValidDataException>().WithMessage("Device is not a camera");
     }
 
+    [TestMethod]
+    public void AddRoom_ShouldThrowException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var name = "room";
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.AddRoom(homeId, name);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+        _homeRepositoryMock?.Verify(x => x.AddRoom(It.IsAny<Guid>(), It.IsAny<string>()), Times.Never);
+    }
+
 }
