@@ -1277,4 +1277,29 @@ public class HomeLogicTest
         _homeRepositoryMock?.Verify(x => x.GetRooms(homeId), Times.Once);
     }
 
+    [TestMethod]
+    public void CreateHome_ShouldThrowException_WhenHomeNotCreated()
+    {
+        var home = new Home
+        {
+            Id = Guid.NewGuid(),
+            Name = "Test Home",
+            Location = "Test Location",
+            Latitude = "45.0",
+            Longitude = "-75.0",
+            HomeOwner = Guid.NewGuid(),
+            Members = new List<User>(),
+            MemberCount = 0
+        };
+
+        _homeRepositoryMock?.Setup(x => x.CreateHome(home)).Returns((Home)null);
+        
+        Action act = () => _homeLogic?.CreateHome(home);
+        
+        act.Should().Throw<NotValidDataException>().WithMessage("Home could not be created");
+
+        _homeRepositoryMock?.Verify(x => x.CreateHome(home), Times.Once);
+    }
+
+    
 }
