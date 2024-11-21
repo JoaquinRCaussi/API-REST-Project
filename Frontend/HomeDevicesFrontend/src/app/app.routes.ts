@@ -8,7 +8,7 @@ import { HomeDetailComponent } from './components/home-detail/home-detail.compon
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent},
-  { path: 'logout', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'main', component: ContentAreaComponent, data: { option: 'main-option' }, canActivate: [AuthGuard] },
   { path: 'homes', component: ContentAreaComponent, data: { option: 'homes-option' }, canActivate: [AuthGuard] },
   { path: 'new-home', component: ContentAreaComponent, data: { option: 'new-home-option' }, canActivate: [AuthGuard] },
