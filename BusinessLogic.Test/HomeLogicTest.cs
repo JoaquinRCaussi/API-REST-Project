@@ -1233,5 +1233,21 @@ public class HomeLogicTest
         _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
         _homeRepositoryMock?.Verify(x => x.AddRoom(It.IsAny<Guid>(), It.IsAny<string>()), Times.Never);
     }
+    
+    [TestMethod]
+    public void GetRooms_ShouldThrowException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.GetRooms(homeId);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+        _homeRepositoryMock?.Verify(x => x.GetRooms(It.IsAny<Guid>()), Times.Never);
+    }
+
 
 }
