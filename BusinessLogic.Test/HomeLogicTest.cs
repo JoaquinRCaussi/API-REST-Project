@@ -1064,6 +1064,23 @@ public class HomeLogicTest
 
         _homeRepositoryMock?.Verify(x => x.AddDeviceToRoom(homeId, hardwareId, roomId), Times.Once);
     }
+    
+    [TestMethod]
+    public void CreateNotificationSensor_ShouldThrowException_WhenHomeNotFound()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var sensorEvent = "open";
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns((Home)null);
+
+        Action act = () => _homeLogic?.CreateNotificationSensor(homeId, hardwareId, sensorEvent);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Home not found.");
+
+        _homeRepositoryMock?.Verify(x => x.GetHome(homeId), Times.Once);
+    }
+
 
 
 }
