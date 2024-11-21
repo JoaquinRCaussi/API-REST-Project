@@ -309,9 +309,34 @@ public class AuthorizationFilterAttributeTest
 
         context.Result.Should().BeNull();
     }
+    
+    [TestMethod]
+    public void OnAuthorization_HomeIdInRoute_HomeDoesNotExist_AllowsAccess()
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = "UserWithMissingHome",
+            Role = new Role
+            {
+                PermissionKeys =
+                [
+                    new PermissionKey { Value = "required-permission" }
+                ]
+            }
+        };
 
+        var homeRepositoryMock = new Mock<IHomeRepository>();
+        homeRepositoryMock.Setup(repo => repo.GetHome(It.IsAny<Guid>())).Returns((Home?)null);
 
+        var context = CreateAuthorizationFilterContext(user, homeRepositoryMock);
+        context.RouteData.Values["homeId"] = Guid.NewGuid();
+        _filter = new AuthorizationFilterAttribute("required-permission");
 
+        _filter.OnAuthorization(context);
+
+        context.Result.Should().BeNull();
+    }
 
     public class MockServiceProvider : IServiceProvider
     {
