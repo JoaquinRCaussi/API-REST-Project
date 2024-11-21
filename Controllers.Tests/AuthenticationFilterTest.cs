@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using BusinessLogic;
 using BusinessLogic.Entities;
 using BusinessLogic.LogicInterfaces;
 using FluentAssertions;
@@ -73,6 +74,22 @@ public class AuthenticationFilterAttributeTest
         _sessionServiceMock.Setup(s => s.GetUserByToken(token)).Returns(user);
 
         var context = CreateAuthorizationFilterContext(stringToken);
+        context.HttpContext.RequestServices = CreateServiceProvider().BuildServiceProvider();
+
+        _filter.OnAuthorization(context);
+
+        context.HttpContext.Items[0].Should().Be(user);
+    }
+    
+    [TestMethod]
+    public void OnAuthorization_WithBearerToken_SetsUserInHttpContext()
+    {
+        var user = new User { Id = Guid.NewGuid(), Name = "Jane Doe" };
+        var token = Guid.NewGuid();
+        var bearerToken = $"Bearer {token}";
+        _sessionServiceMock.Setup(s => s.GetUserByToken(token)).Returns(user);
+
+        var context = CreateAuthorizationFilterContext(bearerToken);
         context.HttpContext.RequestServices = CreateServiceProvider().BuildServiceProvider();
 
         _filter.OnAuthorization(context);
