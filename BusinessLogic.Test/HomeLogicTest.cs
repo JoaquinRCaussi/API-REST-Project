@@ -1150,6 +1150,32 @@ public class HomeLogicTest
 
         act.Should().Throw<NotValidDataException>().WithMessage("Device is not a sensor");
     }
+    
+    [TestMethod]
+    public void CreateNotificationCamera_ShouldThrowException_WhenEventNotValid()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var invalidEvent = "invalid-event";
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+
+        Action act = () => _homeLogic?.CreateNotificationCamera(homeId, hardwareId, invalidEvent);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Event must be movement-detected or person-detected");
+    }
 
 
 }
