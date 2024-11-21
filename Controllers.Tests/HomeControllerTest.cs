@@ -129,7 +129,6 @@ public class HomeControllerTest
     [TestMethod]
     public void GetHomes_WhenAllPropertiesOk_ShouldReturnOkWithHomeResponse()
     {
-        // Arrange
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -170,10 +169,8 @@ public class HomeControllerTest
             ControllerContext = controllerContext
         };
 
-        // Act
         IActionResult result = controller.GetHomes();
 
-        // Assert
         var expectedResponse = new List<HomeResponse>
         {
             new HomeResponse
@@ -714,7 +711,6 @@ public class HomeControllerTest
     [TestMethod]
     public void GetHomes_WhenNoHomesForUser_ShouldReturnNoContent()
     {
-        // Arrange
         var userId = Guid.NewGuid();
         var homeLogic = new Mock<IHomeLogic>(MockBehavior.Strict);
         homeLogic.Setup(x => x.GetHomesByUser(userId))
@@ -733,11 +729,9 @@ public class HomeControllerTest
             ControllerContext = controllerContext
         };
 
-        // Act & Assert
         Action act = () => controller.GetHomes();
         act.Should().Throw<EmptyException>();
 
-        // Testing the ExceptionFilter behavior
         var actionContext = new ActionContext
         {
             HttpContext = httpContext,

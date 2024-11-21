@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class HomesContentComponent {
   homes: any[] = [];
-  rows: { [key: string]: string }[] = [];  // Assuring that the rows are of type string
+  rows: { [key: string]: string }[] = [];
   columns = [ 'Name', 'Location', 'Members', 'Owner', 'Devices', 'Rooms' ];
 
   constructor(private homesService: HomesService, private router: Router) {}
@@ -20,8 +20,6 @@ export class HomesContentComponent {
   ngOnInit() {
     this.homesService.getHomes().subscribe(homes => {
       this.homes = homes;
-      console.log(homes);
-
       this.rows = homes.map(home => ({
         Id: home.id.toString(),
         Name: home.name.toString(),
@@ -31,12 +29,9 @@ export class HomesContentComponent {
         Devices: home.devices?.length?.toString() || '',
         Rooms: home.rooms?.length?.toString() || ''
       }));
-
-      
     });
   }
 
-  // Function to handle the click event
   onRowClick(row: any): void {
     this.router.navigate(['homes', row.Id]);
   }

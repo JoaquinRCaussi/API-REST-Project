@@ -5,6 +5,8 @@ import { Observable } from "rxjs";
 import { NewCompanyRequest } from "../models/in/new-company-request";
 import domoviz from '../../environments/environment.local';
 import { NewCompanyResponse } from "../models/out/new-company-response";
+import { CompaniesResponse } from "../models/out/companies-response";
+
 
 @Injectable({
     providedIn: 'root'
@@ -22,4 +24,9 @@ export class CompaniesApiRepository extends ApiRepository {
     getCompanyByOwner(ownerName: string): Observable<any> {
         return this.get(undefined,"ownerName="+ownerName);
     }
+
+    public getCompanies(): Observable<CompaniesResponse> {
+      return this.get();
+  }
+
 }

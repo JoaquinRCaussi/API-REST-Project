@@ -79,7 +79,6 @@ public class ValidatorServiceTests
 
         typeBuilder.DefineDefaultConstructor(MethodAttributes.Public);
 
-        // Define the method "EsValido" with correct implementation
         var esValidoMethodBuilder = typeBuilder.DefineMethod(
             nameof(IModeloValidador.EsValido),
             MethodAttributes.Public | MethodAttributes.Virtual,
@@ -91,7 +90,6 @@ public class ValidatorServiceTests
         ilGenerator.Emit(OpCodes.Ldc_I4_1);
         ilGenerator.Emit(OpCodes.Ret);
 
-        // Implement the interface method explicitly
         typeBuilder.DefineMethodOverride(esValidoMethodBuilder, typeof(IModeloValidador).GetMethod(nameof(IModeloValidador.EsValido)) ?? throw new InvalidOperationException());
 
         typeBuilder.CreateType();

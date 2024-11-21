@@ -43,7 +43,7 @@ export class RoomDetailComponent {
   selectedDevice: any;
 
   addDevice:boolean = false;
-  
+
 
   constructor(private homesService:HomesService, private route:ActivatedRoute) {}
 
@@ -52,8 +52,6 @@ export class RoomDetailComponent {
     this.homeId = this.route.snapshot.paramMap.get('homeId');
     this.roomId = this.route.snapshot.paramMap.get('roomId');
 
-  
-    //Charging only the homedevices existing in the room && charging room
     if(this.homeId && this.roomId){
       this.homesService.getHomeDevices(this.homeId, this.roomId).subscribe((data) => {
         this.filtredDevices = data;
@@ -73,8 +71,7 @@ export class RoomDetailComponent {
         this.room = this.rooms.rooms.find((room: any) => room.id === this.roomId);
         });
     }
-    
-    //Charging all the homedevices of the house
+
     if(this.homeId){
       if(this.homeId){
         this.homesService.getHomeDevices(this.homeId).subscribe((data) => {
@@ -129,9 +126,7 @@ export class RoomDetailComponent {
           this.openAlert();
         }
       });
-      
     }
-
   }
 
   onCancel = () => {

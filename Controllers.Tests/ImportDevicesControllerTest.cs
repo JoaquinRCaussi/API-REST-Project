@@ -23,17 +23,14 @@ public class ImportDevicesControllerTest
     [TestMethod]
     public void ImportDevices_ShouldCallLogicAndReturnCreated_WhenRequestIsValid()
     {
-        // Arrange
         var request = new ImportDevicesRequest
         {
             CompanyName = "Valid Company",
             AssemblyPath = "valid/path"
         };
 
-        // Act
         var result = _controller.ImportDevices(request);
 
-        // Assert
         _deviceImportLogicMock.Verify(x => x.ImportDevices("Valid Company", "valid/path"), Times.Once);
         var createdResult = result as CreatedAtActionResult;
         createdResult.Should().NotBeNull();
@@ -44,17 +41,14 @@ public class ImportDevicesControllerTest
     [TestMethod]
     public void ImportDevices_ShouldReturnBadRequest_WhenCompanyNameIsNull()
     {
-        // Arrange
         var request = new ImportDevicesRequest
         {
             CompanyName = null,
             AssemblyPath = "valid/path"
         };
 
-        // Act
         var result = _controller.ImportDevices(request);
 
-        // Assert
         var badRequestResult = result as BadRequestObjectResult;
         badRequestResult.Should().NotBeNull();
         badRequestResult!.Value.Should().Be("Company Name and Assembly Path are required");
@@ -63,17 +57,14 @@ public class ImportDevicesControllerTest
     [TestMethod]
     public void ImportDevices_ShouldReturnBadRequest_WhenAssemblyPathIsNull()
     {
-        // Arrange
         var request = new ImportDevicesRequest
         {
             CompanyName = "Valid Company",
             AssemblyPath = null
         };
 
-        // Act
         var result = _controller.ImportDevices(request);
 
-        // Assert
         var badRequestResult = result as BadRequestObjectResult;
         badRequestResult.Should().NotBeNull();
         badRequestResult!.Value.Should().Be("Company Name and Assembly Path are required");

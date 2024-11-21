@@ -21,12 +21,10 @@ public class ValidatorService
 
     public virtual List<string> ChargeValidators()
     {
-        // Cargar cada DLL que esté en la carpeta Validators
         foreach (var dllPath in Directory.GetFiles(_pluginsPath, "*.dll"))
         {
             var assembly = Assembly.LoadFile(dllPath);
 
-            // Buscar y crear instancias de IModeloValidador en el DLL cargado
             var types = assembly.GetTypes().Where(t => typeof(IModeloValidador).IsAssignableFrom(t) && t.IsClass);
 
             if (!types.Any())
