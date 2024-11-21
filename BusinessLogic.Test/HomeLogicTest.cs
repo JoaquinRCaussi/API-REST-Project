@@ -1176,6 +1176,46 @@ public class HomeLogicTest
 
         act.Should().Throw<NotValidDataException>().WithMessage("Event must be movement-detected or person-detected");
     }
+    
+    [TestMethod]
+    public void CreateNotificationCamera_ShouldThrowException_WhenDeviceIsNotCamera()
+    {
+        var homeId = Guid.NewGuid();
+        var hardwareId = Guid.NewGuid();
+        var cameraEvent = "person-detected";
 
+        var device = new Device
+        {
+            Id = Guid.NewGuid(),
+            Company = _company,
+            Name = "device",
+            Model = "model",
+            DeviceType = DeviceType.WindowSensor,
+            Description = "description",
+            Photo = "photo"
+        };
+
+        var homeDevice = new HomeDevice { Id = Guid.NewGuid(), HardwareId = hardwareId, Device = device };
+
+        var home = new Home
+        {
+            Id = homeId,
+            Name = "Home",
+            Location = "Home",
+            Latitude = "123",
+            Longitude = "123",
+            HomeOwner = Guid.NewGuid(),
+            Members = [],
+            Devices = [homeDevice],
+            MemberCount = 5
+        };
+
+        _homeRepositoryMock?.Setup(x => x.GetHome(homeId)).Returns(home);
+        _homeRepositoryMock?.Setup(x => x.GetHomeDevices(homeId, null)).Returns(home.Devices);
+
+        Action act = () => _homeLogic?.CreateNotificationCamera(homeId, hardwareId, cameraEvent);
+
+        act.Should().Throw<NotValidDataException>().WithMessage("Device is not a camera");
+    }
 
 }
